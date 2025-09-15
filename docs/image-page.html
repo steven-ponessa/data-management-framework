@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Dynamically Generated SVG</title>
+
+    <link rel="stylesheet" href="./assets/css/docs-github.css" data-n-g="" />
+    <script language="javascript" src="./assets/js/mermaid.min.js"></script>
+    <script src="./assets/js/d3/7.0/d3.v7.min.js"></script>
+    <style>
+        /* styles.css */
+
+        /* Apply a fixed position to the button container */
+        .button-container {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 10px;
+            /* Adjust padding as needed */
+            text-align: center;
+            /* Center-align the buttons */
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            margin: 10px;
+            padding: 10px;
+        }
+
+        .main-container {
+            flex: 1;
+            display: flex;
+            min-height: 100vh;
+            margin: 10px;
+            padding: 10px;
+        }
+
+        .left-sidebar {
+            width: 5%;
+        }
+
+        .center-content {
+            flex: 1;
+            background-color: #f0f0f0;
+            overflow: auto;
+        }
+
+        .right-sidebar {
+            width: 5%;
+        }
+    </style>
+</head>
+
+<body>
+    <main class="flex-1 min-width-0">
+       
+        <h1 id="container-id">Dynamically Generated SVG</h1>
+        <div class="lead-mktg" style="margin-left: 5%;margin-right: 5%;">
+            <p style="margin: 10px;padding: 10px;">This page allowing users to zoom in and out with the scroll wheel and pan by dragging the image with the mouse. You may also download the image and reset the image to its original size and position.</p>
+        </div>
+        <div class="main-container">
+            <div class="left-sidebar"></div>
+            <div class="center-content">
+                <div id="my-zoom-id">
+                    <div id="svg-container"></div>
+                </div>
+            </div>
+            <div class="right-sidebar"></div>
+        </div>
+        <footer class="button-container">
+            <button type="button" class="btn btn-primary" onclick="restoreSvg('my-zoom-id')">Reset zoom</button>
+            <button type="button" class="btn btn-primary" onclick="downloadSvg('my-zoom-id')">Download</button>
+            <p>&nbsp;</p>
+        </footer>
+
+    </main>
+
+    <script language="javascript" src="./assets/js/my-zoom.js"></script>
+    <script>
+        // Function to get query parameter by name from the URL
+        function getQueryParameter(name) {
+            name = name.replace(/[\[\]]/g, "\\$&");
+            var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+                results = regex.exec(window.location.search);
+            if (!results) return null;
+            if (!results[2]) return "";
+            return decodeURIComponent(results[2].replace(/\+/g, " "));
+        }
+
+        function toProperCase(inputString) {
+            // Split the input string into an array of words
+            var words = inputString.toLowerCase().split(' ');
+
+            // Capitalize the first letter of each word
+            for (var i = 0; i < words.length; i++) {
+                words[i] = words[i].charAt(0).toUpperCase() + words[i].slice(1);
+            }
+
+            // Join the words back into a single string
+            var resultString = words.join(' ');
+
+            return resultString;
+        }
+
+        // Get the SVG content from the query parameter
+        var svgContainerId = getQueryParameter("svg");
+
+        // Insert the SVG content into the svg-container
+        if (svgContainerId) {
+            //Get the page title
+            var pageTitle = document.getElementById("container-id");
+            if (pageTitle) {
+                //Replace the page title with the container id
+                //  - Replace all '-' and '_' with an empty string
+                //  - Change to proper case
+                var title = svgContainerId.replace(/[-_]/g, ' ')
+                pageTitle.innerHTML = toProperCase(title)+ " SVG"
+            }
+
+            // Get the reference to the opener window
+            var openerWindow = window.opener;
+
+            // Retrieve the SVG content from the opener window
+            var svgContent = openerWindow.document.getElementById(svgContainerId).innerHTML;
+
+            // Display the SVG content in the popup window
+            var svgContainerPopup = document.getElementById("svg-container");
+            svgContainerPopup.innerHTML = svgContent;
+
+            initZoom("my-zoom-id")
+        }
+    </script>
+</body>
+
+</html>

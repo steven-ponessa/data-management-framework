@@ -1,0 +1,21 @@
+apiVersion: automation.cio/v1alpha1
+kind: RepositoryConfig
+ealImapNumber: ZIM-000001
+build:
+  strategy: container-release
+  pipeline: java-v17-mvn-ol-container-image  
+  version: v1
+  config:
+    cirrus-pipeline-name: wfm-dmf-ga
+    application-name: wfm-dmf-ga
+    deploy-to-apps: "true"
+    cirrus-project-name: prom-greenstar-integration
+    cirrus-region: dal-containers
+release:
+  environments:
+    - name: test
+      deploy-verification-memory-request: "q2gb"
+    - name: pre-production
+      deploy-verification-memory-request: "q2gb"
+    - name: production
+      deploy-verification-memory-request: "q2gb"

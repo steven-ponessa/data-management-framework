@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+
+{% include head.html %}
+
+<body data-color-mode="auto" data-dark-theme="dark" data-light-theme="light">
+
+	<div id="__next">
+		<div class="d-lg-flex">
+			<div class="jsx-4031964419 d-none d-lg-block color-bg-tertiary position-sticky top-0 overflow-y-auto root">
+				{% include logo.html %}
+				{% include navigator.html %}
+			</div>
+			<main class="flex-1 min-width-0">
+				{% include header.html %}
+				<div class="container-xl px-3 px-md-6 my-4 my-lg-4">
+					<article class="markdown-body">
+						<h1>{{ site.title }}</h1>
+						{{ content }}
+						<div>  
+{% for section in site.data.docs %}
+<h2>{{section.title}} ({{section.docs.size}})</h2>
+<div class="d-lg-flex flex-items-stretch">	
+	<ul class="d-flex flex-wrap gutter width-full">
+	{% for item in section.docs %}
+		{% assign item_url2 = item | prepend:"/"  %}
+		{% assign p = site.docs | where:"url", item_url2 | first %}
+		<li class="col-lg-4 col-12 mb-4 list-style-none">
+			<a class="Box color-shadow-medium height-full d-block hover-shadow-large no-underline color-fg-default p-5" href="{{ p.url  | prepend: site.baseurl }}">
+				<h3 class="f3">{{ p.title }}</h3>
+				{% assign max_length = site.max_abstract_length | 100 %}
+				{% assign abstract_length = p.abstract | size %}
+
+				{% if abstract_length > max_length %}
+				<p class="mt-2 mb-4 color-fg-muted" style="color:black">{{ p.abstract | truncate: max_length }}&hellip;</p>
+				{% else %}
+				<p class="mt-2 mb-4 color-fg-muted" style="color:black">{{ p.abstract }}</p>
+				{% endif %}
+
+			</a>
+		</li>
+	{% endfor %}
+	</ul>
+</div>
+{% endfor %}						
+					</div>
+						
+					</article>
+				</div>
+				{% include contribute-section.html %}
+				{% include footer.html %}
+				{% include back-to-top.html %}
+			</main>
+		</div>
+	</div>
+
+</body>
+
+</html>

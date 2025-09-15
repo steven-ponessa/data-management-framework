@@ -1,0 +1,35 @@
+<p>
+    The tree search is an interactive expandable/collapsible tree representing a complete taxonomy that can be searched for specific nodes.  It provides 3 ways for a user to search a tree:
+</p>
+<ol>
+    <li><b>Basic</b> - Here a user may select one or many nodes from the dropdown control.
+        <p>As taxonomy nodes are selected or removed, they are searched for and found in the tree. The d3 tree is then re-drawn with branches of non-found nodes collapsed and found nodes 
+            expanded and the nodes, and arcs between the nodes, are highlighted in red.</p>
+            <p>The selection dropdown allows for multiple nodes to be selected.  These selections are logically <b>OR</b>ed together upon selection with a "pillbox" for the selection 
+            appearing within the search input box.  These nodes/pillboxes may be removed/closed by clicking on the 'x' at the right of the pillbox. To request a search where nodes are <b>AND</b>ed 
+            together, use the <b>Advanced</b> or <b>Regular Expression</b> search tabs.</p>
+    </li>
+    <li><b>Advanced</b></li>
+    <li><b>Regular Expression</b></li>
+</ol>
+
+<p>D3, short for Data Driven Documents, is a JavaScript-powered data visualization library that supports a myriad of
+    features.
+    The “Tree layout” is not a distinct type of diagram per se. Rather, it’s one type of D3’s family of hierarchical
+    layouts.
+    The tree layout produces a “node-link” diagram that lays out the connections among nodes in a way that displays the
+    relationship of one node to another in a parent-child fashion.
+</p>
+
+<p>The tool takes the any taxonomy and builds a D3 tree, then exposes the first 2 levels of the taxonomy. Nodes that are collapsed (have non-displayed
+    children) are represented with solid blue circles. Expanded nodes and leaf nodes are represented with
+    non-solid blue circles (clear fill). Users may click on any node to
+    expand or collapse the parent node, allowing them to explore the taxonomy in manageable chunks. The clear advantage
+    to this style of diagram is that describing it in text or a single
+    non-interactive image is difficult but representing it through an interactive graphic diagram makes the
+    relationships easy to see and understand.
+</p>
+
+<p>Additionally, when hovering over any node in the tree, a text box displays additional information about that node.
+    This is helpful when there are a lot of nodes simultaneously
+    displayed and reading the content becomes difficult. </p>

@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+<title>Try it - Sourcing Strategy</title>
+<meta content="" name="description">
+<meta content="" name="keywords">
+
+<!-- Favicons -->
+<link href="assets/img/favicon.png" rel="icon">
+<link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+<!-- Google Fonts -->
+<link
+	href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+	rel="stylesheet">
+
+<!-- Vendor CSS Files -->
+<link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+<link href="assets/vendor/aos/aos.css" rel="stylesheet">
+<link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
+<link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+<link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+
+<!-- Template Main CSS File -->
+<link href="assets/css/style.css" rel="stylesheet">
+<link href="assets/css/jsonview.bundle.css" rel="stylesheet">
+
+<!-- =======================================================
+  * Template Name: FlexStart - v1.4.0
+  * Template URL: https://bootstrapmade.com/flexstart-bootstrap-startup-template/
+  * Author: BootstrapMade.com
+  * License: https://bootstrapmade.com/license/
+  ======================================================== -->
+<style>
+.w3-container, .w3-panel {
+	padding: 0.01em 16px;
+}
+
+.w3-border-blue, .w3-hover-border-blue:hover {
+	border-color: #2196F3 !important;
+}
+
+.w3-pale-blue, .w3-hover-pale-blue:hover {
+	color: #000 !important;
+	background-color: #ddffff !important;
+}
+
+.w3-pale-grey, .w3-hover-pale-blue:hover {
+	color: #000 !important;
+	background-color: #ccc !important;
+}
+
+.w3-leftbar {
+	border-left: 6px solid #ccc !important;
+}
+
+.w3-border {
+	border: 1px solid #ccc !important;
+}
+
+.sec-text {
+	margin-left: 48px;
+	margin-right: 48px;
+}
+
+.ss-form {
+	margin: 20px;
+}
+
+.alert-dismissible .close {
+	position: absolute;
+	top: 0;
+	right: 0;
+	z-index: 2;
+	padding: .75rem 1.25rem;
+	color: inherit;
+}
+
+button.close {
+	padding: 0;
+	background-color: transparent;
+	border: 0;
+}
+
+.close {
+	float: right;
+	font-size: 1.5rem;
+	font-weight: 700;
+	line-height: 1;
+	color: #000;
+	text-shadow: 0 1px 0 #fff;
+	opacity: .5;
+}
+
+.list-group {
+	max-height: 300px;
+	margin-bottom: 10px;
+	overflow: scroll;
+	-webkit-overflow-scrolling: touch;
+}
+</style>
+
+<script>
+
+let geoApis = [
+	  {"name": "Get Geographic taxonomy", "value": "/api/v1/eds-country-tax/countries?includeParentage=true"}
+	  , {"name": "List of all countries that have CIC Domestic Delivery Centers", "value": "/api/v1/eds-country-tax/countries?filters=CIC_DOM_DLVRY_CNTR_IND='Y'"}
+	  , {"name": "Get full taxonomy for of all countries that have CIC Domestic Delivery Centers", "value": "/api/v1/eds-country-tax/countries?includeParentage=true&filters=CIC_DOM_DLVRY_CNTR_IND='Y'"}
+	  , {"name": "List of all countries that have CIC Global Delivery Centers", "value": "/api/v1/eds-country-tax/countries?filters=CIC_GBL_DLVRY_CNTR_IND='Y'"}
+	  , {"name": "Get full taxonomy for of all countries that have CIC Global Delivery Centers", "value": "/api/v1/eds-country-tax/countries?includeParentage=true&filters=CIC_GBL_DLVRY_CNTR_IND='Y'"}
+	  , {"name": "Get all markets for all geographies", "value": "/api/v1/eds-country-tax/markets?includeParentage=true"}
+	  , {"name": "Get all markets for the EMEA geography (EM)", "value": "/api/v1/eds-country-tax/markets?includeParentage=true&filters=T1.GEO_CD='EM'"}
+	  , {"name": "Get all countries for the EMEA geography (EM)", "value": "/api/v1/eds-country-tax/countries?includeParentage=true&filters=T2.GEO_CD='EM'"}
+];
+
+let jrsApis = [
+	    {"name": "Get Practice taxonomy"
+		  , "value": "/api/v1/eds-ut-jrs-tax/practices?includeParentage=true&includePit=true"}
+	  , {"name": "Get Full Job Role / Specialty (JR/S) taxonomy"
+			  , "value": "/api/v1/eds-ut-jrs-tax/jrss?includeParentage=true"}	
+	  , {"name": "Get Practice taxonomy for the Business Transformation Services Growth Platform (15CPT)"
+		  , "value": "/api/v1/eds-ut-jrs-tax/practices?includeParentage=true&includePit=true&filters=T2.GROWTH_PLATFORM_CD='15CPT'"}
+	  , {"name": "Get Practice taxonomy for the Talent Transformation Service Line (17TTS)"
+		  , "value": "/api/v1/eds-ut-jrs-tax/practices?includeParentage=true&includePit=true&filters=T1.SERVICE_LINE_CD='17TTS'"}
+	  , {"name": "Get Practice taxonomy for the Talent Transformation Service Line (17TTS) via the Business Transformation Services Growth Platform (15CPT)"
+		  , "value": "/api/v1/eds-ut-jrs-tax/brands/10J00/growth-platforms/15CPT/service-lines/17TTS/practices"}
+	  , {"name": "Get Practice taxonomy for the SAP Success Factors practice (GBS037)"
+		  , "value": "/api/v1/eds-ut-jrs-tax/practices/GBS037?includeParentage=true&includePit=true"}
+	  , {"name": "Get Practice taxonomy for the SAP Success Factors practice (GBS037) via the Talent Transformation Service Line (17TTS)"
+		  , "value": "/api/v1/eds-ut-jrs-tax/brands/10J00/growth-platforms/15CPT/service-lines/17TTS/practices/GBS037"}
+	  , {"name": "Get JRS taxonomy for the SAP Success Factors practice (GBS037) via the Talent Transformation Service Line (17TTS)"
+		  , "value": "/api/v1/eds-ut-jrs-tax/brands/10J00/growth-platforms/15CPT/service-lines/17TTS/practices/GBS037/service-areas/NQ/jrss"}
+	  , {"name": "Get JRS taxonomy for the Package Consultant-SuccessFactors Payroll JRS (040632-S0517) via the Talent Transformation Service Line (17TTS)"
+		  , "value": "/api/v1/eds-ut-jrs-tax/brands/10J00/growth-platforms/15CPT/service-lines/17TTS/practices/GBS037/service-areas/NQ/jrss/040632-S0517"}
+	  , {"name": "Get Job Role / Specialty (JR/S) taxonomy for JR/S Application Developer-Java & Web Technologies (040684-S8972)"
+		  , "value": "/api/v1/eds-ut-jrs-tax/jrss/040684-S8972?includeParentage=true&includePit=true"}
+];
+
+let occApis = [
+	  {"name": "Get Full Offering Components"
+		  , "value": "/api/v1/eds-ut-jrs-tax/offering-components?includeParentage=true&includePit=true"}
+	, {"name": "Get Offering for Customer Transformation Growth Platform (17XMA)"
+		  , "value": "/api/v1/eds-ut-jrs-tax/offerings?filters=T2.SERVICE_LINE_CD='17XMA'&includeParentage=true"}
+];
+
+let tree;
+let apiCnt=0;
+
+function init(apis) {
+	samplApiDropdown = document.getElementById("selectASampleApi");
+	samplApiDropdown.length = 0;
+	for (let i = 0; i < apis.length; i++) {
+	    option = document.createElement('option');
+	    option.text = apis[i].name;
+	    option.value = apis[i].value;
+	    samplApiDropdown.add(option)
+	}
+	apiUpdated()
+}
+
+function apiUpdated() {
+	let  dropdown = document.getElementById('selectASampleApi');
+	api =  window.location.protocol + "//" + window.location.host + dropdown.value;
+	
+	let apiUrlLink = document.getElementById("apiUriLink")
+	apiUrlLink.innerHTML = ""
+	var a = document.createElement('a');
+    a.target = '_blank';
+    a.href = api;
+    a.innerText = api;
+    apiUrlLink.appendChild(a);
+    hideMsg()
+	
+    /*
+	let apiUri = document.getElementById("apiUri")
+	apiUri.classList.remove('d-none');
+	apiUri.classList.remove('d-grid');
+	apiUri.classList.add('d-grid');
+	*/
+	
+	//const url = window.location.protocol+"//"+window.location.host+'/api/v1/eds/countries/'+dropdown.value+'?includeParentage=true';
+	//addToList('id_api_list',url);
+	
+}
+
+function hideMsg() {
+	let uiMsg = document.getElementById("msg")
+	let msgLine = document.getElementById("msg-line")
+	uiMsg.innerHTML = ""
+	msgLine.classList.remove('show'); 
+	let submitSuccessMessage = document.getElementById('submitSuccessMessage')
+	submitSuccessMessage.classList.remove("d-grid")
+	submitSuccessMessage.classList.add("d-none")
+}
+
+function addToList(root, item) {
+	var ul = document.getElementById(root);
+	var li = document.createElement('li');
+	li.setAttribute("class","list-group-item");
+
+    var a = document.createElement('a');
+    a.target = '_blank';
+    a.href = item;
+    a.innerText = item;
+    li.appendChild(document.createTextNode(String(++apiCnt)+". "));
+    li.appendChild(a);
+    
+	//li.appendChild(document.createTextNode(item));
+	
+	ul.appendChild(li);
+}
+
+function runApi() {
+	
+	let submitSuccessMessage = document.getElementById('submitSuccessMessage')
+	let uiMsg = document.getElementById("msg")
+	let msgLine = document.getElementById("msg-line")
+	uiMsg.innerHTML = ""
+	submitSuccessMessage.classList.remove("d-none")
+	
+    msg = "<h5>API Submitted</h5>";
+   	uiMsg.innerHTML=msg;
+   	msgLine.classList.remove('alert-warning');
+	msgLine.classList.remove('alert-success'); 
+	msgLine.classList.remove('alert-danger'); 
+	msgLine.classList.remove('show');
+	msgLine.classList.add('alert-warning'); 
+	msgLine.classList.add('show');
+	submitSuccessMessage.classList.add("d-grid")
+	
+	orEnterYourOwn = document.getElementById('orEnterYourOwn');
+	if (orEnterYourOwn && orEnterYourOwn.value.trim().length>0) {
+		api = orEnterYourOwn.value.trim();
+	}
+	else {
+		let  dropdown = document.getElementById('selectASampleApi');
+		api = window.location.protocol + "//" + window.location.host + dropdown.value;
+	}
+	
+	addToList('id_api_list',api);
+	getTaxonomyFromUrl(api)
+}
+
+function updateApiSuccess() {
+	let submitSuccessMessage = document.getElementById('submitSuccessMessage')
+	let uiMsg = document.getElementById("msg")
+	let msgLine = document.getElementById("msg-line")
+	uiMsg.innerHTML = ""
+	submitSuccessMessage.classList.remove("d-none")
+	
+    msg = "<h5>API Completed Successfully</h5>";
+   	uiMsg.innerHTML=msg;
+   	msgLine.classList.remove('alert-warning');
+	msgLine.classList.remove('alert-success'); 
+	msgLine.classList.remove('alert-danger'); 
+	msgLine.classList.remove('show');
+	msgLine.classList.add('alert-success'); 
+	msgLine.classList.add('show');
+	submitSuccessMessage.classList.add("d-grid")
+}
+
+function getTaxonomyFromUrl(url) {
+  let headers = new Headers();
+
+  headers.append('Content-Type', 'application/json');
+  headers.append('Accept', 'application/json');
+  headers.append('Access-Control-Allow-Origin', 'http://localhost:8080');
+  headers.append('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
+  headers.append('Access-Control-Allow-Headers', 'Origin, Content-Type, Accept');
+  
+  console.log(url) 
+
+  fetch(url) //, { headers: headers })
+  .then((res)=> {
+    return res.text();
+  })
+  .then((data) => {
+    tree = JsonView.createTree(data);
+    rootElement = document.getElementById('root');
+    rootElement.innerHTML="";
+    JsonView.render(tree, rootElement);
+    updateApiSuccess();
+  })
+  .catch((err) => {
+    console.log(err);
+  })
+}
+	
+</script>
+</head>
+
+<body onload="javascript:init(geoApis)">
+
+	<!-- ======= Header ======= -->
+	<header id="header" class="header fixed-top">
+		<div class="container-fluid container-xl d-flex align-items-center justify-content-between">
+
+			<a href="index.html" class="logo d-flex align-items-center"> <img src="assets/img/logo.png" alt=""> <span>WFM</span>
+			</a>
+
+			<nav id="navbar" class="navbar">
+				<ul>
+					<li><a class="nav-link scrollto " href="..">Home</a></li>
+					<li><a class="nav-link scrollto" href="..#about">About</a></li>
+					<li><a class="nav-link scrollto" href="..#try-it">Try-it</a></li>
+					<li><a class="nav-link scrollto" href="..#team">Team</a></li>
+					<li><a class="getstarted scrollto" href="swagger-ui.html">Get Started</a></li>
+				</ul>
+				<i class="bi bi-list mobile-nav-toggle"></i>
+			</nav>
+			<!-- .navbar -->
+
+		</div>
+	</header>
+	<!-- End Header -->
+
+	<main id="main">
+
+		<!-- ======= Breadcrumbs ======= -->
+		<section class="breadcrumbs">
+			<div class="container">
+
+				<ol>
+					<li><a href="../index.html">Home</a></li>
+					<li><a href="../index.html#try-it">Try-it</a></li>
+					<li>View taxonomies</li>
+				</ol>
+				<h2>View taxonomies</h2>
+
+			</div>
+		</section>
+		<!-- End Breadcrumbs -->
+
+		<!-- ======= Portfolio Details Section ======= -->
+		<section id="portfolio-details" class="portfolio-details">
+			<div class="container">
+
+				<div class="row gy-4">
+
+					<div class="col-lg-8">
+						<div class="portfolio-details-slider swiper-container">
+							<div class="swiper-wrapper align-items-center">
+
+								<div class="swiper-slide">
+									<img src="/assets/img/basic-taxonomy.png"> <i class="ri-node-tree icon"></i> Taxonomies are a means of
+									organize and classify things and are common in government, science, and business. Corporate taxonomies are the
+									hierarchical classification of entities of interest to an enterprise, organization or administration, used to
+									classify products, services, customers, people, documents, digital assets and other information. <br /> <br />
+									<p>The framework can recognize the relationship between tables that make up a taxonomy, dynamically build
+										the SQL to retrieve the taxonomy, and build a n-ary tree to store, search, and return the hierarchtical data.</p>
+								</div>
+
+								<div class="swiper-slide">
+									<a href="assets/img/unified-jrs-taxonomy.png" target="_blank">
+										<img src="assets/img/unified-jrs-taxonomy-slider.png" alt=""  height="500px" >
+									</a>
+									<p class="sec-text">The Unified and Job Role / Specialty (JR/S) taxonomies.</p>
+								</div>
+
+								<div class="swiper-slide">
+									<a href="assets/img/geographic-taxonomy.png" target="_blank">
+										<img src="assets/img/geographic-taxonomy.png" alt="" height="500px">
+									</a>
+									<p class="sec-text">The Geographic Taxonomy.</p>
+								</div>
+
+
+							</div>
+							<div class="swiper-pagination"></div>
+						</div>
+					</div>
+
+					<div class="col-lg-4">
+						<div class="portfolio-info">
+							<h3>Scenario information</h3>
+							<ul>
+								<li><strong>Category</strong>: RESTful Data Retrieval</li>
+								<li><strong>APIs</strong>: Data retrieval APIs run against the <strong>Geographic</strong>, <strong>Job
+										Role / Specialty (JR/S)</strong>, and <strong>Unified</strong> taxonomy database structure.</li>
+							</ul>
+						</div>
+						<div class="portfolio-description">
+							<h2>Taxonomies</h2>
+							<p>One way that enterprises derive value from the data that abounds within their organizations is by
+								logically and consistently categorizing and sub-categorizing the data within structures that represent how their
+								organizations do or should operate. These resulting taxonomies become a common vocabulary for the collection of
+								concepts that are organized in a hierarchy, based on the hierarchical relationship between the terms.</p>
+							<p>This "try-it" page shows some samples of the Geography and JR/S taxonomies and displays the API's returned JSON 
+							data within a navigatable tree.</p>
+						</div>
+					</div>
+
+				</div>
+
+				<div class="container px-5 my-5">
+					<hr />
+					<form id="apiForm">
+						<div class="form-group row">
+							<label for="taxonomySelection" class="col-sm-2 col-form-label">Which taxonomy?</label>
+							<div class="col-sm-10">
+					        	<div class="btn-group" id="filterConference" data-toggle="buttons">
+									<div class="form-check form-check-inline">
+										<input class="form-check-input" type="radio" name="flexRadioDefault" id="rbGeo" onchange="init(geoApis)" checked> 
+										Geography to Country
+									</div>
+									<div class="form-check form-check-inline">
+										<input class="form-check-input" type="radio" name="flexRadioDefault" id="rbJrs" onchange="init(jrsApis)"> 
+										Brand to Job Role/Specialty (JRS)
+									</div>
+									<div class="form-check form-check-inline">
+										<input class="form-check-input" type="radio" name="flexRadioDefault" id="rbOcc" onchange="init(occApis)"> 
+										Brand to Offering Component Code (OCC)
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="form-floating mb-3">
+							<select class="form-select" id="selectASampleApi" aria-label="Select a sample API" onchange="apiUpdated()">
+							</select> <label for="selectASampleApi">Select a sample API</label>
+						</div>
+						<div class="d-grid" id="apiUri">
+							<div class="mb-3">
+								<div class="fw-bolder">API URL</div>
+								<div id="apiUriLink"></div>
+							</div>
+						</div>
+						<div class="form-floating mb-3">
+							<input class="form-control" id="orEnterYourOwn" type="text" placeholder="Or enter your own"
+								data-sb-validations="required" /> <label for="orEnterYourOwn">Or enter your own</label>
+							<div class="invalid-feedback" data-sb-feedback="orEnterYourOwn:required">Or enter your own is required.</div>
+						</div>
+						<div class="d-none" id="submitSuccessMessage">
+							<div id="msg-line" class="alert alert-danger alert-dismissible fade">
+								<div id="msg"></div>
+								<button type="button" class="close" data-dismiss="alert" onclick="hideMsg()">&times;</button>
+							</div>
+						</div>
+						<div class="d-none" id="submitErrorMessage">
+							<div class="text-center text-danger mb-3">Error sending message!</div>
+						</div>
+						<div class="d-grid">
+							<button class="btn btn-primary btn-lg" id="submitButton" type="button" onclick="javascript:runApi()">Submit</button>
+						</div>
+					</form>
+				</div>
+				<div class="panel panel-primary" id="tree_panel">
+					<div class="panel-heading">
+						<h3 class="panel-title">Generated JSON Tree</h3>
+					</div>
+					<div class="panel-body">
+						<div>
+							<button type="button" class="btn btn-primary" onclick="javascript:JsonView.expandChildren(tree)">Expand
+								tree</button>
+							<button type="button" class="btn btn-primary" onclick="javascript:JsonView.collapseChildren(tree)">Collapse
+								tree</button>
+						</div>
+						<div id="root">
+							<i>Placeholder for taxonomy</i>
+						</div>
+					</div>
+				</div>
+				<div>
+					<p>&nbsp;</p>
+				</div>
+				<div class="panel panel-primary" id="api_panel">
+					<div class="panel-heading">
+						<h3 class="panel-title">API Execution List</h3>
+					</div>
+					<div class="panel-body">
+						<ul class="list-group" id="id_api_list">
+
+						</ul>
+					</div>
+				</div>
+
+			</div>
+
+
+			</div>
+		</section>
+		<!-- End Portfolio Details Section -->
+
+	</main>
+	<!-- End #main -->
+
+	<!-- ======= Footer ======= -->
+	<footer id="footer" class="footer">
+
+
+		<div class="footer-top">
+			<div class="container">
+				<div class="row gy-4">
+					<div class="col-lg-5 col-md-12 footer-info">
+						<a href="index.html" class="logo d-flex align-items-center"> <img src="assets/img/logo.png" alt=""> <span>WFM</span>
+						</a>
+						<p>Empower profitable growth through cognitive workforce management capabilities to anticipate client needs,
+							delivering the right skills at the right time yielding business outcomes that matter to our clients, our
+							employees, and our company.</p>
+						<div class="social-links mt-3">
+							<a href="#" class="linkedin"><i class="bi bi-linkedin bx bxl-linkedin"></i></a> <a href="#" class="twitter"><i
+								class="bi bi-twitter"></i></a> <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
+						</div>
+					</div>
+
+					<div class="col-lg-2 col-6 footer-links">
+						<h4>Useful Links</h4>
+						<ul>
+							<li><i class="bi bi-chevron-right"></i> <a
+								href="https://w3.ibm.com/w3publisher/ibm-services-workforce-management">WFM Home</a></li>
+							<li><i class="bi bi-chevron-right"></i> <a href="index.html#about">About us</a></li>
+							<li><i class="bi bi-chevron-right"></i> <a href="index.html#services">Services</a></li>
+							<li><i class="bi bi-chevron-right"></i> <a href="https://w3.ibm.com">Terms of service</a></li>
+							<li><i class="bi bi-chevron-right"></i> <a href="https://w3.ibm.com/w3publisher/w3-privacy-notice/ibm-internal-privacy-statement-us-en">Privacy
+									policy</a></li>
+						</ul>
+					</div>
+
+					<div class="col-lg-2 col-6 footer-links">
+						<h4>Our Services</h4>
+						<ul>
+							<li><i class="bi bi-chevron-right"></i> <a href="#">tbd</a></li>
+
+						</ul>
+					</div>
+
+					<div class="col-lg-3 col-md-12 footer-contact text-center text-md-start">
+						<h4>Contact Us</h4>
+						<p>
+							<b>Steven J Ponessa</b> <br> Mount Pleasant, SC, United States <br> <strong>Phone:</strong> +1
+							845-699-5617 <br> <strong>Email:</strong> <a href="mailto:ponessa@us.ibm.com">ponessa@us.ibm.com</a>
+						</p>
+						<p>
+							<b>Mani Shahidsales</b> <br> Blue Bell, PA, United States <br> <strong>Phone:</strong> +1 845-699-5617
+							<br> <strong>Email:</strong> <a href="mailto:mshahids@us.ibm.com">mshahids@us.ibm.com</a>
+						</p>
+
+					</div>
+
+				</div>
+			</div>
+		</div>
+
+		<div class="container">
+			<div class="copyright">
+				&copy; Copyright <strong><span>IBM</span></strong>. All Rights Reserved
+			</div>
+			<div class="credits">
+				<!-- All the links in the footer should remain intact. -->
+				<!-- You can delete the links only if you purchased the pro version. -->
+				<!-- Licensing information: https://bootstrapmade.com/license/ -->
+				<!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/flexstart-bootstrap-startup-template/ -->
+				Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+			</div>
+		</div>
+	</footer>
+	<!-- End Footer -->
+
+	<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+	<!-- Vendor JS Files -->
+	<script src="assets/vendor/bootstrap/js/bootstrap.bundle.js"></script>
+	<script src="assets/vendor/aos/aos.js"></script>
+	<script src="assets/vendor/php-email-form/validate.js"></script>
+	<script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
+	<script src="assets/vendor/purecounter/purecounter.js"></script>
+	<script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+	<script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
+
+	<!-- Template Main JS File -->
+	<script src="assets/js/main.js"></script>
+	<script src="assets/js/jsonview.bundle.js"></script>
+
+</body>
+
+</html>

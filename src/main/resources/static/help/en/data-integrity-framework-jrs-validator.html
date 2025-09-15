@@ -1,0 +1,118 @@
+<h3>Overview</h3>
+<p>Data integrity is essential for reliable and trustworthy information. Making data-driven business decisions based on corrupt data can have serious 
+ramifications to the business, which could lead to errors, missed opportunities, and lost revenue. </p>
+<p>This MVP focuses of finding and remediating misassignments of job role / specialties (JR/S) to IBM Consulting professionals. JR/S represents what 
+you do at IBM, what your job is. The job role is the primary job you perform, and the skill set is the specialization within that role. These misalignments 
+cause workforce management (WFM) executives to have an inaccurate view of the projected skills supply required to meet the forecasted demand, which lead to 
+missed revenue and gross profit leakage.</p>
+
+<h3>Process Overview</h3>
+<p>The diagram below shows the end-to-end process flow. The flow uses microservices to complete each step, and the microservices are deployed within the 
+technology stack that best suites the needs of the tasks being performed (e.g., Python, Java  Spring Boot).</p>
+
+<center>
+<img src="../../assets/img/dif-jrs-validator.png" class="img img-responsive" width="60%" alt="DIF JR/S Validator Process Flow"/>
+</center>
+
+<p>Looking at each step:</p>
+
+<ol>
+<li><b>IBM Consulting Demographics (RAH)</b>: This is a straight SQL pull from the RAH Metric Datamart’s METRICS.PEOPLE_ALL table for active IBM Consulting professionals 
+(~160K). The SQL pull will be used until the Data Management Framework supports streaming I/O within their APIs.</li>
+
+<li><b>JR/S Taxonomy codes enrichment</b>: Today demographics data in the RAH Metric Datamart contains node names but not the EDS codes for the nodes that make up 
+the professional’s JR/S branch.  For example, it contains the employee’s growth platform name (e.g., Business Transformation Services) but does not include 
+growth platform code (e.g., 15CPT).  This step uses the WMF DMF API Framework’s APIs to retrieve the EDS JR/S taxonomy nodes and enriches the IBM Consulting 
+Demographics data with the codes for each JR/S taxonomy branch node using Python Panda’s advanced join capabilities.  The process completes in &lt;1 minute clock 
+time for ~158K employees.<br/>
+Note that this Python function is wrapped in an API deployed on Cirrus, consistent with the microservice reference architecture. See 
+<a herf="https://pages.github.ibm.com/IBM-Services-WFM/ms-spring-server/en/learning-framework/reference-architecture" target="_blank">WFM Microservice Reference Architecture</a>.
+</li>
+
+<li><b>Taxonomy Evaluator (JR/S)</b>: The next step executes the WMF DMF API Framework’s Taxonomy Evaluator API passing in the enriched IBM Consulting Demographics 
+data and calling the EDS JRS taxonomy API.  For each professional in the demographics file, the process identifies invalid nodes and invalid arcs 
+(i.e., where a parent-child relationship in the demographics data does not exist in the taxonomy). The process also allows a configurable number of demographics 
+attributes to be carried forward.  The process completes in ~13 seconds elapsed time for ~158K employees.
+<br/>
+To better understand how the taxonomy evaluator processes and identifies valid and invalid notes and arc, please see 
+<a href="https://pages.github.ibm.com/IBM-Services-WFM/ms-spring-server/en/exploring-utilities/taxonomy-evaluator#example" target="_blank">here.</a></li>
+
+<li><b>Store Results</b>: This next step also uses the WMF DMF API Framework APIs to persist the evaluation results into a cloud based Db2 table (wfm_bridge, schema: DIF).  
+The persistence table has been set up as a Slow Changing Dimension so that every change, over time, is captured and available.  This table is also where user updates 
+will be persisted (without losing the original or any intermediate states).</li>
+
+<li><b>UI</b>: Once the processing is complete, managers and/or WFM professional delegates, CAN be notified via SLACK and/or e-mail, with the URL to the 
+validation/remediation user interface. </li>
+</ol>
+
+<p>The UI was originally going to be deployed using SLACK, however, with this proof of concept, SLACK maybe too basic for the complex JR/S taxonomy. </p>
+
+<h3>UI Components</h3>
+
+<p>In the MVP, a manager or WFM Professional may have one or more employees that need remediation. If they have multiple employees, the manager/WFM Professional chooses 
+an employee which triggers the retrieval the professional’s invalid JR/S branch. The user receives the employee’s current JR/S branch within the <b>JR/S editor</b> panel of the 
+UI and, within a tabbed <b>Branches Overview</b> panel on the left, the user receives the <b>Current</b> branch and the valid <b>JR/S</b> branch, if one was found 
+(<b>Recommended</b> branch is for a future sprint).</p>
+
+<center>
+	<img src="../../assets/img/dif-jrs-validator/dif-jrs-validator-components.png" class="img img-responsive" width="60%" alt="DIF JR/S Validator Component Panels"/>
+</center>
+
+<p>There is a single editable row for each node in the JR/S taxonomy branch. Each row has the following columns:</p>
+
+<table class="table table-hover table-sm table-striped" width="70%">
+	<thead>
+		<tr>
+			<th>Column</th>
+			<th>Description</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>Node Level</td>
+			<td>The name of the node level.  Specifically, Growth Platform, Service Line, Practice, Service Area, Job Role, and Specialty</td>
+		</tr>
+		<tr>
+			<td>Valid/invalid node icon</td>
+			<td>This column will have either a red or green cube. A green cube indicates that the node value exists within the JR/S taxonomy. A red cube indicates that the node value does not.
+Valid/invalid arc icon.	This column will have either a red or green link icon. A green link indicates that the relationship between the node and the next lower node (child) exists within the JR/S taxonomy. 
+A red link indicates that the relationship does not exist in the JR/S taxonomy.</td>
+		</tr>
+		<tr>
+			<td>Node name and code</td>
+			<td>The node name and value.</td>
+		</tr>
+		<tr>
+			<td>Edit button</td>
+			<td>This button enables the user to edit the row and initializes the edit for all dependent (lower/children) nodes.<br/>
+			Note that for both the Service Area and Specialty the edit icon is disabled. Service Area is disabled by design, with the assumption that managers are 
+			not familiar enough with the Service Areas and should skip to Job Role. Specialty is disabled because it must be edited in conjunction with the Job Role</td>
+		</tr>
+		<tr>
+			<td>Info/Help button</td>
+			<td>Information popup related to the taxonomy node level.</td>
+		</tr>			
+	</tbody>
+</table>
+
+<p>The user may begin editing at any VALID level of the taxonomy. In the picture above, although all the node values are valid, the “Finance Process BPO” (GBS020) Practice, 
+is NOT part of the “Talent Transformation” (17TTS) Service Line. Similarly, the “Finance Process BPO” Practice does NOT have a Service Area named “Talent Acquisition BPO” (LQ) 
+as a child.</p>
+
+<p>Also, looking at the “Branches Overview -> JR/S” tab on the right, we see that the final JR/S (Process Delivery Specialist-Talent Acquisition Optimization (45693-S9255)) 
+was found, and the full valid branch (each node level) is displayed within the tab.</p>
+
+<p>For this scenario, assume the user decides to edit the Practice. An API is called to retrieve all the valid Practices for the “Talent Transformation” (17TTS) Service Line.
+This continues down the different branches of the taxonomy, where the user may only select branches valid for the parent branch, until a full and valid JR/S taxonomy branch
+has been specified.</p>
+
+<p>Once the valid JR/S branch has been selected, the user can click the “Save” button. This will invoke a <code>POST API</code> that will insert the updated/new taxonomy branch information 
+into a JR/S validation table. As previously mentioned, this table has been implemented as a slow changing dimension so that all versions/states are persisted.  
+The updated/new taxonomy branch information is passed to the <code>POST</code> method as a JSON structure in the body of the POST request.</p>
+
+<p>These updates will be either manually or automatically applied by WFM Professionals based on the data persisted in the JR/S validation table.</p>
+
+
+
+
+

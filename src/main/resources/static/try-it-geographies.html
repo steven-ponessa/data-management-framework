@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+<title>Try it - Geographies</title>
+<meta content="" name="description">
+<meta content="" name="keywords">
+
+<!-- Favicons -->
+<link href="assets/img/favicon.png" rel="icon">
+<link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+<!-- Google Fonts -->
+<link
+	href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+	rel="stylesheet">
+
+<!-- Vendor CSS Files -->
+<link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+<link href="assets/vendor/aos/aos.css" rel="stylesheet">
+<link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
+<link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+<link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+<link href="assets/css/interactive-d3-tree.css" rel="stylesheet">
+
+<!-- Template Main CSS File -->
+<link href="assets/css/style.css" rel="stylesheet">
+<link href="assets/css/jsonview.bundle.css" rel="stylesheet">
+
+<!-- =======================================================
+  * Template Name: FlexStart - v1.4.0
+  * Template URL: https://bootstrapmade.com/flexstart-bootstrap-startup-template/
+  * Author: BootstrapMade.com
+  * License: https://bootstrapmade.com/license/
+  ======================================================== -->
+<style>
+.w3-container, .w3-panel {
+	padding: 0.01em 16px;
+}
+
+.w3-border-blue, .w3-hover-border-blue:hover {
+	border-color: #2196F3 !important;
+}
+
+.w3-pale-blue, .w3-hover-pale-blue:hover {
+	color: #000 !important;
+	background-color: #ddffff !important;
+}
+
+.w3-pale-grey, .w3-hover-pale-blue:hover {
+	color: #000 !important;
+	background-color: #ccc !important;
+}
+
+.w3-leftbar {
+	border-left: 6px solid #ccc !important;
+}
+
+.w3-border {
+	border: 1px solid #ccc !important;
+}
+
+.sec-text {
+	margin-left: 48px;
+	margin-right: 48px;
+}
+
+.ss-form {
+	margin: 20px;
+}
+
+.alert-dismissible .close {
+	position: absolute;
+	top: 0;
+	right: 0;
+	z-index: 2;
+	padding: .75rem 1.25rem;
+	color: inherit;
+}
+
+button.close {
+	padding: 0;
+	background-color: transparent;
+	border: 0;
+}
+
+.close {
+	float: right;
+	font-size: 1.5rem;
+	font-weight: 700;
+	line-height: 1;
+	color: #000;
+	text-shadow: 0 1px 0 #fff;
+	opacity: .5;
+}
+
+.list-group {
+	max-height: 300px;
+	margin-bottom: 10px;
+	overflow: scroll;
+	-webkit-overflow-scrolling: touch;
+}
+</style>
+
+<script>
+
+function init() {
+}
+
+function expandTree(tree) {
+  tree.expandTree();
+}
+
+function collapseTree(tree) {
+  tree.collapseTree()
+}
+
+</script>
+</head>
+
+<body onload="javascript:init()">
+
+	<!-- ======= Header ======= -->
+	<header id="header" class="header fixed-top">
+		<div class="container-fluid container-xl d-flex align-items-center justify-content-between">
+
+			<a href="index.html" class="logo d-flex align-items-center"> <img src="assets/img/logo.png" alt=""> <span>WFM</span>
+			</a>
+
+			<nav id="navbar" class="navbar">
+				<ul>
+					<li><a class="nav-link scrollto " href="..">Home</a></li>
+					<li><a class="nav-link scrollto" href="..#about">About</a></li>
+					<li><a class="nav-link scrollto" href="..#try-it">Try-it</a></li>
+					<li><a class="nav-link scrollto" href="..#team">Team</a></li>
+					<li><a class="getstarted scrollto" href="swagger-ui.html">Get Started</a></li>
+				</ul>
+				<i class="bi bi-list mobile-nav-toggle"></i>
+			</nav>
+			<!-- .navbar -->
+
+		</div>
+	</header>
+	<!-- End Header -->
+
+	<main id="main">
+
+		<!-- ======= Breadcrumbs ======= -->
+		<section class="breadcrumbs">
+			<div class="container">
+
+				<ol>
+					<li><a href="../index.html">Home</a></li>
+					<li><a href="../index.html#try-it">Try-it</a></li>
+					<li>View geographies</li>
+				</ol>
+				<h2>View geographies</h2>
+
+			</div>
+		</section>
+		<!-- End Breadcrumbs -->
+
+		<!-- ======= Portfolio Details Section ======= -->
+		<section id="portfolio-details" class="portfolio-details">
+			<div class="container">
+
+				<div class="row gy-4">
+
+					<div class="col-lg-8">
+						<div class="portfolio-details-slider swiper-container">
+							<div class="swiper-wrapper align-items-center">
+
+								<div class="swiper-slide">
+									<img src="/assets/img/eds-erdm-geography.png"> <i class="ri-node-tree icon"></i> The EDS Geography standard is the
+									Geography, Market, Region and Country Unit structure based on the IBM management system alignment. IBM reports its financial
+									 performance using this structure within EPM. <br /> <br />
+									<p>However, outside of EPM, the Country Unit does not have as much meaning. Financial, HR, fulfillment, and workforce management 
+									applications generally operate at either the financial or ISO country (level 00 in the EDS).</p>
+								</div>
+
+								<div class="swiper-slide">
+									<a href="assets/img/bms-bridge-geography.png" target="_blank">
+										<img src="assets/img/bms-bridge-geography.png" alt=""  height="500px" >
+									</a>
+									<p class="sec-text">The BMS Geography taxonomies.</p>
+								</div>
+
+							</div>
+							<div class="swiper-pagination"></div>
+						</div>
+					</div>
+
+					<div class="col-lg-4">
+						<div class="portfolio-info">
+							<h3>Scenario information</h3>
+							<ul>
+								<li><strong>Category</strong>: RESTful Data Retrieval</li>
+								<li><strong>APIs</strong>: Data retrieval APIs run against the <strong>EDS</strong> and <strong>BMS</strong> geographic taxonomies 
+								and returning the data within a JSON tree.</li>
+							</ul>
+						</div>
+						<div class="portfolio-description">
+							<h2>Geographies</h2>
+							<p>Nodes within a taxonomy often need to be aggregated in multiple ways depending on the perspective of the information gatherer looking at the node's detail. Alternative taxonomies provide a way to have multiple perspectives on the same data.</p>
+							<p>This "try-it" page shows different sets of Geography taxonomies and returns hierarchically organized JSON data 
+							visualized within a navigable D3 tree.</p>
+						</div>
+					</div>
+
+				</div>
+
+				<div class="panel panel-primary" id="tree_panel">
+					<div class="panel-heading">
+						<h3 class="panel-title">Geographies and alternative geographies</h3>
+					</div>
+					<div class="panel-body">
+						<hr/>
+						<h5>EDS Geography </h5>
+						<p>See: <a href="https://ms-spring-server.dal1a.ciocloud.nonprod.intranet.ibm.com/api/v1/erdm-geography-tax/country-feeders?includeParentage=true" target="_blank">https://ms-spring-server.dal1a.ciocloud.nonprod.intranet.ibm.com/api/v1/erdm-geography-tax/country-feeders?includeParentage=true</a></p>
+						<div id="eds-geo-tree"></div>
+				
+						<h5>EDS Geography - ISO Counry Perspective</h5>
+						<p>See: <a href="https://ms-spring-server.dal1a.ciocloud.nonprod.intranet.ibm.com/api/v1/erdm-geography-tax/country-isos?includeParentage=true" target="_blank">https://ms-spring-server.dal1a.ciocloud.nonprod.intranet.ibm.com/api/v1/erdm-geography-tax/country-isos?includeParentage=true</a></p>
+						<div id="iso-ctry-tree"></div>
+				
+						<h5>EDS Geography - Financial Counry Perspective</h5>		
+						<p>See: <a href="https://ms-spring-server.dal1a.ciocloud.nonprod.intranet.ibm.com/api/v1/erdm-geography-tax/country-finacials?includeParentage=true" target="_blank">https://ms-spring-server.dal1a.ciocloud.nonprod.intranet.ibm.com/api/v1/erdm-geography-tax/country-finacials?includeParentage=true</a></p>
+						<div id="iso-fin-tree"></div>
+				
+						<hr/>
+				
+						<h5>BMS Geography &rarr; Market &rarr; Country</h5>
+						<p>See: <a href="https://ms-spring-server.dal1a.ciocloud.nonprod.intranet.ibm.com/api/v1/eds-country-tax/countries-alt?includeParentage=true" target="_blank">https://ms-spring-server.dal1a.ciocloud.nonprod.intranet.ibm.com/api/v1/eds-country-tax/countries-alt?includeParentage=true</a></p>
+						<div id="bms-geo-mrkt-ctry-tree"></div>
+				
+						<h5>BMS Geography &rarr; Market &rarr; Region &rarr; Country</h5>
+						<p>See: <a href="https://ms-spring-server.dal1a.ciocloud.nonprod.intranet.ibm.com/api/v1/eds-country-tax/countries?includeParentage=true" target="_blank">https://ms-spring-server.dal1a.ciocloud.nonprod.intranet.ibm.com/api/v1/eds-country-tax/countries?includeParentage=true</a></p>
+						<div id="bms-geo-mrkt-rgn-ctry-tree"></div>
+						
+						<h5>Delivery Area &rarr; Delivery Area Geography Assoc &rarr; Delivery Area Market</h5>
+						<p>See: <a href="https://ms-spring-server.dal1a.ciocloud.nonprod.intranet.ibm.com/api/v1/delivery-area-markets?includeParentage=true" target="_blank">https://ms-spring-server.dal1a.ciocloud.nonprod.intranet.ibm.com/api/v1/delivery-area-markets?includeParentage=true</a></p>
+						<div id="delivery-area-market-tree"></div>
+				
+						<hr/>
+				
+						<h3>UT Brand to OCC</h3>
+						<h5>UT10-Brand &rarr; UT15-Growth Platform &rarr; UT17-Service Line &rarr; UT20-Offering Portfolio &rarr; UT30-Offering &rarr; OCC</h5>
+						<p>All OCCs: <a href="https://ms-spring-server.dal1a.ciocloud.nonprod.intranet.ibm.com/api/v1/eds-ut-jrs-tax/offering-components?includeParentage=true" target="_blank">https://ms-spring-server.dal1a.ciocloud.nonprod.intranet.ibm.com/api/v1/eds-ut-jrs-tax/offering-components?includeParentage=true</a></p>
+						<div id="occ-tree"></div>	
+				
+						<p>Specific OCCs - (695528N) DTT: Ext Auto - Finance & SC:<br/>
+							<a href="https://ms-spring-server.dal1a.ciocloud.nonprod.intranet.ibm.com/api/v1/eds-ut-jrs-tax/offering-components/695528N" target="_blank">https://ms-spring-server.dal1a.ciocloud.nonprod.intranet.ibm.com/api/v1/eds-ut-jrs-tax/offering-components/695528N</a></p>
+						 
+				
+						
+						<p>OCCs for (17CBD) Data & Technology Transformation:<br/>
+							 <a href="https://ms-spring-server.dal1a.ciocloud.nonprod.intranet.ibm.com/api/v1/eds-ut-jrs-tax/offering-components?filters=UT_LEVEL17_CD='17CBD'" target="_blank">https://ms-spring-server.dal1a.ciocloud.nonprod.intranet.ibm.com/api/v1/eds-ut-jrs-tax/offering-components?filters=UT_LEVEL17_CD='17CBD'</a></p>
+											
+									
+<hr/>
+				
+						<h3>UT Financial View Tree</h3>
+						<h5>UT15-Growth Platform &rarr; UT17-Service Line &rarr; Financial Attribute (a.k.a., Reporting Segment) &rarr; UT30-Offering</h5>
+						<p>Taxonomy: <a href="http://localhost:8080/api/v1/dyn/sql/wfm-bridge/ut-financial-attribute-view/?keys=GROWTH_PLATFORM_NM,SERVICE_LINE_NM,FINANCIAL_OFFERING_ATTRIBUTE_NM,OFFERING_NM" target="_blank">http://localhost:8080/api/v1/dyn/sql/wfm-bridge/ut-financial-attribute-view/?keys=GROWTH_PLATFORM_NM,SERVICE_LINE_NM,FINANCIAL_OFFERING_ATTRIBUTE_NM,OFFERING_NM</a></p>
+						<div id="ut-fin-view-tree"></div>	
+												
+									
+<hr/>			
+					    <h5>MLB Taxonomy</h5>
+					    <button type="button" class="btn btn-primary" onclick="expandTree(id3treeMlb)">+ expand all</button>
+					    <button type="button" class="btn btn-primary" onclick="collapseTree(id3treeMlb)">- collapse all</button>
+					    <div id="mlb-tree"></div>
+					    <hr/>
+					    <h5>NFL Taxonomy</h5>
+					    <button type="button" class="btn btn-primary" onclick="expandTree(id3treeNfl)">+ expand all</button>
+					    <button type="button" class="btn btn-primary" onclick="collapseTree(id3treeNfl)">- collapse all</button>
+					    <div id="nfl-tree"></div>
+					</div>
+				</div>
+				<div>
+					<p>&nbsp;</p>
+				</div>
+			</div>
+
+		</section>
+		<!-- End Portfolio Details Section -->
+
+	</main>
+	<!-- End #main -->
+
+	<!-- ======= Footer ======= -->
+	<footer id="footer" class="footer">
+
+
+		<div class="footer-top">
+			<div class="container">
+				<div class="row gy-4">
+					<div class="col-lg-5 col-md-12 footer-info">
+						<a href="index.html" class="logo d-flex align-items-center"> <img src="assets/img/logo.png" alt=""> <span>WFM</span>
+						</a>
+						<p>Empower profitable growth through cognitive workforce management capabilities to anticipate client needs,
+							delivering the right skills at the right time yielding business outcomes that matter to our clients, our
+							employees, and our company.</p>
+						<div class="social-links mt-3">
+							<a href="#" class="linkedin"><i class="bi bi-linkedin bx bxl-linkedin"></i></a> <a href="#" class="twitter"><i
+								class="bi bi-twitter"></i></a> <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
+						</div>
+					</div>
+
+					<div class="col-lg-2 col-6 footer-links">
+						<h4>Useful Links</h4>
+						<ul>
+							<li><i class="bi bi-chevron-right"></i> <a
+								href="https://w3.ibm.com/w3publisher/ibm-services-workforce-management">WFM Home</a></li>
+							<li><i class="bi bi-chevron-right"></i> <a href="index.html#about">About us</a></li>
+							<li><i class="bi bi-chevron-right"></i> <a href="index.html#services">Services</a></li>
+							<li><i class="bi bi-chevron-right"></i> <a href="https://w3.ibm.com">Terms of service</a></li>
+							<li><i class="bi bi-chevron-right"></i> <a href="https://w3.ibm.com/w3publisher/w3-privacy-notice/ibm-internal-privacy-statement-us-en">Privacy
+									policy</a></li>
+						</ul>
+					</div>
+
+					<div class="col-lg-2 col-6 footer-links">
+						<h4>Our Services</h4>
+						<ul>
+							<li><i class="bi bi-chevron-right"></i> <a href="#">tbd</a></li>
+
+						</ul>
+					</div>
+
+					<div class="col-lg-3 col-md-12 footer-contact text-center text-md-start">
+						<h4>Contact Us</h4>
+						<p>
+							<b>Steven J Ponessa</b> <br> Mount Pleasant, SC, United States <br> <strong>Phone:</strong> +1
+							845-699-5617 <br> <strong>Email:</strong> <a href="mailto:ponessa@us.ibm.com">ponessa@us.ibm.com</a>
+						</p>
+						<p>
+							<b>Mani Shahidsales</b> <br> Blue Bell, PA, United States <br> <strong>Phone:</strong> +1 845-699-5617
+							<br> <strong>Email:</strong> <a href="mailto:mshahids@us.ibm.com">mshahids@us.ibm.com</a>
+						</p>
+
+					</div>
+
+				</div>
+			</div>
+		</div>
+
+		<div class="container">
+			<div class="copyright">
+				&copy; Copyright <strong><span>IBM</span></strong>. All Rights Reserved
+			</div>
+			<div class="credits">
+				<!-- All the links in the footer should remain intact. -->
+				<!-- You can delete the links only if you purchased the pro version. -->
+				<!-- Licensing information: https://bootstrapmade.com/license/ -->
+				<!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/flexstart-bootstrap-startup-template/ -->
+				Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+			</div>
+		</div>
+	</footer>
+	<!-- End Footer -->
+
+	<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+	<!-- Vendor JS Files -->
+	<script src="assets/vendor/bootstrap/js/bootstrap.bundle.js"></script>
+	<script src="assets/vendor/aos/aos.js"></script>
+	<script src="assets/vendor/php-email-form/validate.js"></script>
+	<script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
+	<script src="assets/vendor/purecounter/purecounter.js"></script>
+	<script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+	<script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
+	<script src="assets/vendor/d3/3.4.13/d3.min.js"></script>
+
+	<!-- Template Main JS File -->
+	<script src="assets/js/main.js"></script>
+	<script src="assets/js/jsonview.bundle.js"></script>
+	
+<script src="assets/js/interactive-d3-tree-search.js"></script>	
+<script>
+
+	var edsTree = new InteractiveD3TreeObj(treeHeight = 900, treeWidth = 2400, nodeSpacing = 210);
+	var isoTree = InteractiveD3TreeObj(treeHeight = 600, treeWidth = 2400, nodeSpacing = 210);
+	var finTree = InteractiveD3TreeObj(treeHeight = 600, treeWidth = 2400, nodeSpacing = 210);
+	var bmsGeoMrktCtryTree = InteractiveD3TreeObj(treeHeight = 500, treeWidth = 1700, nodeSpacing = 210);
+	var bmsGeoMrktRgnCtryTree = InteractiveD3TreeObj(treeHeight = 500, treeWidth = 1700, nodeSpacing = 210);
+	var deliveryAreaMarketTree = InteractiveD3TreeObj(treeHeight = 500, treeWidth = 1700, nodeSpacing = 210);
+	
+	var occTree = InteractiveD3TreeObj(1000, 2700, 300);
+	var utFinViewTree = InteractiveD3TreeObj(1000, 2700, 300);
+	
+	d3.json("data/eds-ctry.json", function(data) {
+		d3.select("#eds-geo-tree")
+				.datum(data)
+				.call(edsTree);
+	});
+	
+	d3.json("data/eds-ctry-iso.json", function(data) {
+		d3.select("#iso-ctry-tree")
+				.datum(data)
+				.call(isoTree);
+	});
+	
+	d3.json("data/eds-ctry-fin.json", function(data) {
+		d3.select("#iso-fin-tree")
+				.datum(data)
+				.call(finTree);
+	});
+	
+	d3.json("data/bms-mrkt-ctry.json", function(data) {
+		d3.select("#bms-geo-mrkt-ctry-tree")
+				.datum(data)
+				.call(bmsGeoMrktCtryTree);
+	});
+	
+	d3.json("data/bms-mrkt-rgn-ctry.json", function(data) {
+		d3.select("#bms-geo-mrkt-rgn-ctry-tree")
+				.datum(data)
+				.call(bmsGeoMrktRgnCtryTree);
+	});
+	
+	d3.json("data/delivery-area-market.json", function(data) {
+		d3.select("#delivery-area-market-tree")
+				.datum(data)
+				.call(deliveryAreaMarketTree);
+	});
+	
+	
+	d3.json("data/brand-2-occ.json", function(data) {
+		d3.select("#occ-tree")
+				.datum(data)
+				.call(occTree);
+	});
+	
+	d3.json("data/ut-financial-view.json", function(data) {
+		d3.select("#ut-fin-view-tree")
+				.datum(data)
+				.call(utFinViewTree);
+	});
+
+
+
+  var id3treeMlb = new InteractiveD3TreeObj(treeHeight = 500, treeWidth = 1700, nodeSpacing = 210);
+  var id3treeNfl = new InteractiveD3TreeObj(treeHeight=800);
+
+  d3.json("data/mlb.json", function(data) {
+			d3.select("#mlb-tree")
+					.datum(data)
+					.call(id3treeMlb);
+		});
+
+  d3.json("data/nfl.json", function(data) {
+			d3.select("#nfl-tree")
+					.datum(data)
+					.call(id3treeNfl);
+		});
+
+
+</script>	
+
+</body>
+
+</html>

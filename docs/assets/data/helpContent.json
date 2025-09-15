@@ -1,0 +1,18 @@
+[
+	{"id":"tree",
+	 "title": "Interactive Tree Search Help",
+	 "context" : "/IBM-Services-WFM/ms-spring-server/assets/data/help/en/tree-search.html"
+	} ,
+	{"id":"basic",
+	 "title": "Basic Search Help",
+	 "context" : "/IBM-Services-WFM/ms-spring-server/assets/data/help/en/basic-search.html"
+	} ,
+	{"id":"adv",
+	 "title": "Advanced Search Help",
+	 "context" : "/IBM-Services-WFM/ms-spring-server/assets/data/help/en/advanced-search.html"
+	} ,
+	{"id":"regex",
+	 "title": "Regular Expression Search Help",
+	 "context" : "/IBM-Services-WFM/ms-spring-server/assets/data/help/en/reg-ex-search.html"
+	} 	
+]

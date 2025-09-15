@@ -1,0 +1,78 @@
+{
+  "code": "MLB",
+  "name": "Major Leauge Baseball",
+  "children": [
+   {
+    "name": "American League",
+    "code": "AL",
+    "children": [
+     {
+      "name": "East",
+      "children": [
+        {"name": "Yankees", "code": "NYY", "city": "New York"},
+        {"name": "Rays", "code": "TB", "city": "Tampa Bay"},
+        {"name": "Bluejays", "code": "TOR", "city": "Toronto"},
+        {"name": "Orioles", "code": "BAL", "city": "Baltimore"},
+        {"name": "Red Sox", "code": "BOS", "city": "Boston"}
+      ]
+     },
+     {
+      "name": "Cental",
+      "children": [
+        {"name": "Guardians", "code": "CLE", "city": "Cleveland"},
+        {"name": "Twins", "code": "MIN", "city": "Minnesotta"},
+        {"name": "White Sox", "code": "CHW", "city": "Chicago"},
+        {"name": "Royals", "code": "KC", "city": "Kansas City"},
+        {"name": "Tigers", "code": "DET", "city": "Detriot"}
+      ]
+     },
+     {
+      "name": "West",
+      "children": [
+        {"name": "Astros", "code": "HOU", "city": "Houston"},
+        {"name": "Mariners", "code": "SEA", "city": "Seatle"},
+        {"name": "Rangers", "code": "TEX", "city": "Texas"},
+        {"name": "Angels", "code": "LAA", "city": "Los Angeles"},
+        {"name": "A's", "code": "OAK", "city": "Oakland"}
+      ]
+     }
+    ]
+   },
+   {
+    "name": "National League",
+    "code": "NL",
+    "children": [
+     {
+      "name": "East",
+      "children": [
+        {"name": "Mets", "code": "NYM", "city": "New York"},
+        {"name": "Braves", "code": "ATL", "city": "Atlanta"},
+        {"name": "Phillies", "code": "PHI", "city": "Philladelphia"},
+        {"name": "Marlins", "code": "MIA", "city": "Miami"},
+        {"name": "Nationals", "code": "WAS", "city": "Washington"}
+      ]
+     },
+     {
+      "name": "Cental",
+      "children": [
+        {"name": "Cardinals", "code": "STL", "city": "St. Louis"},
+        {"name": "Brewers", "code": "MIL", "city": "Milwaukee"},
+        {"name": "Cubs", "code": "CHC", "city": "Chicago"},
+        {"name": "Reds", "code": "CIN", "city": "Cincinnati"},
+        {"name": "Pirates", "code": "PIT", "city": "Pittsburgh"}
+      ]
+     },
+     {
+      "name": "West",
+      "children": [
+        {"name": "Dogers", "code": "LAD", "city": "Los Angeles"},
+        {"name": "Padres", "code": "SD", "city": "San Diego"},
+        {"name": "Giants", "code": "SF", "city": "San Francisco"},
+        {"name": "Dimondbacks", "code": "ARI", "city": "Arizona"},
+        {"name": "Rockies", "code": "COL", "city": "Colorodo"}
+      ]
+     }
+    ]
+   }
+  ]
+ } 

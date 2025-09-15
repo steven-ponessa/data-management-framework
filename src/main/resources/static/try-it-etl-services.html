@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>Try it - ETL Services</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+  <link href="assets/img/favicon.png" rel="icon">
+  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="assets/vendor/aos/aos.css" rel="stylesheet">
+  <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
+  <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+  <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href="assets/css/style.css" rel="stylesheet">
+
+  <!-- =======================================================
+  * Template Name: FlexStart - v1.4.0
+  * Template URL: https://bootstrapmade.com/flexstart-bootstrap-startup-template/
+  * Author: BootstrapMade.com
+  * License: https://bootstrapmade.com/license/
+  ======================================================== -->
+  <style>
+  
+.sec-text {
+	margin-left: 48px;
+	margin-right: 48px;
+}
+
+th, td, input {
+	font: 11px Verdana;
+}
+
+.note {
+  background-color: #e7f3fe;
+  border-left: 6px solid #2196F3;
+  font-size: small;
+}
+
+.tryit-form {
+	margin: 20px;
+}
+
+.col-form-label {
+    padding-top: 0;
+    margin-bottom: 0;
+    font-size: inherit;
+    line-height: 2;
+}
+
+
+</style>
+
+<script>
+	
+	const api2TableNew = async () => {
+		const response = fetch('http://localhost:8080/api/v1/sec-Football/pit?pit=2021-06-29-00.00.00.0', {
+		    method: 'GET',
+		    headers: {
+		      'Content-Type': 'application/json'
+		    }
+		  });
+		  const returnedJson = await response.json(); //extract JSON from the http response
+		  createTableFromJson(returnedJson);
+		}
+	
+	let apiCnt=0;
+	
+	function displayNotes() {
+		var rbSec = document.getElementById("rbSec");
+		if (rbSec.checked) {
+			document.getElementById("secNotes").style.display = "block";
+			document.getElementById("accNotes").style.display = "none";
+		}
+		else {
+			document.getElementById("secNotes").style.display = "none";
+			document.getElementById("accNotes").style.display = "block";
+		}		
+	}
+	
+	function api2Table() {
+		
+		var rbSec = document.getElementById("rbSec");
+		var conf = 'ACC';
+		if (rbSec.checked) conf = 'SEC';
+		
+		var pit = document.getElementById("pit-dropdown").value;
+
+		var url = window.location.protocol+"//"+window.location.host
+		        + "/api/v1/fbs-football/conferences/"+conf+"/teams?includeParentage=true&includePit=true&pit="+pit;
+		
+		//http://localhost:8080/api/v1/fbs-football/conferences/SEC/teams?includeParentage=true&includePit=true&pit=CURRENT%20TIMESTAMP-28%20hours
+		
+		addToList('id-api-list',url);
+		
+	    var req = new XMLHttpRequest();
+	    req.onreadystatechange = function() {
+	         if (this.readyState == 4 && this.status == 200) {
+	        	 createTableFromJson(conf, this.response);
+	         }
+	    };
+	    console.log(url);
+	    req.open("GET", url, true);
+	    req.setRequestHeader("Content-type", "application/json");
+	    req.responseType = 'json';
+	    req.send(null);
+	}
+
+	function createTableFromJson(conf, myJson) {
+
+		// EXTRACT VALUE FOR HTML HEADER. 
+
+		var colTemp = ['', 'Div', 'Team','Name','Institution', 'Joined', 'Enrollment', 'Endowment', 'Eff TMS','Expir TMS', 'RS'];
+
+		// CREATE DYNAMIC TABLE.
+		var table = document.createElement("table");
+		table.setAttribute("class","table table-hover table-sm table-striped");
+
+		// CREATE HTML TABLE HEADER ROW USING THE EXTRACTED HEADERS ABOVE.
+		
+		var thead = document.createElement("thead");
+
+		var tr = document.createElement("tr");
+
+		for (var i = 0; i < colTemp.length; i++) {
+			var th = document.createElement("th"); // TABLE HEADER.
+			th.innerHTML = colTemp[i];
+			tr.appendChild(th);
+		}
+		thead.appendChild(tr);
+		table.appendChild(thead);
+
+		var tbody = document.createElement("tbody");
+		
+		let conference = myJson[0].description;
+		divisions = myJson[0].children;
+		for (var i=0; i<divisions.length; i++) {
+			let division = divisions[i].description;
+			teams = divisions[i].children;
+			for (var k=0; k<teams.length; k++) {
+				tr = tbody.insertRow(-1);
+				var x = document.createElement("img");
+				  x.setAttribute('src', 'assets/img/'+conf.toLowerCase()+'/'+teams[k]['teamCd'].trim()+'.png');
+				  x.setAttribute("width", "40%");
+				  x.setAttribute("alt",teams[i]['teamCd'].trim());
+				var tabCell = tr.insertCell(-1);
+				tabCell.appendChild(x);
+				
+				tabCell = tr.insertCell(-1);
+				tabCell.innerHTML = divisions[i].description;
+				
+				tabCell = tr.insertCell(-1);
+				tabCell.innerHTML = teams[k].teamCd;
+				
+				tabCell = tr.insertCell(-1);
+				tabCell.innerHTML = teams[k].nickname;
+				
+				tabCell = tr.insertCell(-1);
+				tabCell.innerHTML = teams[k].institutionNm;
+				
+				tabCell = tr.insertCell(-1);
+				tabCell.innerHTML = teams[k].joinedDt;
+				
+				tabCell = tr.insertCell(-1);
+				tabCell.innerHTML = teams[k].enrollmentCnt;
+				
+				tabCell = tr.insertCell(-1);
+				tabCell.innerHTML = teams[k].endowmentAmt
+				
+				tabCell = tr.insertCell(-1);
+				tabCell.innerHTML = teams[k].effTms;
+				
+				tabCell = tr.insertCell(-1);
+				tabCell.innerHTML = teams[k].expirTms;
+				
+				tabCell = tr.insertCell(-1);
+				tabCell.innerHTML = teams[k].rowStatusCd;
+			}
+		}
+		
+		table.appendChild(tbody);
+
+		// FINALLY ADD THE NEWLY CREATED TABLE WITH JSON DATA TO A CONTAINER.
+		var divContainer = document.getElementById("secTable");
+		divContainer.innerHTML = "";
+		divContainer.appendChild(table);
+	}
+	
+	function addToList(root, item) {
+		var ul = document.getElementById(root);
+		var li = document.createElement('li');
+		li.setAttribute("class","list-group-item");
+
+	    var a = document.createElement('a');
+	    a.target = '_blank';
+	    a.href = item;
+	    a.innerText = item;
+	    li.appendChild(document.createTextNode(String(++apiCnt)+". "));
+	    li.appendChild(a);
+	    
+		//li.appendChild(document.createTextNode(item));
+		
+		ul.appendChild(li);
+	}
+	
+</script>
+</head>
+
+<body>
+
+  <!-- ======= Header ======= -->
+  <header id="header" class="header fixed-top">
+    <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
+
+      <a href="index.html" class="logo d-flex align-items-center">
+        <img src="assets/img/logo.png" alt="">
+        <span>WFM</span>
+      </a>
+
+      <nav id="navbar" class="navbar">
+        <ul>
+          <li><a class="nav-link scrollto " href="..">Home</a></li>
+          <li><a class="nav-link scrollto" href="..#about">About</a></li>
+          <li><a class="nav-link scrollto" href="..#try-it">Try-it</a></li>
+          <li><a class="nav-link scrollto" href="..#team">Team</a></li>
+          <li><a class="getstarted scrollto" href="swagger-ui.html">Get Started</a></li>
+        </ul>
+        <i class="bi bi-list mobile-nav-toggle"></i>
+      </nav><!-- .navbar -->
+
+    </div>
+  </header><!-- End Header -->
+
+  <main id="main">
+
+    <!-- ======= Breadcrumbs ======= -->
+    <section class="breadcrumbs">
+      <div class="container">
+
+        <ol>
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="../index.html#try-it">Try-it</a></li>
+          <li>ETL Services</li>
+        </ol>
+        <h2>ETL Services</h2>
+
+      </div>
+    </section><!-- End Breadcrumbs -->
+
+    <!-- ======= Portfolio Details Section ======= -->
+    <section id="portfolio-details" class="portfolio-details">
+      <div class="container">
+
+        <div class="row gy-4">
+
+          <div class="col-lg-8">
+            <div class="portfolio-details-slider swiper-container">
+              <div class="swiper-wrapper align-items-center">
+              
+                <div class="swiper-slide">
+					<p>The IDL and ETL services use a <b>ladder processing algorithm</b> to compare and identify deltas in any two
+						sets of data. The algorithm can be used to identify deltas in any two sets of data provided the sets of data
+						have an attribute(s) that uniquely identify a row of data (primary key or natural key) and are sorted in
+						ascending order by unique identifier(s).</p>
+					<p>The theory behind the algorithm is that if a primary/natural key exists in the first or older file and
+						not in the second or newer file, then that record has been deleted. If a primary/natural key exists in the
+						second/newer file and not in the first/older file, then that record has been inserted. And if a
+						primary/natural key exists in both file and any part of the remaining attributes differ, then that record has
+						been updated. The algorithm processes down the first/old and second/new
+						set of data together, based on the value of the primary/natural key; like descending the rungs of a ladder.
+						For more information please click <a
+							href="https://pages.github.ibm.com/IBM-Consulting-WFM/wfm-dmf-ga/en/exploring-utilities/ladder-processing-algorithm"
+							target="_blank">here</a></p>
+					<p>
+						Once the delta have been identified services are called to apply the inserts, updates, and deletes to the <b>Slow
+						Changing Dimension (SCD)</b>.
+					</p>
+
+					<p>Slowly Changing Dimension's (Type 2) preserves history and are used when every state of an entity must
+						be recorded and/or linked to a measurement over time. SCDs
+						generates a new record for every change of a dimension attribute, so that complete historical changes can be
+						tracked correctly. Each row contains an “effective” and “expiration” timestamp of the row. Instead of
+						overwriting old data, the new record is inserted and becomes effective at the current timestamp (with 
+						expiration timestamp of “9999-12-31-23.59.59.999999”) and the old record is expired. By setting a
+						distinguishable, non-null expiration timestamp the current state of the dimension is
+						WHERE the expiration timestamp is “9999-12-31-23.59.59.999999”, and any point in time can be seen by looking
+						for that point in time BETWEEN the effective and expiration timestamp.</p>
+
+				</div>
+
+				<div class="swiper-slide">
+					<img src="assets/img/sec/data-model-n-apis.png" alt="">
+					<p>Example looks at FBS football teams. The FBS has conferences that contain divisions that has teams. Above is the database structure that supports the FBS
+					taxonomy and the APIs and API parameters available.</p>
+                </div>
+
+                <div class="swiper-slide">
+                  <img src="assets/img/sec/sec-history.png" alt="">
+                  <p>In 1990 the SEC had 11 teams and 2 divisions. In 1991 Georgia Tech left (to join the ACC) &amp; South Carolina (from the ACC) and Tulane joined. Since 1991, Tulane left and Missouri, Arkansas, &amp; Texas A&amp;M joined.</p>
+                </div>
+        
+                <div class="swiper-slide">
+                  <img src="assets/img/acc/acc-history.png" alt="">
+				  <p>In 1990 the ACC had only 8 teams and no divisions. In 1991 Maryland &amp; South Carolina left, while Florida State &amp; Georgia Tech were added. Since 2004,
+				  7 teams were added and the conference was split between an Atlantic &amp; Coastal divisions.</p>
+                </div>
+
+
+              </div>
+              <div class="swiper-pagination"></div>
+            </div>
+          </div>
+
+          <div class="col-lg-4">
+            <div class="portfolio-info">
+              <h3>Scenario information</h3>
+              <ul>
+                <li><strong>Category</strong>: ETL</li>
+                <li><strong>API</strong>: <a href="/swagger-ui.html#/fbs-football-controller/retrieveAllCurrentFbsFootballUsingGET_1" target="_blank">sec-football</a> &amp;
+                <a href="/swagger-ui.html#/acc-football-controller/retrieveAllCurrentFbsFootballUsingGET" target="_blank">acc-football</a> 
+                </li>
+              </ul>
+            </div>
+            <div class="portfolio-description">
+              <h2>Extract, transform, and load service</h2>
+              <p>
+                This API uses a ladder processing algorithm to compare consecutive extracts of a given source and identifies inserts, updates, and deletes.
+                Thereafter data managment services are called to establish a connection to the target database and apply the inserts, updates, and deletes.
+                The client is returned a summary of what was applied to the target database and a download link for the delta file.
+              </p>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="row gy-12">
+        	<hr/>
+			<div class="tryit-form">
+	        	<form action="">
+					<div class="form-group row">
+						<label for="fbsConferencesSelection" class="col-sm-2 col-form-label">Which conference?</label>
+						<div class="col-sm-10">
+				        	<div class="btn-group" id="filterConference" data-toggle="buttons">
+								<div class="form-check form-check-inline">
+									<input class="form-check-input" type="radio" name="flexRadioDefault" id="rbSec" onchange="api2Table()" checked> 
+									
+									<img src="/assets/img/sec/SEC.svg" height="32px">
+								</div>
+								<div class="form-check form-check-inline">
+									<input class="form-check-input" type="radio" name="flexRadioDefault" id="rbAcc" onchange="api2Table()"> 
+									<!--  label class="form-check-label" for="rbAcc"> ACC </label -->
+									<img src="/assets/img/acc/ACC.svg" height="16px">
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label for="pit" class="col-sm-2 col-form-label">Select a point in time<sup style="color: #FF0000";>*</sup></label>
+						<div class="col-sm-10">
+							<select id="pit-dropdown" name="pit" onchange="api2Table()">
+								<option value="CURRENT TIMESTAMP" selected>2021</option>
+								<option text="1991" value="2021-11-10-15:00:00.0">1991</option>
+								<option text="1990" value="2021-11-10-06.00.00.0">1990</option>
+							</select>
+						</div>
+					</div>
+					<div class="form-group row">
+						<input class="btn btn-primary form-control" type="button" onclick="api2Table()" value="Get data" />
+					</div>
+				</form>
+			</div>
+             
+			<div class="swiper-slide">
+				<div id="secTable"><i>placeholder for conference table</i></div>
+			</div>
+					
+			<p>&nbsp;</p>
+        </div>
+        <div class="row gy-12">
+      			<div class="panel panel-primary" id="api_panel">
+				<div class="panel-heading">
+					<h3 class="panel-title">API Execution List</h3>
+				</div>
+				<div class="panel-body">
+					<ul class="list-group" id="id-api-list">
+
+					</ul>
+				</div>
+			</div>
+		</div>
+      
+      </div>
+    </section><!-- End Portfolio Details Section -->
+
+  </main><!-- End #main -->
+
+	<!-- ======= Footer ======= -->
+	<footer id="footer" class="footer">
+
+
+		<div class="footer-top">
+			<div class="container">
+				<div class="row gy-4">
+					<div class="col-lg-5 col-md-12 footer-info">
+						<a href="index.html" class="logo d-flex align-items-center"> <img
+							src="assets/img/logo.png" alt=""> <span>WFM</span>
+						</a>
+						<p>Empower profitable growth through cognitive workforce management capabilities to anticipate client needs, delivering the right skills at the right time yielding business outcomes that matter to our clients, our employees, and our company.</p>
+						<div class="social-links mt-3">
+							<a href="#"	class="linkedin"><i class="bi bi-linkedin bx bxl-linkedin"></i></a>
+							<a href="#" class="twitter"><i class="bi bi-twitter"></i></a> 
+							<a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
+						</div>
+					</div>
+
+					<div class="col-lg-2 col-6 footer-links">
+						<h4>Useful Links</h4>
+						<ul>
+							<li><i class="bi bi-chevron-right"></i> <a href="https://w3.ibm.com/w3publisher/ibm-services-workforce-management">WFM Home</a></li>
+							<li><i class="bi bi-chevron-right"></i> <a href="index.html#about">About
+									us</a></li>
+							<li><i class="bi bi-chevron-right"></i> <a href="index.html#services">Services</a></li>
+							<li><i class="bi bi-chevron-right"></i> <a href="https://w3.ibm.com">Terms
+									of service</a></li>
+							<li><i class="bi bi-chevron-right"></i> <a href="https://w3.ibm.com/w3publisher/w3-privacy-notice/ibm-internal-privacy-statement-us-en">Privacy
+									policy</a></li>
+						</ul>
+					</div>
+
+					<div class="col-lg-2 col-6 footer-links">
+						<h4>Our Services</h4>
+						<ul>
+							<li><i class="bi bi-chevron-right"></i> <a href="#">tbd</a></li>
+
+						</ul>
+					</div>
+
+					<div
+						class="col-lg-3 col-md-12 footer-contact text-center text-md-start">
+						<h4>Contact Us</h4>
+						<p>
+							<b>Steven J Ponessa</b> <br> 
+							Mount Pleasant, SC, United States <br> 
+							<strong>Phone:</strong> +1 845-699-5617 <br>
+							<strong>Email:</strong> <a href="mailto:ponessa@us.ibm.com">ponessa@us.ibm.com</a>
+						</p>
+						<p>
+							<b>Mani Shahidsales</b> <br> 
+							Blue Bell, PA, United States <br> 
+							<strong>Phone:</strong> +1 845-699-5617 <br>
+							<strong>Email:</strong> <a href="mailto:mshahids@us.ibm.com">mshahids@us.ibm.com</a>
+						</p>
+
+					</div>
+
+				</div>
+			</div>
+		</div>
+
+		<div class="container">
+			<div class="copyright">
+				&copy; Copyright <strong><span>IBM</span></strong>. All Rights
+				Reserved
+			</div>
+			<div class="credits">
+				<!-- All the links in the footer should remain intact. -->
+				<!-- You can delete the links only if you purchased the pro version. -->
+				<!-- Licensing information: https://bootstrapmade.com/license/ -->
+				<!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/flexstart-bootstrap-startup-template/ -->
+				Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+			</div>
+		</div>
+	</footer>
+	<!-- End Footer -->
+
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+  <!-- Vendor JS Files -->
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.js"></script>
+  <script src="assets/vendor/aos/aos.js"></script>
+  <script src="assets/vendor/php-email-form/validate.js"></script>
+  <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
+  <script src="assets/vendor/purecounter/purecounter.js"></script>
+  <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+  <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
+
+  <!-- Template Main JS File -->
+  <script src="assets/js/main.js"></script>
+
+</body>
+
+</html>

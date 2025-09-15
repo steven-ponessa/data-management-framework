@@ -1,0 +1,44 @@
+- title: Quickstart
+  docs:
+  - en/quickstart/setting-up-environment
+  - en/quickstart/running-the-application
+  - en/quickstart/cio-ci-cd-pipeline
+
+- title: Learning the Framework
+  docs:
+  - en/learning-framework/fw-overview
+  #- en/learning-framework/reference-architecture
+  - en/learning-framework/component-model
+  - en/learning-framework/object-model
+  - en/learning-framework/consuming-web-services
+  - en/learning-framework/utilities
+  - en/learning-framework/authentication
+  - en/learning-framework/exception-handling
+  - en/learning-framework/data-marshalling
+  - en/learning-framework/cloud-persistent-data-storage
+  - en/learning-framework/profile-manage-env-properties
+
+- title: Creating Services and APIs
+  docs:
+  - en/exploring-services/rest-overview
+  - en/exploring-services/creating-restful-apis
+  - en/exploring-services/creating-idl-etl-apis
+  - en/exploring-services/creating-dynamic-sql-apis
+  - en/exploring-services/generating-artifacts
+  - en/exploring-services/swagger-docs
+  - en/exploring-services/try-it-sample-app
+
+- title: Exploring Concepts & Utilities
+  docs:
+  - en/exploring-utilities/extended-relational-model
+  - en/exploring-utilities/slow-changing-dimensions
+  - en/exploring-utilities/ladder-processing-algorithm
+  - en/exploring-utilities/taxonomy-evaluator
+
+- title: Using Services
+  docs:
+  - en/using-services/invoking-services
+  - en/using-services/calling-from-javascript
+  - en/using-services/calling-from-java
+  - en/using-services/calling-from-nodejs
+  - en/using-services/calling-from-python

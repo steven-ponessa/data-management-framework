@@ -1,0 +1,26 @@
+
+
+<p>
+The JRS tree search is an interactive expandable/collapsible tree representing the full Job Role Specialty taxonomy:</p>
+<ol>
+	<li>Brand</li>
+	<li>Growth Platform</li>
+	<li>Service Line</li>
+	<li>Practice</li>
+	<li>Service Area</li>
+	<li>Job Role Specialty (JRS)</li>
+</ol>
+
+<p>D3, short for Data Driven Documents, is a JavaScript-powered data visualization library that supports a myriad of features.
+The “Tree layout” is not a distinct type of diagram per se. Rather, it’s one type of D3’s family of hierarchical layouts. 
+The tree layout produces a “node-link” diagram that lays out the connections among nodes in a way that displays the relationship of one node to another in a parent-child fashion.
+</p>
+
+<p>The tool takes the full JRS taxonomy and builds a D3 tree, then exposes the first 2 levels of the taxonomy (Brand and Growth Platform). Nodes that are collapsed (have non-displayed
+children) are represented with solid blue circles. Expanded nodes and leaf nodes (JRSs) are represented with non-solid blue circles (clear fill). Users may click on any node to
+expand or collapse the parent node, allowing them to explore the taxonomy in manageable chunks.   The clear advantage to this style of diagram is that describing it in text or a single 
+non-interactive image is difficult but representing it through an interactive graphic diagram makes the relationships easy to see and understand.
+</p>
+
+<p>Additionally, when hovering over any node in the tree, a text box displays additional information about that node. This is helpful when there are a lot of nodes simultaneously  
+displayed and reading the content becomes difficult. </p>

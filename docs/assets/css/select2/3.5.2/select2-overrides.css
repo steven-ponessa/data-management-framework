@@ -1,0 +1,11 @@
+.select2-container {
+    width: 100% !important;
+}
+
+.select2-search-choice {
+   border: 0px !important;
+   margin-top: 8px !important;
+   background-image: none !important;
+   background-color: #c8e1ff !important;
+   color: #444d56 !important;
+}

@@ -1,0 +1,1088 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>JR/S Collapsible Tree Search</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+  <link href="assets/img/favicon.png" rel="icon">
+  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="assets/vendor/aos/aos.css" rel="stylesheet">
+  <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
+  <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+  <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="assets/vendor/font-awesome-4.7.0/css/font-awesome.min.css">
+
+  <!-- Template Main CSS File -->
+  <link href="assets/css/style.css" rel="stylesheet">
+  
+  <script src="assets/vendor/d3/3.4.13/d3.min.js"></script>
+  <script src="assets/vendor/jquery/jquery-3.3.1.min.js"></script>
+  <script src="assets/vendor/jquery/jquery-ui.min.js" integrity="sha256-eGE6blurk5sHj+rmkfsGYeKyZx3M4bG+ZlFyA7Kns7E=" crossorigin="anonymous"></script>
+
+  <link rel="stylesheet" type="text/css" href="assets/vendor/select2/3.5.2/select2.min.css"></link>
+  <script type="text/javascript" src="assets/vendor/select2/3.5.2/select2.min.js"></script>
+
+  <!-- =======================================================
+  * Template Name: Inner Page
+  * Template URL: https://bootstrapmade.com/flexstart-bootstrap-startup-template/
+  * Author: BootstrapMade.com
+  * License: https://bootstrapmade.com/license/
+  ======================================================== -->
+<style>
+
+.node {
+  cursor: pointer;
+}
+
+.node circle {
+  fill: #fff;
+  stroke: steelblue;
+  stroke-width: 1.5px;
+}
+
+.node text {
+  font: 10px sans-serif;
+}
+
+.link {
+  fill: none;
+  stroke: #ccc;
+  stroke-width: 1.5px;
+}
+
+.found {
+  fill: #ff4136;
+  stroke: #ff4136;
+}
+
+.search {
+  float: left;
+  font: 12px sans-serif;
+  width: 30%;
+}
+
+ul.select2-results {
+ max-height: 100px;
+}
+
+.select2-container,
+.select2-drop,
+.select2-search,
+.select2-search input {
+  font: 12px sans-serif;
+}
+
+#block_container {
+  display: inline;
+}
+
+div.tooltip {
+    position: absolute;
+    text-align: center;
+    padding-right: 10px;
+    padding-left: 18px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    font: 12px sans-serif;
+    background: rgb(211, 226, 255);
+    border: solid 1px #aaa;
+    border-radius: 8px;
+    pointer-events: none;
+}
+
+</style>
+
+<script>
+	let searchCriteriaInput;
+	let searchCriteriaParsedOutput;
+	let evaluatedExpression="";
+	let regexFlags = 'i';
+	let helpStructure;
+	
+	function init() {
+		searchCriteriaInput = $("#id-search-criteria");
+		searchCriteriaParsedOutput = $("#id-search-criteria-parsed-output");
+		
+		/*
+		 * Listener for information button.  When being shown, it retrieves the title
+		 * and content for the information modal based on the key of the information 
+		 * button selected.
+		 */
+		var informationModal = document.getElementById('id-info-modal')
+		informationModal.addEventListener('show.bs.modal', function(event) {
+			// Button that triggered the modal
+			var button = event.relatedTarget
+			// Extract info from data-bs-* attributes
+			var contentId = button.getAttribute('data-bs-content')
+			
+			for (help of helpStructure) {
+				if (help.id==contentId) break;
+			}
+			
+			var modalTitle = informationModal.querySelector('.modal-title')
+			let bodyDiv = document.getElementById('id-info-modal-body')
+
+			modalTitle.textContent = help.title
+			bodyDiv.innerHTML = '<div w3-include-html="'+help.context+'"></div>';
+			/*make an HTTP request using the attribute value as the file name:*/
+			xhttp = new XMLHttpRequest();
+			xhttp.onreadystatechange = function() {
+		        if (this.readyState == 4) {
+		          if (this.status == 200) {bodyDiv.innerHTML = this.responseText;}
+		          if (this.status == 404) {bodyDiv.innerHTML = "Page not found.";}
+		        }
+			}      
+			xhttp.open("GET", window.location.protocol+"//"+window.location.host+help.context, true);
+			xhttp.send();
+		})
+		
+		/*
+		*
+		*/
+		//var tabEl = document.querySelector('button[data-bs-toggle="tab"]') //only returning the Basic tab element
+		var tabBasicEl = document.getElementById('id-nav-basic-tab');
+		tabBasicEl.addEventListener('shown.bs.tab', function (event) {
+		  event.target // newly activated tab
+		  event.relatedTarget // previous active tab
+		  resetTree();
+		  regexFlags = 'i';
+		})
+		var tabAdvancedEl = document.getElementById('id-nav-advanced-tab');
+		tabAdvancedEl.addEventListener('shown.bs.tab', function (event) {
+		  event.target // newly activated tab
+		  event.relatedTarget // previous active tab
+		  resetTree();
+		})
+		var tabRegexEl = document.getElementById('id-nav-regex-tab');
+		tabRegexEl.addEventListener('shown.bs.tab', function (event) {
+		  event.target // newly activated tab
+		  event.relatedTarget // previous active tab
+		  resetTree()
+		})
+	}
+	
+	
+</script>
+</head>
+
+<body onload="init()">
+
+	<!-- could use modal-fullscreen or modal-xl -->
+	<div class="modal fade" id="id-info-modal" tabindex="-1" aria-labelledby="id-info-modalLabel" aria-hidden="true">
+		<div class="modal-dialog  modal-fullscreen">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="id-info-modal-title">New message</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body" id="id-info-modal-body"></div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+  <main id="main">
+    <section style="padding:0px;" class="inner-page">
+      <div class="container-wide">
+      	<p>The graph below is interactive D3 expandable/collapsible tree representing full Job Role / Specialty taxonomy (Brand -> Growth Platform -> Service Line -> Practice -> Service Area -> JR/S). 
+      	Blue circles represent expandable nodes, and the <b>search functions</b> finds and highlight the branch for the selected node. Navigate the tree or select a <b>search type</b> and explore the taxonomy.
+      	Click the information icon to display help/information available
+      	<a class="btn btn-default" href="" aria-label="D3 collapsible tree search" data-bs-toggle="modal" data-bs-target="#id-info-modal" data-bs-content="tree-search"><i class="fa fa-solid fa-info-circle fa-fw" style="color:blue;" title="D3 Collapsible Tree Search Help" aria-hidden="true"></i></a>.</p>
+      	
+		<nav>
+			<div class="nav nav-tabs" id="nav-tab" role="tablist">
+				<button class="nav-link active" id="id-nav-basic-tab" data-bs-toggle="tab" data-bs-target="#nav-basic-tab" type="button" role="tab" aria-controls="nav-basic-tab" aria-selected="true">Basic</button>
+				<button class="nav-link" id="id-nav-advanced-tab" data-bs-toggle="tab" data-bs-target="#nav-advanced-tab" type="button" role="tab" aria-controls="nav-advanced-tab" aria-selected="false">Advanced</button>
+				<button class="nav-link" id="id-nav-regex-tab" data-bs-toggle="tab" data-bs-target="#nav-regex-tab" type="button" role="tab" aria-controls="nav-regex-tab" aria-selected="false">Regular Expression (RegEx)</button>
+			</div>
+		</nav>
+		<div class="tab-content" id="nav-tabContent">
+			<div class="tab-pane fade show active" id="nav-basic-tab" role="tabpanel" aria-labelledby="nav-basic-tab">
+				<div class="form-group row">
+					<label for="Search" class="col-sm-3 col-form-label"><h5>Select or search</h5></label>
+					<div class="col-sm-9">
+						<div class="btn-group" id="id-search-type" data-toggle="buttons">
+							<div class="form-check form-check-inline">
+								<input class="form-check-input" type="radio" name="flexRadioDefault" id="id-search-type-pattern" onchange="setMatchType()" checked=""/> 
+								Pattern match
+							</div>
+							<div class="form-check form-check-inline">
+								<input class="form-check-input" type="radio" name="flexRadioDefault" id="id-search-type-exact" onchange="setMatchType()"> 
+								Exact match
+							</div>
+						</div>
+						<a class="btn btn-default" href="" aria-label="Basic search" data-bs-toggle="modal" data-bs-target="#id-info-modal" data-bs-content="basic"><i class="fa fa-solid fa-info-circle fa-fw" style="color:blue;" title="Basic Search Help" aria-hidden="true"></i></a>
+					</div>
+				</div>		
+				<div id="searchName"></div>	
+			</div>
+			<div class="tab-pane fade" id="nav-advanced-tab" role="tabpanel" aria-labelledby="nav-advanced-tab">
+				<div class="form-group row">
+					<label for="Search" class="col-sm-3 col-form-label"><h5>Enter advanced search criteria</h5></label>
+					<div class="col-sm-3">
+						<div class="btn-group" id="id-search-type" data-toggle="buttons">
+							<div class="form-check form-check-inline">
+								<input class="form-check-input" type="checkbox" value="" id="id-case-sensitive">
+								<label class="form-check-label" for="case-sensitive" >
+									Case sensitive
+								</label>
+							</div>
+						</div>
+						<a class="btn btn-default" href="" aria-label="Advanced search" data-bs-toggle="modal" data-bs-target="#id-info-modal" data-bs-content="adv"><i class="fa fa-info-circle fa-fw" style="color:blue;" title="Advanced Search Help" aria-hidden="true"></i></a>
+					</div>	
+					<div class="col-sm-6">
+						
+					</div>
+				</div>	
+				<input type="text" id="id-search-criteria" name="search-criteria" size="90">
+				<input type="button" value="Search" onclick="javascript:parse()">
+				<p id="id-search-criteria-parsed-output"></p>
+			</div>
+			<div class="tab-pane fade" id="nav-regex-tab" role="tabpanel" aria-labelledby="nav-regex-tab">
+				<div class="form-group row">
+					<label for="RegEx" class="col-sm-3 col-form-label"><h5>Enter regular expression</h5></label>
+					<div class="col-sm-3">
+						<div class="btn-group" id="id-search-regex-type" data-toggle="buttons">
+							<div class="form-check form-check-inline">
+								<input class="form-check-input" type="checkbox" value="" id="id-case-regex-sensitive">
+								<label class="form-check-label" for="case-sensitive">
+									Case sensitive
+								</label>
+							</div>
+						</div>
+						<a class="btn btn-default" href="" aria-label="RegEx search" data-bs-toggle="modal" data-bs-target="#id-info-modal" data-bs-content="regex"><i class="fa fa-solid fa-info-circle fa-fw" style="color:blue;" title="RegEx Search Help" aria-hidden="true"></i></a>
+					</div>	
+					<div class="col-sm-6">
+						
+					</div>
+				</div>	
+				<input type="text" id="id-regex-criteria" name="regex-criteria" size="90">
+				<input type="button" value="Search" onclick="javascript:doRegExSearch()">
+			</div>			
+		</div>
+
+        <div id="block_container">
+		
+<script>
+
+/**
+ * This module displays a d3 tree and enables navigation and search capablities.
+ * It is based on a graph of nodes, in JSON format, that are passed in at run time.
+ * The JSON may contain as many attributes as required but must contain "name" 
+ * (string) and "children" (array of other nodes). Each node may also contain
+ * "code" (string).  For example
+ * 
+ * {
+ * 	 "name": "mlb",
+ * 	 "children": [
+ * 	  {
+ * 	   "name": "American League",
+ *	   "children": [
+ *	    {
+ *	     "name": "East",
+ *	     "children": [
+ *	      {"name": "Yankees", "code": "NY"},
+ *	      {"name": "Bluejays", "code": "Tor"}
+ *	     ]
+ *	    }, ...
+ * 
+ * The d3 node itself looks like:
+ * d.name
+ *  .code
+ *  .parent    (Object, parent d3 object, null if root)
+ *  .children  (Array of children nodes that are displayed. Null if leaf node)
+ *  ._children (Array of children nodes that are NOT displayed. Null if leaf node)
+ * 
+ * The `update()` function draw the d3 tree as an SVG. All tree nodes are 
+ * reprsented as circles. Nodes with hidden children (.children==null && ._children!=null) 
+ * are filled using a light blue color. Expanded (.children!=null) and leaf nodes  
+ * (.children==null && ._children==null) have no fill.  Note, a node that has been
+ * "found" using one of the search functions will be identified by the class value 
+ * "found" and have a fill color of red.
+ */
+
+/**=========================================================================
+ * function recursively pushes every node (in JSON tree) id and name into 
+ * the global data structure select2Tax at the level where the node exists.
+ * 
+ * @author  Steven J. Ponessa
+ * @parm    Node (must be d3 compliant containing id and text)
+ * @returns void
+ */
+function select2TaxCollectName(d, level) {
+    if (d.children)
+        d.children.forEach(item => select2TaxCollectName(item, level+1));
+    else if (d._children)
+        d._children.forEach(item => select2TaxCollectName(item, level+1));
+    select2Tax[level].children.push({
+        "id": d.code,
+        "text": d.name
+    });
+}
+
+/**=========================================================================
+ * function recursively pushes every node (in JSON tree) name into 
+ * the global data structure select2Data 
+ * 
+ * @author  Steven J. Ponessa
+ * @parm    Node (must be d3 compliant containing name)
+ * @returns void
+ */
+function select2DataCollectName(d) {
+    if (d.children)
+        d.children.forEach(select2DataCollectName);
+    else if (d._children)
+        d._children.forEach(select2DataCollectName);
+    select2Data.push(d.name);
+}
+
+/**=========================================================================
+ * function recursively searches d3 tree based on the name contained in the 
+ * search field. The search can either be based on an exact match or a 
+ * RegEx pattern (i.e., containing).  If a node is found it sets the found
+ * node and each of the found node's ancestors (baased on the node's parent
+ * attribute) with the class name "found".  This class name is used by
+ * the `update()` function to set set all nodes and leading arcs as red.
+ * 
+ * @author  Steven J. Ponessa
+ * @parm    d3 node
+ * @returns void
+ */
+function searchTree(d) {
+    if (d.children)
+        d.children.forEach(searchTree);
+    else if (d._children)
+        d._children.forEach(searchTree);
+    var searchFieldValue = eval(searchField);
+    
+    var criterias = [];
+    if (Array.isArray(searchText))
+    	criterias = searchText;
+    else
+    	criterias.push(searchText);
+    	
+    for (criteria of criterias) {
+    	
+    	let theCriteria, theMatchType;
+    	if (criteria.text) {
+    		theCriteria = criteria.text;
+    		theMatchType = matchType;
+    	}
+    	else {
+    		theCriteria = criteria;
+    		theMatchType = 0;
+    	}
+    	
+	    const regEx = new RegExp(theCriteria, regexFlags);
+	    if (searchFieldValue && 
+	        	(theMatchType==0 && regEx.test(searchFieldValue)    ||
+	        	 theMatchType==1 && searchFieldValue==criteria.text )
+	        	 ) {
+	            // Walk parent chain
+	            var ancestors = [];
+	            var parent = d;
+	            while (typeof(parent) !== "undefined") {
+	                ancestors.push(parent);
+					//console.log(parent);
+	                parent.class = "found";
+	                parent = parent.parent;
+	            }
+		    	//console.log(ancestors);
+	    }
+    }
+}
+
+/**=========================================================================
+ * function recursively clears all class names for all nodes in the tree
+ * 
+ * @author  Steven J. Ponessa
+ * @parm    d3 node
+ * @returns void
+ */
+function clearAll(d) {
+    d.class = "";
+    if (d.children)
+        d.children.forEach(clearAll);
+    else if (d._children)
+        d._children.forEach(clearAll);
+}
+
+/**=========================================================================
+ * function recursively collapses the node and all children branches (using 
+ * recursion). 
+ * 
+ * @author  Steven J. Ponessa
+ * @parm    d3 node
+ * @returns void
+ */
+function collapse(d) {
+    if (d.children) {
+        d._children = d.children;
+        d._children.forEach(collapse);
+        d.children = null;
+    }
+}
+
+/**=========================================================================
+ * function recursively collapse all nodes that where not "found" (i.e., 
+ * have the class name of "found".
+ * 
+ * @author  Steven J. Ponessa
+ * @parm    d3 node
+ * @returns void
+ */
+function collapseAllNotFound(d) {
+    if (d.children) {
+    	if (d.class !== "found") {
+        	d._children = d.children;
+        	d._children.forEach(collapseAllNotFound);
+        	d.children = null;
+	} else 
+        	d.children.forEach(collapseAllNotFound);
+    }
+}
+
+/**=========================================================================
+ * function recursively expand the node and all children branches (using 
+ * recursion). 
+ * 
+ * @author  Steven J. Ponessa
+ * @parm    d3 node
+ * @returns void
+ */
+function expandAll(d) {
+    if (d._children) {
+        d.children = d._children;
+        d.children.forEach(expandAll);
+        d._children = null;
+    } else if (d.children)
+        d.children.forEach(expandAll);
+}
+
+/**=========================================================================
+ * function toggle children on click. This is performed by simply swapping
+ * the .children (expanded/displayed) and ._children (collapsed/hidden)
+ * attribute values and setting the other to null.
+ * 
+ * @author  Steven J. Ponessa
+ * @parm    d3 node
+ * @returns void
+ */
+function toggle(d) {
+	
+	if (d.depth==5) {
+		return;
+	}
+	if (d.children) {
+		d._children = d.children;
+		d.children = null;
+	} 
+	else {
+    	d.children = d._children;
+    	d._children = null;
+  	}
+	clearAll(root);
+	update(d);
+	$("#searchName").select2("val", "");
+}
+
+/**=========================================================================
+ * function show the node's tooltip popup panel
+ * 
+ * @author  Steven J. Ponessa
+ * @returns void
+ */
+function mouseover() {
+    tooltipDiv.transition()
+    .duration(300)
+    .style("opacity", 1);
+}
+
+/**=========================================================================
+ * function Position and, as necessary, populate, the node's tooltip popup panel. 
+ * The panel will contain the code (if applicable) and descrition of the node.
+ *
+ * When the user mouses over a leaf node (`d.level=5`) the function displays a full 
+ * description, retrieved from an API call, using a Lazy Load design pattern. By 
+ * default the popup panel shows 'Loading description...'. When the function recognizes 
+ * the that the mouseover event is over a leaf node and the description is the literal 
+ * 'Loading description...', it calls an API to retrieve the appropriate description 
+ * for the leaf node and populates the tooltip description with the returned results.
+ *
+ * By replacing the description, the API is called only the first time the user mouses 
+ * over the leaf node (i.e., Lazy load).
+ * 
+ * @author  Steven J. Ponessa
+ * @parm    d3 node
+ * @returns void
+ */
+function mousemove(d) {
+	let popupTxt='';
+	if (typeof(d.code) !== "undefined") popupTxt = '('+d.code+') ';
+	popupTxt+=d.name;
+	
+	if (d.depth==5) {
+		popupTxt = "<p style='text-align:left;'><b>"+popupTxt+"</b><br/><b>Comp Grd Lst</b>: "+d.compGrdLst+"</p>";
+		if (d.description) {
+			popupTxt+="<p style='text-align:left;' id='id-popup-"+d.code+"'>"+d.description+"</p>";
+		}
+		else {	
+			
+			if (currentD && currentD.code && (currentD.code == d.code)) {}
+			else {
+				currentD = d;
+				popupTxt+="<p style='text-align:left;' id='id-popup-"+d.code+"'>Loading description...</p>";
+			
+				const url = window.location.protocol+"//"+window.location.host+'/api/v1/eds-ut-jrs-tax/jrs-descriptions/'+d.code;
+	
+				const request = new XMLHttpRequest();
+				request.open('GET', url, true);
+	
+				request.onload = function() {
+				  if (request.status === 200) {
+					  const respJson = JSON.parse(request.responseText);
+					  
+					  //let popupEl = document.getElementById("id-popup-"+respJson[0].jrsCd);
+					  //popupEl.innerHTML=respJson[0].jrsDesc;
+					  popupTxt="<p style='text-align:left;'><b>";
+					  if (typeof(d.code) !== "undefined") popupTxt+='('+d.code+') ';
+					  popupTxt+=d.name;
+					  popupTxt+="<br/>Comp Grd Lst</b>: "+d.compGrdLst+"</p><p style='text-align:left;'>"+respJson[0].jrsDesc+"</p>";
+					  tooltipDiv.html( popupTxt );
+					  
+					  currentD.description = respJson[0].jrsDesc;
+					  return;
+				  }
+				  else {
+					  console.error('data-bs-content','Could not retrieve job role description.');
+				  }
+				}
+				
+				request.onerror = function() {
+					console.error('An error occurred fetching the JSON from ' + url);
+					$(this).attr('data-bs-content','Could not retrieve job role description.');
+				};
+	
+				request.send();
+			}
+		}
+	}
+	
+	tooltipDiv
+    .html( popupTxt )
+    .style("left", (d3.event.pageX ) + "px")
+    .style("top", (d3.event.pageY) + "px");
+	
+}
+
+/**=========================================================================
+ * function hide the node's tooltip popup panel
+ * 
+ * @author  Steven J. Ponessa
+ * @returns void
+ */
+function mouseout() {
+	tooltipDiv.transition()
+    .duration(300)
+    .style("opacity", 1e-6);
+}
+
+/**=========================================================================
+ * function set the global `matchType` variable when match type radio button
+ * changes.
+ * 
+ * @author  Steven J. Ponessa
+ * @returns void
+ */
+function setMatchType() {
+	var patternMatch = document.getElementById("id-search-type-pattern");
+	
+	if (patternMatch.checked) matchType = 0;
+	else matchType = 1;
+	
+	//TO-DO invoke on "select2-selecting" function
+
+	invokeSearch();
+}
+
+/**=========================================================================
+ * Anonymous function invoked when select2 option selected
+ * select2-selecting Fired when a choice is being selected in the dropdown, 
+ * but before any modification has been made to the selection. This event is 
+ * used to allow the user to reject selection by calling event.preventDefault()
+ * 
+ * @author  Steven J. Ponessa
+ * @parm    event
+ * @returns void
+ */
+$("#searchName").on("select2-selecting", function(e) {
+    clearAll(root);
+    expandAll(root);
+    update(root);
+
+    searchField = "d.name";
+    
+    var data = $("#searchName").select2("data");
+    if (Array.isArray(data))
+    	data.push(e.object);
+    else
+		data = e.object.text;
+    
+    //searchText = e.object.text;
+    searchText = data;
+    
+    searchTree(root);
+    root.children.forEach(collapseAllNotFound);
+    update(root);
+    //invokeSearch("d.name", e.object.text)
+})
+
+
+$("#searchName").on("select2-removed", function(e) {
+    invokeSearch();
+})
+
+/**=========================================================================
+ * function resets the tree to its initial state by calling, with the global 
+ * d3 tree `root` node:
+ * - clearAll(root);
+ * - collapse(root);
+ * - toggle(root);
+ * - update(root);
+ *
+ * @author  Steven J. Ponessa
+ * @returns void
+ */
+function resetTree() {
+	$('#searchName').val(null).trigger('change');
+	
+	clearAll(root);
+	collapse(root);
+	toggle(root);
+	update(root);
+}
+
+/**=========================================================================
+ * function clears the basic search tab
+ *
+ * @author  Steven J. Ponessa
+ * @returns void
+ */
+function clearBasic() {
+	$('#searchName').val(null).trigger('change');
+}
+
+/**=========================================================================
+ * function invoked when select2 option selected.  The function 
+ *  - Retrieves the search criteria from the `select2` control
+ *  - Resets the tree (`clearAll()`, `expandAll()`, `update()`)
+ *  - Set the global `searchField` and `searchText` variables
+ *  - Calls `searchTree(root)` - to mark found nodes and lineage to these nodes
+ *  - Loop through tree and call `collaseAllNotFound()`
+ *  - Call `update(root)` to update the tree to expose found nodes
+ * 
+ * @author  Steven J. Ponessa
+ * @parm    event
+ * @returns void
+ */
+function invokeSearch() {
+	var datum = $("#searchName").select2("data");
+	//Note, in 4.0 and higher it would be data[0].text (allows for multiselect)
+
+	clearAll(root);
+	expandAll(root);
+	update(root);
+	searchField = "d.name";
+	searchText = datum; //data.text;
+	
+	searchTree(root);
+    root.children.forEach(collapseAllNotFound);
+    update(root);
+}
+
+/**=========================================================================
+ * function invoked when the submit button clicked from the Regular Expression Tab. 
+ * If... TO-DO complete
+ * 
+ * @author  Steven J. Ponessa
+ * @parm    event
+ * @returns void
+ */
+function doRegExSearch() {
+	let  searchCriteriaElement = document.getElementById('id-regex-criteria');
+	let searchCriteria = searchCriteriaElement.value;
+	
+	caseSensitiveEl = document.getElementById('id-case-regex-sensitive');
+	if (caseSensitiveEl && caseSensitiveEl.checked) regexFlags='';
+	else regexFlags='i';
+	
+	doSearch(searchCriteria);
+}
+
+/**=========================================================================
+ * function ... TO-DO complete
+ * 
+ * @author  Steven J. Ponessa
+ * @parm    event
+ * @returns void
+ */
+function doSearch(searchCriteria, flags) {
+	if (searchCriteria) {
+	    clearAll(root);
+	    expandAll(root);
+	    update(root);
+
+	    searchField = "d.name";
+	    searchText = searchCriteria;
+	    
+	    searchTree(root);
+	    
+	    root.children.forEach(collapseAllNotFound);
+	    update(root);
+	}
+	else {
+		resetTree();
+	}
+}
+
+/**=========================================================================
+ * Set up global varialbe, tree initial size and offset and build tree
+ * 
+ * @author  Steven J. Ponessa
+ */
+var matchType = 0;	
+	
+var margin = {top: 00, right: 90, bottom: 00, left: 120},
+    width = 1720 - margin.right - margin.left,
+    height = 800 - margin.top - margin.bottom
+    nodeSpacing = 210;
+    
+var i = 0,
+    duration = 750,
+    root,
+    currentD;
+
+var tree = d3.layout.tree()
+    .size([height, width]);
+    
+//Add tooltip div
+var tooltipDiv = d3.select("body").append("div")
+    .attr("class", "tooltip")
+    .style("opacity", 1e-6); 
+
+/*
+var tooltipDiv = document.createElement("div");
+tooltipDiv.setAttribute("class", "tooltip");
+tooltipDiv.style.opacity = 1e-6;
+*/
+
+var diagonal = d3.svg.diagonal()
+    .projection(function(d) { return [d.y, d.x]; });
+
+var svg = d3.select("body").append("svg")
+    .attr("width", width + margin.right + margin.left)
+    .attr("height", height + margin.top + margin.bottom)
+    .append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+/**=========================================================================
+ * Begin tree build process using d3.json to read the JSON structure and 
+ * invoke anonymous function with the Json structure.
+ * 
+ * @author  Steven J. Ponessa
+ * @parm    error (structure when an error reading JSON)
+ * @parm    tax (the JSON taxonomy)
+ * @returns void
+ */
+d3.json("data/jrss.json", function(error, tax) {
+	root = tax;
+	root.x0 = height / 2;
+	root.y0 = 0;
+  
+	select2Data = [];
+	select2DataCollectName(root); //push all node text to select2Data[]
+	select2DataObject = [];
+	select2Data.sort(function(a, b) {
+            if (a > b) return 1; // sort
+            if (a < b) return -1;
+            return 0;
+        })
+        .filter(function(item, i, ar) {
+            return ar.indexOf(item) === i;
+        }) // remove duplicate items
+        .filter(function(item, i, ar) {
+            select2DataObject.push({
+                "id": i,
+                "text": item
+            });
+	});
+
+	select2Tax = [ {"text":"Brands", "children":[]},
+	  {"text": "Growth Platforms", "children":[]},
+	  {"text": "Service Lines", "children":[]},
+	  {"text": "Practices", "children":[]},
+	  {"text": "Service Areas", "children":[]},
+	  {"text": "Job Role-Specialties", "children":[]}
+	];
+	select2TaxCollectName(root,0);
+  
+	select2Tax.forEach(itm => itm.children.sort(function(a, b) {
+            if (a.text > b.text) return 1; // sort
+            if (a.text < b.text) return -1;
+            return 0;
+        })
+	);
+  
+    //Get the select2 search element (#searchName) and assign it
+    // the data (select2Tax for taxonomy or select2DataObject plain)
+    // and set the CSS class. 
+	// data: select2DataObject, when not using taxonomy
+	$("#searchName").select2({
+		data: select2Tax,
+		containerCssClass: "search",
+		multiple: "multiple"
+	});
+
+	function collapse(d) {
+		if (d.children) {
+			d._children = d.children;
+			d._children.forEach(collapse);
+			d.children = null;
+		}
+	}
+
+	root.children.forEach(collapse);
+	update(root);
+  
+});
+
+d3.select(self.frameElement).style("height", "800px");
+
+/**=========================================================================
+ * function draws the tree. The d3.tree layout implements the Reingold-Tilford
+ * algorithm for efficient, tidy arrangement of layered nodes. 
+ * See https://reingold.co/tidier-drawings.pdf
+ * 
+ * @author  Steven J. Ponessa
+ * @parm    d3 node (root)
+ * @returns void
+ */
+function update(source) {
+
+	// Compute the new tree layout.
+	var nodes = tree.nodes(root).reverse(),
+	    links = tree.links(nodes);
+
+	// Normalize for fixed-depth. Assign y vaalue of each based on the depth of the node
+	nodes.forEach(function(d) { d.y = d.depth * nodeSpacing; });
+
+	// Update the nodes…
+	var node = svg.selectAll("g.node")
+		.data(nodes, function(d) { return d.id || (d.id = ++i); });
+
+	// Enter any new nodes at the parent's previous position.
+	var nodeEnter = node.enter().append("g")
+      .attr("class", "node")
+      .attr("transform", function(d) { return "translate(" + source.y0 + "," + source.x0 + ")"; })
+	  .on("mouseover", mouseover)
+	  .on("mousemove", function(d){mousemove(d);})
+	  .on("mouseout", mouseout)
+      .on("click", toggle);
+
+	//note - recall that ._children means collasped (i.e., expandable) node
+	nodeEnter.append("circle")
+      .attr("r", 1e-6)
+      .style("fill", function(d) { return d._children ? "lightsteelblue" : "#fff"; });
+
+	nodeEnter.append("text")
+      .attr("x", function(d) { return d.children || d._children ? -10 : 10; })
+      .attr("dy", ".35em")
+      .attr("text-anchor", function(d) { return d.children || d._children ? "end" : "start"; })
+      .text(function(d) { return d.name; })
+      .style("fill-opacity", 1e-6);
+
+	// Transition nodes to their new position.
+	var nodeUpdate = node.transition()
+      .duration(duration)
+      .attr("transform", function(d) { return "translate(" + d.y + "," + d.x + ")"; });
+
+	nodeUpdate.select("circle")
+      .attr("r", 4.5)
+      .style("fill", function(d) {
+            if (d.class === "found") {
+                return "#ff4136"; //red
+            } else if (d._children) {
+                return "lightsteelblue";
+            } else {
+                return "#fff";
+            }
+        })
+        .style("stroke", function(d) {
+            if (d.class === "found") {
+                return "#ff4136"; //red
+            }
+        });
+
+	nodeUpdate.select("text")
+      .style("fill-opacity", 1);
+
+	// Transition exiting nodes to the parent's new position.
+	var nodeExit = node.exit().transition()
+      .duration(duration)
+      .attr("transform", function(d) { return "translate(" + source.y + "," + source.x + ")"; })
+      .remove();
+
+	nodeExit.select("circle")
+      .attr("r", 1e-6);
+
+	nodeExit.select("text")
+      .style("fill-opacity", 1e-6);
+
+	// Update the links…
+	var link = svg.selectAll("path.link")
+      .data(links, function(d) { return d.target.id; });
+
+	// Enter any new links at the parent's previous position.
+	link.enter().insert("path", "g")
+      .attr("class", "link")
+      .attr("d", function(d) {
+        var o = {x: source.x0, y: source.y0};
+        return diagonal({source: o, target: o});
+      });
+
+	// Transition links to their new position.
+	link.transition()
+      .duration(duration)
+      .attr("d", diagonal)
+      .style("stroke", function(d) {
+            if (d.target.class === "found") {
+                return "#ff4136";
+            }
+        });
+
+	// Transition exiting nodes to the parent's new position.
+	link.exit().transition()
+      .duration(duration)
+      .attr("d", function(d) {
+        var o = {x: source.x, y: source.y};
+        return diagonal({source: o, target: o});
+      })
+      .remove();
+
+	// Stash the old positions for transition.
+	nodes.forEach(function(d) {
+    	d.x0 = d.x;
+    	d.y0 = d.y;
+	});
+}
+
+function evaluateBinaryExpression(obj) {
+	evaluatedExpression+='(';
+	evaluateTreeBasic(obj.left);
+	if (obj.operator=='|') evaluatedExpression+=obj.operator
+	evaluateTreeBasic(obj.right);
+	evaluatedExpression+=')';
+}
+
+function evaluateLiteral(obj) {
+	evaluatedExpression+= '(?=.*'+obj.value.replaceAll('~','\\b')+')';
+}
+
+function evaluateIdentifier(obj) {
+	evaluatedExpression+= '(?=.*'+obj.name.replaceAll('~','\\b')+')';
+}
+
+function evaluateTreeBasic(obj) {
+	if (obj.type == 'BinaryExpression') {
+		evaluateBinaryExpression(obj);
+	}
+	else if (obj.type == 'Literal') {
+		evaluateLiteral(obj);
+	}
+	else if (obj.type == 'Identifier')  {
+		evaluateIdentifier(obj);
+	}
+	else {
+		throw('Unknown token type: '+obj.type);
+		console.log('xUnknown token type: '+obj.type)
+	}
+
+};
+
+function parse() {
+	var expr = searchCriteriaInput.val();
+	if (expr=="") {
+		searchCriteriaParsedOutput.text("");
+		resetTree();
+		return;
+	}
+	var tree = false;
+	try {
+		tree = jsep(expr);
+		searchCriteriaParsedOutput.removeClass("text-danger");
+		
+		evaluatedExpression="";
+		evaluateTreeBasic(tree);
+		searchCriteriaParsedOutput.text('Compiled RegEx expression: '+evaluatedExpression);
+		
+		caseSensitiveEl = document.getElementById('id-case-sensitive');
+		if (caseSensitiveEl && caseSensitiveEl.checked) regexFlags='';
+		else regexFlags='i';
+		
+		doSearch(evaluatedExpression);
+		
+	} catch(e) {
+		console.log(e.message);
+		searchCriteriaParsedOutput.addClass("text-danger");
+		searchCriteriaParsedOutput.text(e.message);
+	}
+}
+
+d3.json("data/helpContent.json", function(error, helpText) {
+	helpStructure = helpText;
+});
+
+</script>	
+		</div>
+      </div>
+    </section>
+
+  </main><!-- End #main -->
+
+	<!-- Vendor JS Files -->
+	<script src="assets/vendor/bootstrap/js/bootstrap.bundle.js"></script>
+	<script src="assets/vendor/aos/aos.js"></script>
+	<script src="assets/vendor/php-email-form/validate.js"></script>
+	<script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
+	<script src="assets/vendor/purecounter/purecounter.js"></script>
+	<script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+	<script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
+	<script type="text/javascript" src="assets/vendor/jsep/jsep.js"></script>
+
+	<!-- Template Main JS File -->
+	<script src="assets/js/main.js"></script>
+	
+	<script type="text/javascript">
+		$("#id-info-modal").draggable({
+			handle: ".modal-header"
+		});
+	</script>
+
+</body>
+
+</html>

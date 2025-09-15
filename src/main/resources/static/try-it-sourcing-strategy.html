@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+<title>Try it - Sourcing Strategy</title>
+<meta content="" name="description">
+<meta content="" name="keywords">
+
+<!-- Favicons -->
+<link href="assets/img/favicon.png" rel="icon">
+<link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+<!-- Vendor CSS Files -->
+<link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+<link href="assets/vendor/aos/aos.css" rel="stylesheet">
+<link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
+<link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+<link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+
+<!-- Template Main CSS File -->
+<link href="assets/css/style.css" rel="stylesheet">
+
+<!-- =======================================================
+  * Template Name: FlexStart - v1.4.0
+  * Template URL: https://bootstrapmade.com/flexstart-bootstrap-startup-template/
+  * Author: BootstrapMade.com
+  * License: https://bootstrapmade.com/license/
+  ======================================================== -->
+<style>
+.w3-container, .w3-panel {
+	padding: 0.01em 16px;
+}
+
+.w3-border-blue, .w3-hover-border-blue:hover {
+	border-color: #2196F3 !important;
+}
+
+.w3-pale-blue, .w3-hover-pale-blue:hover {
+	color: #000 !important;
+	background-color: #ddffff !important;
+}
+
+.w3-pale-grey, .w3-hover-pale-blue:hover {
+	color: #000 !important;
+	background-color: #ccc !important;
+}
+
+.w3-leftbar {
+	border-left: 6px solid #ccc !important;
+}
+
+.w3-border {
+	border: 1px solid #ccc !important;
+}
+
+.ss-form {
+	margin: 20px;
+}
+
+.alert-dismissible .close {
+	position: absolute;
+	top: 0;
+	right: 0;
+	z-index: 2;
+	padding: .75rem 1.25rem;
+	color: inherit;
+}
+
+button.close {
+	padding: 0;
+	background-color: transparent;
+	border: 0;
+}
+
+.close {
+	float: right;
+	font-size: 1.5rem;
+	font-weight: 700;
+	line-height: 1;
+	color: #000;
+	text-shadow: 0 1px 0 #fff;
+	opacity: .5;
+}
+
+.list-group {
+	max-height: 300px;
+	margin-bottom: 10px;
+	overflow: scroll;
+	-webkit-overflow-scrolling: touch;
+}
+</style>
+
+<script>
+
+	let geoTypCd = 'DOM'
+	let ctryIsoCd = null
+	let mrktCd = null
+	let geoCd = null
+	let jrsCd = null
+	let apiCnt=0;
+	
+	let primaryWorkLocation = null
+	let language = null
+	let timeOverlap = null
+	
+	function init() {
+	    // Define the global variable
+	    let geoTypCd = "DOM";
+
+	    // Define the dropdown options
+	    const geoTypes = [
+	        { "key": "BPOD", "value": "Business Process Operations Delivery" },
+	        { "key": "CCSGD", "value": "Cybersecurity Services" },
+	        { "key": "DOM", "value": "Domestic" },
+	        { "key": "GIC", "value": "Globally Integrated Capabilities" }
+	    ];
+
+	    // Reference to the select element
+	    const selectElement = document.getElementById("geoTypeSelect");
+
+	    // Populate the dropdown
+	    geoTypes.forEach(item => {
+	        let option = document.createElement("option");
+	        option.value = item.key;
+	        option.textContent = item.value;
+	        if (item.key === "DOM") {
+	            option.selected = true;
+	        }
+	        selectElement.appendChild(option);
+	    });
+
+	    // Event listener to update global variable on change
+	    selectElement.addEventListener("change", function () {
+	        geoTypCd = this.value;
+	        console.log("Selected geoTypCd:", geoTypCd);
+	    });
+		
+		
+		//Get Countries
+		let  dropdown = document.getElementById('locality-dropdown');
+		dropdown.length = 0;
+		let  pwlDropdown = document.getElementById('pwl-dropdown');
+		pwlDropdown.length = 0;
+
+		let defaultOption = document.createElement('option');
+		defaultOption.text = 'Choose Country';
+		
+		dropdown.add(defaultOption);
+		dropdown.selectedIndex = 0;
+		
+		let pwlOption = document.createElement('option');
+		pwlOption.text = 'Choose primary work location';
+		
+		pwlDropdown.add(pwlOption);
+		pwlDropdown.selectedIndex = 0;
+
+		const url = window.location.protocol+"//"+window.location.host+'/api/v1/eds-country-tax/countries?orderByCols=CTRY_NM';
+	
+		addToList('id_api_list',url);
+
+		const request = new XMLHttpRequest();
+		request.open('GET', url, true);
+
+		request.onload = function() {
+		  if (request.status === 200) {
+		    const data = JSON.parse(request.responseText);
+		    let option;
+		    let pwlOption
+		    for (let i = 0; i < data.length; i++) {
+		      option = document.createElement('option');
+		      option.text = data[i].ctryNm;
+		      option.value = data[i].ctryIsoCd;
+		      dropdown.add(option);
+		      if (data[i].ctryIsoCd=='897') {
+		    	  option = document.createElement('option');
+			      option.text = 'US Federal';
+			      option.value = '897F';
+			      dropdown.add(option);
+		      }
+		      pwlOption = document.createElement('option');
+		      pwlOption.text = data[i].ctryNm;
+		      pwlOption.value = data[i].ctryIsoCd;
+		      pwlDropdown.add(pwlOption);
+		    }
+		    initJobRole()
+		   } else {
+		    	// Reached the server, but it returned an error
+			   console.error('An error occured ${request.status} - ${request.statusText}');
+		  }   
+		}
+
+		request.onerror = function() {
+		  console.error('An error occurred fetching the JSON from ' + url);
+		};
+
+		request.send();
+	}
+	
+	function dynamicDeliveryUpdated() {
+		let ddCheckbox1 = document.getElementById('ddCbx1');
+		let dynamicDeliveryExtras = document.getElementById('dynamicDeliveryExtras');
+		if (ddCheckbox1.checked) {
+			dynamicDeliveryExtras.classList.remove('collapse'); 
+			dynamicDeliveryExtras.classList.add('collapse in'); 
+		}
+		else {
+			dynamicDeliveryExtras.classList.remove('collapse'); 
+			dynamicDeliveryExtras.classList.remove('in');
+			dynamicDeliveryExtras.classList.add('collapse'); 
+		}
+		
+	}
+	
+	function initJobRole() {
+		//Get Job Roles
+		let  jrDd = document.getElementById('job-role-dropdown');
+		jrDd.length = 0;
+
+		let defaultOption2 = document.createElement('option');
+		defaultOption2.text = 'Choose Job Role';
+
+		jrDd.add(defaultOption2);
+		jrDd.selectedIndex = 0;
+
+		const url2 = window.location.protocol+"//"+window.location.host+'/api/v1/eds-ut-jrs-tax/job-roles';
+		addToList('id_api_list',url2);
+
+		const request2 = new XMLHttpRequest();
+		request2.open('GET', url2, true);
+
+		request2.onload = function() {
+		  if (request2.status === 200) {
+		    const data = JSON.parse(request2.responseText);
+		    let option;
+		    for (let i = 0; i < data.length; i++) {
+		      option = document.createElement('option');
+		      option.text = data[i].jobRoleNm;
+		      option.value = data[i].jobRoleCd;
+		      jrDd.add(option);
+		    }
+		   } else {
+		    // Reached the server, but it returned an error
+		  }   
+		}
+
+		request2.onerror = function() {
+		  console.error('An error occurred fetching the JSON from ' + url);
+		};
+
+		request2.send();
+	}
+	
+	function jobRoleUpdated() {
+		jrsCd = null
+		let  dropdown = document.getElementById('job-role-dropdown');
+		initSpecialty(dropdown.value)
+	}
+	
+	function initSpecialty(jobRoleCd) {
+		//Get Specialties for Job Role
+		let  specialtyDd = document.getElementById('specialty-dropdown');
+		specialtyDd.length = 0;
+
+		let defaultOption2 = document.createElement('option');
+		defaultOption2.text = 'Choose Specialty';
+
+		specialtyDd.add(defaultOption2);
+		specialtyDd.selectedIndex = 0;
+
+		const url2 = window.location.protocol+"//"+window.location.host+"/api/v1/eds-ut-jrs-tax/job-roles/"+jobRoleCd.trim()+"/specialties";
+		addToList('id_api_list',url2);
+
+		const request2 = new XMLHttpRequest();
+		request2.open('GET', url2, true);
+
+		request2.onload = function() {
+		  if (request2.status === 200) {
+		    const data = JSON.parse(request2.responseText);
+		    //let list = data[0].children[0].children[0].children[0].children[0].children
+		    let option;
+		    for (let i = 0; i < data.length; i++) {
+		      option = document.createElement('option');
+		      option.text = data[i].specialtyNm;
+		      option.value = data[i].specialtyCd;
+		      specialtyDd.add(option);
+		    }
+		   } else {
+		    // Reached the server, but it returned an error
+		  }   
+		}
+
+		request2.onerror = function() {
+		  console.error('An error occurred fetching the JSON from ' + url);
+		};
+
+		request2.send();
+	}
+	
+	
+	function specialtyUpdated() {
+		let  jrDd = document.getElementById('job-role-dropdown');
+		let  specitlyDd = document.getElementById('specialty-dropdown');
+		let jrs = document.getElementById('jrs-id');
+		jrs.innerHTML ="<b>JR/S id:</b> "+jrDd.value.trim()+"-"+specitlyDd.value.trim()
+		jrsCd = jrDd.value.trim()+"-"+specitlyDd.value.trim()
+		
+	}
+	
+	function contractCtryUpdated() {
+		let  dropdown = document.getElementById('locality-dropdown');
+		
+		if (dropdown.value.startsWith("897")) {
+			geoCd = 'AM'
+			mrktCd = '4V'
+			mrktNm = 'US Commercial'
+			ctryIsoCd = '897'
+			if (dropdown.value = '897F') {
+				mrktCd = '4F'
+				mrktNm = 'US Federal'
+			}
+			let geo = document.getElementById('geo-market-id');
+			//Geography: Americas (AM)     Market: NA (4V)     Country code: 897
+			geo.innerHTML = "<b>Geography:</b> Americas ("+geoCd+")&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Market:</b> "
+            +mrktNm+" ("+mrktCd+")&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Country code:</b> 897"
+
+			return
+		}
+		else {
+		
+			const url = window.location.protocol+"//"+window.location.host+'/api/v1/eds-country-tax/countries/'+dropdown.value+'?includeParentage=true';
+			addToList('id_api_list',url);
+	
+			const request = new XMLHttpRequest();
+			request.open('GET', url, true);
+	
+			request.onload = function() {
+			  if (request.status === 200) {
+			    const wwTop = JSON.parse(request.responseText);
+			    const data = wwTop[0].children;
+			    let geo = document.getElementById('geo-market-id');
+			    geo.innerHTML = "<b>Geography:</b> "+data[0].geoDesc.trim()+" ("+data[0].geoCd.trim()+")&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Market:</b> "
+			             +data[0].children[0].mrktNm.trim()+" ("+data[0].children[0].mrktCd.trim()+")&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Country code:</b> "
+			            		 + data[0].children[0].children[0].children[0].ctryIsoCd.trim()
+			    geoCd = data[0].geoDesc.trim()
+			    mrktCd = data[0].children[0].mrktCd.trim()
+			    ctryIsoCd = data[0].children[0].children[0].children[0].ctryIsoCd.trim()
+			   } else {
+			    // Reached the server, but it returned an error
+			  }   
+			}
+	
+			request.onerror = function() {
+			  console.error('An error occurred fetching the JSON from ' + url);
+			};
+	
+			request.send();
+		}
+	}
+	
+	function pwlUpdated() {
+		primaryWorkLocation = document.getElementById('pwl-dropdown').value;  
+	}
+	
+	function languageUpdated() {
+		language = document.getElementById('language-dropdown').value;  
+	}
+	
+	function timeOverlapUpdated() {
+		timeOverlap = document.getElementById('time-overlap-dropdown').value;
+	}
+	
+	const api2TableNew = async () => {
+		const response = fetch('http://localhost:8080/api/v1/sec-Football/pit?pit=2021-06-29-00.00.00.0', {
+		    method: 'GET',
+		    headers: {
+		      'Content-Type': 'application/json'
+		    }
+		  });
+		  const returnedJson = await response.json(); //extract JSON from the http response
+		  createTableFromJson(returnedJson);
+		}
+	
+	function displayNotes() {
+		var rbSec = document.getElementById("rbSec");
+		if (rbSec.checked) {
+			document.getElementById("secNotes").style.display = "block";
+			document.getElementById("accNotes").style.display = "none";
+		}
+		else {
+			document.getElementById("secNotes").style.display = "none";
+			document.getElementById("accNotes").style.display = "block";
+		}		
+	}
+	
+	function hideMsg() {
+		let uiMsg = document.getElementById("msg")
+		let msgLine = document.getElementById("msg-line")
+		uiMsg.innerHTML = ""
+		msgLine.classList.remove('show'); 
+	}
+	
+	function sourcingStrategyLookup() {
+		let uiMsg = document.getElementById("msg")
+		let msgLine = document.getElementById("msg-line")
+		uiMsg.innerHTML = ""
+		msgLine.classList.remove('show'); 
+		let msg="<b>Errors Detected: </b>"
+		let errorCnt=0
+		if (geoCd==null || mrktCd==null || ctryIsoCd==null) {
+			msg+=" "+ ++errorCnt + ". Contract Owner Country must be specified."
+		}
+		if (jrsCd==null) {
+			msg+=" "+ ++errorCnt + ". Job Role and Specialty must be specified."
+		}
+		
+		if (errorCnt>0) {
+			uiMsg.innerHTML = msg
+			msgLine.classList.remove('alert-warning');
+			msgLine.classList.remove('alert-success'); 
+			msgLine.classList.remove('alert-danger'); 
+			msgLine.classList.remove('show');
+			msgLine.classList.add('alert-danger'); 
+			msgLine.classList.add('show'); 
+		}
+		else {
+			uiMsg.innerHTML = ""
+				msgLine.classList.remove('alert-warning');
+			msgLine.classList.remove('alert-success'); 
+			msgLine.classList.remove('alert-danger'); 
+			msgLine.classList.remove('show');	
+
+			const url = window.location.protocol+"//"+window.location.host+'/api/v1/eds-wfm/sourcing-strategy-countries/'+geoTypCd+'/'+mrktCd+'/'+ctryIsoCd+'/'+jrsCd;
+			addToList('id_api_list',url);
+
+			const request = new XMLHttpRequest();
+			request.open('GET', url, true);
+
+			request.onload = function() {
+				if (request.status === 200) {
+				    const data = JSON.parse(request.responseText);
+				    msg=""
+				    if (data.length>0) {
+				    	if (data[0].srcStrgyCd==null) {
+				    		msg += "<h3>Sourcing Strategy Found - No value</h3>"
+						         +'<p><b>URL: </b>'+url+"</p>"
+						         +"<ul><li><b>Sourcing Strategy: </b> "+data[0].srcStrgyNm.trim() + " (" 
+						         + (data[0].srcStrgyCd==null?"none":data[0].srcStrgyCd.trim())
+						         +")</li>"
+						         +"<li><b>Sourcing Strategy Type: </b> "+data[0].srcTypNm.trim()+"</li></ul>";
+						    uiMsg.innerHTML=msg;
+						    msgLine.classList.remove('alert-warning');
+							msgLine.classList.remove('alert-success'); 
+							msgLine.classList.remove('alert-danger'); 
+							msgLine.classList.remove('show');
+							msgLine.classList.add('alert-warning'); 
+							msgLine.classList.add('show');
+				    	}
+				    	else {
+						    msg += "<h3>Sourcing Strategy Found</h3>"
+						    	+'<p><b>URL: </b>'+url+"</p>"
+						         +"<ul><li><b>Sourcing Strategy: </b> "+data[0].srcStrgyNm.trim() + " (" 
+						         + (data[0].srcStrgyCd==null?"none":data[0].srcStrgyCd.trim())
+						         +")</li>"
+						         +"<li><b>Sourcing Strategy Type: </b> "+data[0].srcTypNm+"</li></ul>"
+						         + '<p><b>Returned structure:</b></p><pre id="jsonOutput" class="border p-3 bg-light">'+JSON.stringify(data, null, 4)+'</pre>';
+						    uiMsg.innerHTML=msg;
+						    msgLine.classList.remove('alert-warning');
+							msgLine.classList.remove('alert-success'); 
+							msgLine.classList.remove('alert-danger'); 
+							msgLine.classList.remove('show');
+							msgLine.classList.add('alert-success'); 
+							msgLine.classList.add('show');
+				    	}
+				    }
+				    else {
+					    msg += "<h3>Sourcing Strategy Not Found</h3>"
+					    	+'<p><b>URL: </b>'+url+"</p>"
+					         ;
+					    uiMsg.innerHTML=msg;
+					    msgLine.classList.remove('alert-warning');
+						msgLine.classList.remove('alert-success'); 
+						msgLine.classList.remove('alert-danger'); 
+						msgLine.classList.remove('show');
+						msgLine.classList.add('alert-warning'); 
+						msgLine.classList.add('show');
+				    }
+				} else if (request.status === 404) {
+				    msg += "<h3>Sourcing Strategy Not Found</h3>"
+				    	+'<p><b>URL: </b>'+url+"</p>"
+				         ;
+				    uiMsg.innerHTML=msg;
+				    msgLine.classList.remove('alert-warning');
+					msgLine.classList.remove('alert-success'); 
+					msgLine.classList.remove('alert-danger'); 
+					msgLine.classList.remove('show');
+					msgLine.classList.add('alert-warning'); 
+					msgLine.classList.add('show');
+			   } else {
+					uiMsg.innerHTML = "Server error: "+request.status
+					msgLine.classList.remove('alert-warning');
+					msgLine.classList.remove('alert-success'); 
+					msgLine.classList.remove('alert-danger'); 
+					msgLine.classList.remove('show');
+					msgLine.classList.add('alert-danger'); 
+					msgLine.classList.add('show'); 
+			  }   
+			}
+			
+			request.onerror = function() {
+				console.error('An error occurred fetching the JSON from ' + url);
+			};
+
+			request.send();
+		}
+	}
+	
+	function addToList(root, item) {
+		var ul = document.getElementById(root);
+		var li = document.createElement('li');
+		li.setAttribute("class","list-group-item");
+
+	    var a = document.createElement('a');
+	    a.target = '_blank';
+	    a.href = item;
+	    a.innerText = item;
+	    li.appendChild(document.createTextNode(String(++apiCnt)+". "));
+	    li.appendChild(a);
+	    
+		//li.appendChild(document.createTextNode(item));
+		
+		ul.appendChild(li);
+	}
+	
+</script>
+</head>
+
+<body onload="init()">
+
+	<!-- ======= Header ======= -->
+	<header id="header" class="header fixed-top">
+		<div class="container-fluid container-xl d-flex align-items-center justify-content-between">
+
+			<a href="index.html" class="logo d-flex align-items-center"> <img src="assets/img/logo.png" alt=""> <span>WFM</span>
+			</a>
+
+			<nav id="navbar" class="navbar">
+				<ul>
+					<li><a class="nav-link scrollto " href="..">Home</a></li>
+					<li><a class="nav-link scrollto" href="..#about">About</a></li>
+					<li><a class="nav-link scrollto" href="..#try-it">Try-it</a></li>
+					<li><a class="nav-link scrollto" href="..#team">Team</a></li>
+					<li><a class="getstarted scrollto" href="swagger-ui.html">Get Started</a></li>
+				</ul>
+				<i class="bi bi-list mobile-nav-toggle"></i>
+			</nav>
+			<!-- .navbar -->
+
+		</div>
+	</header>
+	<!-- End Header -->
+
+	<main id="main">
+
+		<!-- ======= Breadcrumbs ======= -->
+		<section class="breadcrumbs">
+			<div class="container">
+
+				<ol>
+					<li><a href="../index.html">Home</a></li>
+					<li><a href="../index.html#try-it">Try-it</a></li>
+					<li>Sourcing Strategy</li>
+				</ol>
+				<h2>Sourcing Strategy</h2>
+
+			</div>
+		</section>
+		<!-- End Breadcrumbs -->
+
+		<!-- ======= Portfolio Details Section ======= -->
+		<section id="portfolio-details" class="portfolio-details">
+			<div class="container">
+
+				<div class="ss-form">
+					<form action="javascript:sourcingStrategyLookup()">
+						<div class="form-group row">
+							<label for="geoTypCd" class="col-sm-2 col-form-label">Select a Geography Type:</label>
+							<div class="col-sm-10">
+								<select id="geoTypeSelect" name="geo-typ-cd"></select>
+							</div>
+						</div>
+						<div class="form-group row">
+							<label for="dynamicDelivery" class="col-sm-2 col-form-label">Dynamic Delivery?</label>
+							<div class="col-sm-10">
+								<div class="form-check form-check-inline">
+									<input class="form-check-input" type="radio" name="dynamicDelivery" id="ddCbx1" value="yes"
+										onchange="dynamicDeliveryUpdated()"> <label class="form-check-label" for="ddCbx1">Yes</label>
+								</div>
+								<div class="form-check form-check-inline">
+									<input class="form-check-input" type="radio" name="dynamicDelivery" id="ddCbx2" value="no"
+										onchange="dynamicDeliveryUpdated()" checked> <label class="form-check-label" for="ddCbx2">No</label>
+								</div>
+							</div>
+						</div>
+						<div class="form-group row">
+							<label for="locality" class="col-sm-2 col-form-label">Contract Owner Country<sup style="color: #FF0000";>*</sup></label>
+							<div class="col-sm-10">
+								<select id="locality-dropdown" name="locality" onchange="contractCtryUpdated()"></select>
+							</div>
+						</div>
+						<div class="form-group row">
+							<div class="col-sm-10 offset-sm-2">
+								<p id="geo-market-id"></p>
+							</div>
+						</div>
+						<div class="form-group row">
+							<label for="job-role" class="col-sm-2 col-form-label">Job Role <sup style="color: #FF0000";>*</sup></label>
+							<div class="col-sm-5">
+								<select id="job-role-dropdown" name="job-role" onchange="jobRoleUpdated()"></select>
+							</div>
+							<div class="col-sm-5">
+								<label for="specialty">Specialty<sup style="color: #FF0000";>*</sup>&nbsp;&nbsp;
+								</label> <select id="specialty-dropdown" name="specialty" onchange="specialtyUpdated()">
+									<option selected>Choose Specialty</option>
+								</select>
+							</div>
+						</div>
+						<div class="form-group row">
+							<div class="col-sm-10 offset-sm-2">
+								<p id="jrs-id"></p>
+							</div>
+						</div>
+						<div class="form-group row ss-form collapse" id="dynamicDeliveryExtras">
+							<div class="col-sm-10 offset-sm-2  w3-container w3-leftbar w3-border-blue">
+								<div class="form-group row">
+									<div class="col-sm-5">
+										<label for="work-loc">Primary work location for overlapping hours<sup style="color: #FF0000";>*</sup>&nbsp;&nbsp;
+										</label>
+									</div>
+									<div class="col-sm-7">
+										<select id="pwl-dropdown" name="work-loc" onchange="pwlUpdated()">
+											<option selected>Choose primary work location</option>
+										</select>
+									</div>
+								</div>
+								<div class="form-group row">
+									<div class="col-sm-5">
+										<label for="language">Language<sup style="color: #FF0000";>*</sup>&nbsp;&nbsp;
+										</label>
+									</div>
+									<div class="col-sm-7">
+										<select id="language-dropdown" name="language" onchange="languageUpdated()">
+											<option selected>Choose language</option>
+											<option>English</option>
+											<option>Chinese</option>
+											<option>French</option>
+											<option>German</option>
+											<option>Italian</option>
+											<option>Japanese</option>
+											<option>Portuguese</option>
+											<option>Spanish</option>
+										</select>
+									</div>
+								</div>
+								<div class="form-group row">
+									<div class="col-sm-5">
+										<label for="time-overlap">Time overlap<sup style="color: #FF0000";>*</sup>&nbsp;&nbsp;
+										</label>
+									</div>
+									<div class="col-sm-7">
+										<select id="time-overlap-dropdown" name="time-overlap" onchange="timeOverlapUpdated()">
+											<option selected>Choose time overlap</option>
+											<option>0</option>
+											<option>[1-4]</option>
+											<option>4+</option>
+										</select>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="form-group row">
+							<div class="col-sm-10 offset-sm-2">
+								<p></p>
+							</div>
+						</div>
+						<div class="form-group row">
+							<label for="band" class="col-sm-2 col-form-label">Band?</label>
+							<div class="col-sm-10">
+								<div class="form-check form-check-inline">
+									<input class="form-check-input" type="radio" name="bandCbx" id="bandCbx1" value="1" checked> <label
+										class="form-check-label" for="bandCbx1">1</label>
+								</div>
+								<div class="form-check form-check-inline">
+									<input class="form-check-input" type="radio" name="bandCbx" id="bandCbx2" value="2"> <label
+										class="form-check-label" for="bandCbx2">2</label>
+								</div>
+								<div class="form-check form-check-inline">
+									<input class="form-check-input" type="radio" name="bandCbx" id="bandCbx3" value="3"> <label
+										class="form-check-label" for="bandCbx3">3</label>
+								</div>
+								<div class="form-check form-check-inline">
+									<input class="form-check-input" type="radio" name="bandCbx" id="bandCbx4" value="4"> <label
+										class="form-check-label" for="bandCbx4">4</label>
+								</div>
+								<div class="form-check form-check-inline">
+									<input class="form-check-input" type="radio" name="bandCbx" id="bandCbx5" value="5"> <label
+										class="form-check-label" for="bandCbx5">5</label>
+								</div>
+								<div class="form-check form-check-inline">
+									<input class="form-check-input" type="radio" name="bandCbx" id="bandCbx6" value="6"> <label
+										class="form-check-label" for="bandCbx6">6</label>
+								</div>
+								<div class="form-check form-check-inline">
+									<input class="form-check-input" type="radio" name="bandCbx" id="bandCbx7" value="7"> <label
+										class="form-check-label" for="bandCbx7">7</label>
+								</div>
+								<div class="form-check form-check-inline">
+									<input class="form-check-input" type="radio" name="bandCbx" id="bandCbx8" value="8"> <label
+										class="form-check-label" for="bandCbx8">8</label>
+								</div>
+								<div class="form-check form-check-inline">
+									<input class="form-check-input" type="radio" name="bandCbx" id="bandCbx8" value="9"> <label
+										class="form-check-label" for="bandCbx9">9</label>
+								</div>
+								<div class="form-check form-check-inline">
+									<input class="form-check-input" type="radio" name="bandCbx" id="bandCbx10" value="10"> <label
+										class="form-check-label" for="bandCbx10">10</label>
+								</div>
+								<div class="form-check form-check-inline">
+									<input class="form-check-input" type="radio" name="bandCbx" id="bandCbxD" value="D"> <label
+										class="form-check-label" for="bandCbxD">D</label>
+								</div>
+								<div class="form-check form-check-inline">
+									<input class="form-check-input" type="radio" name="bandCbx" id="bandCbxC" value="C"> <label
+										class="form-check-label" for="bandCbxC">C</label>
+								</div>
+							</div>
+						</div>
+						<div class="form-group row">
+							<div class="col-sm-10 offset-sm-2">
+								<button type="submit" class="btn btn-primary">Get sourcing strategy</button>
+							</div>
+						</div>
+						<div class="form-group row">
+							<div class="col-sm-10 offset-sm-2">
+								<p></p>
+							</div>
+						</div>
+						<div class="form-group row">
+							<div class="col-sm-10 offset-sm-2">
+								<div id="msg-line" class="alert alert-danger alert-dismissible fade">
+									<div id="msg"></div>
+									<button type="button" class="close" data-dismiss="alert" onclick="hideMsg()">&times;</button>
+								</div>
+							</div>
+						</div>
+					</form>
+					<div class="panel panel-primary" id="api_panel">
+						<div class="panel-heading">
+							<h3 class="panel-title">API Execution List</h3>
+						</div>
+						<div class="panel-body">
+							<ul class="list-group" id="id_api_list">
+
+							</ul>
+						</div>
+					</div>
+
+				</div>
+
+
+			</div>
+		</section>
+		<!-- End Portfolio Details Section -->
+
+	</main>
+	<!-- End #main -->
+
+	<!-- ======= Footer ======= -->
+	<footer id="footer" class="footer">
+
+
+		<div class="footer-top">
+			<div class="container">
+				<div class="row gy-4">
+					<div class="col-lg-5 col-md-12 footer-info">
+						<a href="index.html" class="logo d-flex align-items-center"> <img src="assets/img/logo.png" alt=""> <span>WFM</span>
+						</a>
+						<p>Empower profitable growth through cognitive workforce management capabilities to anticipate client needs,
+							delivering the right skills at the right time yielding business outcomes that matter to our clients, our
+							employees, and our company.</p>
+						<div class="social-links mt-3">
+							<a href="#" class="linkedin"><i class="bi bi-linkedin bx bxl-linkedin"></i></a> <a href="#" class="twitter"><i
+								class="bi bi-twitter"></i></a> <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
+						</div>
+					</div>
+
+					<div class="col-lg-2 col-6 footer-links">
+						<h4>Useful Links</h4>
+						<ul>
+							<li><i class="bi bi-chevron-right"></i> <a
+								href="https://w3.ibm.com/w3publisher/ibm-services-workforce-management">WFM Home</a></li>
+							<li><i class="bi bi-chevron-right"></i> <a href="index.html#about">About us</a></li>
+							<li><i class="bi bi-chevron-right"></i> <a href="index.html#services">Services</a></li>
+							<li><i class="bi bi-chevron-right"></i> <a href="https://w3.ibm.com">Terms of service</a></li>
+							<li><i class="bi bi-chevron-right"></i> <a href="https://w3.ibm.com/w3publisher/w3-privacy-notice/ibm-internal-privacy-statement-us-en">Privacy
+									policy</a></li>
+						</ul>
+					</div>
+
+					<div class="col-lg-2 col-6 footer-links">
+						<h4>Our Services</h4>
+						<ul>
+							<li><i class="bi bi-chevron-right"></i> <a href="#">tbd</a></li>
+
+						</ul>
+					</div>
+
+					<div class="col-lg-3 col-md-12 footer-contact text-center text-md-start">
+						<h4>Contact Us</h4>
+						<p>
+							<b>Steven J Ponessa</b> <br> Mount Pleasant, SC, United States <br> <strong>Phone:</strong> +1
+							845-699-5617 <br> <strong>Email:</strong> <a href="mailto:ponessa@us.ibm.com">ponessa@us.ibm.com</a>
+						</p>
+						<p>
+							<b>Mani Shahidsales</b> <br> Blue Bell, PA, United States <br> <strong>Phone:</strong> +1 845-699-5617
+							<br> <strong>Email:</strong> <a href="mailto:mshahids@us.ibm.com">mshahids@us.ibm.com</a>
+						</p>
+
+					</div>
+
+				</div>
+			</div>
+		</div>
+
+		<div class="container">
+			<div class="copyright">
+				&copy; Copyright <strong><span>IBM</span></strong>. All Rights Reserved
+			</div>
+			<div class="credits">
+				<!-- All the links in the footer should remain intact. -->
+				<!-- You can delete the links only if you purchased the pro version. -->
+				<!-- Licensing information: https://bootstrapmade.com/license/ -->
+				<!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/flexstart-bootstrap-startup-template/ -->
+				Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+			</div>
+		</div>
+	</footer>
+	<!-- End Footer -->
+
+	<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+	<!-- Vendor JS Files -->
+	<script src="assets/vendor/bootstrap/js/bootstrap.bundle.js"></script>
+	<script src="assets/vendor/aos/aos.js"></script>
+	<script src="assets/vendor/php-email-form/validate.js"></script>
+	<script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
+	<script src="assets/vendor/purecounter/purecounter.js"></script>
+	<script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+	<script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
+
+	<!-- Template Main JS File -->
+	<script src="assets/js/main.js"></script>
+
+</body>
+
+</html>

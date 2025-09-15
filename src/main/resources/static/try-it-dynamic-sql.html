@@ -1,0 +1,1736 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+<title>Try it - Dynamic SQL</title>
+<meta content="" name="description">
+<meta content="" name="keywords">
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
+<!-- Favicons -->
+<link href="assets/img/favicon.png" rel="icon">
+<link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+<!-- Google Fonts -->
+<link
+	href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+	rel="stylesheet">
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+<!-- Vendor CSS Files -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+<link href="assets/vendor/aos/aos.css" rel="stylesheet">
+<link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
+<link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+<link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+
+<!-- Template Main CSS File -->
+<link href="assets/css/style.css" rel="stylesheet">
+
+<!-- =======================================================
+  * Template Name: Inner Page
+  * Template URL: https://bootstrapmade.com/flexstart-bootstrap-startup-template/
+  * Author: BootstrapMade.com
+  * License: https://bootstrapmade.com/license/
+  ======================================================== -->
+<style>
+
+.alert-dismissible .close {
+	position: absolute;
+	top: 0;
+	right: 0;
+	z-index: 2;
+	padding: .75rem 1.25rem;
+	color: inherit;
+}
+
+button.close {
+	padding: 0;
+	background-color: transparent;
+	border: 0;
+}
+
+.close {
+	float: right;
+	font-size: 1.5rem;
+	font-weight: 700;
+	line-height: 1;
+	color: #000;
+	text-shadow: 0 1px 0 #fff;
+	opacity: .5;
+}
+
+input:not(:placeholder-shown) {
+   background-color:  #ffffff!important;
+}
+
+
+input:placeholder-shown {
+   background-color:  #e9ecef!important;
+}
+
+.form-title h2 {
+	font-size: 22px;
+}
+
+.extra-bottom {
+	margin-bottom: 20px;
+}
+
+.float-right {
+	float: right;
+}
+
+a.edit, a.edit-desc, a.edit-sql  {
+    color: #FFC107;
+}
+
+.table-wrapper {
+	width: 100%;
+	margin: 30px auto;
+	background: #fff;
+	padding: 20px;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, .05);
+}
+
+.table-title {
+	padding-bottom: 10px;
+	margin: 0 0 10px;
+}
+
+.table-title h2 {
+	margin: 6px 0 0;
+	font-size: 22px;
+}
+
+.add-new, .add-new-query {
+	float: right;
+	height: 30px;
+	font-weight: bold;
+	font-size: 12px;
+	text-shadow: none;
+	min-width: 100px;
+	border-radius: 50px;
+	line-height: 13px;
+}
+
+.table-title .add-new i {
+	margin-right: 4px;
+}
+
+table.table {
+	table-layout: fixed;
+}
+
+table.table tr th, table.table tr td {
+	border-color: #e9e9e9;
+}
+
+table.table th i {
+	font-size: 13px;
+	margin: 0 5px;
+	cursor: pointer;
+}
+
+table.table th:last-child {
+	width: 100px;
+}
+
+table.table td a {
+	cursor: pointer;
+	display: inline-block;
+	margin: 0 5px;
+	min-width: 24px;
+}
+
+table.table td a.add {
+	color: #27C46B;
+}
+
+a.add, a.add-desc, a.add-sql  {
+    color: #27C46B;
+}
+
+table.table td a.edit {
+	color: #FFC107;
+}
+
+table.table td a.delete {
+	color: #E34724;
+}
+
+table.table td i {
+	font-size: 19px;
+}
+
+table.table td a.add i {
+	font-size: 24px;
+	margin-right: -1px;
+	position: relative;
+	top: 3px;
+}
+
+table.table .form-control {
+	height: 32px;
+	line-height: 32px;
+	box-shadow: none;
+	border-radius: 2px;
+}
+
+table.table .form-control.error {
+	border-color: #f50000;
+}
+
+table.table td .add {
+	display: none;
+}
+
+h2 .add-desc, .edit-desc, .add-sql, .edit-sql {
+	display: none;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 56px;
+  height: 30px;
+}
+
+.switch input { 
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .2s;
+  transition: .2s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 20px;
+  width: 20px;
+  left: 4px;
+  bottom: 5px;
+  background-color: white;
+  -webkit-transition: .2s;
+  transition: .2s;
+}
+
+input:checked + .slider {
+  background-color: #0d6efd;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #0d6efd;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+.top-bar .searchbar {
+    -webkit-transform: translate3d(0, 0, 0);
+    flex-shrink: 10000;
+}
+.top-bar * {
+    box-sizing: border-box;
+}
+.px12 {
+    padding-left: 12px !important;
+    padding-right: 12px !important;
+}
+.fl-grow1 {
+    flex-grow: 1 !important;
+}
+
+.s-input, .s-textarea {
+    -webkit-appearance: none;
+    width: 100%;
+    margin: 0;
+    padding: .6em .7em;
+    border: 1px solid var(--bc-darker);
+    border-radius: 3px;
+    font-size: 13px;
+    font-family: inherit;
+}
+
+.s-input-icon {
+    position: absolute;
+    top: 50%;
+    margin-top: -9px;
+    pointer-events: none;
+}
+
+.s-input.s-input__search, .s-input.s-input__creditcard {
+    padding-left: 32px;
+}
+
+.s-input-icon.s-input-icon__search {
+    right: auto;
+    left: 20px;
+    color: #dee2e6;
+}
+
+.ps-relative {
+    position: relative !important;
+}
+
+</style>
+
+<script>
+let apiCnt = 0;
+let dynamicQuery = null; //{};
+
+let dataTypes = [ {"name":"String","id":0}
+                , {"name":"Number","id":1} 
+                , {"name":"Date","id":2} 
+                , {"name":"Timestamp","id":3} 
+                , {"name":"List","id":4} 
+                ];
+
+let MSG_TYPE_SUCCESS = 0;
+let MSG_TYPE_INFO = 1;
+let MSG_TYPE_WARNING = 2;
+let MSG_TYPE_DANGER = 3;
+
+/*
+var targetProxy = new Proxy(dynamicQuery, {
+	set: function (target, key, value) {
+			console.log(`${key} set to ${value}`);
+			target[key] = value;
+			return true;
+	}
+});
+*/
+
+function DynamicQuery(id, name, description, sqlTemplate) {
+	this.dirty=false;
+	this.id = id;
+	this.name = name;
+	this.description = description;
+	this.template = sqlTemplate;
+	this.parameters = [];
+	
+	this.getParameter = function(i) {
+		if (this.parameters.length<i) return null;
+		else return this.parameters[i];
+	}
+	
+	this.addParameter = function(p) {
+		this.parameters[this.parameters.length] = new Parameter(p.id, p.sqlTemplateName, p.name, p.description, p.dataType, p.length, p.required, p.defaultValue);
+	}
+	
+	this.show = function() {
+		console.log(this.id +" : "+this.name)
+		console.log("Dirty : "+this.dirty)
+		console.log("Desc: "+ this.description)
+		console.log("Sql: "+ this.template)
+		console.log("Parameters ("+this.parameters.length+")")
+		for (i=0;i<this.parameters.length;i++) {
+			console.log(" "+(i+1)+". "+this.parameters[i].id + " : "+ this.parameters[i].name + "("+ this.parameters[i].description+" : "+ this.parameters[i].dataType+" : "
+					+ this.parameters[i].length+" : "+ this.parameters[i].required+" : "+ this.parameters[i].defaultValue)
+		}
+	}
+	
+	this.compareTo = function(anotherDynamicQuery) {
+
+		//return (JSON.stringify(this) == JSON.stringify(anotherDynamicQuery));
+		if (this.id!=anotherDynamicQuery.id) return false
+		if (this.name!=anotherDynamicQuery.name) return false
+		if (this.description!=anotherDynamicQuery.description) return false
+		if (this.template.replace(/\s+/g, '')!=anotherDynamicQuery.template.replace(/\s+/g, '')) return false
+		
+		if (JSON.stringify(this.parameters) == JSON.stringify(anotherDynamicQuery.parameters)) return true
+		
+		return false;
+	}
+}
+
+function Parameter(id, sqlTemplateName, name, description, dataType, length, required, defaultValue) {
+	this.id = id;
+	this.sqlTemplateName;
+	this.name = name;
+	this.description = description;
+	this.dataType = dataType;
+	this.length = length;
+	this.required = required;
+	this.defaultValue = defaultValue;
+}
+
+$(document).ready(
+	function() {
+		
+		var myModal = document.getElementById('newDynoQuery');
+
+		myModal.addEventListener('show.bs.modal', function () {
+		  var newQueryNameEl = document.getElementById('modal-query-name')
+		  newQueryNameEl.value=""
+		  var newQueryMsgEl = document.getElementById('modal-msg')
+		  newQueryMsgEl.innerHTML=""
+		});
+		
+		var runModal = document.getElementById('runDynoQuery');
+
+		runModal.addEventListener('show.bs.modal', function () {
+			var formDynamicQuery = buildDynamicQueryObjectFromForm();
+			
+			let apiNameEl = document.getElementById('api-name-id');
+			apiNameEl.innerHTML="Run "+formDynamicQuery.name;
+			
+			$("#data-sources-list")[0].selectedIndex = 0;
+			$("#to-csv")[0].checked = false;
+			$("#result-set-max-size")[0].value = -1;
+			
+			let parmsPanel = document.getElementById('parms-panel-id');
+			parmsPanel.innerHTML=""
+			
+			if (formDynamicQuery.parameters.length==0) {
+				var p = document.createElement('p');
+				const none = document.createTextNode("None");
+				p.appendChild(none);
+				parmsPanel.appendChild(p);
+			}
+			for (let i = 0; i < formDynamicQuery.parameters.length; i++) {
+				var parm = formDynamicQuery.parameters[i];
+				var parmDiv = document.createElement('div');
+				parmDiv.setAttribute('class', 'form-group row');
+				
+				var parmInputGroup = document.createElement('div');
+				parmInputGroup.setAttribute('class', 'input-group');
+				
+				var parmInput = document.createElement('input');
+				parmInput.setAttribute('class', 'form-control mb-3');
+				parmInput.setAttribute('id', parm.name+"-run-id");
+				//put switch here for different types - for now just url
+				parmInput.setAttribute('type', 'text');
+				parmInput.setAttribute('onkeyup', 'javascript:updateApiUrl()');
+				parmInput.setAttribute('placeholder', (parm.required?"*":"")+'Enter '+ parm.name + " ("+ (parm.defaultValue==''?'no default value':parm.defaultValue)+")");
+				
+				parmInputGroup.appendChild(parmInput);
+			
+		        var parmDivInputGroupAppend = document.createElement('div');
+		        parmDivInputGroupAppend.setAttribute('class','input-group-append');
+		        var parmDivInputGroupText = document.createElement('div');
+		        parmDivInputGroupText.setAttribute('class','input-group-text');
+		        const node = document.createTextNode(parm.description);
+		        parmDivInputGroupText.appendChild(node);
+		        
+		        parmDivInputGroupAppend.appendChild(parmDivInputGroupText);
+		        
+		        parmInputGroup.appendChild(parmDivInputGroupAppend);
+		        
+		        parmDiv.appendChild(parmInputGroup);
+				
+				parmsPanel.appendChild(parmDiv);
+			}
+			updateApiUrl();
+			
+		});
+		
+		
+		refreshCards();
+		populateDataSources();
+		
+		//end of on load .. rest definee actions};
+		
+		//$("#api-run-button-id").on('click', addRunApiUrl(), true);
+		
+		$("#search").on("keyup", function () {
+			var cards, cardContainer, h5, title, i;
+			var input = document.getElementById("search");
+			var filter = input.value.toUpperCase();
+			console.log(filter)
+			var cardContainer = document.getElementById("card-container");
+			var cards = cardContainer.getElementsByClassName("col");
+			for (i = 0; i < cards.length; i++) {
+				title = cards[i].querySelector(".card-body h5.card-title");
+				text = cards[i].querySelector(".card-body p.card-text");
+				if (title.innerText.toUpperCase().indexOf(filter) > -1
+				 || text.innerText.toUpperCase().indexOf(filter) > -1) {
+					cards[i].style.display = "";
+				} else {
+					cards[i].style.display = "none";
+				}
+			}
+		});
+		
+		$("#saveDynoQueryButton").click(function(){
+			hideMsg();
+			var formDynamicQuery = buildDynamicQueryObjectFromForm();
+			var noChange = dynamicQuery.compareTo(formDynamicQuery);
+			if (noChange) {
+				showMsg(MSG_TYPE_WARNING,"Dynamic Query has not changed.");
+				return;
+			}
+			if (formDynamicQuery.description == null || formDynamicQuery.description == ''
+			 || formDynamicQuery.template == null || formDynamicQuery.template == '') {
+				showMsg(MSG_TYPE_DANGER,"Description and Sql Template are required fields.");
+				return;
+			}
+			
+			var msg="";
+			if (formDynamicQuery.id<0) {
+				msg+= "New Dyno Query - Steps <ol><li>POST formDynamicQuery.name ("+formDynamicQuery.name+"), description ("+formDynamicQuery.description+"), and SqlTemplate using POST API (/api/v1/dmf/sql-templates)</li></ol>";
+				msg = insertUpdateDynoQuery("POST",formDynamicQuery);
+				
+			}
+			else {
+				msg+= "Update Dyno Query - Steps <ol><li>PUT formDynamicQuery.id, name, description, and SqlTemplate using PUT API (not implemented in AbstractDaoService, /api/v1/dmf/sql-templates)</li>";
+				msg+= "<li>DELETE parameters for Dyno Query using DELETE API (/api/v1/dmf/sql-templates/"+formDynamicQuery.name+"/parameters)</li>";
+				msg+= "<li>Set up a loop for all parameters (formDynamicQuery.parameters ("+formDynamicQuery.parameters.length+"))</li>";
+				msg+= "<li>POST parameter using the POST API (/api/v1/dmf/sql-templates/"+formDynamicQuery.name+"/parameters)</li></ol>";
+				//showMsg(MSG_TYPE_SUCCESS,msg);
+				updateDynoQuery(formDynamicQuery);
+			}
+		});
+		
+		$("#deleteDynoQueryButton").click(function(){
+			hideMsg();
+			var formDynamicQuery = buildDynamicQueryObjectFromForm();
+			deleteDynoQuery(formDynamicQuery);
+			
+		});
+		
+		$("#runDynoQueryButton").click(function(){
+			hideMsg();
+			var formDynamicQuery = buildDynamicQueryObjectFromForm();
+			//eatme
+			
+		});
+		
+		// Append table with add row form on add new button click
+		$(".add-new").click(function () {
+			$(this).attr("disabled", "disabled");
+			var index = $("table tbody tr:last-child").index();
+			var row = buildParameterRowDom(null);
+			$("table").append(row);
+			$("table tbody tr").eq(index + 1).find(".add, .edit").toggle();
+			//$('[data-toggle="tooltip"]').tooltip();
+		});
+		
+		// Add new parameter row 
+		$(document).on("click", ".add", function () {
+			var data = {};
+			var empty = false;
+			var input = $(this).parents("tr").find("input[type='text'], input[type='number']");
+			var i=0;
+			input.each(function () {
+				if (!$(this).val() && i<3) {
+					$(this).addClass("error");
+					empty = true;
+				} else {
+					$(this).removeClass("error");
+					data.task = $(this).val();
+				}
+				i++;
+			});
+			$(this).parents("tr").find(".error").first().focus();
+			if (!empty) {
+				//database create/update							
+				var parrentTr = $(this).parents("tr");
+				
+				var tds = parrentTr.find("td:not(:last-child)");
+				tds[0].replaceWith(buildTd(tds[0].childNodes[0].value));    // Name
+				tds[1].replaceWith(buildTd(tds[1].childNodes[0].value));    // Description
+				
+				var dataTypeValue = parseInt(tds[2].childNodes[0].value);
+				tds[2].replaceWith(buildTd(dataTypes[dataTypeValue].name)); // Data type
+				
+				tds[3].replaceWith(buildTd(tds[3].childNodes[0].value));    // Length
+				
+				var required = tds[4].childNodes[0].childNodes[0].checked     // Required
+				tds[4].replaceWith(buildTd(required?"True":"False"));
+				
+				tds[5].replaceWith(buildTd(tds[5].childNodes[0].value));    // Default value
+				
+				parrentTr.find(".add, .edit").toggle();
+				$(".add-new").removeAttr("disabled");
+				parrentTr.attr('id', data.id);
+				
+				$('form')				
+	            .find('#saveDynoQueryButton')
+	                .attr('disabled', check4changes());
+			}
+		});
+		
+		// Edit parameter row on edit button click
+		$(document).on("click", ".add-desc", function () {
+			$("#query-description").attr("readonly", true); 
+			$(this).parents("h2").find(".add-desc, .edit-desc").toggle();
+			$(".add-new").removeAttr("disabled");
+
+			$('form')				
+            .find('#saveDynoQueryButton')
+                .attr('disabled', check4changes());
+		});
+		
+		// Edit parameter row on edit button click
+		$(document).on("click", ".add-sql", function () {
+			$("#sql-template").attr("readonly", true); 
+			$(this).parents("h2").find(".add-sql, .edit-sql").toggle();
+			$(".add-new").removeAttr("disabled");
+
+			$('form')				
+            .find('#saveDynoQueryButton')
+                .attr('disabled', check4changes());
+		});
+		
+		// Edit parameter row on edit button click
+		$(document).on("click", ".edit", function () {
+			var i=0;
+			$(this).parents("tr").find("td:not(:last-child)").each(function () {
+				var id=$(this).closest('tr').prop('id');
+				if (i==0) $(this).replaceWith(buildTdInput(id,"name","text",$(this).text()));
+				else if (i==1) $(this).replaceWith(buildTdInput(id,"description","text",$(this).text()));
+				
+				else if (i==2) $(this).replaceWith(buildTdSelect(id,"dataType",getIdForDataType($(this).text()), dataTypes));
+				
+				else if (i==3) $(this).replaceWith(buildTdInput(id,"length","number",parseInt($(this).text())));
+				else if (i==4) $(this).replaceWith(buildTdToggle(id,"required",$(this).text()=="True"?true:false));
+				else if (i==5) $(this).replaceWith(buildTdInput(id,"defaultValue","text",$(this).text()));
+				i++;
+			});
+			$(this).parents("tr").find(".add, .edit").toggle();
+			$(".add-new").attr("disabled", "disabled");
+		});
+		
+		// Edit parameter row on edit button click
+		$(document).on("click", ".edit-desc", function () {
+			$("#query-description").attr("readonly", false); 
+			$(this).parents("h2").find(".add-desc, .edit-desc").toggle();
+			$(".add-new").attr("disabled", "disabled");
+		});
+		
+		// Edit parameter row on edit button click
+		$(document).on("click", ".edit-sql", function () {
+			$("#sql-template").attr("readonly", false); 
+			$(this).parents("h2").find(".add-sql, .edit-sql").toggle();
+			$(".add-new").attr("disabled", "disabled");
+		});
+		
+		// Delete parameter row on delete button click
+		$(document).on("click", ".delete", function () {
+			var data = {};
+			data.id = $(this).parents("tr").attr('id');
+			var parrentTr = $(this).parents("tr");
+			parrentTr.remove();
+			$(".add-new").removeAttr("disabled");
+
+			$('form')				
+            .find('#saveDynoQueryButton')
+                .attr('disabled', check4changes());
+		});
+		
+		// Check for changes in the form and enable or disable the save when the
+		/*
+		$('form')
+        .on('change input', function(){
+            $(this)				
+                .find('#saveDynoQueryButton')
+                    .attr('disabled', $(this).serialize() == $(this).data('serialized'));
+         })
+		.find('input:submit, button:submit').attr('disabled', true);
+		*/
+	}	
+	);
+	
+	//Add the API executed to API Execution List
+	function addToList(root, item) {
+		var ul = document.getElementById(root);
+		var li = document.createElement('li');
+		li.setAttribute("class", "list-group-item");
+
+		var a = document.createElement('a');
+		a.target = '_blank';
+		a.href = item;
+		a.innerText = item;
+		li.appendChild(document.createTextNode(String(++apiCnt) + ". "));
+		li.appendChild(a);
+
+		ul.appendChild(li);
+	}
+	
+	function refreshCards() {
+		const url = window.location.protocol + "//"
+		+ window.location.host
+		+ '/api/v1/dmf/sql-templates?order-by=NAME';
+
+		addToList('id_api_list', url);
+		
+		const request = new XMLHttpRequest();
+		request.open('GET', url, false); //SP 2021-11-15
+		
+		request.onload = function() {
+			if (request.status === 200) {
+				var cardRowEl = document.getElementById("card-container");
+				cardRowEl.innerHTML="";
+				const data = JSON.parse(request.responseText);
+				for (let i = 0; i < data.length; i++) {			
+					cardRowEl.appendChild(buildCard(data[i]))
+				}
+				let dynamicSqlSpinner = document.getElementById('dynamic-sql-spinner-id');
+				dynamicSqlSpinner.classList.remove('d-flex'); 
+				dynamicSqlSpinner.classList.add('d-none'); 
+			} else {
+				// Reached the server, but it returned an error
+			}
+		}
+		
+		request.onerror = function() {
+			console.error('An error occurred fetching the JSON from '+ url);
+		};
+		
+		request.send();
+	}
+	
+	function populateDataSources() {
+		const url = window.location.protocol + "//"
+		+ window.location.host
+		+ '/api/v1/dmf/data-sources?order-by=NAME';
+
+		addToList('id_api_list', url);
+		
+		const request = new XMLHttpRequest();
+		request.open('GET', url, true);
+		
+		request.onload = function() {
+			if (request.status === 200) {
+				var dataSourcesList = document.getElementById("data-sources-list");
+				dataSourcesList.length = 0;
+				let defaultOption = document.createElement('option');
+				defaultOption.text = 'Select a data source';
+				defaultOption.value = "none";
+				dataSourcesList.add(defaultOption);
+				dataSourcesList.selectedIndex = 0;
+				
+				const data = JSON.parse(request.responseText);
+				for (let i = 0; i < data.length; i++) {			
+				      option = document.createElement('option');
+				      option.text = "("+data[i].name+") "+data[i].description;
+				      option.value = data[i].name;
+				      dataSourcesList.add(option);
+				}
+
+			} else {
+				// Reached the server, but it returned an error
+			}
+		}
+		
+		request.onerror = function() {
+			console.error('An error occurred fetching the JSON from '+ url);
+		};
+		
+		request.send();
+	}
+	
+	//Call when new querey is selected.
+	function populateDynamicQueryDetail(id, queryName) {
+		
+		hideMsg();
+		
+		let queryNameEl = document.getElementById('query-name');
+		queryNameEl.innerHTML = queryName;
+		
+		let parameterTableBody = document.getElementById('parameter-table-body');
+		parameterTableBody.innerHTML="";
+		
+		$('.edit-desc').attr('style',' display:inline');
+		$('.edit-sql').attr('style',' display:inline');
+		
+		if (id == -1) {
+			let addParameterButton = document.getElementById('add-parameter');
+			addParameterButton.classList.remove('invisible'); 
+			addParameterButton.classList.add('visible'); 
+			var queryDescription = document.getElementById('query-description');
+			var sqlTemplate = document.getElementById('sql-template');
+			queryDescription.value = ''
+			sqlTemplate.value = ''
+			dynamicQuery = new DynamicQuery(-1,queryName);
+			//initFormData();
+		}
+		else {
+			const url = window.location.protocol + "//"
+					+ window.location.host
+					+ '/api/v1/dmf/sql-templates/'+queryName;
+	
+			addToList('id_api_list', url);
+	
+			const request = new XMLHttpRequest();
+			request.open('GET', url, true);
+	
+			request.onload = function() {
+				if (request.status === 200) {
+					const data = JSON.parse(request.responseText);
+					var queryDescription = document.getElementById('query-description');
+					var sqlTemplate = document.getElementById('sql-template');
+					
+					//dynamicQuery = new DynamicQuery(data[0].id, data[0].name, data[0].description, data[0].template)
+					
+					queryDescription.value = data[0].description
+					sqlTemplate.value = sqlFormatter.format(data[0].template);
+					
+					dynamicQuery = new DynamicQuery(data[0].id, data[0].name, data[0].description,data[0].template);
+					
+					var addParameterButton = document.getElementById('add-parameter');
+					addParameterButton.classList.remove('invisible'); 
+					addParameterButton.classList.add('visible'); 
+					
+					getParameters(data[0].name)
+	
+				} else {
+					console.error('Reached the server, but it returned an error: ' + url);
+				}
+			}
+			
+			request.onerror = function() {
+				console.error('An error occurred fetching the JSON from ' + url);
+			};
+	
+			request.send();
+		}
+	}
+	
+	function getParameters(dynamicQueryName) {
+		let parametersSpinner = document.getElementById('api-parm-spinner-id');
+		parametersSpinner.classList.remove('d-none'); 
+		parametersSpinner.classList.add('d-flex'); 
+		
+		const url = window.location.protocol + "//"
+		+ window.location.host
+		+ '/api/v1/dmf/sql-templates/'+dynamicQueryName+'/parameters';
+		
+		addToList('id_api_list', url);
+		
+		const request = new XMLHttpRequest();
+		request.open('GET', url, true);
+		
+		request.onload = function() {
+			if (request.status === 200) {
+				const data = JSON.parse(request.responseText);
+				for (let i = 0; i < data.length; i++) {
+					//id, name, description, dataType, length, required, defaultValue
+					parameter = new Parameter(data[i].id, data[i].sqlTemplateNm, data[i].name, data[i].description, data[i].dataType, data[i].length, data[i].reqdInd, data[i].defaultValue==null?"":data[i].defaultValue)
+					dynamicQuery.addParameter(parameter)
+					
+					var index = $("table tbody tr:last-child").index();
+					var row = buildParameterRowDom(parameter);
+					$("table").innerHTML="";
+					$("table").append(row);
+					//$("table tbody tr").eq(index + 1).find(".edit, .add").toggle();
+					//$('[data-toggle="tooltip"]').tooltip();
+				}
+				//dynamicQuery.show();
+				parametersSpinner.classList.remove('d-flex'); 
+				parametersSpinner.classList.add('d-none'); 
+			} else {
+				console.error('Reached the server, but it returned an error: ' + url);
+			}
+		}
+		
+		request.onerror = function() {
+			console.error('An error occurred fetching the JSON from '+ url);
+		};
+		
+		request.send();
+	}
+
+	/**
+	 * Check if the form has changed the original object
+	 * @return boolean 
+	 */
+	function check4changes() {
+		  var formDynamicQuery = buildDynamicQueryObjectFromForm();
+		  return dynamicQuery.compareTo(formDynamicQuery);
+	 }
+	
+	/**
+	 * Builds and returns a DynamicQuery object from the form
+	 * @return DynamicQuery 
+	 */
+	function buildDynamicQueryObjectFromForm() {
+		 
+		var queryDescription = document.getElementById('query-description');
+		var sqlTemplateEl = document.getElementById('sql-template');
+		
+		// /(<([^>]+)>)/gi
+		// /\r?\n|\r/g
+		var sqlTemplate = sqlTemplateEl.value.replace(/\r?\n|\r/g, " "); // remove linebreaks
+		sqlTemplate = sqlTemplate.replace(/\s{2,}/g,' ');                // remove double spaces
+		sqlTemplate = sqlTemplate.replaceAll("{ ","{");                  // remove extra spaces put on by the sql formatter
+		sqlTemplate = sqlTemplate.replaceAll(" }","}");
+		sqlTemplate = sqlTemplate.replaceAll(" - ","-");                 // remove extra spaces sql formatter puts between dashes
+		sqlTemplate = sqlTemplate.replaceAll(" = ","=");                 // remove extra spaces sql formatter puts between =
+		sqlTemplate = sqlTemplate.replaceAll(" < ","<");                 // remove extra spaces sql formatter puts between <
+		sqlTemplate = sqlTemplate.replaceAll(" > ",">");                 // remove extra spaces sql formatter puts between >
+		sqlTemplate = sqlTemplate.replaceAll(" <> ","<>");               // remove extra spaces sql formatter puts between <>
+		var formDynamicQuery = new DynamicQuery(dynamicQuery.id, dynamicQuery.name,queryDescription.value,sqlTemplate);
+		
+		var tbody = $('tbody#parameter-table-body');
+		tbody.find('tr').each(function() {
+			var id = $(this).attr('id');
+			var values = [];
+			$(this).find("td:not(:last-child)").each(function () {
+				values.push($(this).text())
+			});
+			// Construct Parameter object and add it to formDynamicQuery
+			parameter = new Parameter(parseInt(id), dynamicQuery.name, values[0], values[1], getIdForDataType(values[2]), parseInt(values[3])
+					, values[4]=='True'?true:false
+					, values[5]==null?"":values[5]);
+			formDynamicQuery.addParameter(parameter);
+		});
+		
+		return formDynamicQuery;
+	}
+	
+	/**
+	 * Builds and returns DOM Table Row based on an existing or new parameter (parm==0)
+	 * @param parm - Existing Parameter object or null for a new parameter
+	 * @return tr - DOM table row 
+	 */
+	function buildParameterRowDom(parm) {
+		var tr = document.createElement('tr');
+		
+		if (parm==null) {
+			tr.setAttribute("id",-1)
+			
+			tr.appendChild(buildTdInput(-1,"name","text",parm==null?"":parm.name));
+			tr.appendChild(buildTdInput(-1,"description","text",parm==null?"":parm.description));
+			tr.appendChild(buildTdSelect(-1, "dataType",parm==null?"":parm.dataType, dataTypes));
+			tr.appendChild(buildTdInput(-1,"length","number",parm==null?1:parm.length));
+			tr.appendChild(buildTdToggle(-1, "required",parm==null?false:parm.required));
+			tr.appendChild(buildTdInput(-1,"defaultValue","text",parm==null?"":parm.defaultValue));
+		}
+		else {
+			tr.setAttribute("id",parm.id);
+			
+			tr.appendChild(buildTd(parm.name));
+			tr.appendChild(buildTd(parm.description));
+			tr.appendChild(buildTd(dataTypes[parm.dataType].name));
+			tr.appendChild(buildTd(parm.length));
+			tr.appendChild(buildTd(parm.required==true?"True":"False"));
+			tr.appendChild(buildTd(parm.defaultValue));
+		}
+		
+		tr.appendChild(buildActionsTdDom());
+
+		return tr;
+	}
+
+	/**
+	 * Builds and returns DOM Table Definition (td) for the value passed to it.
+	 * @param value
+	 * @return td - DOM table definition 
+	 */
+	function buildTd(value) {
+		var td = document.createElement('td');
+		var txt = document.createTextNode(value);
+		td.appendChild(txt);
+		return td;
+	}
+	
+	function buildTdInput(id, name, type, value) {
+		var td = document.createElement('td');
+		td.appendChild(buildInput(id, name, type, value));
+		return td;
+	}
+	
+	function buildTdSelect(id, name, value, list) {
+		var td = document.createElement('td');
+		var x = buildSelect(id, name, value, list);
+		x.selectedIndex = value;
+		td.appendChild(x);
+		return td;
+	}
+	
+	function buildTdToggle(id, name, value) {
+		var td = document.createElement('td');
+		td.appendChild(buildToggle(id, name, value));
+		return td;
+	}
+	
+	function buildInput(id, name, type, value) {
+		var input = document.createElement('input');
+		input.setAttribute("id",id+":"+name);
+		input.setAttribute("name",name);
+		input.setAttribute("type",type);
+		input.setAttribute("autocomplete","off");
+		input.setAttribute("value",value);
+		input.classList.add("form-control");
+		return input;
+	}
+	
+	function buildSelect(id, name, value, list) {
+		var select = document.createElement('select');
+		//select.selectedIndex = 2;
+	    for (let i = 0; i < list.length; i++) {
+	      option = document.createElement('option');
+	      option.text = list[i].name;
+	      option.value = list[i].id;
+	      //if (list[i].id == value) select.selectedIndex = value;
+	      
+	      select.add(option);
+		}
+	    return select;
+	}
+	
+	function buildToggle(id, name, value) {
+		//'<label class="switch"><input type="checkbox"'+checked+'><span class="slider round"></span></label>'
+		var label = document.createElement('label');
+		label.classList.add("switch");
+		
+		var input = document.createElement('input');
+		input.setAttribute("id",id+":"+name);
+		input.setAttribute("name",name);
+		input.setAttribute("type","checkbox");
+		if (value==true) input.setAttribute("checked","checked");
+		
+		var span = document.createElement('span');
+		span.classList.add("slider");
+		span.classList.add("round");
+		
+		label.appendChild(input);
+		label.appendChild(span);
+		return label;
+		
+	}
+	
+	//Generate the parameter action columns
+	function buildActionsTdDom() {
+		var td = document.createElement('td');
+		td.appendChild(buildAction("add", "Add", "&#xE03B;"));
+		td.appendChild(buildAction("edit", "Edit", "&#xE254;"));
+		td.appendChild(buildAction("delete", "Delete", "&#xE872;"));
+		
+		return td;
+	}
+	
+	function buildAction(classNm, title, icon) {
+		var a = document.createElement('a');
+		a.classList.add(classNm);
+		a.setAttribute("title",title);
+		a.setAttribute("data-toggle","tooltip");
+		
+		var i = document.createElement('i');
+		i.classList.add("material-icons");
+		
+		//var txt = document.createTextNode(icon);
+		//i.appendChild(txt);
+		i.innerHTML = icon;
+		
+		a.appendChild(i);
+		return a;	
+	}
+	
+	function getDataFromModel() {
+		var myModalEl = document.getElementById('newDynoQuery');
+		
+		var modal = bootstrap.Modal.getInstance(myModalEl) ;
+		var name = document.getElementById("modal-query-name");
+		if (name.value.trim().length==0) {
+			var msgEl = document.getElementById("modal-msg");
+			msgEl.innerHTML = "<p style='color:red'><i class='bi bi-exclamation-triangle'></i> Please enter a unique dynamic query name.</p>";
+		}
+		else {
+			var msgEl = document.getElementById("modal-msg");
+			msgEl.innerHTML = "";
+			
+			const url = window.location.protocol + "//"
+			+ window.location.host
+			+ '/api/v1/dmf/sql-templates/'+name.value.trim();
+
+			addToList('id_api_list', url);
+
+			const request = new XMLHttpRequest();
+			request.open('GET', url, true);
+
+			request.onload = function() {
+				if (request.status === 200) {
+					var cardRowEl = document.getElementById("card-container")
+					const data = JSON.parse(request.responseText);
+					if (data.length>0) {
+						msgEl.innerHTML = "<p style='color:red'><i class='bi bi-exclamation-triangle'></i> Dynamic query name already exists.</p>";
+					}
+					else {
+						openDynamicQuery(-1,name.value.trim());
+						$('#deleteDynoQueryButton').attr('disabled', true); 
+						modal.toggle();
+					}
+				} else {
+					// Reached the server, but it returned an error
+				}
+			}
+		
+			request.onerror = function() {
+				console.error('An error occurred fetching the JSON from ' + url);
+			};
+		
+			request.send();
+			
+			//modal.toggle();
+		}
+	}
+	
+	function buildCard(sqlTemplate) {
+		var card = document.createElement('div');
+		card.classList.add("col")
+		
+		var cardH100 = document.createElement('div');
+		cardH100.classList.add("card")
+		cardH100.classList.add("h-100")
+		
+		var cardBody = document.createElement('div');
+		cardBody.classList.add("card-body")
+		
+		var cardTitle = document.createElement('h5');
+		cardTitle.classList.add("card-title")
+		
+		var title = document.createTextNode(sqlTemplate.name)
+		
+		var cardText = document.createElement('p');
+		cardText.classList.add("card-text")
+		var description = document.createTextNode(sqlTemplate.description)
+		
+		var cardFooter = document.createElement('div');
+		cardFooter.classList.add("card-footer")
+		var anchor = document.createElement('a');
+		anchor.classList.add("read-more")
+		anchor.setAttribute("href","javascript:openDynamicQuery("+sqlTemplate.id+",'"+sqlTemplate.name+"')")
+		var span = document.createElement('span');
+		var tryItOut = document.createTextNode("Open the dynamic sql service definition ")
+		var imageArrow = document.createElement('i');
+		imageArrow.classList.add("bi")
+		imageArrow.classList.add("bi-arrow-right")
+		
+		cardTitle.appendChild(title)
+		cardText.appendChild(description)
+		cardBody.appendChild(cardTitle)
+		cardBody.appendChild(cardText)
+		
+		span.appendChild(tryItOut)
+		anchor.appendChild(span)
+		anchor.appendChild(imageArrow)
+		cardFooter.appendChild(anchor)
+		
+		cardH100.appendChild(cardBody)
+		cardH100.appendChild(cardFooter)
+		
+		card.appendChild(cardH100)
+		return card		
+	}
+	
+	function openDynamicQuery(id, dynaQueryNm) {
+		var cardListEl = document.getElementById("card-list")
+		var detailPageEl = document.getElementById("detail-page")
+		cardListEl.classList.add('d-none'); 
+		detailPageEl.classList.remove('d-none'); 
+		populateDynamicQueryDetail(id, dynaQueryNm)
+	}
+	
+	function backToCardList() {
+		var cardListEl = document.getElementById("card-list")
+		var detailPageEl = document.getElementById("detail-page")
+		cardListEl.classList.remove('d-none'); 
+		detailPageEl.classList.add('d-none'); 
+		refreshCards();
+	}
+	
+	function getIdForDataType(dataTypeName) {
+		var id = 0;
+		for (i=0; i<dataTypes.length; i++) {
+			if (dataTypes[i].name == dataTypeName) return dataTypes[i].id;
+		}
+		return id;
+	}
+	
+	function showMsg(type, msg) {
+		let msgRow = document.getElementById("msg-row")
+		let msgLine = document.getElementById("msg-line")
+		let uiMsg = document.getElementById("msg")
+		msgLine.classList.remove('show');
+		uiMsg.innerHTML = "";
+		msgLine.classList.remove('alert-success');
+		msgLine.classList.remove('alert-info');
+		msgLine.classList.remove('alert-warning'); 
+		msgLine.classList.remove('alert-danger'); 
+
+		switch(type) {
+		case MSG_TYPE_SUCCESS:
+			msgLine.classList.add('alert-success'); 
+			uiMsg.innerHTML = "<b>Success:</b> "+msg;
+			break;
+		case MSG_TYPE_INFO:
+			msgLine.classList.add('alert-info');
+			uiMsg.innerHTML = "<b>Info:</b> "+msg;
+			break;
+		case MSG_TYPE_WARNING:
+			msgLine.classList.add('alert-warning');
+			uiMsg.innerHTML = "<b>Warning:</b> "+msg;
+			break;
+		case MSG_TYPE_DANGER:
+			msgLine.classList.add('alert-danger'); 
+			uiMsg.innerHTML = "<b>Error:</b> "+msg;
+			break;
+		}
+
+		msgRow.classList.remove('collapse');
+		msgLine.classList.add('show'); 
+	}
+	
+	function hideMsg() {
+		let msgRow = document.getElementById("msg-row")
+		let msgLine = document.getElementById("msg-line")
+		let uiMsg = document.getElementById("msg")
+		uiMsg.innerHTML = ""
+		msgRow.classList.add('collapse'); 
+		msgLine.classList.remove('show'); 
+	}
+	
+	function insertUpdateDynoQuery(method,dq) {
+
+		var url = window.location.protocol + "//" + window.location.host
+				+ '/api/v1/dmf/sql-templates/'
+		$.ajax({
+			type : method,
+			url : url,
+			data : JSON.stringify(dq),
+			contentType : "application/json; charset=utf-8",
+			dataType : "json",
+			error : function(data, status, xhr) {
+				showMsg(MSG_TYPE_DANGER, "Insert failed! Status="+xhr.status+", "+xhr.responseText);
+			},
+			success : function(data, status, xhr) {
+				if (dq.parameters.length>0) {
+					for (i=0; i<dq.parameters.length; i++) {
+						url = window.location.protocol + "//" + window.location.host
+						+ '/api/v1/dmf/sql-templates/'+dq.name+"/parameters";
+						$.ajax({
+							type : "POST",
+							url : url,
+							//data : JSON.stringify(dq.parameters[i]),
+							data : JSON.stringify(tempHackGenParmJson(dq.name,dq.parameters[i])),
+							contentType : "application/json; charset=utf-8",
+							dataType : "json",
+							error : function(data, status, xhr) {
+								showMsg(MSG_TYPE_DANGER, "Insert parameters failed! Status="+xhr.status+", "+xhr.responseText);
+							},
+							success : function(data, status, xhr) {
+								showMsg(MSG_TYPE_SUCCESS, "Insert completed successfully! Status="+xhr.status+", "+xhr.responseText);
+							}					
+					    });
+					}
+			    }
+				else
+					showMsg(MSG_TYPE_SUCCESS, "Insert completed successfully! Status="+xhr.status+", "+xhr.responseText);
+			}
+		});
+	}
+	
+	function updateDynoQuery(dq) {
+		url = window.location.protocol + "//" + window.location.host
+		+ '/api/v1/dmf/sql-templates/'+dq.name+"/parameters";
+		$.ajax({
+			type : "DELETE",
+			url : url,
+			data : "",
+			contentType : "application/json; charset=utf-8",
+			dataType : "json",
+			error : function(data, status, xhr) {
+				showMsg(MSG_TYPE_DANGER, "Delete parameters failed! Status="+xhr.status+", "+xhr.responseText);
+			},
+			success : function(data, status, xhr) {
+				insertUpdateDynoQuery("PUT",dq);
+			}					
+	    });
+		
+	}
+	
+	function tempHackGenParmJson(sqlTemplateNm,p) {
+		j = p;
+		j.sqlTemplateNm=sqlTemplateNm;
+		j.reqdInd = p.required;
+		return j;
+	}
+
+	function deleteDynoQuery(dq) {
+		const urlParm = window.location.protocol + "//" + window.location.host
+				+ '/api/v1/dmf/sql-templates/' + dq.name + "/parameters"
+				
+		$.ajax({
+			type : "DELETE",
+			url : urlParm,
+			data : "",
+			contentType : "application/json; charset=utf-8",
+			dataType : "json",
+			error : function(data, status, xhr) {
+				//showMsg(MSG_TYPE_DANGER, "Delete failed. Status="+xhr.status+", "+xhr.responseText);
+				//return ("Error");
+			},
+			success : function(data, status, xhr) {
+				//showMsg(MSG_TYPE_SUCCESS, "Deleted completed successfully! Status="+xhr.status+", "+xhr.responseText);
+				//return ("OK");
+			}
+		});		
+				
+		const url = window.location.protocol + "//" + window.location.host
+				+ '/api/v1/dmf/sql-templates/' + dq.name		
+		$.ajax({
+			type : "DELETE",
+			url : url,
+			data : "",
+			contentType : "application/json; charset=utf-8",
+			dataType : "json",
+			error : function(data, status, xhr) {
+				showMsg(MSG_TYPE_DANGER, "Delete failed. Status="+xhr.status+", "+xhr.responseText);
+				return ("Error");
+			},
+			success : function(data, status, xhr) {
+				showMsg(MSG_TYPE_SUCCESS, "Deleted completed successfully! Status="+xhr.status+", "+xhr.responseText);
+				return ("OK");
+			}
+		});
+	}
+	
+	function updateApiUrl() {
+		var apiValid=true;
+		var formDynamicQuery = buildDynamicQueryObjectFromForm();
+		var url =  window.location.protocol + "//" + window.location.host
+		+ '/api/v1/dyn/sql/'+$('#data-sources-list')[0].value+"/"+formDynamicQuery.name;
+		
+		if ($('#data-sources-list')[0].value=='none') apiValid=false;
+		
+		var parmCnt=0;
+		for (i=0;i<formDynamicQuery.parameters.length;i++) {
+			var id = "#"+formDynamicQuery.parameters[i].name+"-run-id";
+			var value = $(id)[0].value;
+			if (value) {
+				if (parmCnt++==0) url+= "?";
+				else url+="&";
+
+				url+= formDynamicQuery.parameters[i].name + "=" + value;
+			}
+			else {
+				if (formDynamicQuery.parameters[i].required && formDynamicQuery.parameters[i].defaultValue=='')  apiValid=false;
+			}
+		}
+		
+		if ($('#to-csv')[0].checked==true) {
+			if (parmCnt++==0) url+= "/?";
+			else url+="&";
+			url+="to-csv=true";
+		}
+		
+		if ($("#result-set-max-size")[0].value>0) {
+			if (parmCnt++==0) url+= "/?";
+			else url+="&";
+			url+="result-set-max-size="+$("#result-set-max-size")[0].value;
+		}
+		
+		var key = $("#keys")[0].value
+		if (key && key.trim().length>0) {
+			if (parmCnt++==0) url+= "/?";
+			else url+="&";
+			url+="keys="+$("#keys")[0].value;
+		}
+		
+		if (apiValid) {
+			var a = document.createElement('a');
+			a.target = '_blank';
+			a.href = url;
+			a.innerText = url;
+			
+			$('#api-url-id')[0].innerHTML = "";
+			$('#api-url-id')[0].appendChild(a);
+			$("#api-run-button-id").removeClass("disabled");
+			$("#api-run-button-id").attr("href",url);
+		}
+		else {
+			$('#api-url-id')[0].innerHTML = url;
+			$("#api-run-button-id").addClass("disabled");
+		}
+	}
+	
+	function addRunApiUrl() {
+		var url = $("#api-run-button-id").attr("href");
+		addToList('id_api_list', url);			
+	}
+</script>
+</head>
+
+<body>
+
+	<!-- ======= Header ======= -->
+	<header id="header" class="header fixed-top">
+		<div class="container-fluid container-xl d-flex align-items-center justify-content-between">
+
+			<a href="index.html" class="logo d-flex align-items-center"> <img src="assets/img/logo.png" alt=""> <span>WFM</span>
+			</a>
+
+			<nav id="navbar" class="navbar">
+				<ul>
+					<li><a class="nav-link scrollto " href="..">Home</a></li>
+					<li><a class="nav-link scrollto" href="..#about">About</a></li>
+					<li><a class="nav-link scrollto" href="..#try-it">Try-it</a></li>
+					<li><a class="nav-link scrollto" href="..#team">Team</a></li>
+					<li><a class="getstarted scrollto" href="swagger-ui.html">Get Started</a></li>
+				</ul>
+				<i class="bi bi-list mobile-nav-toggle"></i>
+			</nav>
+			<!-- .navbar -->
+
+		</div>
+	</header>
+	<!-- End Header -->
+
+	<main id="main">
+
+		<!-- ======= Breadcrumbs ======= -->
+		<section class="breadcrumbs">
+			<div class="container">
+
+				<ol>
+					<li><a href="../index.html">Home</a></li>
+					<li><a href="../index.html#try-it">Try-it</a></li>
+					<li>Dynamic SQL</li>
+				</ol>
+				<h2>Dynamic SQL</h2>
+
+			</div>
+		</section>
+		<!-- End Breadcrumbs -->
+
+		<!-- ======= inner-page ======= -->
+		<section class="inner-page">
+			<div class="container">
+
+
+<!-- Modal -->
+<div class="modal fade" id="newDynoQuery" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="newDynoQueryLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="newDynoQueryLabel">Add Dynamic Query</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+      		Enter new query name:
+			<input id="modal-query-name" type="input" name="modal-query-name" placeholder="Place new query name here..." style="margin-top: 0px; margin-bottom: 0px; width: 100%;" >
+			<div id="modal-msg"></div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-primary" onclick="javascript:getDataFromModel()">Add</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="runDynoQuery" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="runDynoQueryLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="api-name-id">Run Dynamic Query</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+      		<div class="form-floating mb-3">
+				<sup style="color: #FF0000";>*</sup><select id="data-sources-list" name="data-sources-list" onchange="updateApiUrl()"></select>
+			</div>
+      		<div class="form-floating mb-3"><h5>Parameters:</h5></div>
+			<div id="parms-panel-id"></div>
+			
+			<div class="form-group row">
+				<label for="to-csv" class="col-form-label form-title">
+					<h5>Save to CSV?&nbsp;&nbsp;
+					<span class="switch"><input id="to-csv" name="required" type="checkbox" onchange="javascript:updateApiUrl()"><span class="slider round"></span></span></h5>
+				</label>
+			</div>		
+			
+			<div class="form-group row">		
+				<label for="result-set-max-size" class="col-sm-4 col-form-label form-title">
+					<h5>Result set max size:</h5>
+				</label>
+				<div class="col-sm-8 d-inline">
+					<input id="result-set-max-size" name="length" type="number" autocomplete="off" value="-1" class="form-control" onchange="updateApiUrl()">
+				</div>
+			</div>	
+			
+			<div class="form-group row">		
+				<label for="result-set-max-size" class="col-sm-4 col-form-label form-title">
+					<h5>Keys:</h5>
+				</label>
+				<div class="col-sm-8 d-inline">
+					<input id="keys" name="length" type="text" autocomplete="off" value="" class="form-control" onchange="updateApiUrl()">
+				</div>
+			</div>	
+			
+			<div class="form-floating mb-3"><h5>Api:</h5></div>
+			<div id="api-url-id"></div>
+			<div id="api-run-modal-msg"></div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <a class="btn btn-primary disabled" href="#" target="_blank" role="button" id="api-run-button-id">Run</a>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="card-list">
+	<div class="row">
+		<div class="col-sm-12">
+			<ul class="nav nav-tabs extra-bottom">
+			  <li class="nav-item dropdown">
+			    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Sort by</a>
+			    <ul class="dropdown-menu">
+			      <li><a class="dropdown-item" href="#">Name</a></li>
+			      <li><a class="dropdown-item" href="#">Newest to oldest</a></li>
+			      <li><a class="dropdown-item" href="#">Oldest to newest</a></li>
+			    </ul>
+			  </li>
+			</ul>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-8 col-md-10 extra-bottom">
+			<div class="flex--item fl-grow1 searchbar px12 js-searchbar ps-relative">
+				<input id="search" class="s-input s-input__search js-search-field"
+				type="input" autocomplete="off" name="search" placeholder="Search..." style="margin-top: 0px; margin-bottom: 0px; width: 100%;">
+				<svg aria-hidden="true" class="s-input-icon s-input-icon__search svg-icon iconSearch" width="18" height="18" viewBox="0 0 18 18"><path fill="#7a7a7a" d="m18 16.5-5.14-5.18h-.35a7 7 0 10-1.19 1.19v.35L16.5 18l1.5-1.5ZM12 7A5 5 0 112 7a5 5 0 0110 0Z"></path></svg>
+			</div>
+		</div>
+		<div class="col-sm-4 col-md-2">
+			<button type="button" class="btn btn-primary float-end" data-bs-toggle="modal" data-bs-target="#newDynoQuery">
+				<i	class="bi bi-plus"></i> <span>Add new</span>
+			</button>
+		</div>
+	</div>
+	<div class="row row-cols-1 row-cols-md-3 g-4" id="card-container">
+	</div>
+	<div class="d-flex justify-content-center" id="dynamic-sql-spinner-id">
+		<div class="spinner-border" role="status">
+			<span class="visually-hidden">Loading...</span>
+		</div>
+	</div>
+</div>
+
+			<div id="detail-page" class="d-none">
+				<div class="ss-form">
+					<form>
+						<div class="form-group row extra-bottom">
+							<div class="col-sm-12">
+								<button type="button" class="btn btn-primary" onclick="javascript:backToCardList()">
+									<i	class="bi bi-arrow-left"></i> <span>Back</span>
+								</button>
+								<button type="button" class="btn btn-primary" id="saveDynoQueryButton" disabled="true">
+									<i	class="bi bi-save"></i> <span>Save</span>
+								</button>
+								<button type="button" class="btn btn-primary" id="deleteDynoQueryButton">
+									<i	class="bi bi-trash"></i> <span>Delete</span>
+								</button>
+								<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#runDynoQuery">
+									<i class="bi bi-play-circle"></i> <span>Test</span>
+								</button>
+							</div>
+						</div>
+						<div class="form-group row">
+							<label for="query-name" class="col-sm-2 col-form-label form-title"><h2>Name</h2></label>
+							<div class="col-sm-10">
+								<h3 id="query-name"></h3>
+							</div>
+						</div>
+						<div class="form-group row collapse" id="msg-row">
+							<div class="col-sm-10 offset-sm-2">
+								<div id="msg-line" class="alert alert-danger alert-dismissible fade hide">
+									<div id="msg"></div>
+									<button type="button" class="close" data-dismiss="alert" onclick="hideMsg()">&times;</button>
+								</div>
+							</div>
+						</div>
+						<div class="form-group row">
+							<label for="query-description" class="col-sm-2 col-form-label form-title">
+								<h2>Description &nbsp;<a class="edit-desc" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a><a class="add-desc" title="Add" data-toggle="tooltip"><i class="material-icons">&#xE03B;</i></a></h2> 
+							</label>
+							<div class="col-sm-10">
+								<input id="query-description"  autocomplete="off" type="input" name="query-description" placeholder="Place Description here..." style="margin-top: 0px; margin-bottom: 0px; width: 100%;" readonly>
+							</div>
+						</div>
+						<div class="form-group row">
+							<label for="sql-template" class="col-sm-2 col-form-label form-title">
+								<h2>Sql Template &nbsp;<a class="edit-sql" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a><a class="add-sql" title="Add" data-toggle="tooltip"><i class="material-icons">&#xE03B;</i></a></h2>
+							</label>
+							<div class="col-sm-10">
+								<textarea id="sql-template" name="sql-template" style="margin-top: 0px; margin-bottom: 0px; width: 100%;" placeholder="Place SQL Template here..." spellcheck="false" readonly></textarea>
+							</div>
+						</div>
+						<div class="form-group row">
+							<div class="table-wrapper">
+								<div class="table-title">
+									<div class="row">
+										<div class="col-sm-8">
+											<h2>Parameters</h2>
+										</div>
+										<div class="col-sm-4">
+											<button id="add-parameter" type="button" class="btn btn-info add-new invisible">
+												<i class="fa fa-plus"></i> Add New
+											</button>
+										</div>
+									</div>
+								</div>
+								<table class="table table-bordered">
+									<thead>
+										<tr>
+											<th width="15%">Name</th>
+											<th width="35%">Description</th>
+											<th width="10%">Data Type</th>
+											<th width="8%">Length</th>
+											<th width="8%">Requird?</th>
+											<th>Default Value</th>
+											<th width="6%">Actions</th>
+										</tr>
+									</thead>
+									<tbody id="parameter-table-body">
+									</tbody>
+								</table>
+								<div class="d-none justify-content-center" id="api-parm-spinner-id">
+									<div class="spinner-border" role="status">
+										<span class="visually-hidden">Loading...</span>
+									</div>
+								</div>
+							</div>
+						</div>
+					</form>
+					<div class="panel panel-primary" id="api_panel">
+						<div class="panel-heading">
+							<h3 class="panel-title">API Execution List</h3>
+						</div>
+						<div class="panel-body">
+							<ul class="list-group" id="id_api_list">
+
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+				
+			</div>
+		</section>
+		<!-- End inner-page -->
+
+	</main>
+	<!-- End #main -->
+
+	<!-- ======= Footer ======= -->
+	<footer id="footer" class="footer">
+
+
+		<div class="footer-top">
+			<div class="container">
+				<div class="row gy-4">
+					<div class="col-lg-5 col-md-12 footer-info">
+						<a href="index.html" class="logo d-flex align-items-center"> <img src="assets/img/logo.png" alt=""> <span>WFM</span>
+						</a>
+						<p>Empower profitable growth through cognitive workforce management capabilities to anticipate client needs,
+							delivering the right skills at the right time yielding business outcomes that matter to our clients, our
+							employees, and our company.</p>
+						<div class="social-links mt-3">
+							<a href="#" class="linkedin"><i class="bi bi-linkedin bx bxl-linkedin"></i></a> <a href="#" class="twitter"><i
+								class="bi bi-twitter"></i></a> <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
+						</div>
+					</div>
+
+					<div class="col-lg-2 col-6 footer-links">
+						<h4>Useful Links</h4>
+						<ul>
+							<li><i class="bi bi-chevron-right"></i> <a
+								href="https://w3.ibm.com/w3publisher/ibm-services-workforce-management">WFM Home</a></li>
+							<li><i class="bi bi-chevron-right"></i> <a href="index.html#about">About us</a></li>
+							<li><i class="bi bi-chevron-right"></i> <a href="index.html#services">Services</a></li>
+							<li><i class="bi bi-chevron-right"></i> <a href="https://w3.ibm.com">Terms of service</a></li>
+							<li><i class="bi bi-chevron-right"></i> <a href="https://w3.ibm.com/w3publisher/w3-privacy-notice/ibm-internal-privacy-statement-us-en">Privacy
+									policy</a></li>
+						</ul>
+					</div>
+
+					<div class="col-lg-2 col-6 footer-links">
+						<h4>Our Services</h4>
+						<ul>
+							<li><i class="bi bi-chevron-right"></i> <a href="#">tbd</a></li>
+
+						</ul>
+					</div>
+
+					<div class="col-lg-3 col-md-12 footer-contact text-center text-md-start">
+						<h4>Contact Us</h4>
+						<p>
+							<b>Steven J Ponessa</b> <br> Mount Pleasant, SC, United States <br> <strong>Phone:</strong> +1
+							845-699-5617 <br> <strong>Email:</strong> <a href="mailto:ponessa@us.ibm.com">ponessa@us.ibm.com</a>
+						</p>
+						<p>
+							<b>Mani Shahidsales</b> <br> Blue Bell, PA, United States <br> <strong>Phone:</strong> +1 845-699-5617
+							<br> <strong>Email:</strong> <a href="mailto:mshahids@us.ibm.com">mshahids@us.ibm.com</a>
+						</p>
+
+					</div>
+
+				</div>
+			</div>
+		</div>
+
+		<div class="container">
+			<div class="copyright">
+				&copy; Copyright <strong><span>IBM</span></strong>. All Rights Reserved
+			</div>
+			<div class="credits">
+				<!-- All the links in the footer should remain intact. -->
+				<!-- You can delete the links only if you purchased the pro version. -->
+				<!-- Licensing information: https://bootstrapmade.com/license/ -->
+				<!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/flexstart-bootstrap-startup-template/ -->
+				Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+			</div>
+		</div>
+	</footer>
+	<!-- End Footer -->
+
+	<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+	<!-- Vendor JS Files -->
+	<script src="assets/vendor/bootstrap/js/bootstrap.bundle.js"></script>
+	<script src="assets/vendor/aos/aos.js"></script>
+	<script src="assets/vendor/php-email-form/validate.js"></script>
+	<script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
+	<script src="assets/vendor/purecounter/purecounter.js"></script>
+	<script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+	<script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
+
+	<!-- Template Main JS File -->
+	<script src="assets/js/main.js"></script>
+	<script src="assets/js/sql-formatter.min.js"></script>
+
+</body>
+
+</html>

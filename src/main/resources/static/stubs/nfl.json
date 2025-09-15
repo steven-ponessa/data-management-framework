@@ -1,0 +1,282 @@
+{
+  "code": "NFL",
+  "name": "National Football Leauge",
+  "children": [
+    {
+      "name": "American Football Conference",
+      "code": "AFC",
+      "children": [
+        {
+          "name": "East",
+          "children": [
+            {
+              "city": "Buffalo",
+              "name": "Bills",
+              "code": "BUF",
+              "conf": "AFC",
+              "div": "EAST"
+            },
+            {
+              "city": "Miami",
+              "name": "Dolphins",
+              "code": "MIA",
+              "conf": "AFC",
+              "div": "East"
+            },
+            {
+              "city": "New England",
+              "name": "Patriots",
+              "code": "NE",
+              "conf": "AFC",
+              "div": "East"
+            },
+            {
+              "city": "New York",
+              "name": "Jets",
+              "code": "NYJ",
+              "conf": "AFC",
+              "div": "East"
+            }
+          ]
+        },
+        {
+          "name": "North",
+          "children": [
+            {
+              "city": "Baltimore",
+              "name": "Ravens",
+              "code": "BAL",
+              "conf": "AFC",
+              "div": "North"
+            },
+            {
+              "city": "Cincinnati",
+              "name": "Bengals",
+              "code": "CIN",
+              "conf": "AFC",
+              "div": "North"
+            },
+            {
+              "city": "Cleveland",
+              "name": "Browns",
+              "code": "CLE",
+              "conf": "AFC",
+              "div": "North"
+            },          
+            {
+              "city": "Pittsburgh",
+              "name": "Steelers",
+              "code": "PIT",
+              "conf": "AFC",
+              "div": "North"
+            }
+          ]
+        },
+        {
+          "name": "South",
+          "children": [
+            {
+              "city": "Houston",
+              "name": "Texans",
+              "code": "HOU",
+              "conf": "AFC",
+              "div": "South"
+            },
+            {
+              "city": "Indianapolis",
+              "name": "Colts",
+              "code": "IND",
+              "conf": "AFC",
+              "div": "South"
+            },
+            {
+              "city": "Jacksonville",
+              "name": "Jaquars",
+              "code": "JAX",
+              "conf": "AFC",
+              "div": "South"
+            },
+            {
+              "city": "Tennessee",
+              "name": "Titants",
+              "code": "TEN",
+              "conf": "AFC",
+              "div": "South"
+            }
+          ]
+        },
+        {
+          "name": "West",
+          "children": [
+            {
+              "city": "Denver",
+              "name": "Broncos",
+              "code": "DEN",
+              "conf": "AFC",
+              "div": "West"
+            },
+            {
+              "city": "Kansas City",
+              "name": "Chiefts",
+              "code": "KC",
+              "conf": "AFC",
+              "div": "West"
+            },
+            {
+              "city": "Oakland",
+              "name": "Raiders",
+              "code": "OAK",
+              "conf": "AFC",
+              "div": "West"
+            },
+            {
+              "city": "San Diego",
+              "name": "Chargers",
+              "code": "SD",
+              "conf": "AFC",
+              "div": "West"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "National Football Conference",
+      "code": "NFC",
+      "children": [
+        {
+          "name": "East",
+          "children": [
+            {
+              "city": "Dallas",
+              "name": "Cowboys",
+              "code": "DAL",
+              "conf": "NFC",
+              "div": "East"
+            },
+            {
+              "city": "New York",
+              "name": "Giants",
+              "code": "NYG",
+              "conf": "NFC",
+              "div": "East"
+            },
+            {
+              "city": "Philidelphia",
+              "name": "Eagles",
+              "code": "PHI",
+              "conf": "NFC",
+              "div": "East"
+            },
+            {
+              "city": "Washington",
+              "name": "Commanders",
+              "code": "WAS",
+              "conf": "NFC",
+              "div": "East"
+            }
+          ]
+        },
+        {
+          "name": "North",
+          "children": [
+            {
+              "city": "Chicago",
+              "name": "Bears",
+              "code": "CIN",
+              "conf": "NFC",
+              "div": "North"
+            },
+            {
+              "city": "Detroit",
+              "name": "Lions",
+              "code": "DET",
+              "conf": "NFC",
+              "div": "North"
+            },
+            {
+              "city": "Green Bay",
+              "name": "Packers",
+              "code": "GB",
+              "conf": "NFC",
+              "div": "North"
+            },
+            {
+              "city": "Minnesota",
+              "name": "Vikings",
+              "code": "MIN",
+              "conf": "NFC",
+              "div": "North"
+            }
+          ]
+        },
+        {
+          "name": "South",
+          "children": [
+            {
+              "city": "Atlanta",
+              "name": "Falcons",
+              "code": "ATL",
+              "conf": "NFC",
+              "div": "South"
+            },
+            {
+              "city": "Carolina",
+              "name": "Panthers",
+              "code": "CAR",
+              "conf": "NFC",
+              "div": "South"
+            },
+            {
+              "city": "New Orleans",
+              "name": "Saints",
+              "code": "NO",
+              "conf": "NFC",
+              "div": "South"
+            },
+            {
+              "city": "Tampa Bay",
+              "name": "Buccaneers",
+              "code": "TB",
+              "conf": "NFC",
+              "div": "South"
+            }
+          ]
+        },
+        {
+          "name": "West",
+          "children": [
+            {
+              "city": "Arizona",
+              "name": "Cardinals",
+              "code": "ARI",
+              "conf": "NFC",
+              "div": "West"
+            },
+            {
+              "city": "Seattle",
+              "name": "Seahawks",
+              "code": "SEA",
+              "conf": "NFC",
+              "div": "West"
+            },
+            {
+              "city": "San Francisco",
+              "name": "49ers",
+              "code": "SF",
+              "conf": "NFC",
+              "div": "West"
+            },
+            {
+              "city": "St. Louis",
+              "name": "Rams",
+              "code": "STL",
+              "conf": "NFC",
+              "div": "West"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,2068 @@
+{
+    "_embedded":{
+       "dictionaryItemList":[
+          {
+             "value":"fbs-footballFilter",
+             "children":[
+                {
+                   "value":"Division",
+                   "key":"divCd",
+                   "order":0
+                },
+                {
+                   "value":"Team Cd",
+                   "key":"teamCd",
+                   "order":1
+                },
+                {
+                   "value":"Nickname",
+                   "key":"nickname",
+                   "order":2
+                },
+                {
+                   "value":"Institution Nm",
+                   "key":"institutionNm",
+                   "order":3
+                },
+                {
+                   "value":"Founded Yr",
+                   "key":"foundedYr",
+                   "order":4
+                },
+                {
+                   "value":"Joined Dt",
+                   "key":"joinedDt",
+                   "order":5
+                },
+                {
+                   "value":"Enrollment",
+                   "key":"enrollmentCnt",
+                   "order":6
+                },
+                {
+                   "value":"Endowment Amt",
+                   "key":"endowmentAmt",
+                   "order":7
+                }
+             ],
+             "form":"view"
+          },
+          {
+             "value":"featuresFilter",
+             "children":[
+                {
+                   "value":"Division",
+                   "key":"divCd",
+                   "order":0
+                },
+                {
+                   "value":"Team Cd",
+                   "key":"teamCd",
+                   "order":1
+                },
+                {
+                   "value":"Nickname",
+                   "key":"nickname",
+                   "order":2
+                },
+                {
+                   "value":"Institution Nm",
+                   "key":"institutionNm",
+                   "order":3
+                },
+                {
+                   "value":"Founded Yr",
+                   "key":"foundedYr",
+                   "order":4
+                },
+                {
+                   "value":"Joined Dt",
+                   "key":"joinedDt",
+                   "order":5
+                },
+                {
+                   "value":"Enrollment",
+                   "key":"enrollmentCnt",
+                   "order":6
+                },
+                {
+                   "value":"Endowment Amt",
+                   "key":"endowmentAmt",
+                   "order":7
+                }
+             ],
+             "form":"view"
+          },
+          {
+             "value":"occsFilter",
+             "children":[
+                {
+                   "value":"Status",
+                   "key":"status",
+                   "order":0
+                },
+                {
+                   "value":"Request Type",
+                   "key":"requestType",
+                   "order":1
+                }
+             ],
+             "form":"view"
+          },
+          {
+             "value":"pendingRequestsFilter",
+             "children":[
+                {
+                   "value":"Status",
+                   "key":"status",
+                   "order":0
+                },
+                {
+                   "value":"Use Restrictions",
+                   "key":"useRestrictions",
+                   "order":1
+                },
+                {
+                   "value":"Vendor",
+                   "key":"contentOwner",
+                   "order":2
+                },
+                {
+                   "value":"Business Unit",
+                   "key":"businessUnit",
+                   "order":3
+                },
+                {
+                   "value":"Request Type",
+                   "key":"requestType",
+                   "order":4
+                }
+             ],
+             "form":"view"
+          },
+          {
+             "value":"IprcPendingRequestsFilter",
+             "children":[
+                {
+                   "value":"Use Restrictions",
+                   "key":"useRestrictions",
+                   "order":1
+                },
+                {
+                   "value":"Vendor",
+                   "key":"contentOwner",
+                   "order":2
+                },
+                {
+                   "value":"Business Unit",
+                   "key":"businessUnit",
+                   "order":3
+                }
+             ],
+             "form":"view"
+          },
+          {
+             "value":"statusField-pendingRequests",
+             "children":[
+                {
+                   "value":"Approved",
+                   "order":0
+                },
+                {
+                   "value":"Pending",
+                   "order":1
+                },
+                {
+                   "value":"Review",
+                   "order":2
+                }
+             ],
+             "form":"view"
+          },
+          {
+             "value":"reviewersManagementRoles",
+             "children":[
+                {
+                   "value":"Lead Reviewers",
+                   "children":[
+                      {
+                         "value":"IP Legal",
+                         "order":0
+                      },
+                      {
+                         "value":"Governance Focal",
+                         "order":1
+                      }
+                   ],
+                   "key":"LEAD_REVIEWER",
+                   "order":0
+                },
+                {
+                   "value":"Notification Reviewers",
+                   "children":[
+                      {
+                         "value":"Large Vendor Contracts",
+                         "order":0
+                      }
+                   ],
+                   "key":"NOTIFICATION_REVIEWER",
+                   "order":1
+                },
+                {
+                   "value":"Additional Reviewers",
+                   "children":[
+                      {
+                         "value":"Reviewer",
+                         "order":0
+                      }
+                   ],
+                   "key":"OPTIONAL_REVIEWER",
+                   "order":2
+                }
+             ],
+             "form":"view"
+          },
+          {
+             "value":"statusField",
+             "children":[
+                {
+                   "value":"Declined",
+                   "order":0
+                },
+                {
+                   "value":"Approved",
+                   "order":1
+                },
+                {
+                   "value":"Pending",
+                   "order":2
+                },
+                {
+                   "value":"Draft",
+                   "order":3
+                },
+                {
+                   "value":"Review",
+                   "order":4
+                },
+                {
+                   "value":"Accepted",
+                   "order":5
+                },
+                {
+                   "value":"Archived",
+                   "order":6
+                },
+                {
+                   "value":"Abandoned",
+                   "order":7
+                }
+             ],
+             "form":"view"
+          },
+          {
+             "value":"useRestrictions",
+             "children":[
+                {
+                   "value":"High",
+                   "description":"Any Data set request that includes: Data Format – Person Image or Voice; Data Contains – Personal Information (PI), Sensitive Personal Information (SPI), Personal Health Information (PHI), Confidential, or Biometric; Guidelines – California Consumer Privacy Act (CCPA), EU General Data Protection Regulation (GDPR), US Health Insurance Portability and Accountability Act (HIPAA), Brazil General Data Protection Law (LGPD), China Personal Information Protection Law (PIPL) or Federal Banking Agency (FBA); Data Obtained by Webscraping/Crawling; Client data",
+                   "order":0
+                },
+                {
+                   "value":"Medium",
+                   "description":"Any Data set request that includes: Data stored in different country than Obtained; Data accessed by individuals in different countries than data is stored; Purchased data; Modified data; Continuous delivery; Anonymized Personal Information (PI);",
+                   "order":1
+                },
+                {
+                   "value":"Low",
+                   "description":"Any request that does not include any of the items in the High or Medium category.",
+                   "order":2
+                }
+             ],
+             "description":"Use Restrictions - a risk ranking for privacy or security risks based on the set of data requested for clearance.  Ranked as High, Medium, or Low.",
+             "form":"request"
+          },
+          {
+             "value":"allRequestsFilter",
+             "children":[
+                {
+                   "value":"Content Title",
+                   "key":"contentTitle",
+                   "order":0
+                },
+                {
+                   "value":"Vendor",
+                   "key":"contentOwner",
+                   "order":1
+                },
+                {
+                   "value":"Status",
+                   "key":"status",
+                   "order":2
+                },
+                {
+                   "value":"Plan to use the Content",
+                   "key":"contentUse",
+                   "order":3
+                },
+                {
+                   "value":"Fee",
+                   "key":"fee",
+                   "order":4
+                },
+                {
+                   "value":"Royalty and Payment Management",
+                   "key":"royaltyManagement",
+                   "order":5
+                },
+                {
+                   "value":"Data Type",
+                   "key":"dataType",
+                   "order":6
+                },
+                {
+                   "value":"Data Domain",
+                   "key":"dataDomain",
+                   "order":7
+                },
+                {
+                   "value":"Use Restrictions",
+                   "key":"useRestrictions",
+                   "order":8
+                },
+                {
+                   "value":"Data Classification",
+                   "key":"dataClass",
+                   "order":9
+                }
+             ],
+             "form":"view"
+          },
+          {
+             "value":"IPRCRequestsFilter",
+             "children":[
+                {
+                   "value":"Status",
+                   "key":"status",
+                   "order":0
+                },
+                {
+                   "value":"Use Restrictions",
+                   "key":"useRestrictions",
+                   "order":1
+                },
+                {
+                   "value":"Vendor",
+                   "key":"contentOwner",
+                   "order":2
+                },
+                {
+                   "value":"Business ",
+                   "key":"businessUnit",
+                   "order":3
+                }
+             ],
+             "form":"view"
+          },
+          {
+             "value":"statusField-IPRCRequests",
+             "children":[
+                {
+                   "value":"Approved",
+                   "order":0
+                },
+                {
+                   "value":"Pending",
+                   "order":1
+                },
+                {
+                   "value":"Review",
+                   "order":2
+                }
+             ],
+             "form":"view"
+          },
+          {
+             "value":"personalRequestsFilter",
+             "children":[
+                {
+                   "value":"Status",
+                   "key":"status",
+                   "order":0
+                },
+                {
+                   "value":"Request Type",
+                   "key":"requestType",
+                   "order":1
+                }
+             ],
+             "form":"view"
+          },
+          {
+             "value":"statusField-allRequests",
+             "children":[
+                {
+                   "value":"Approved",
+                   "order":0
+                },
+                {
+                   "value":"Declined",
+                   "order":1
+                },
+                {
+                   "value":"Accepted",
+                   "order":2
+                }
+             ],
+             "form":"view"
+          },
+          {
+             "value":"allRequestsExtendedFilter",
+             "children":[
+                {
+                   "value":"Status",
+                   "key":"status",
+                   "order":0
+                },
+                {
+                   "value":"Plan to use the Content",
+                   "key":"contentUse",
+                   "order":1
+                },
+                {
+                   "value":"Content Title",
+                   "key":"contentTitle",
+                   "order":2
+                },
+                {
+                   "value":"Vendor",
+                   "key":"contentOwner",
+                   "order":3
+                },
+                {
+                   "value":"Business Unit",
+                   "key":"businessUnit",
+                   "order":4
+                }
+             ],
+             "form":"view"
+          },
+          {
+             "value":"selfCertificated",
+             "description":"Self-Certification - you can skip request review step and directly submit your request because it corresponds Self-Certification criteria.  This means that a manual resource will not need to review the form, it can be submitted directly for approval.",
+             "form":"request"
+          },
+          {
+             "value":"status",
+             "description":"Request Status - the specific period of request flow, implying user actions according to assigned roles.",
+             "form":"request"
+          },
+          {
+             "value":"dataType",
+             "children":[
+                {
+                   "value":"Licensed Data (Contracted/For Consideration)",
+                   "description":"Data that has defined terms and has a fee or other consideration (e.g.: IBM Procurement will be involved)",
+                   "order":0
+                },
+                {
+                   "value":"Licensed Data (Open/No Consideration)",
+                   "description":"Data that has defined terms but has no fee or other consideration.  For example - an Open Government or Open Data regime, but which has other form of terms or data license (including, e.g., CLDA and Creative Commons). ",
+                   "order":1
+                },
+                {
+                   "value":"Public/Unrestricted Data",
+                   "description":"Data available in the public domain or otherwise made available with no license terms, payment or restrictions on use.",
+                   "order":2
+                },
+                {
+                   "value":"Client Data",
+                   "description":"Client Data - data owned by an IBM Client.",
+                   "order":3
+                },
+                {
+                   "value":"Approved for Specific Use Only",
+                   "description":"This request is approved for this specific use only and will not be included for re-use in this manner for any other user or use case.",
+                   "order":4
+                }
+             ],
+             "description":"Data Type - where is the data coming from and how is it licensed?",
+             "form":"request"
+          },
+          {
+             "value":"contentTerms",
+             "description":"License Terms for data - licensing involves obtaining the list of permissions (terms) from a company (licensor) to manufacture and sell/utilize one or more of its products within a defined market area. The company that obtains these rights (the licensee) usually agrees to pay a royalty fee to the original owner.",
+             "form":"request"
+          },
+          {
+             "value":"dataFormat",
+             "children":[
+                {
+                   "value":"HTML",
+                   "description":"HTML - the HyperText Markup Language is the standard markup language for documents designed to be displayed in a web browser.",
+                   "group":"0",
+                   "order":0
+                },
+                {
+                   "value":"Text",
+                   "description":"Text - Data in the form of words or alphabetic characters",
+                   "group":"0",
+                   "order":1
+                },
+                {
+                   "value":"Person image",
+                   "description":"Person Image - image data is most often used to represent graphic or pictorial data. ... Typically, this data must be converted into a raster format (and perhaps vector) to be used analytically with the GIS. Image data is typically stored in a variety of de facto industry standard proprietary formats. Person Image refers to the content of the data image – it should contain any presence of the person allowing the person’s identification based on the details.",
+                   "group":"0",
+                   "order":2
+                },
+                {
+                   "value":"PDF",
+                   "description":"PDF - a file format that provides an electronic image of text or text and graphics that looks like a printed document and can be viewed, printed, and electronically transmitted.",
+                   "group":"0",
+                   "order":3
+                },
+                {
+                   "value":"ARCGIS",
+                   "description":"ARCGIS - arcMap is the map display and editing workhorse for the ESRI ArcGIS Geographical Information System (GIS) software package. It is most widely used for map creation, but also has broad capabilities for editing and analysis.",
+                   "group":"0",
+                   "order":4
+                },
+                {
+                   "value":"Table",
+                   "description":"Table - arrangement of information or data, typically in rows and columns, or possibly in a more complex structure.",
+                   "group":"0",
+                   "order":5
+                },
+                {
+                   "value":"LIS",
+                   "description":"LIS - LIS acquires datasets with income, wealth, employment, and demographic data from many high- and middle-income countries, harmonises them to enable cross-national comparisons, and makes them publicly available in two databases, the Luxembourg Income Study Database (LIS) and the Luxembourg Wealth Study Database (LWS).",
+                   "group":"0",
+                   "order":6
+                },
+                {
+                   "value":"Excel",
+                   "description":"Excel - Microsoft Excel is a spreadsheet developed by Microsoft for Windows, macOS, Android and iOS. It features calculation or computation capabilities, graphing tools, pivot tables, and a macro programming language called Visual Basic for Applications.",
+                   "group":"0",
+                   "order":7
+                },
+                {
+                   "value":"CSV",
+                   "description":"CSV - a comma-separated values (CSV) file is a delimited text file that uses a comma to separate values. Each line of the file is a data record.",
+                   "group":"0",
+                   "order":8
+                },
+                {
+                   "value":"Tableau",
+                   "description":"Tableau - the structured data representation, usually in a report or page form to be accessed using Tableau Visualization Tool.",
+                   "group":"0",
+                   "order":9
+                },
+                {
+                   "value":"MAP",
+                   "description":"MAP - any digital data set(s) including geographic, vector data coordinates, raster, or associated tabular attributes supplied or used in performance of any Task Order/Purchase Order.",
+                   "group":"0",
+                   "order":10
+                },
+                {
+                   "value":"SBOM",
+                   "description":"SBOM - Selling Bill of Material is a list of things that are used in a service or a product.  This is like a list of ingredients.",
+                   "group":"0",
+                   "order":11
+                },
+                {
+                   "value":"Voice",
+                   "description":"Voice - digital audio data is simply a binary representation of a sound. This data can be written to a binary file using an audio file format for permanent storage much in the same way bitmap data is preserved in an image file format.",
+                   "group":"0",
+                   "order":12
+                },
+                {
+                   "value":"JSON",
+                   "description":"Java Script Object Notation files are a lightweight data-interchange format which is easy for humans to read and write as well as easy for machines to parse and generate",
+                   "group":"0",
+                   "order":13
+                },
+                {
+                   "value":"Other",
+                   "group":"0",
+                   "order":14
+                },
+                {
+                   "value":"I don't know",
+                   "group":"1",
+                   "order":15
+                }
+             ],
+             "description":"Data Format - the arrangement of data content for a specific shape.",
+             "form":"request"
+          },
+          {
+             "value":"dataClass",
+             "children":[
+                {
+                   "value":"Confidential",
+                   "description":"Data classification – Confidential - confidential Information is a subset of proprietary information. It must be protected in a more restricted way than proprietary information. IBM has a substantial amount of information that provides IBM with a competitive advantage in the marketplace and that derives some or all its economic or other value because it is not publicly available or is not used by others.",
+                   "group":"0",
+                   "order":0
+                },
+                {
+                   "value":"Personal Information (PI)",
+                   "description":"Data classification – PI (Personal Information) - any information relating to an identified or identifiable individual.",
+                   "group":"0",
+                   "order":1
+                },
+                {
+                   "value":"Sensitive Personal Information (SPI)",
+                   "description":"Data classification – SPI (Sensitive Personal Information) - any information relating to an identified or identifiable individual that is considered “sensitive” due to risks of a financial, employment or social way.",
+                   "group":"0",
+                   "order":2
+                },
+                {
+                   "value":"Personal Health Information (PHI)",
+                   "description":"Data classification – PHI (Personal Health Information) - reference the definition of Sensitive Personal Information (SPI)",
+                   "group":"0",
+                   "order":3
+                },
+                {
+                   "value":"Biometric",
+                   "description":"Data classification – Biometric - information about an individual's intrinsic physical or behavioral traits, such as an image of an individual's fingerprint, retina or a recording of an individual's voice. Biometric data is Sensitive Personal Information (SPI) when the biometric data can be linked to an individual.",
+                   "group":"0",
+                   "order":4
+                },
+                {
+                   "value":"Sensitive Subject Matter",
+                   "description":"Data classification – Sensitive Subject Matter - information that may cause offence to a reader or user, particularly in relation to religion, race, gender, politics, sexuality, disability, or vulgar language.",
+                   "group":"0",
+                   "order":5
+                },
+                {
+                   "value":"Export Controlled",
+                   "description":"Data classification – Export Controlled - Technology or Technical Data that may fall into export control regulations and should be evaluated before using. Export Control is legislation that regulates the export of goods, software and technology. Some items could potentially be useful for purposes that are contrary to the interest of the exporting country. These items are considered to be controlled.",
+                   "group":"0",
+                   "order":6
+                },
+                {
+                   "value":"No",
+                   "group":"2",
+                   "order":7
+                },
+                {
+                   "value":"I don't know",
+                   "group":"1",
+                   "order":8
+                }
+             ],
+             "description":"Data Classification - a way to identify and classify special types of data that may need to be handled with special security and governance parameters.  This includes but is not limited to Personal Information (PI), Sensitive Personal Information (SPI), Personal Health Information (PHI), Biometric and Confidential data.",
+             "form":"request"
+          },
+          {
+             "value":"guidelines",
+             "children":[
+                {
+                   "value":"California Consumer Privacy Act (CCPA)",
+                   "group":"0",
+                   "order":0
+                },
+                {
+                   "value":"US Health Insurance Portability and Accountability Act (HIPAA)",
+                   "group":"0",
+                   "order":1
+                },
+                {
+                   "value":"EU General Data Protection Regulation (GDPR)",
+                   "group":"0",
+                   "order":2
+                },
+                {
+                   "value":"Brazil General Data Protection Law (LGPD)",
+                   "group":"0",
+                   "order":3
+                },
+                {
+                   "value":"China Personal Information Protection Law (PIPL)",
+                   "group":"0",
+                   "order":4
+                },
+                {
+                   "value":"Federal Banking Agency (FBA)",
+                   "group":"0",
+                   "order":5
+                },
+                {
+                   "value":"Other",
+                   "group":"0",
+                   "order":6
+                },
+                {
+                   "value":"N/A",
+                   "group":"2",
+                   "order":7
+                },
+                {
+                   "value":"I don't know",
+                   "group":"1",
+                   "order":8
+                }
+             ],
+             "description":"<div>Data Guidelines - different data laws, regulations, or standards apply in some geographies when using personal data. As a result, IBM may have to provide audit proof or measurements to show the guidelines are followed. For details, see <a target=\"_blank\" rel=\"noopener noreferrer\" href=\"ibm.biz/privacy-laws\">ibm.biz/privacy-laws</a>.</div>",
+             "form":"request"
+          },
+          {
+             "value":"isTechData",
+             "children":[
+                {
+                   "value":"Yes",
+                   "order":0
+                },
+                {
+                   "value":"No",
+                   "order":1
+                },
+                {
+                   "value":"I don't know",
+                   "order":2
+                }
+             ],
+             "description":"Technical data - Information in the form of blueprints, diagrams, models, engineering designs, specifications, manuals, instructions written or recorded on other media such as disks, tapes or read only memories (does not include software).\nTechnology - Specific information necessary for the “development”, “production”, or “use” of a product. The information takes the form of technical data or technical assistance.",
+             "form":"request"
+          },
+          {
+             "value":"gpa",
+             "children":[
+                {
+                   "value":"Yes",
+                   "order":0
+                },
+                {
+                   "value":"No",
+                   "group":"0",
+                   "order":1
+                },
+                {
+                   "value":"I don't know",
+                   "group":"1",
+                   "order":2
+                }
+             ],
+             "description":"Global Privacy Assessment – GPA - https://w3.ibm.com/ibm/privacy/gpa. The assessment process serves to identify and mitigate risks associated with the processing of IBM-controlled Personal Information(PI), and enables IBM to fulfill its regulatory obligations in certain countries.  A GPA must be completed for all Assets and Processing Activities that process IBM-controlled Personal Information (PI).",
+             "form":"request"
+          },
+          {
+             "value":"internetSearch",
+             "children":[
+                {
+                   "value":"Yes",
+                   "order":0
+                },
+                {
+                   "value":"No",
+                   "order":1
+                }
+             ],
+             "form":"request"
+          },
+          {
+             "value":"gpaAsset",
+             "description":"Assets - assets are IBM-owned (or IBM-customized and managed) applications and tools that enable and automate processing activities. They are the tools that collect, store, analyze, and destroy data. For example: Departmental applications, mobile applications, web applications, data warehouses or stores, information or analytic systems, Software as a Service, third-party/vendor applications and those hosted in a customer environment supporting IBM internal processes.",
+             "form":"request"
+          },
+          {
+             "value":"gpaProcess",
+             "description":"Processing Activity - a processing activity is the operation or set of operations performed upon data for a specific purpose.",
+             "form":"request"
+          },
+          {
+             "value":"contentTitle",
+             "description":"Content - a name that describes the content/data that is being requested in this form.",
+             "form":"request"
+          },
+          {
+             "value":"contentLocation",
+             "description":"Data location - the uniquely defined reference to URL/API/resource/place actual data could be accessed/populated from.",
+             "form":"request"
+          },
+          {
+             "value":"contentLocationSample",
+             "description":"Data Sample - A small part or quantity intended to show what the whole is like. This is different than a snippet in that a snippet is a small part of the data where a sample is a copy of the material.",
+             "form":"request"
+          },
+          {
+             "value":"contentOwner",
+             "children":[
+                {
+                   "value":"Dun & Bradstreet",
+                   "description":"<div>Dun and Bradstreet - firmographic data and insights including finance, sales & marketing, risk & compliance, etc.  For more information please visit <a target=\"_blank\" rel=\"noopener noreferrer\" href=\"https://www.dnb.com/\">https://www.dnb.com/</a> or the GCDO CoE with questions.</div>",
+                   "order":0
+                },
+                {
+                   "value":"IFI/Fairview",
+                   "description":"IFI/Fairview - a source of global patent data for which can be leveraged to discover current patent material.  Currently leveraged in the IBM Intellectual Property Advisor (IPA) tool where the data is enriched for internal and external client use.",
+                   "order":1
+                },
+                {
+                   "value":"Resilinc",
+                   "description":"Resilinc - data contains key supply chain data points to assist in forecasting and pro-actively avoiding any chain disruptions.  Resilinc data can be ingested into IBM Operational Risk Insights (ORI) to further refine and produced enriched supply chain issue avoiding recommendations.",
+                   "order":2
+                },
+                {
+                   "value":"FACTSET",
+                   "description":"FACTSET - data consists of Private and Public company news, key contacts, financial evaluations which include earnings reports, analyst commentary with prediction/ trending, and grouping of like companies for a laser focused IBM marketing/ sales review.",
+                   "order":3
+                },
+                {
+                   "value":"Other",
+                   "order":4
+                }
+             ],
+             "description":"Data Owner - a person, corporation, or entity that owns, licenses, or legally controls the use of the dataset. Select Other if the dataset isn't owned by one of the existing vendors in the list.",
+             "form":"request"
+          },
+          {
+             "value":"offerings",
+             "description":"Offering - the element or integrated set of elements (hardware, software, services) designed to satisfy the wants and needs of current and/or prospective customers. A solution is the application of the offering in a specific customer environment.",
+             "form":"request"
+          },
+          {
+             "value":"offeringInfo",
+             "description":"Offering ID - this is the commercial offering the data requested through this tool will be used in or with. Offering Families - a family of offerings can contain multiple IDs and Offering Names.",
+             "form":"request"
+          },
+          {
+             "value":"offeringManager",
+             "description":"Offering Manager - named IBMer who owns the IBM offering as the offering manager or product manager.",
+             "form":"request"
+          },
+          {
+             "value":"offeringAvailabilityRegion",
+             "children":[
+                {
+                   "value":"Worldwide",
+                   "order":0
+                },
+                {
+                   "value":"NA",
+                   "order":1
+                },
+                {
+                   "value":"LA",
+                   "order":2
+                },
+                {
+                   "value":"EMEA",
+                   "order":3
+                },
+                {
+                   "value":"MEA",
+                   "order":4
+                },
+                {
+                   "value":"AP",
+                   "order":5
+                },
+                {
+                   "value":"Japan",
+                   "order":6
+                },
+                {
+                   "value":"Canada",
+                   "order":7
+                },
+                {
+                   "value":"US",
+                   "order":8
+                },
+                {
+                   "value":"UK",
+                   "order":9
+                },
+                {
+                   "value":"Other",
+                   "order":10
+                },
+                {
+                   "value":"I don't know",
+                   "order":11
+                }
+             ],
+             "form":"request"
+          },
+          {
+             "value":"dataSourceRegion",
+             "children":[
+                {
+                   "value":"Worldwide",
+                   "order":0
+                },
+                {
+                   "value":"NA",
+                   "order":1
+                },
+                {
+                   "value":"LA",
+                   "order":2
+                },
+                {
+                   "value":"EMEA",
+                   "order":3
+                },
+                {
+                   "value":"MEA",
+                   "order":4
+                },
+                {
+                   "value":"AP",
+                   "order":5
+                },
+                {
+                   "value":"Japan",
+                   "order":6
+                },
+                {
+                   "value":"Canada",
+                   "order":7
+                },
+                {
+                   "value":"US",
+                   "order":8
+                },
+                {
+                   "value":"UK",
+                   "order":9
+                },
+                {
+                   "value":"Other",
+                   "order":10
+                },
+                {
+                   "value":"I don't know",
+                   "order":11
+                }
+             ],
+             "form":"request"
+          },
+          {
+             "value":"priorClearances",
+             "children":[
+                {
+                   "value":"Yes",
+                   "order":0
+                },
+                {
+                   "value":"No",
+                   "order":1
+                },
+                {
+                   "value":"I don't know",
+                   "order":2
+                }
+             ],
+             "description":"Data clearance - a procedure to review the data set for the correspondence to existing policies, rules, agreements.",
+             "form":"request"
+          },
+          {
+             "value":"fee",
+             "children":[
+                {
+                   "value":"Yes",
+                   "order":0
+                },
+                {
+                   "value":"No",
+                   "order":1
+                },
+                {
+                   "value":"I don't know",
+                   "order":2
+                }
+             ],
+             "description":"Fee - any charges for the use of the Data being requested for clearance in this form.  Requester should also have a budget and procurement process running at the same time as the clearance request.",
+             "form":"request"
+          },
+          {
+             "value":"feeType",
+             "children":[
+                {
+                   "value":"One Time Charge",
+                   "description":"One-Time Charge fee - license type supposing having unrestricted access to the target resource once payment is done.",
+                   "order":0
+                },
+                {
+                   "value":"Recurring",
+                   "description":"Recurring fee - subscriptive type of a license supposing continuous charges for specific period of having access to the resource.",
+                   "order":1
+                }
+             ],
+             "form":"request"
+          },
+          {
+             "value":"poNumber",
+             "description":"PO# - purchase Order Number.",
+             "form":"request"
+          },
+          {
+             "value":"epatNumber",
+             "description":"<div>EPAT - expense Pre-Approval Tool <a target=\"_blank\" rel=\"noopener noreferrer\" href=\"https://epa.us1a.cirrus.ibm.com/#/home\">https://epa.us1a.cirrus.ibm.com/#/home</a>. Can also be known as BETH in your division.</div>",
+             "form":"request"
+          },
+          {
+             "value":"budget",
+             "children":[
+                {
+                   "value":"Yes",
+                   "order":0
+                },
+                {
+                   "value":"No",
+                   "order":1
+                },
+                {
+                   "value":"I don't know",
+                   "order":2
+                }
+             ],
+             "description":"Budget - money allowed to pay for this data being requested.",
+             "form":"request"
+          },
+          {
+             "value":"royaltyManagement",
+             "children":[
+                {
+                   "value":"Yes",
+                   "order":0
+                },
+                {
+                   "value":"No",
+                   "order":1
+                },
+                {
+                   "value":"I don't know",
+                   "order":2
+                }
+             ],
+             "description":"Royalty and Payment Management - IBM offerings with any 3rd Party IP data or 3rd Party Obligations associated with them (whatever the contractual model, including pure \"resale\" or marketplace \"sell-through\" where IBM takes the customer's payment) generate income for IBM (through any sales or distribution channel.)",
+             "form":"request"
+          },
+          {
+             "value":"businessUnit",
+             "children":[
+                {
+                   "value":"IBM Software",
+                   "children":[
+                      {
+                         "value":"Data and AI",
+                         "order":0
+                      },
+                      {
+                         "value":"Security",
+                         "order":1
+                      },
+                      {
+                         "value":"Sustainability Software",
+                         "order":2
+                      },
+                      {
+                         "value":"IBM Automation",
+                         "order":3
+                      },
+                      {
+                         "value":"Others",
+                         "order":4
+                      }
+                   ],
+                   "order":0
+                },
+                {
+                   "value":"IBM Worldwide Ecosystem and Blockchain",
+                   "children":[
+                      {
+                         "value":"Watson Advertising & Weather",
+                         "order":0
+                      },
+                      {
+                         "value":"Others",
+                         "order":1
+                      }
+                   ],
+                   "order":1
+                },
+                {
+                   "value":"IBM Systems Infrastructure",
+                   "children":[
+                      {
+                         "value":"Storage",
+                         "order":0
+                      },
+                      {
+                         "value":"System Z/Q",
+                         "order":1
+                      },
+                      {
+                         "value":"Power/Cognative Systems",
+                         "order":2
+                      },
+                      {
+                         "value":"Supply Chain",
+                         "order":3
+                      },
+                      {
+                         "value":"Others",
+                         "order":4
+                      }
+                   ],
+                   "order":2
+                },
+                {
+                   "value":"IBM Research",
+                   "order":3
+                },
+                {
+                   "value":"IBM Consulting",
+                   "order":4
+                },
+                {
+                   "value":"IBM Cloud",
+                   "order":5
+                },
+                {
+                   "value":"Corporate",
+                   "order":6
+                },
+                {
+                   "value":"IBM Sales",
+                   "order":7
+                },
+                {
+                   "value":"IBM Marketing",
+                   "order":8
+                }
+             ],
+             "description":"Business Unit/Division - a part of IBM company that operates as a separate part of the whole business: Some Units are also split in segments forming a structured organizational hierarchy - to produce smaller business units (Divisions, Departments, Squads, etc.) to be responsible on specific task/direction.",
+             "form":"request"
+          },
+          {
+             "value":"useCaseOwner",
+             "description":"Use case Owner - an IBMer identified on behalf of the requester as a business owner for the data intended to be used in this request.",
+             "form":"request"
+          },
+          {
+             "value":"operationsOwner",
+             "description":"Operations Owner - an IBMer (or a list of IBMers) that is identified in the IBM 3rdParty Data Clearance Tool as an Operations Owner by a Data Requester.",
+             "form":"request"
+          },
+          {
+             "value":"requestType",
+             "children":[
+                {
+                   "value":"New data",
+                   "description":"New data – request to find/source/obtain new data set. Requires data clearance to be performed prior to access being approved and granted.",
+                   "order":0
+                },
+                {
+                   "value":"Renew data",
+                   "description":"Renew data - request to renew the expired/close to expiration access for predefined data asset.",
+                   "order":1
+                },
+                {
+                   "value":"Reuse data",
+                   "description":"Reuse data – request to either get new permission or access itself the predefined data set for a specific use case.",
+                   "order":2
+                }
+             ],
+             "form":"request"
+          },
+          {
+             "value":"distribute",
+             "children":[
+                {
+                   "value":"Yes",
+                   "order":0
+                },
+                {
+                   "value":"No",
+                   "order":1
+                },
+                {
+                   "value":"I don't know",
+                   "order":2
+                }
+             ],
+             "form":"request"
+          },
+          {
+             "value":"stillUsingData",
+             "children":[
+                {
+                   "value":"Yes",
+                   "order":0
+                },
+                {
+                   "value":"No",
+                   "order":1
+                }
+             ],
+             "form":"request"
+          },
+          {
+             "value":"usageProblems",
+             "children":[
+                {
+                   "value":"Yes",
+                   "order":0
+                },
+                {
+                   "value":"No",
+                   "order":1
+                }
+             ],
+             "form":"request"
+          },
+          {
+             "value":"applyChanges",
+             "children":[
+                {
+                   "value":"Yes",
+                   "order":0
+                },
+                {
+                   "value":"No",
+                   "order":1
+                }
+             ],
+             "form":"request"
+          },
+          {
+             "value":"dueDate",
+             "description":"Deadline - the latest time or date by which request approval should be completed. If not –request claimed as overdue.",
+             "form":"request"
+          },
+          {
+             "value":"expirationDate",
+             "description":"Expiration Date - the date after which access to specific data set should be either revoked or renewed.",
+             "form":"request"
+          },
+          {
+             "value":"requester",
+             "description":"Requester - an IBMer that utilizes the IBM 3rdParty Data Clearance Tool to request approval to use a set or sets of 3rdParty Data for specific purposes.",
+             "form":"request"
+          },
+          {
+             "value":"manager",
+             "description":"Manager - The Global manager of the Requester from Blue Pages.",
+             "form":"request"
+          },
+          {
+             "value":"dataDomain",
+             "children":[
+                {
+                   "value":"Asset Management",
+                   "description":"Asset Management lists all applications related to HW and SW that are owned by Enterprise Asset Management.",
+                   "order":0
+                },
+                {
+                   "value":"Business Partner",
+                   "description":"Business Partner - a BP is an external company that participates in an established IBM program with a contractual relationship to sell, promote, or proactively influence the sale of IBM products, offerings and services. For this service, the BP may receive use of the Business.",
+                   "order":1
+                },
+                {
+                   "value":"Client",
+                   "description":"Client - a grouping of legal hierarchies (organizations) based on sales which are affiliated within a country.",
+                   "order":2
+                },
+                {
+                   "value":"Client Feedback",
+                   "description":"Client Feedback - data related to comments or statements made in response to IBM's conduct, goods and services, or performance. This information may be both solicited and unsolicited.",
+                   "order":3
+                },
+                {
+                   "value":"Demographic",
+                   "description":"Demographic - the statistical characteristics of human populations.",
+                   "order":4
+                },
+                {
+                   "value":"Financial",
+                   "description":"Financial - data elements that are about financial metrics such as revenue, profit, general ledger, etc.",
+                   "order":5
+                },
+                {
+                   "value":"Firmographic",
+                   "description":"Firmographics - sets of characteristics to segment organizations. What demographics are to people, firmographics are to organizations. Commonly used firmographics include SIC, company size and location.",
+                   "order":6
+                },
+                {
+                   "value":"GCDO Internal",
+                   "description":"GCDO Internal - data used to run and manage GCDO applications.",
+                   "order":7
+                },
+                {
+                   "value":"Global Sales Incentives",
+                   "description":"Global Sales Incentives - this defines the process of managing Sales incentives.",
+                   "order":8
+                },
+                {
+                   "value":"Health",
+                   "description":"Health - a state of physical, mental and social well-being and not merely the absence of disease or infirmity.",
+                   "order":9
+                },
+                {
+                   "value":"Internal Controls",
+                   "description":"Internal Controls - a process for assuring achievement of an organization's objectives in operational effectiveness and efficiency, reliable financial reporting, and compliance with laws, regulations and policies.",
+                   "order":10
+                },
+                {
+                   "value":"Legal",
+                   "description":"Legal - data or processes related a system of rules that are created and enforced through social or governmental institutions to regulate behavior.",
+                   "order":11
+                },
+                {
+                   "value":"Marketing",
+                   "description":"Marketing - the action or business of promoting and selling products or services, including market research and advertising.",
+                   "order":12
+                },
+                {
+                   "value":"Offering",
+                   "description":"Offering - a product or service available for sale by IBM to customers. An offering is an element, or integrated set of elements (hardware, software, and services) designed to satisfy the wants and needs of current and / or prospective customers.  Plural = Offerings.",
+                   "order":13
+                },
+                {
+                   "value":"People",
+                   "description":"People - data elements that are about individuals.  They are used especially to identify markets or to mark changes in population's characteristics. Includes age and income.",
+                   "order":14
+                },
+                {
+                   "value":"Procurement",
+                   "description":"Procurement - the process of finding, agreeing terms and acquiring goods, services or works from an external source.",
+                   "order":15
+                },
+                {
+                   "value":"Quote to Cash",
+                   "description":"Quote to Cash - data elements that fall within the Quote to Cash.",
+                   "order":16
+                },
+                {
+                   "value":"Real Estate",
+                   "description":"Real Estate - land which is the property of some person and all structures integrated with or affixed to the land.",
+                   "order":17
+                },
+                {
+                   "value":"Sales",
+                   "description":"Sales - data elements that fall into the Sales process.",
+                   "order":18
+                },
+                {
+                   "value":"Supply Chain",
+                   "description":"Supply Chain - a system of organizations, people, activities, information, and resources involved in moving a product or service from supplier to customer.  Supply chain activities involve the transformation of natural resources, raw materials, and components into a finished product that is delivered to the end customer.",
+                   "order":19
+                },
+                {
+                   "value":"Support",
+                   "description":"Support - active resource performing a support role as opposed to being primarily dedicated to services delivery.",
+                   "order":20
+                },
+                {
+                   "value":"Weather",
+                   "description":"Weather - data involving, describing, or related to the past, current, or future state of the atmosphere and its effects on life, society, commerce, and well-being.",
+                   "order":21
+                },
+                {
+                   "value":"Other",
+                   "order":22
+                }
+             ],
+             "description":"Data Domain - a categorization in the IBM Centralized Data Platform used to segment the type of data being used. Examples are Health, Financial, People, Weather, etc.",
+             "form":"request"
+          },
+          {
+             "value":"contentUse",
+             "children":[
+                {
+                   "value":"AI models",
+                   "description":"Data Use – AI Model - a program or algorithm that relies on a set of data to recognize patterns and make predictions or decisions. The more data points an AI model receives, the more accurate it can be in its predictions and analysis.",
+                   "group":"0",
+                   "order":0
+                },
+                {
+                   "value":"Commercial",
+                   "description":"Data Use – Commercial - describes any activity in which you use a product or service for financial gain. This includes whenever you use software to create marketing materials, since those materials are used for business purposes with the intention of increasing sales.",
+                   "group":"0",
+                   "order":1
+                },
+                {
+                   "value":"Conference",
+                   "description":"Data Use – Conference - a conference is generally understood as a meeting of several people to discuss a particular topic. ... A business conference is held for people working in the same company or industry. They come together to discuss new trends and opportunities pertaining to the business. A trade conference takes place on a larger scale. Data could be used to share the ideas, thoughts, plans or could be the topic of the conference itself.",
+                   "group":"0",
+                   "order":2
+                },
+                {
+                   "value":"Derivative data set",
+                   "description":"Data Use – Derivatives Data sets - includes “Derivative Works”, “Derivative Products” and “Value Added Products”.  Data is taken from a source(s) to further process the data or to combine/fuse/subset with other data to create something new that could represent a new product or methodology owned/sold/used by IBM.",
+                   "group":"0",
+                   "order":3
+                },
+                {
+                   "value":"Evaluation",
+                   "description":"Data Use – Evaluation - refers to the way in which an evaluation and information from the evaluation impacts the program that is being evaluated.",
+                   "group":"0",
+                   "order":4
+                },
+                {
+                   "value":"Ingest",
+                   "description":"Data Use – Ingest - the transportation of data from assorted sources to a storage medium where it can be accessed, used, and analyzed by an organization. The destination is typically a data warehouse, data mart, database, or a document store.",
+                   "group":"0",
+                   "order":5
+                },
+                {
+                   "value":"Insights from content",
+                   "description":"Data Use – Insights from data - provide analysis summary information, short description, plan, synopsis, etc. over the touched data set.",
+                   "group":"0",
+                   "order":6
+                },
+                {
+                   "value":"Internal Use",
+                   "description":"Data Use – Internal Use - authorized Users may use the Product only for Client's internal business purposes. Except as otherwise specified on an Order Form, Products are not licensed for external use.",
+                   "group":"0",
+                   "order":7
+                },
+                {
+                   "value":"Publish",
+                   "description":"Data Use – Publish - prepare and issue (a book, journal, blog, white paper, enablement document, etc.) for public sale, distribution, or readership.",
+                   "group":"0",
+                   "order":8
+                },
+                {
+                   "value":"Reference",
+                   "description":"Data Use – Reference - The use of a source of information in order to ascertain something.",
+                   "group":"0",
+                   "order":9
+                },
+                {
+                   "value":"Release Data",
+                   "description":"Data Use – Release data - a fixed data set providing descriptive details (name, date, version, etc.) on which a product is due to become available for the public to see or buy.",
+                   "group":"0",
+                   "order":10
+                },
+                {
+                   "value":"Research Development",
+                   "description":"Data Use – Research Development - any information collected, stored, and processed to produce and validate original research results. Data might be used to prove or disprove a theory, bolster claims made in research, or to further the knowledge around a specific topic or problem.",
+                   "group":"0",
+                   "order":11
+                },
+                {
+                   "value":"Resell",
+                   "description":"Data Use – Resell - using data for reselling means no producing the actual data and required infrastructure. Instead, real-time connections with data providers are established. This way, data can be access on-demand.",
+                   "group":"0",
+                   "order":12
+                }
+             ],
+             "form":"request"
+          },
+          {
+             "value":"intendedUse",
+             "description":"Intended Use - the general use statement of a service/product/object or “what is the use of the device/product/service?” It tells how/what’s exactly requestor/use case owner need the requested data set data for.",
+             "form":"request"
+          },
+          {
+             "value":"updates",
+             "children":[
+                {
+                   "value":"Yes",
+                   "order":0
+                },
+                {
+                   "value":"No",
+                   "order":1
+                },
+                {
+                   "value":"I don't know",
+                   "order":2
+                }
+             ],
+             "description":"Continuous Delivery - a process of constant data renewal for having only latest and up-to-date values utilized.",
+             "form":"request"
+          },
+          {
+             "value":"modification",
+             "children":[
+                {
+                   "value":"Yes",
+                   "order":0
+                },
+                {
+                   "value":"No",
+                   "order":1
+                },
+                {
+                   "value":"I don't know",
+                   "order":2
+                }
+             ],
+             "form":"request"
+          },
+          {
+             "value":"dataLocationRegion",
+             "children":[
+                {
+                   "value":"US",
+                   "order":0
+                },
+                {
+                   "value":"UK",
+                   "order":1
+                },
+                {
+                   "value":"Europe",
+                   "order":2
+                },
+                {
+                   "value":"China",
+                   "order":3
+                },
+                {
+                   "value":"India",
+                   "order":4
+                },
+                {
+                   "value":"LA",
+                   "order":5
+                },
+                {
+                   "value":"AP",
+                   "order":6
+                },
+                {
+                   "value":"Japan",
+                   "order":7
+                },
+                {
+                   "value":"Canada",
+                   "order":8
+                },
+                {
+                   "value":"I don't know",
+                   "order":9
+                }
+             ],
+             "description":"Physical location where the data is downloaded or endpoint where the data is, api'd into, linked into, or ingested into. References to where the data set itself will be located - not where a commercial product or service is located.",
+             "form":"request"
+          },
+          {
+             "value":"workersLocationRegion",
+             "children":[
+                {
+                   "value":"US",
+                   "order":0
+                },
+                {
+                   "value":"UK",
+                   "order":1
+                },
+                {
+                   "value":"Europe",
+                   "order":2
+                },
+                {
+                   "value":"China",
+                   "order":3
+                },
+                {
+                   "value":"India",
+                   "order":4
+                },
+                {
+                   "value":"LA",
+                   "order":5
+                },
+                {
+                   "value":"AP",
+                   "order":6
+                },
+                {
+                   "value":"Japan",
+                   "order":7
+                },
+                {
+                   "value":"Canada",
+                   "order":8
+                },
+                {
+                   "value":"I don't know",
+                   "order":9
+                }
+             ],
+             "form":"request"
+          },
+          {
+             "value":"piIncluded",
+             "children":[
+                {
+                   "value":"Yes",
+                   "order":0
+                },
+                {
+                   "value":"No",
+                   "order":1
+                },
+                {
+                   "value":"N/A",
+                   "order":2
+                }
+             ],
+             "description":"De-identification - The general term for the process of removing personal information from a record or data set. De-identification protects the privacy of individuals because once de- identified, a data set is considered to no longer contain personal information. Anonymization - The process of protecting private or sensitive information by erasing or encrypting identifiers that connect an individual to stored data.",
+             "form":"request"
+          },
+          {
+             "value":"contentObtain",
+             "children":[
+                {
+                   "value":"API",
+                   "description":"Data Obtain – API - web APIs provide a means of communication between websites and users, structured by rules. In particular, they allow users to obtain clearly defined kinds of data quickly, by requesting it directly from the database underlying a particular website.",
+                   "order":0
+                },
+                {
+                   "value":"FTP",
+                   "description":"Data Obtain – FTP - FTP (File Transfer Protocol) is a standard communication protocol used for the transfer of computer files from a server to a client on a computer network.",
+                   "order":1
+                },
+                {
+                   "value":"Download",
+                   "description":"Data Obtain – Download - downloading means your computer is receiving data from the Internet/ network in the compressed predefined format.",
+                   "order":2
+                },
+                {
+                   "value":"Link",
+                   "description":"Data Obtain – Link - getting access to the data set by a simply following to provided link via web-browser.",
+                   "order":3
+                },
+                {
+                   "value":"Web scraping/Crawling",
+                   "description":"Data Obtain – Web scraping/ Crawling - web scraping is about extracting the data from one or more websites. While crawling is about finding or discovering URLs or links on the web. Usually, in web data extraction projects, you need to combine crawling and scraping.",
+                   "order":4
+                },
+                {
+                   "value":"I don't know",
+                   "order":5
+                },
+                {
+                   "value":"Other",
+                   "order":6
+                }
+             ],
+             "description":"Data Obtain - explains how the data being requested will be gathered.",
+             "form":"request"
+          },
+          {
+             "value":"applicableProtocols",
+             "children":[
+                {
+                   "value":"Yes",
+                   "order":0
+                },
+                {
+                   "value":"No",
+                   "order":1
+                }
+             ],
+             "description":"Protocol - any standard set of rules that allow electronic devices to communicate with each other. These rules include what type of data may be transmitted, what commands are used to send and receive data, and how data transfers are confirmed.",
+             "form":"request"
+          },
+          {
+             "value":"specificSites",
+             "children":[
+                {
+                   "value":"Yes",
+                   "order":0
+                },
+                {
+                   "value":"No",
+                   "order":1
+                }
+             ],
+             "form":"request"
+          },
+          {
+             "value":"crawlingAutomated",
+             "children":[
+                {
+                   "value":"Yes",
+                   "order":0
+                },
+                {
+                   "value":"No",
+                   "order":1
+                }
+             ],
+             "form":"request"
+          },
+          {
+             "value":"scrapingTechnology",
+             "children":[
+                {
+                   "value":"Yes",
+                   "order":0
+                },
+                {
+                   "value":"No",
+                   "order":1
+                }
+             ],
+             "description":"Bot - an autonomous program on the internet or another network that can interact with systems or users, including scrapping the data out of the defined data source.",
+             "form":"request"
+          },
+          {
+             "value":"license",
+             "children":[
+                {
+                   "value":"License",
+                   "description":"A data license is a legal instrument that specifies a standard set of terms and conditions regarding sharing and re-use of your data. If you want to publish your data in a data repository, you must choose a license to accompany your data. Each data repository has its own licensing options.",
+                   "order":0
+                },
+                {
+                   "value":"Public Domain",
+                   "description":"Public Domain - creative materials that are not protected by intellectual property laws such as copyright, trademark, or patent laws. The public owns these works, not an individual author or artist. Anyone can use a public domain work without obtaining permission, but no one can ever own it.",
+                   "order":1
+                },
+                {
+                   "value":"Other",
+                   "order":2
+                },
+                {
+                   "value":"I Don't Know",
+                   "order":3
+                }
+             ],
+             "form":"request"
+          },
+          {
+             "value":"licenseType",
+             "children":[
+                {
+                   "value":"Creative Commons (CC)",
+                   "children":[
+                      {
+                         "value":"CC BY",
+                         "description":"CC BY - this license allows reusers to distribute, remix, adapt, and build upon the material in any medium or format, so long as attribution is given to the creator. The license allows for commercial use. CC BY includes the following elements: BY – Credit must be given to the creator",
+                         "order":0
+                      },
+                      {
+                         "value":"CC BY-SA",
+                         "description":"CC BY-SA - this license allows reusers to distribute, remix, adapt, and build upon the material in any medium or format, so long as attribution is given to the creator. The license allows for commercial use. If you remix, adapt, or build upon the material, you must license the modified material under identical terms. CC BY-SA includes the following elements: BY – Credit must be given to the creator; SA – Adaptations must be shared under the same terms",
+                         "order":1
+                      },
+                      {
+                         "value":"CC BY-NC",
+                         "description":"CC BY-NC - this license allows reusers to distribute, remix, adapt, and build upon the material in any medium or format for noncommercial purposes only, and only so long as attribution is given to the creator. It includes the following elements: BY – Credit must be given to the creator; NC – Only noncommercial uses of the work are permitted;",
+                         "order":2
+                      },
+                      {
+                         "value":"CC BY-NC-SA",
+                         "description":"CC BY-NC-SA - this license allows reusers to distribute, remix, adapt, and build upon the material in any medium or format for noncommercial purposes only, and only so long as attribution is given to the creator. If you remix, adapt, or build upon the material, you must license the modified material under identical terms.",
+                         "order":3
+                      },
+                      {
+                         "value":"CC BY-ND",
+                         "description":"CC BY-ND - this license allows reusers to copy and distribute the material in any medium or format in unadapted form only, and only so long as attribution is given to the creator. The license allows for commercial use. CC BY-ND includes the following elements: BY – Credit must be given to the creator; ND – No derivatives or adaptations of the work are permitted;",
+                         "order":4
+                      },
+                      {
+                         "value":"CC BY-NC-ND",
+                         "description":"CC BY-NC-ND - this license allows reusers to copy and distribute the material in any medium or format in unadapted form only, for noncommercial purposes only, and only so long as attribution is given to the creator. CC BY-NC-ND includes the following elements: BY – Credit must be given to the creator; NC – Only noncommercial uses of the work are permitted; ND – No derivatives or adaptations of the work are permitted;",
+                         "order":5
+                      },
+                      {
+                         "value":"CC0",
+                         "description":"CC0 (aka CC Zero) - it is a public dedication tool, which allows creators to give up their copyright and put their works into the worldwide public domain. CC0 allows reusers to distribute, remix, adapt, and build upon the material in any medium or format, with no conditions.",
+                         "order":6
+                      }
+                   ],
+                   "description":"License Type - Creative Commons (CC) - creative Commons licenses give everyone from individual creators to large institutions a standardized way to grant the public permission to use their creative work under copyright law. From the reuser’s perspective, the presence of a Creative Commons license on a copyrighted work answers the question, “What can I do with this work?”",
+                   "order":0
+                },
+                {
+                   "value":"Community Data License Agreement (CDLA)",
+                   "children":[
+                      {
+                         "value":"The CDLA-Sharing-1.0",
+                         "description":"The CDLA-Sharing-1.0 - license was designed to embody the principles of copyleft in a data license. In general, if someone shares their data, the CDLA-Sharing-1.0 agreement puts terms in place to ensure that downstream recipients can use and modify that data, and are also required to share their changes to the data.",
+                         "order":0
+                      },
+                      {
+                         "value":"The CDLA-Permissive-1.0",
+                         "description":"The CDLA-Permissive-1.0 - is similar to permissive open source licenses in that the publisher of data allows anyone to use, modify and do what they want with the data with no obligations to share any of their changes or modifications.",
+                         "order":1
+                      },
+                      {
+                         "value":"The Open Use of Data Agreement 1.0 (O-UDA-1.0)",
+                         "description":"The Open Use of Data Agreement 1.0 (O-UDA-1.0) - is a short, permissive agreement for open distribution of data with limited obligations. This became another precursor to CDLA-Permissive-2.0 as a simple and straightforward agreement for sharing data.",
+                         "order":2
+                      },
+                      {
+                         "value":"The Computational Use of Data Agreement 1.0 (C-UDA-1.0)",
+                         "description":"The Computational Use of Data Agreement 1.0 (C-UDA-1.0) - is a similar agreement for open distribution of data, with the restriction that use of the data is solely intended for “Computational Use”, where some data sets or use cases might require such a limitation.",
+                         "order":3
+                      },
+                      {
+                         "value":"The CDLA-Permissive-2.0",
+                         "description":"The CDLA-Permissive-2.0 - this agreement is similar to permissive open source licenses in that the publisher of data allows anyone to use, modify and do what they want with the data with no obligations to share any of their changes or modifications.",
+                         "order":4
+                      }
+                   ],
+                   "description":"License Type - Community Data License Agreement (CDLA) - collaborative licenses to enable access, sharing and use of data openly among individuals and organizations.",
+                   "order":1
+                },
+                {
+                   "value":"GNU General Public License (GPL)",
+                   "children":[
+                      {
+                         "value":"GNU General Public License, version 2 (GPL-2.0)",
+                         "order":0
+                      },
+                      {
+                         "value":"GNU General Public License, version 3 (GPL-3.0)",
+                         "order":1
+                      }
+                   ],
+                   "description":"License Type - GNU General Public License (GPL) - the GNU General Public License is a free, copyleft license for software and other kinds of works.Current versions are GPL-2.0 and GPL-3.0",
+                   "order":2
+                },
+                {
+                   "value":"Open Data Commons",
+                   "children":[
+                      {
+                         "value":"Open Database License (ODC-ODbL)",
+                         "description":"License Type - ODC-ODbL (Open Data Commons Open Database License) -  is a copyleft license agreement intended to allow users to freely share, modify, and use a database while maintaining this same freedom for others.",
+                         "order":0
+                      },
+                      {
+                         "value":"Attribution (ODC-By)",
+                         "description":"License Type - ODC-By (Open Data Commons Attribution) - this license is one of the open Creative Commons licenses and allows users to share and adapt your dataset so long as they give credit to you.",
+                         "order":1
+                      },
+                      {
+                         "value":"Public Domain Dedication and License (ODC-PDDL)",
+                         "description":"License Type – ODC-PDDL (Open Data Commons Public Domain Dedication and License) – public Domain Dedication and License is a document intended to allow you to freely share, modify, and use this work for any purpose and without any restrictions. This licence is intended for use on databases or their data, either together or individually.",
+                         "order":2
+                      }
+                   ],
+                   "order":3
+                },
+                {
+                   "value":"Listed restrictions",
+                   "description":"License Type – Listed Restrictions - specific restrictions that are not covered in other license types.",
+                   "order":4
+                },
+                {
+                   "value":"APACHE",
+                   "children":[
+                      {
+                         "value":"Apache License 1.0",
+                         "description":"Apache License 1.0 - the original Apache License which applies only to very old versions of Apache packages (such as version 1.2 of the Web server).",
+                         "order":0
+                      },
+                      {
+                         "value":"Apache License 1.1",
+                         "description":"Apache License 1.1 - the 1.1 version of the Apache License was approved by the ASF in 2000. The primary change from the 1.0 license was in the removal of the 'advertising clause' (section 3 of the 1.0 license); derived products are no longer required to include attribution in their advertising materials, only in their documentation.",
+                         "order":1
+                      },
+                      {
+                         "value":"Apache License 2.0",
+                         "description":"Apache License 2.0 - the 2.0 version of the Apache License, approved by the ASF in 2004, helps us achieve our goal of providing reliable and long-lived software products through collaborative, open-source software development. All packages produced by the ASF are implicitly licensed under the Apache License, Version 2.0, unless otherwise explicitly stated.",
+                         "order":2
+                      }
+                   ],
+                   "description":"License Type – APACHE - The Apache Software Foundation uses various licenses to distribute software and documentation, and to accept regular contributions from individuals and corporations and larger grants of existing software products. These licenses help achieve goal of providing reliable and long-lived software products through collaborative, open-source software development. In all cases, contributors retain full rights to use their original contributions for any other purpose outside of Apache while providing the ASF and its projects the right to distribute and build upon their work within Apache.",
+                   "order":5
+                },
+                {
+                   "value":"Other",
+                   "order":6
+                },
+                {
+                   "value":"I don't know",
+                   "order":7
+                }
+             ],
+             "form":"request"
+          },
+          {
+             "value":"dataShared",
+             "children":[
+                {
+                   "value":"Yes",
+                   "order":0
+                },
+                {
+                   "value":"No",
+                   "order":1
+                }
+             ],
+             "form":"request"
+          },
+          {
+             "value":"citation",
+             "children":[
+                {
+                   "value":"Yes",
+                   "order":0
+                },
+                {
+                   "value":"No",
+                   "order":1
+                },
+                {
+                   "value":"I don't know",
+                   "order":2
+                }
+             ],
+             "description":"<div>Attribution - Is the act of assigning credit to a copyright holder, Content Owner or Content Provider according to the terms of a (copyright) license. Copyright - Is a legal phrase that is inserted into a copyrighted work to provide a warning (or notice) that the work is owned by someone with copyright rights in the work. For further details see the <a href='https://ibm.ent.box.com/s/2plr8atn1v8ntcelcygainhw0x9903ax'>Copyright Standard</a>.</div>",
+             "form":"request"
+          },
+          {
+             "value":"citationText",
+             "description":"Obligations - Are an act or course of action to which a person is morally or legally bound (i.e., Oa duty or commitment).",
+             "form":"request"
+          },
+          {
+             "value":"contentPubliclyObtained",
+             "children":[
+                {
+                   "value":"Yes",
+                   "order":0
+                },
+                {
+                   "value":"No",
+                   "order":1
+                }
+             ],
+             "form":"request"
+          },
+          {
+             "value":"appliedForClients",
+             "children":[
+                {
+                   "value":"Yes",
+                   "order":0
+                },
+                {
+                   "value":"No",
+                   "order":1
+                }
+             ],
+             "form":"request"
+          },
+          {
+             "value":"feedbackSection",
+             "title":"NOTE this form is for feedback on the current tool section, please choose from the list if want to check for other",
+             "children":[
+                {
+                   "value":"Application",
+                   "order":0
+                },
+                {
+                   "value":"Landing page",
+                   "order":1
+                },
+                {
+                   "value":"Clearance Form page",
+                   "order":2
+                },
+                {
+                   "value":"F.A.Q. page",
+                   "order":3
+                },
+                {
+                   "value":"Glossary page",
+                   "order":4
+                },
+                {
+                   "value":"Playbooks page",
+                   "order":5
+                },
+                {
+                   "value":"Other page",
+                   "order":6
+                }
+             ],
+             "description":"<u>Do not use this for support issues</u> - those are handled via Service Desk tickets",
+             "form":"feedback",
+             "inputType":"selection",
+             "order":0
+          },
+          {
+             "value":"feedbackRate",
+             "title":"How satisfied were you with the experience of using {{section}}?",
+             "description":"Note that the lowest rating is 1 start and the highest is 10.",
+             "form":"feedback",
+             "inputType":"rate",
+             "order":1
+          },
+          {
+             "value":"feedbackFirstUsage",
+             "title":"Was this your first interaction with the {{Section}}? ",
+             "children":[
+                {
+                   "value":"Yes",
+                   "order":0
+                },
+                {
+                   "value":"No",
+                   "order":1
+                }
+             ],
+             "description":"",
+             "form":"feedback",
+             "inputType":"radio",
+             "order":2
+          },
+          {
+             "value":"feedbackUsagePeriod",
+             "title":"How often do you plan to use the {{Section}}?",
+             "children":[
+                {
+                   "value":"Very often",
+                   "order":0
+                },
+                {
+                   "value":"Somewhat often",
+                   "order":1
+                },
+                {
+                   "value":"Rarely",
+                   "order":2
+                },
+                {
+                   "value":"Never",
+                   "order":3
+                }
+             ],
+             "description":"",
+             "form":"feedback",
+             "inputType":"selection",
+             "order":3
+          },
+          {
+             "value":"feedbackNeedsAccomplished",
+             "title":"Were you able to accomplish your needs?",
+             "children":[
+                {
+                   "value":"Yes",
+                   "order":0
+                },
+                {
+                   "value":"No",
+                   "order":1
+                }
+             ],
+             "description":"",
+             "form":"feedback",
+             "inputType":"radio",
+             "order":4
+          },
+          {
+             "value":"feedbackComments",
+             "title":"Comments (Optional)",
+             "description":"Please note, if you leave a comment, we may reach out to you for further clarification.",
+             "form":"feedback",
+             "inputType":"textarea",
+             "order":5
+          }
+       ]
+    }
+ }

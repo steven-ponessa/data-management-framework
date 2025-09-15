@@ -1,0 +1,930 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+<title>Try it - Sourcing Strategy</title>
+<meta content="" name="description">
+<meta content="" name="keywords">
+
+<!-- Favicons -->
+<link href="assets/img/favicon.png" rel="icon">
+<link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+<!-- Google Fonts -->
+<link
+	href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+	rel="stylesheet">
+
+<!-- Vendor CSS Files -->
+<link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+<link href="assets/vendor/aos/aos.css" rel="stylesheet">
+<link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
+<link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+<link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+
+<!-- Template Main CSS File -->
+<link href="assets/css/style.css" rel="stylesheet">
+<link href="assets/css/jsonview.bundle.css" rel="stylesheet">
+
+<!-- =======================================================
+  * Template Name: FlexStart - v1.4.0
+  * Template URL: https://bootstrapmade.com/flexstart-bootstrap-startup-template/
+  * Author: BootstrapMade.com
+  * License: https://bootstrapmade.com/license/
+  ======================================================== -->
+<style>
+.w3-container, .w3-panel {
+	padding: 0.01em 16px;
+}
+
+.w3-border-blue, .w3-hover-border-blue:hover {
+	border-color: #2196F3 !important;
+}
+
+.w3-pale-blue, .w3-hover-pale-blue:hover {
+	color: #000 !important;
+	background-color: #ddffff !important;
+}
+
+.w3-pale-grey, .w3-hover-pale-blue:hover {
+	color: #000 !important;
+	background-color: #ccc !important;
+}
+
+.w3-leftbar {
+	border-left: 6px solid #ccc !important;
+}
+
+.w3-border {
+	border: 1px solid #ccc !important;
+}
+
+.sec-text {
+	margin-left: 48px;
+	margin-right: 48px;
+}
+
+.ss-form {
+	margin: 20px;
+}
+
+.alert-dismissible .close {
+	position: absolute;
+	top: 0;
+	right: 0;
+	z-index: 2;
+	padding: .75rem 1.25rem;
+	color: inherit;
+}
+
+button.close {
+	padding: 0;
+	background-color: transparent;
+	border: 0;
+}
+
+.close {
+	float: right;
+	font-size: 1.5rem;
+	font-weight: 700;
+	line-height: 1;
+	color: #000;
+	text-shadow: 0 1px 0 #fff;
+	opacity: .5;
+}
+
+.list-group {
+	max-height: 300px;
+	margin-bottom: 10px;
+	overflow: scroll;
+	-webkit-overflow-scrolling: touch;
+}
+</style>
+
+<script>
+
+let sourcingStrategies = [ 
+{
+	"name": "Affiliate",
+	"value":"SS01",
+	"parms": [
+		{"name":"Role Type","value": "role-seat-type-cd"},
+		{"name":"Preferred Resource Channel","value": "pref-resource-channel"}
+	]
+},
+{
+	"name": "CIC Domestic Center",
+	"value":"SS02",
+	"parms": [
+		{"name":"Role Type","value": "role-seat-type-cd"},
+		{"name":"GIC Provider Country","value": "gic-provider-country"},
+		{"name":"Contract Owning Country","value": "contract-owning-country"}
+	]
+},
+{	"value": "SS03", "name": "CIC Domestic Center - Contractor", "parms": [
+	{"name":"Role Type","value": "role-seat-type-cd"},
+	{"name":"GIC Provider Country","value": "gic-provider-country"},
+	{"name":"Contract Owning Country","value": "contract-owning-country"},
+	{"name":"Request conttractor / Accept Global Contractors (GIC)","value": "req-cntrct-accept-gbl-delivery"}
+	] },
+{ "value": "SS04", "name": "CIC Domestic Center - EPH", "parms": [
+	{"name":"Role Type","value": "role-seat-type-cd"},
+	{"name":"GIC Provider Country","value": "gic-provider-country"},
+	{"name":"Contract Owning Country","value": "contract-owning-country"},
+	{"name":"Requested Band High", "value": "band-high"},
+	{"name":"Requested Band Low", "value": "band-low"}
+	] },
+{ "value": "SS05", "name": "CIC Global ", "parms": [
+	{"name":"Role Type","value": "role-seat-type-cd"},
+	{"name":"GIC Provider Country","value": "gic-provider-country"}
+	] },
+{ "value": "SS06", "name": "CIC Domestic Center / Affiliate-on-client-site", "parms": [
+	{"name":"Role Type","value": "role-seat-type-cd"},
+	{"name":"GIC Provider Country","value": "gic-provider-country"},
+	{"name":"Preferred Resource Channel","value": "pref-resource-channel"}
+	] },
+{ "value": "SS07", "name": "CIC Global or Affiliate", "parms": [
+	{"name":"Role Type","value": "role-seat-type-cd"},
+	{"name":"GIC Provider Country","value": "gic-provider-country"},
+	{"name":"Preferred Resource Channel","value": "pref-resource-channel"}
+] },
+{ "value": "SS08", "name": "CIC Global OR CIC Domestic Center", "parms": [
+	{"name":"Role Type","value": "role-seat-type-cd"},
+	{"name":"GIC Provider Country","value": "gic-provider-country"},
+	{"name":"Contract Owning Country","value": "contract-owning-country"}
+] },
+{ "value": "SS09", "name": "CIC Global OR Contractor (Domestic)", "parms": [
+	{"name":"Role Type","value": "role-seat-type-cd"},
+	{"name":"GIC Provider Country","value": "gic-provider-country"},
+	{"name":"Preferred Resource Channel","value": "pref-resource-channel"},
+	{"name":"Request conttractor / Accept Global Contractors (GIC)","value": "req-cntrct-accept-gbl-delivery"}
+] },
+{ "value": "SS10", "name": "CIC Global OR Geo Regulars (Domestic)", "parms": [
+	{"name":"Role Type","value": "role-seat-type-cd"},
+	{"name":"GIC Provider Country","value": "gic-provider-country"},
+	{"name":"Preferred Resource Channel","value": "pref-resource-channel"},
+	{"name":"Request conttractor / Accept Global Contractors (GIC)","value": "req-cntrct-accept-gbl-delivery"}
+] },
+{ "value": "SS11", "name": "CIC Global OR Geo Regulars (Domestic) B8+ / Affiliate <= B7", "parms": [
+	{"name":"Role Type","value": "role-seat-type-cd"},
+	{"name":"GIC Provider Country","value": "gic-provider-country"},
+	{"name":"Preferred Resource Channel","value": "pref-resource-channel"},
+	{"name":"Request conttractor / Accept Global Contractors (GIC)","value": "req-cntrct-accept-gbl-delivery"},
+	{"name":"Requested Band High", "value": "band-high"},
+	{"name":"Requested Band Low", "value": "band-low"}
+] },
+{ "value": "SS12", "name": "CIC Global OR Geo Regulars (Domestic) B9+ / Affiliate <= B8", "parms": [
+	{"name":"Role Type","value": "role-seat-type-cd"},
+	{"name":"GIC Provider Country","value": "gic-provider-country"},
+	{"name":"Preferred Resource Channel","value": "pref-resource-channel"},
+	{"name":"Request conttractor / Accept Global Contractors (GIC)","value": "req-cntrct-accept-gbl-delivery"},
+	{"name":"Requested Band High", "value": "band-high"},
+	{"name":"Requested Band Low", "value": "band-low"}
+] },
+{ "value": "SS13", "name": "Contractor (Domestic)", "parms": [
+	{"name":"Role Type","value": "role-seat-type-cd"},
+	{"name":"Preferred Resource Channel","value": "pref-resource-channel"},
+	{"name":"Request conttractor / Accept Global Contractors (GIC)","value": "req-cntrct-accept-gbl-delivery"}
+] },
+{ "value": "SS14", "name": "Geo Regulars (Domestic)", "parms": [
+	{"name":"Role Type","value": "role-seat-type-cd"},
+	{"name":"Preferred Resource Channel","value": "pref-resource-channel"},
+	{"name":"Request conttractor / Accept Global Contractors (GIC)","value": "req-cntrct-accept-gbl-delivery"}
+] },
+{ "value": "SS15", "name": "Geo Regulars (Domestic) - EPH", "parms": [
+	{"name":"Role Type","value": "role-seat-type-cd"},
+	{"name":"Preferred Resource Channel","value": "pref-resource-channel"},
+	{"name":"Request conttractor / Accept Global Contractors (GIC)","value": "req-cntrct-accept-gbl-delivery"},
+	{"name":"Requested Band High", "value": "band-high"},
+	{"name":"Requested Band Low", "value": "band-low"}
+] },
+{ "value": "SS16", "name": "Geo Regulars (Domestic) B8+ / CIC Domestic Center <= B7", "parms": [
+	{"name":"Role Type","value": "role-seat-type-cd"},
+	{"name":"Preferred Resource Channel","value": "pref-resource-channel"},
+	{"name":"Request conttractor / Accept Global Contractors (GIC)","value": "req-cntrct-accept-gbl-delivery"},
+	{"name":"Requested Band High", "value": "band-high"},
+	{"name":"Requested Band Low", "value": "band-low"}] },
+{ "value": "SS17", "name": "Geo Regulars (Domestic) B8+ / CIC Global <= B7", "parms": [
+	{"name":"Role Type","value": "role-seat-type-cd"},
+	{"name":"Preferred Resource Channel","value": "pref-resource-channel"},
+	{"name":"Request conttractor / Accept Global Contractors (GIC)","value": "req-cntrct-accept-gbl-delivery"},
+	{"name":"Requested Band High", "value": "band-high"},
+	{"name":"Requested Band Low", "value": "band-low"}
+] },
+{ "value": "SS18", "name": "Indirect", "parms": [{}] },
+{ "value": "SS19", "name": "Other", "parms": [{}] },
+{ "value": "SS20", "name": "CIC Global OR CIC Domestic Center / Affiliate-on-client-site", "parms": [
+	{"name":"Role Type","value": "role-seat-type-cd"},
+	{"name":"GIC Provider Country","value": "gic-provider-country"},
+	{"name":"Contract Owning Country","value": "contract-owning-country"},
+	{"name":"Preferred Resource Channel","value": "pref-resource-channel"}
+	
+	] },
+];
+
+let tree;
+let apiCnt=0;
+
+function init() {
+	ssDropdown = document.getElementById("ssId");
+	ssDropdown.length = 0;
+	for (let i = 0; i < sourcingStrategies.length; i++) {
+	    option = document.createElement('option');
+	    option.text = "("+sourcingStrategies[i].value+") "+sourcingStrategies[i].name;
+	    option.value = sourcingStrategies[i].value;
+	    ssDropdown.add(option)
+	}
+	ssUpdated()
+}
+
+function getParamsForSourcingStratgy(value) {
+	for (let i = 0; i < sourcingStrategies.length; i++) {
+		if (sourcingStrategies[i].value == value) return sourcingStrategies[i].parms;
+	}
+	return [];
+}
+
+function ssUpdated() {
+	let  dropdown = document.getElementById('ssId');
+	
+	let parmsPanel = document.getElementById('parmsPanelId');
+	parmsPanel.innerHTML=""
+	
+	parms = getParamsForSourcingStratgy(dropdown.value)
+	
+	for (let i = 0; i < parms.length; i++) {
+		var parmDiv = document.createElement('div');
+		parmDiv.setAttribute('class', 'form-group row');
+		
+		var parmInputGroup = document.createElement('div');
+		parmInputGroup.setAttribute('class', 'input-group');
+		
+		var parmInput = document.createElement('input');
+		parmInput.setAttribute('class', 'form-control mb-3');
+		parmInput.setAttribute('id', parms[i].value);
+		parmInput.setAttribute('type', 'text');
+		parmInput.setAttribute('onchange', 'javascript:updateApiUrl()');
+		parmInput.setAttribute('placeholder', 'Enter '+ parms[i].name + " ("+ parms[i].value+")");
+		
+		parmInputGroup.appendChild(parmInput);
+	
+        var parmDivInputGroupAppend = document.createElement('div');
+        parmDivInputGroupAppend.setAttribute('class','input-group-append');
+        var parmDivInputGroupText = document.createElement('div');
+        parmDivInputGroupText.setAttribute('class','input-group-text');
+        const node = document.createTextNode(parms[i].name);
+        parmDivInputGroupText.appendChild(node);
+        
+        parmDivInputGroupAppend.appendChild(parmDivInputGroupText);
+        
+        parmInputGroup.appendChild(parmDivInputGroupAppend)
+        
+        parmDiv.appendChild(parmInputGroup)
+		
+		parmsPanel.appendChild(parmDiv)
+	}
+
+	updateApiUrl()
+    hideMsg()
+}
+
+function updateApiUrl() {
+	let  dropdown = document.getElementById('ssId');
+	parms = getParamsForSourcingStratgy(dropdown.value)
+	
+	api =  window.location.protocol + "//" + window.location.host + "/api/v1/eds-wfm/sourcing-strategy/"+dropdown.value+"/validate";
+	let apiTemplate = api
+	
+	parms = getParamsForSourcingStratgy(dropdown.value)
+	
+	for (let i = 0; i < parms.length; i++) {
+		let parmElement=document.getElementById(parms[i].value);
+		let parmValue = parmElement.value
+		if (parmValue && parmValue.trim().length>0) {
+			api+= (i==0?"?":"&") + parms[i].value+"="+parmValue
+			apiTemplate+= (i==0?"?":"&") + parms[i].value+"={"+parms[i].value+"}"
+		}
+		else {
+			apiTemplate+=(i==0?"?":"&") + parms[i].value+"={"+parms[i].value+"}"
+		}
+	}
+	var p = document.createElement("p")                // Create a <p> element
+	var at = document.createTextNode(apiTemplate);     // Create a text node
+	p.appendChild(at); 
+	var br = document.createElement("br")
+	p.appendChild(br);
+	
+	let apiUrlLink = document.getElementById("apiUriLink")
+	apiUrlLink.innerHTML = ""
+	var a = document.createElement('a');
+    a.target = '_blank';
+    a.href = api;
+    a.innerText = api;
+    p.appendChild(a);
+    apiUrlLink.appendChild(p);
+}
+
+function hideMsg() {
+	let uiMsg = document.getElementById("msg")
+	let msgLine = document.getElementById("msg-line")
+	uiMsg.innerHTML = ""
+	msgLine.classList.remove('show'); 
+	let submitSuccessMessage = document.getElementById('submitSuccessMessage')
+	submitSuccessMessage.classList.remove("d-grid")
+	submitSuccessMessage.classList.add("d-none")
+}
+
+function addToList(root, item) {
+	var ul = document.getElementById(root);
+	var li = document.createElement('li');
+	li.setAttribute("class","list-group-item");
+
+    var a = document.createElement('a');
+    a.target = '_blank';
+    a.href = item;
+    a.innerText = item;
+    li.appendChild(document.createTextNode(String(++apiCnt)+". "));
+    li.appendChild(a);
+    
+	//li.appendChild(document.createTextNode(item));
+	
+	ul.appendChild(li);
+}
+
+function runApi() {
+	
+	let submitSuccessMessage = document.getElementById('submitSuccessMessage')
+	let uiMsg = document.getElementById("msg")
+	let msgLine = document.getElementById("msg-line")
+	uiMsg.innerHTML = ""
+	submitSuccessMessage.classList.remove("d-none")
+	
+    msg = "<h5>API Submitted</h5>";
+   	uiMsg.innerHTML=msg;
+   	msgLine.classList.remove('alert-warning');
+	msgLine.classList.remove('alert-success'); 
+	msgLine.classList.remove('alert-danger'); 
+	msgLine.classList.remove('show');
+	msgLine.classList.add('alert-warning'); 
+	msgLine.classList.add('show');
+	submitSuccessMessage.classList.add("d-grid");
+	
+	addToList('id_api_list',api);
+	validate(api)
+}
+
+function updateApiSuccess(jsonData) {
+	const data = typeof jsonData === 'string' ? JSON.parse(jsonData) : jsonData;
+	
+	let submitSuccessMessage = document.getElementById('submitSuccessMessage')
+	let uiMsg = document.getElementById("msg")
+	let msgLine = document.getElementById("msg-line")
+	uiMsg.innerHTML = ""
+	submitSuccessMessage.classList.remove("d-none")
+	msgLine.classList.remove('alert-warning');
+	msgLine.classList.remove('alert-success'); 
+	msgLine.classList.remove('alert-danger'); 
+	msgLine.classList.remove('show');
+	if (data.status==200) {
+		if (data.valid) {
+			msg = "<h5><i class='ri-thumb-up-fill icon'></i> Sourcing Strategy is Valid</h5>";
+			msgLine.classList.add('alert-success'); 
+		}
+		else {
+			msg = "<h5><i class='ri-thumb-down-fill icon'></i> Sourcing Strategy is In Valid</h5>";
+			msgLine.classList.add('alert-warning');
+		}
+		msg+="<ul><li>Sourcing Strategy Code: "+ data.sourcingStrategyCd+"</li><li>Message: "
+		    + data.msg;
+		
+		msg+="</li><li>Valid expressions: "
+		if (data.validExpressions) {
+			msg+="<ol>"
+			for (i=0; i<data.validExpressions.length; i++) {
+				msg+= "<li>"+data.validExpressions[i]+"</li>"
+			}
+			msg+="</ol>"
+		}
+		else msg+="none";    
+		
+		msg+="</li><li>Errors: "
+		if (data.errors) {
+			msg+="<ol>"
+			for (i=0; i<data.errors.length; i++) {
+				msg+= "<li>"+data.errors[i]+"</li>"
+			}
+			msg+="</ol>"
+		}
+		else msg+="none";
+
+		msg+="</li></ul>"
+	}
+	else {
+		msg = "<h5>API Failed</h5><ul><li>Status: "+data.status+"</li><li>Error: "+ data.error+"</li><li>Message: "+data.message+"</li><li>Timestamp: "+data.timestamp
+		+ "</li><li>Path: "+data.path+"</li></ul>";
+		msgLine.classList.add('alert-danger'); 
+	}
+	uiMsg.innerHTML=msg;
+	msgLine.classList.add('show');
+	submitSuccessMessage.classList.add("d-grid")
+
+}
+
+function validate(url) {
+  let headers = new Headers();
+
+  headers.append('Content-Type', 'application/json');
+  headers.append('Accept', 'application/json');
+  headers.append('Access-Control-Allow-Origin', 'http://localhost:8080');
+  headers.append('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
+  headers.append('Access-Control-Allow-Headers', 'Origin, Content-Type, Accept');
+  
+  console.log(url) 
+
+  fetch(url) //, { headers: headers })
+  .then((res)=> {
+    return res.text();
+  })
+  .then((data) => {
+    updateApiSuccess(data);
+  })
+  .catch((err) => {
+    console.log(err);
+  })
+}
+	
+</script>
+</head>
+
+<body onload="javascript:init()">
+
+	<!-- ======= Header ======= -->
+	<header id="header" class="header fixed-top">
+		<div class="container-fluid container-xl d-flex align-items-center justify-content-between">
+
+			<a href="index.html" class="logo d-flex align-items-center"> <img src="assets/img/logo.png" alt=""> <span>WFM</span>
+			</a>
+
+			<nav id="navbar" class="navbar">
+				<ul>
+					<li><a class="nav-link scrollto " href="..">Home</a></li>
+					<li><a class="nav-link scrollto" href="..#about">About</a></li>
+					<li><a class="nav-link scrollto" href="..#try-it">Try-it</a></li>
+					<li><a class="nav-link scrollto" href="..#team">Team</a></li>
+					<li><a class="getstarted scrollto" href="swagger-ui.html">Get Started</a></li>
+				</ul>
+				<i class="bi bi-list mobile-nav-toggle"></i>
+			</nav>
+			<!-- .navbar -->
+
+		</div>
+	</header>
+	<!-- End Header -->
+
+	<main id="main">
+
+		<!-- ======= Breadcrumbs ======= -->
+		<section class="breadcrumbs">
+			<div class="container">
+
+				<ol>
+					<li><a href="../index.html">Home</a></li>
+					<li><a href="../index.html#try-it">Try-it</a></li>
+					<li>Sourcing strategy validation</li>
+				</ol>
+				<h2>Sourcing strategy validation</h2>
+
+			</div>
+		</section>
+		<!-- End Breadcrumbs -->
+
+		<!-- ======= Portfolio Details Section ======= -->
+		<section id="portfolio-details" class="portfolio-details">
+			<div class="container">
+
+				<div class="row gy-4">
+
+					<div class="col-lg-8">
+						<div class="portfolio-details-slider swiper-container" id="rulesCarousel">
+							<div class="swiper-wrapper align-items-center">
+
+								<div class="swiper-slide">
+									<h3>SS01 - Affiliation</h3>
+									<p><b>Rule(s):</b></p>
+									<ol>
+										<li>Role Type (<b>role-seat-type-cd</b>): = Geo <br/>AND<br/></li>
+										<li>Preferred Resource Channel (<b>pref-resource-channel</b>): = Affiliate</li>
+									</ol>
+								</div>
+
+								<div class="swiper-slide">
+									<h3>SS02 - CIC Domestic Center</h3>
+									<p><b>Rule(s):</b></p>
+									<ol>
+										<li>Role Type (<b>role-seat-type-cd</b>): = GIC
+											<br/>AND<br/>
+										</li>
+										<li>GIC Provider Country (<b>gic-provider-country</b>): in &lt;list of CIC countries e.g., Canada, United States, Germany, Denmark, or to
+												put it another way, the GIC Provider countries from Source tab of the template, row 1 where there is a GIC
+												Delivery Organization called GBS: IBM Services Center in a row under that country heading&gt; a.k.a, 
+												<a href="../api/v1/eds-country-tax/countries?filters=CIC_DOM_DLVRY_CNTR_IND='Y'" target="_blank">CIC Domestic Delivery Center</a>
+												<br/>AND<br/>
+										</li>
+										<li>Contract owning country (<b>contract-owning-country</b>) must be within the same Market as the GIC Provider Country (<b>gic-provider-country</b>).
+									</ol>
+								</div>
+								
+								<div class="swiper-slide">
+									<h3>SS03 - CIC Domestic Center - Contractor</h3>
+									<p><b>Rule(s):</b></p>
+									<ol>
+										<li><a data-target="#rulesCarousel" data-slide-to="1" href="#">CIC Domestic Center rule</a>: (SS02)
+											<br/>AND<br/>
+										</li>
+										<li>Request contractor / Accept Global Contractors (GIC) (<b>req-cntrct-accept-gbl-delivery</b>): = Yes<</li>
+									</ol>
+								</div>
+								
+								<div class="swiper-slide">
+									<h3>SS04 - CIC Domestic Center - EPH</h3>
+									<p><b>Rule(s):</b></p>
+									<ol>
+										<li><a data-target="#rulesCarousel" data-slide-to="1" href="#">CIC Domestic Center rule</a>: (SS02)<br/>AND<br/>
+										</li>
+										<li>Requested Band High (<b>band-high</b>): &lt;= 6<br/>AND<br/></li>
+										<li>Requested Band Low (<b>band-low</b>): &gt;= 6G</b></li>
+									</ol>
+								</div>
+								
+								<div class="swiper-slide">
+									<h3>SS05 - CIC Global</h3>
+									<p><b>Rule(s):</b></p>
+									<ol>
+										<li>Role Type (<b>role-seat-type-cd</b>): = GIC
+											<br/>AND<br/>
+										</li>
+										<li>GIC Provider Country (<b>gic-provider-country</b>): in &lt;list of GIC countries, e.g., India, China,
+											Brazil, Romania, etc. or to put it another way GIC Provider countries from the Source tab of the template,
+											row 1, where there is at least one GIC Delivery Organization that starts with GBS but is NOT called GBS: IBM
+											Services Center in a row under that country heading&gt; a.k.a, 
+											<a href="../api/v1/eds-country-tax/countries?filters=CIC_GBL_DLVRY_CNTR_IND='Y'" target="_blank">CIC Global Delivery Center</a>
+										</li>
+									</ol>
+								</div>
+								
+								<div class="swiper-slide">
+									<h3>SS06 - CIC Domestic Center / Affiliate-on-client-site</h3>
+									<p><b>Rule(s):</b></p>
+									<ol>
+										<li><a data-target="#rulesCarousel" data-slide-to="2" href="#">CIC Domesttic Center rule</a>: (SS02)
+											<br/>OR<br/>
+										</li>
+										<li><a data-target="#rulesCarousel" data-slide-to="1" href="#">Affiliate rule</a>: (SS01)</li>
+									</ol>
+								</div>
+								
+								<div class="swiper-slide">
+									<h3>SS07 - CIC Global / Affiliate</h3>
+									<p><b>Rule(s):</b></p>
+									<ol>
+										<li><a data-target="#rulesCarousel" data-slide-to="4" href="#">CIC Global Center rule</a>: (SS05)
+											<br/>OR<br/>
+										</li>
+										<li><a data-target="#rulesCarousel" data-slide-to="4" href="#">Affiliate rule</a>: (SS01)</li>
+									</ol>
+								</div>
+								
+								<div class="swiper-slide">
+									<h3>SS08 - CIC Global OR CIC Domestic Center</h3>
+									<p><b>Rule(s):</b></p>
+									<ol>
+										<li><a data-target="#rulesCarousel" data-slide-to="4" href="#">CIC Global Center rule</a>: (SS05)
+											<br/>OR<br/>
+										</li>
+										<li><a data-target="#rulesCarousel" data-slide-to="1" href="#">CIC Domestic Center rule</a>: (SS02)</li>
+									</ol>
+								</div>
+								
+								<div class="swiper-slide">
+									<h3>SS09 - CIC Global OR Contractor (Domestic)</h3>
+									<p><b>Rule(s):</b></p>
+									<ol>
+										<li><a data-target="#rulesCarousel" data-slide-to="4" href="#">CIC Global Center rule</a>: (SS05)
+											<br/>OR<br/>
+										</li>
+										<li><a data-target="#rulesCarousel" data-slide-to="12" href="#">Contractor (Domestic) rule</a>: (SS13)</li>
+									</ol>
+								</div>
+								
+								<div class="swiper-slide">
+									<h3>SS10 - CIC Global OR Geo Regulars (Domestic)</h3>
+									<p><b>Rule(s):</b></p>
+									<ol>
+										<li><a data-target="#rulesCarousel" data-slide-to="4" href="#">CIC Global Center rule</a>: (SS05)
+											<br/>OR<br/>
+										</li>
+										<li><a data-target="#rulesCarousel" data-slide-to="13" href="#">Geo Regulars (Domestic) rule</a>: (SS14)</li>
+									</ol>
+								</div>
+								
+								<div class="swiper-slide">
+									<h3>SS11 - CIC Global OR Geo Regulars (Domestic) B8+ / Affiliate &lt;= B7</h3>
+									<p><b>Rule(s):</b></p>
+									<ol>
+										<li><a data-target="#rulesCarousel" data-slide-to="4" href="#">CIC Global Center rule</a>: (SS05)
+											<br/>OR<br/>
+										</li>
+										<li>(<br/>
+											(<a data-target="#rulesCarousel" data-slide-to="13" href="#">Geo Regulars (Domestic) rule</a>: (SS14)
+											<br/>AND<br/>
+											Requested Band High (<b>band-high</b>): &gt;= 8)
+											<br/>OR<br/>
+										</li>
+										<li>(
+										<a data-target="#rulesCarousel" data-slide-to="1" href="#">CIC Domestic Center rule</a>: (SS02)
+											<br/>AND<br/>
+										Requested Band Low (<b>band-low</b>): &lt;= 7)<br/>
+											)
+										</li>
+									</ol>
+								</div>
+								
+								<div class="swiper-slide">
+									<h3>SS12 - CIC Global OR Geo Regulars (Domestic) B9+ / Affiliate &lt;= B8</h3>
+									<p><b>Rule(s):</b></p>
+									<ol>
+										<li><a data-target="#rulesCarousel" data-slide-to="4" href="#">CIC Global Center rule</a>: (SS05)
+											<br/>OR<br/>
+										</li>
+										<li>(<br/>
+											(<a data-target="#rulesCarousel" data-slide-to="13" href="#">Geo Regulars (Domestic) rule</a>: (SS14)
+											<br/>AND<br/>
+											Requested Band High (<b>band-high</b>): &gt;= 9)
+											<br/>OR<br/>
+										</li>
+										<li>(
+										<a data-target="#rulesCarousel" data-slide-to="1" href="#">CIC Domestic Center rule</a>: (SS02)
+											<br/>AND<br/>
+										Requested Band Low (<b>band-low</b>): &lt;= 8)<br/>
+											)
+										</li>
+									</ol>
+								</div>
+								
+								<div class="swiper-slide">
+									<h3>SS13 - Contractor (Domestic)</h3>
+									<p><b>Rule(s):</b></p>
+									<ol>
+										<li>Role Type (<b>role-seat-type-cd</b>): = Geo <br/>AND<br/></li>
+										<li>Preferred Resource Channel (<b>pref-resource-channel</b>): = Contractor<br/>AND<br/></li>
+										<li>Request contractor / Accept Global Contractors (GIC) (<b>req-cntrct-accept-gbl-delivery</b>): = Yes</li>
+									</ol>
+								</div>
+								
+								<div class="swiper-slide">
+									<h3>SS14 - Geo Regulars (Domestic)</h3>
+									<p><b>Rule(s):</b></p>
+									<ol>
+										<li>Role Type (<b>role-seat-type-cd</b>): = Geo <br/>AND<br/></li>
+										<li>Preferred Resource Channel (<b>pref-resource-channel</b>): = Regular<br/>AND<br/></li>
+										<li>Request contractor / Accept Global Contractors (GIC) (<b>req-cntrct-accept-gbl-delivery</b>): = No</li>
+									</ol>
+								</div>
+								
+								<div class="swiper-slide">
+									<h3>SS15 - Geo Regulars (Domestic) - EPH</h3>
+									<p><b>Rule(s):</b></p>
+									<ol>
+										<li><a data-target="#rulesCarousel" data-slide-to="13" href="#">Geo Regulars (Domestic) rule</a>: (SS14)<br/>AND<br/>
+										</li>
+										<li>Requested Band High (<b>band-high</b>): &lt;= 6<br/>AND<br/></li>
+										<li>Requested Band Low (<b>band-low</b>): &gt;= 6G</b></li>
+									</ol>
+								</div>
+								
+								<div class="swiper-slide">
+									<h3>SS16 - Geo Regulars (Domestic) B8+ / CIC Domestic Center &lt;= B7</h3>
+									<p><b>Rule(s):</b></p>
+									<ol>
+										<li>(<a data-target="#rulesCarousel" data-slide-to="13" href="#">Geo Regulars (Domestic) rule</a>: (SS14)<br/>AND<br/>
+										</li>
+										<li>Requested Band High (<b>band-high</b>): &gt;= 8)<br/>OR<br/></li>
+										<li>(<a data-target="#rulesCarousel" data-slide-to="1" href="#">CIC Domestic Center rule</a>: (SS02)
+											<br/>AND<br/></li>
+										<li>Requested Band Low (<b>band-low</b>): &lt;= 7)</li>
+									</ol>
+								</div>
+								
+								<div class="swiper-slide">
+									<h3>SS17 - Geo Regulars (Domestic) B8+ / CIC Domestic Center &lt;= B7</h3>
+									<p><b>Rule(s):</b></p>
+									<ol>
+										<li>(<a data-target="#rulesCarousel" data-slide-to="13" href="#">Geo Regulars (Domestic) rule</a>: (SS14)<br/>AND<br/>
+										</li>
+										<li>Requested Band High (<b>band-high</b>): &gt;= 8)<br/>OR<br/></li>
+										<li>(<a data-target="#rulesCarousel" data-slide-to="4" href="#">CIC Global rule</a>: (SS05)
+											<br/>AND<br/></li>
+										<li>Requested Band Low (<b>band-low</b>): &lt;= 7)</li>
+									</ol>
+								</div>
+								
+								<div class="swiper-slide">
+									<h3>SS18 - Indirect</h3>
+									<p><b>Rule(s):</b></p>
+									<ol>
+										<li>Always set to &quot;Unable tto determine&quot;</li>
+									</ol>
+								</div>
+								
+								<div class="swiper-slide">
+									<h3>SS19 - Other</h3>
+									<p><b>Rule(s):</b></p>
+									<ol>
+										<li>Always set to &quot;Unable tto determine&quot;</li>
+									</ol>
+								</div>
+								
+								<div class="swiper-slide">
+									<h3>SS20 - CIC Global OR CIC Domestic Center / Affiliate-on-client-site</h3>
+									<p><b>Rule(s):</b></p>
+									<ol>
+										<li><a data-target="#rulesCarousel" data-slide-to="4" href="#">CIC Global Center rule</a>: (SS05)
+											<br/>OR<br/>
+										</li>
+										<li><a data-target="#rulesCarousel" data-slide-to="2" href="#">CIC Domesttic Center rule</a>: (SS02)
+											<br/>OR<br/>
+										</li>
+										<li><a data-target="#rulesCarousel" data-slide-to="1" href="#">Affiliate rule</a>: (SS01)</li>
+									</ol>
+								</div>
+
+
+							</div>
+							<div class="swiper-pagination"></div>
+						</div>
+					</div>
+
+					<div class="col-lg-4">
+						<div class="portfolio-info">
+							<h3>Scenario information</h3>
+							<ul>
+								<li><strong>Category</strong>: RESTful Function</li>
+								<li><strong>API</strong>:</li>
+							</ul>
+						</div>
+						<div class="portfolio-description">
+							<h2>Validation</h2>
+							<p>The carousel to the left show the rules applied to each of the valid GBS sourcing strategies. You can use this as a reference when testing.</p>
+						</div>
+					</div>
+
+				</div>
+
+				<div class="container px-5 my-5">
+					<hr />
+					<form id="ss-form">
+						<div class="form-floating mb-3">
+							<select class="form-select" id="ssId" aria-label="Select a sourcing stategy" onchange="ssUpdated()">
+							</select> <label for="ssId">Select a sourcing stategy</label>
+						</div>
+						<div class="form-floating mb-3"><h4>Parameters:</h4></div>
+						<div id="parmsPanelId"></div>
+						<div class="d-grid" id="apiUri">
+							<div class="mb-3">
+								<div class="fw-bolder">API URL</div>
+								<div id="apiUriLink"></div>
+							</div>
+						</div>
+
+						<div class="d-none" id="submitSuccessMessage">
+							<div id="msg-line" class="alert alert-danger alert-dismissible fade">
+								<div id="msg"></div>
+								<button type="button" class="close" data-dismiss="alert" onclick="hideMsg()">&times;</button>
+							</div>
+						</div>
+						<div class="d-none" id="submitErrorMessage">
+							<div class="text-center text-danger mb-3">Error sending message!</div>
+						</div>
+						<div class="d-grid">
+							<button class="btn btn-primary btn-lg" id="submitButton" type="button" onclick="javascript:runApi()">Submit</button>
+						</div>
+					</form>
+				</div>
+				<div>
+					<p>&nbsp;</p>
+				</div>
+				<div class="panel panel-primary" id="api_panel">
+					<div class="panel-heading">
+						<h3 class="panel-title">API Execution List</h3>
+					</div>
+					<div class="panel-body">
+						<ul class="list-group" id="id_api_list">
+
+						</ul>
+					</div>
+				</div>
+
+			</div>
+
+
+			</div>
+		</section>
+		<!-- End Portfolio Details Section -->
+
+	</main>
+	<!-- End #main -->
+
+	<!-- ======= Footer ======= -->
+	<footer id="footer" class="footer">
+
+
+		<div class="footer-top">
+			<div class="container">
+				<div class="row gy-4">
+					<div class="col-lg-5 col-md-12 footer-info">
+						<a href="index.html" class="logo d-flex align-items-center"> <img src="assets/img/logo.png" alt=""> <span>WFM</span>
+						</a>
+						<p>Empower profitable growth through cognitive workforce management capabilities to anticipate client needs,
+							delivering the right skills at the right time yielding business outcomes that matter to our clients, our
+							employees, and our company.</p>
+						<div class="social-links mt-3">
+							<a href="#" class="linkedin"><i class="bi bi-linkedin bx bxl-linkedin"></i></a> <a href="#" class="twitter"><i
+								class="bi bi-twitter"></i></a> <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
+						</div>
+					</div>
+
+					<div class="col-lg-2 col-6 footer-links">
+						<h4>Useful Links</h4>
+						<ul>
+							<li><i class="bi bi-chevron-right"></i> <a
+								href="https://w3.ibm.com/w3publisher/ibm-services-workforce-management">WFM Home</a></li>
+							<li><i class="bi bi-chevron-right"></i> <a href="index.html#about">About us</a></li>
+							<li><i class="bi bi-chevron-right"></i> <a href="index.html#services">Services</a></li>
+							<li><i class="bi bi-chevron-right"></i> <a href="https://w3.ibm.com">Terms of service</a></li>
+							<li><i class="bi bi-chevron-right"></i> <a href="https://w3.ibm.com/w3publisher/w3-privacy-notice/ibm-internal-privacy-statement-us-en">Privacy
+									policy</a></li>
+						</ul>
+					</div>
+
+					<div class="col-lg-2 col-6 footer-links">
+						<h4>Our Services</h4>
+						<ul>
+							<li><i class="bi bi-chevron-right"></i> <a href="#">tbd</a></li>
+
+						</ul>
+					</div>
+
+					<div class="col-lg-3 col-md-12 footer-contact text-center text-md-start">
+						<h4>Contact Us</h4>
+						<p>
+							<b>Steven J Ponessa</b> <br> Mount Pleasant, SC, United States <br> <strong>Phone:</strong> +1
+							845-699-5617 <br> <strong>Email:</strong> <a href="mailto:ponessa@us.ibm.com">ponessa@us.ibm.com</a>
+						</p>
+						<p>
+							<b>Mani Shahidsales</b> <br> Blue Bell, PA, United States <br> <strong>Phone:</strong> +1 845-699-5617
+							<br> <strong>Email:</strong> <a href="mailto:mshahids@us.ibm.com">mshahids@us.ibm.com</a>
+						</p>
+
+					</div>
+
+				</div>
+			</div>
+		</div>
+
+		<div class="container">
+			<div class="copyright">
+				&copy; Copyright <strong><span>IBM</span></strong>. All Rights Reserved
+			</div>
+			<div class="credits">
+				<!-- All the links in the footer should remain intact. -->
+				<!-- You can delete the links only if you purchased the pro version. -->
+				<!-- Licensing information: https://bootstrapmade.com/license/ -->
+				<!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/flexstart-bootstrap-startup-template/ -->
+				Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+			</div>
+		</div>
+	</footer>
+	<!-- End Footer -->
+
+	<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+	<!-- Vendor JS Files -->
+	<script src="assets/vendor/bootstrap/js/bootstrap.bundle.js"></script>
+	<script src="assets/vendor/aos/aos.js"></script>
+	<script src="assets/vendor/php-email-form/validate.js"></script>
+	<script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
+	<script src="assets/vendor/purecounter/purecounter.js"></script>
+	<script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+	<script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
+
+	<!-- Template Main JS File -->
+	<script src="assets/js/main.js"></script>
+	<script src="assets/js/jsonview.bundle.js"></script>
+
+</body>
+
+</html>

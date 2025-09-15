@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>Regular Expression Tester</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+  <link href="assets/img/favicon.png" rel="icon">
+  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="assets/vendor/aos/aos.css" rel="stylesheet">
+  <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
+  <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+  <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href="assets/css/style.css" rel="stylesheet">
+  
+  <script src="assets/vendor/jquery/jquery-3.3.1.min.js"></script>
+  <script src="assets/vendor/jquery/jquery-ui.min.js" integrity="sha256-eGE6blurk5sHj+rmkfsGYeKyZx3M4bG+ZlFyA7Kns7E=" crossorigin="anonymous"></script>
+
+  <!-- =======================================================
+  * Template Name: Inner Page
+  * Template URL: https://bootstrapmade.com/flexstart-bootstrap-startup-template/
+  * Author: BootstrapMade.com
+  * License: https://bootstrapmade.com/license/
+  ======================================================== -->
+<style>  
+  
+</style>
+
+<script>	
+	let nodes = [
+		"Adobe",
+		"Adobe Other Stuff",
+		"Application-Adobe Commerce",
+		"Application-Adobe Experienced Manager",
+		"Application-SAP",
+		"Application-SAPy ADM",
+		"Application-SAP Analytics",
+		"Application-SAP Basis",
+		"Application-SAP C/4 HANA",
+		"Application-SAP Commerce",
+		"Application-SAP Enterprise Integration",
+		"Application-SAP HANA Analytics",
+		"Application-SAP HANA Basis",
+		"Developer-Adobe Experience Platforms",
+		"Developer-Adobe Marketing & Analytics",
+		"Developer-SAP HANA Development",
+		"Developer-SAP HANA Master Adobe Governance",
+		"SAP",
+		"SAP Other Stuff",
+		"Microservices",
+		"Microservice",
+		"SAP Microservices",
+		"Adobe Microservices",
+		"SAP Microservice",
+		"Adobe Microservice",
+		"SAP Microservices-Other",
+		"Adobe Microservices-Other"
+	];
+	
+	let searchCriteriaInput;
+	let searchCriteriaParsedOutput;
+	let evaluatedExpression="";
+
+	function init() {
+		nodes.sort();
+		let  nodeList = document.getElementById('id-node-container');
+		nodeList.innerHTML="";
+		let i = 0;
+		nodes.forEach(s => {
+			let div = document.createElement('div');
+			div.setAttribute('class','col');
+			div.innerHTML = ++i + ". " + s;
+			nodeList.appendChild(div);
+		} );
+		
+		searchCriteriaInput = $("#id-search-criteria");
+		searchCriteriaParsedOutput = $("#id-search-criteria-parsed-output");
+	}
+	
+	function search() {
+		
+		let  searchCriteriaElement = document.getElementById('id-search-criteria-regex');
+		let searchCriteria = searchCriteriaElement.value;
+		
+		doSearch(searchCriteria);
+
+	}
+		
+	function doSearch(searchCriteria) {
+		let  searchResultList = document.getElementById('id-search-result-list');
+		searchResultList.innerHTML = "";
+
+		const regEx = new RegExp(searchCriteria, 'i');
+		
+		let found = false;
+		nodes.forEach(node => {
+			//if (node.match(searchCriteria)) {
+			if (regEx.test(node)) {
+				found = true;
+				let li = document.createElement('li');
+				li.textContent=node;
+				searchResultList.appendChild(li);
+			}
+		} );
+		
+		if (found == false) {
+			let li = document.createElement('li');
+			li.textContent="No results found";
+			searchResultList.appendChild(li);
+		}
+	}
+		
+	function get_html_obj(obj) {
+		var rv = $("<ul />");
+		for(var prop in obj) {
+			if(obj.hasOwnProperty(prop)) {
+				var value = obj[prop];
+
+				var li = $("<li />").appendTo(rv);
+				var prop_name = $("<span />")	.addClass("prop_name")
+												.appendTo(li)
+												.text(prop+": ")
+												;
+				var prop_val = $("<span />")	.addClass("prop_val")
+												.appendTo(li);
+
+				if(typeof value === "string") {
+					prop_val.addClass("string").text("'" + value + "'");
+				} else if(typeof value === "number") {
+					prop_val.addClass("number").text(value);
+				} else if(typeof value === "boolean") {
+					prop_val.addClass("boolean").text(value+"");
+				} else {
+					var child = get_html_obj(value);
+					prop_val.addClass("objectd").append(child);
+				}
+			}
+		}
+		return rv;
+	};
+	
+	function evaluateBinaryExpression(obj) {
+		evaluatedExpression+='(';
+		evaluateTreeBasic(obj.left);
+		if (obj.operator=='|') evaluatedExpression+=obj.operator
+		evaluateTreeBasic(obj.right);
+		evaluatedExpression+=')';
+	}
+	
+	function evaluateLiteral(obj) {
+		evaluatedExpression+= '(?=.*'+obj.value.replaceAll('~','\\b')+')';
+	}
+	
+	function evaluateIdentifier(obj) {
+		evaluatedExpression+= '(?=.*'+obj.name.replaceAll('~','\\b')+')';
+	}
+	
+	function evaluateTreeBasic(obj) {
+		if (obj.type == 'BinaryExpression') {
+			evaluateBinaryExpression(obj);
+		}
+		else if (obj.type == 'Literal') {
+			evaluateLiteral(obj);
+		}
+		else if (obj.type == 'Identifier')  {
+			evaluateIdentifier(obj);
+		}
+		else {
+			throw('Unknown token type: '+obj.type);
+			console.log('xUnknown token type: '+obj.type)
+		}
+
+	};
+	
+	function htmlize(obj) {
+		var html_obj = get_html_obj(obj);
+		return html_obj.html();
+	};
+		
+	function parse() {
+		var expr = searchCriteriaInput.val();
+		if (expr=="") {
+			searchCriteriaParsedOutput.text("");
+			return;
+		}
+		var tree = false;
+		try {
+			tree = jsep(expr);
+			searchCriteriaParsedOutput.removeClass("text-danger");
+			
+			let treeHtml = htmlize(tree);
+			//searchCriteriaParsedOutput.html(htmlize(tree));
+			
+			evaluatedExpression="";
+			evaluateTreeBasic(tree);
+			console.log(evaluatedExpression);
+			treeHtml+="<p><b>Evaluate expression: "+evaluatedExpression+"</p>";
+			searchCriteriaParsedOutput.html(treeHtml);
+			
+			let  searchCriteriaElement = document.getElementById('id-search-criteria-regex');
+			searchCriteriaElement.value = evaluatedExpression;
+			
+			doSearch(evaluatedExpression);
+			
+		} catch(e) {
+			console.log(e.message);
+			searchCriteriaParsedOutput.addClass("text-danger");
+			searchCriteriaParsedOutput.text(e.message);
+		}
+	}
+
+		
+</script>
+</head>
+
+<body onload="init()">
+
+	<!-- ======= Header ======= -->
+	<header id="header" class="header fixed-top">
+		<div class="container-fluid container-xl d-flex align-items-center justify-content-between">
+
+			<a href="index.html" class="logo d-flex align-items-center"> <img src="assets/img/logo.png" alt=""> <span>WFM</span>
+			</a>
+
+			<nav id="navbar" class="navbar">
+				<ul>
+					<li><a class="nav-link scrollto " href="..">Home</a></li>
+					<li><a class="nav-link scrollto" href="..#about">About</a></li>
+					<li><a class="nav-link scrollto" href="..#try-it">Try-it</a></li>
+					<li><a class="nav-link scrollto" href="..#team">Team</a></li>
+					<li><a class="getstarted scrollto" href="swagger-ui.html">Get Started</a></li>
+				</ul>
+				<i class="bi bi-list mobile-nav-toggle"></i>
+			</nav>
+			<!-- .navbar -->
+
+		</div>
+	</header>
+	<!-- End Header -->
+
+  <main id="main">
+
+	<!-- ======= Breadcrumbs ======= -->
+	<section class="breadcrumbs">
+		<div class="container">
+
+			<ol>
+				<li><a href="../index.html">Home</a></li>
+				<li><a href="../index.html#try-it">Try-it</a></li>
+				<li>Regular Expression Tester</li>
+			</ol>
+			<h2>Regular Expression Tester</h2>
+
+		</div>
+	</section>
+	<!-- End Breadcrumbs -->
+
+    <section class="inner-page">
+      <div class="container">
+			<h2>Search List</h2>
+			<div class="row row-cols-1 row-cols-md-3 g-4" id="id-node-container">
+			</div>
+			<div class="row">
+				<p><hr/></p>
+			</div>
+			
+			<div class="form-group row">
+				<label for="search-criteria-regex" class="col-sm-3 col-form-label"><h5>Search Criteria (RegEx):</h5></label>
+				<div class="col-sm-9">
+					<form action="javascript:search()">
+						<input type="text" id="id-search-criteria-regex" name="search-criteria-regex" size="90">&nbsp;
+						<input type="submit" value="Search">
+					</form>
+				</div>
+			</div>
+			<div class="form-group row">
+				<label for="search-criteria" class="col-sm-3 col-form-label"><h5>Search Criteria:</h5></label>
+				<div class="col-sm-9">
+					<form action="javascript:parse()">
+						<input type="text" id="id-search-criteria" name="search-criteria" size="90">&nbsp;
+						<input type="submit" value="Parse">
+						<div id="id-search-criteria-parsed-output"></div>
+					</form>
+				</div>
+			</div>
+			
+			<hr/>
+			<h2>Search Results</h2>
+			<ol id="id-search-result-list">
+			</ol>
+			
+			<p>&nbsp;</p>
+			<hr/>
+			<h2>End of document</h2>
+      </div>
+    </section>
+
+  </main><!-- End #main -->
+
+	<!-- ======= Footer ======= -->
+	<footer id="footer" class="footer">
+
+
+		<div class="footer-top">
+			<div class="container">
+				<div class="row gy-4">
+					<div class="col-lg-5 col-md-12 footer-info">
+						<a href="index.html" class="logo d-flex align-items-center"> <img src="assets/img/logo.png" alt=""> <span>WFM</span>
+						</a>
+						<p>Empower profitable growth through cognitive workforce management capabilities to anticipate client needs,
+							delivering the right skills at the right time yielding business outcomes that matter to our clients, our
+							employees, and our company.</p>
+						<div class="social-links mt-3">
+							<a href="#" class="linkedin"><i class="bi bi-linkedin bx bxl-linkedin"></i></a> <a href="#" class="twitter"><i
+								class="bi bi-twitter"></i></a> <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
+						</div>
+					</div>
+
+					<div class="col-lg-2 col-6 footer-links">
+						<h4>Useful Links</h4>
+						<ul>
+							<li><i class="bi bi-chevron-right"></i> <a
+								href="https://w3.ibm.com/w3publisher/ibm-services-workforce-management">WFM Home</a></li>
+							<li><i class="bi bi-chevron-right"></i> <a href="index.html#about">About us</a></li>
+							<li><i class="bi bi-chevron-right"></i> <a href="index.html#services">Services</a></li>
+							<li><i class="bi bi-chevron-right"></i> <a href="https://w3.ibm.com">Terms of service</a></li>
+							<li><i class="bi bi-chevron-right"></i> <a href="https://w3.ibm.com/w3publisher/w3-privacy-notice/ibm-internal-privacy-statement-us-en">Privacy
+									policy</a></li>
+						</ul>
+					</div>
+
+					<div class="col-lg-2 col-6 footer-links">
+						<h4>Our Services</h4>
+						<ul>
+							<li><i class="bi bi-chevron-right"></i> <a href="#">tbd</a></li>
+
+						</ul>
+					</div>
+
+					<div class="col-lg-3 col-md-12 footer-contact text-center text-md-start">
+						<h4>Contact Us</h4>
+						<p>
+							<b>Steven J Ponessa</b> <br> Mount Pleasant, SC, United States <br> <strong>Phone:</strong> +1
+							845-699-5617 <br> <strong>Email:</strong> <a href="mailto:ponessa@us.ibm.com">ponessa@us.ibm.com</a>
+						</p>
+						<p>
+							<b>Mani Shahidsales</b> <br> Blue Bell, PA, United States <br> <strong>Phone:</strong> +1 845-699-5617
+							<br> <strong>Email:</strong> <a href="mailto:mshahids@us.ibm.com">mshahids@us.ibm.com</a>
+						</p>
+
+					</div>
+
+				</div>
+			</div>
+		</div>
+
+		<div class="container">
+			<div class="copyright">
+				&copy; Copyright <strong><span>IBM</span></strong>. All Rights Reserved
+			</div>
+			<div class="credits">
+				<!-- All the links in the footer should remain intact. -->
+				<!-- You can delete the links only if you purchased the pro version. -->
+				<!-- Licensing information: https://bootstrapmade.com/license/ -->
+				<!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/flexstart-bootstrap-startup-template/ -->
+				Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+			</div>
+		</div>
+	</footer>
+	<!-- End Footer -->
+
+	<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+	<!-- Vendor JS Files -->
+	<script src="assets/vendor/bootstrap/js/bootstrap.bundle.js"></script>
+	<script src="assets/vendor/aos/aos.js"></script>
+	<script src="assets/vendor/php-email-form/validate.js"></script>
+	<script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
+	<script src="assets/vendor/purecounter/purecounter.js"></script>
+	<script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+	<script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
+	<script type="text/javascript" src="assets/vendor/jsep/jsep.js"></script>
+
+	<!-- Template Main JS File -->
+	<script src="assets/js/main.js"></script>
+	
+
+</body>
+
+</html>

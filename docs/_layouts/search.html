@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+
+{% include head.html %}
+
+<body data-color-mode="auto" data-dark-theme="dark" data-light-theme="light">
+
+	<div id="__next">
+		<div class="d-lg-flex">
+			<div class="jsx-4031964419 d-none d-lg-block color-bg-tertiary position-sticky top-0 overflow-y-auto root">
+				{% include logo.html %}
+				{% include navigator.html %}
+			</div>
+			<main class="flex-1 min-width-0">
+				{% include header.html %}
+				<div class="container-xl px-3 px-md-6 my-4 my-lg-4">
+					<article class="markdown-body">
+						<h1 id="search-results-title">Search results</h1>
+            <ul id="search-results" class="search-results"></ul>
+					</div>
+						
+					</article>
+				</div>
+				{% include contribute-section.html %}
+				{% include footer.html %}
+				{% include back-to-top.html %}
+			</main>
+		</div>
+	</div>
+
+</body>
+<script src="assets/js/search-content.js"></script>
+<script src="assets/js/lunr.js"></script>
+<script src="assets/js/search.js"></script>
+
+</html>

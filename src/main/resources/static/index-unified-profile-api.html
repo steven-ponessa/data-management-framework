@@ -1,0 +1,1321 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+<title>IBM WFM Microservices Framework - Index</title>
+<meta content="" name="description">
+
+<meta content="" name="keywords">
+
+<!-- Favicons -->
+<link href="assets/img/favicon.png" rel="icon">
+<link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+<!-- Google Fonts -->
+<link
+	href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+	rel="stylesheet">
+
+<!-- Vendor CSS Files -->
+<link href="assets/vendor/bootstrap/css/bootstrap.min.css"
+	rel="stylesheet">
+<link href="assets/vendor/bootstrap-icons/bootstrap-icons.css"
+	rel="stylesheet">
+<link href="assets/vendor/aos/aos.css" rel="stylesheet">
+<link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
+<link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+<link href="assets/vendor/glightbox/css/glightbox.min.css"
+	rel="stylesheet">
+
+<!-- Template Main CSS File -->
+<link href="assets/css/style.css" rel="stylesheet">
+
+<!-- =======================================================
+  * Template Name: FlexStart - v1.4.0
+  * Template URL: https://bootstrapmade.com/flexstart-bootstrap-startup-template/
+  * Author: BootstrapMade.com
+  * License: https://bootstrapmade.com/license/
+  ======================================================== -->
+</head>
+
+<script>
+	function init() {
+		//https://unified-profile-api.us-south-k8s.intranet.ibm.com/v3/profiles/139181897/profile
+		console.log("in init()")
+		people = document.getElementsByClassName("person-card");
+		console.log("people is type: "+typeof(people))
+		if (people && people.length>0) {
+			//people.map((person) => {
+			//for (person in people) {
+			for (i=0; i<people.length; i++) {
+				let person = people[i]
+				let cnum = person.getAttribute("id")
+				let twitter = person.getAttribute("pc-data-twitter")
+				let linkedin = person.getAttribute("pc-data-linkedin")
+				console.log(cnum+", "+twitter+","+linkedin)
+				const url = "https://unified-profile-api.us-south-k8s.intranet.ibm.com/v3/profiles/"+cnum+"/profile"
+				const request = new XMLHttpRequest();
+				request.open('GET', url, true);
+				request.onload = function() {
+		  			if (request.status === 200) {
+		  				const data = JSON.parse(request.responseText);
+		  				console.log("return from unified profile api")
+		  				console.log(cnum+", "+twitter+","+linkedin)
+		  				console.log(data)
+		  				
+		  				var el = document.getElementById(cnum);
+		  				
+		  				el.innerHTML=""
+		  				
+		  				var member = document.createElement("div");
+		  				member.setAttribute("class", "member");
+		  				var memberImg = document.createElement("div");
+		  				memberImg.setAttribute("class", "member-img");
+		  			
+		  				var img = document.createElement("img");
+		  				img.setAttribute("class", "img-fluid");
+		  				img.setAttribute("alt", data.content.nameDisplay);
+		  				img.setAttribute("src", "https://unified-profile-api.us-south-k8s.intranet.ibm.com/v3/image/"+cnum+"?def=none");
+		  				
+		  				var social = document.createElement("div");
+		  				social.setAttribute("class", "social");
+		  				
+		  				var slack = document.createElement("a");
+		  				slack.setAttribute("href", "https://ibm.enterprise.slack.com/user/@"+data.content.preferredSlackId);
+		  				var slackImg = document.createElement("i");
+		  				slackImg.setAttribute("class", "bi bi-slack");
+		  				slackImg.setAttribute("title", "Slack");
+		  				slack.appendChild(slackImg)
+		  				social.appendChild(slack)
+		  				
+		  				//<a href="mailto:ponessa@us.ibm.com@us.ibm.com"><i class="bi bi-envelope-fill" title="Mail to"></i></a> 
+		  				var mailTo = document.createElement("a");
+		  				mailTo.setAttribute("href", "mailto:"+data.content.mail[0]);
+		  				var mailToImg = document.createElement("i");
+		  				mailToImg.setAttribute("class", "bi bi-envelope-fill");
+		  				mailToImg.setAttribute("title", "Mail to");
+		  				mailTo.appendChild(mailToImg)
+		  				social.appendChild(mailTo)
+		  				
+		  				var webex = document.createElement("a");
+		  				webex.setAttribute("href", data.content.conferenceUrl);
+		  				var webexImg = document.createElement("i");
+		  				webexImg.setAttribute("class", "bi bi-camera-video-fill");
+		  				webexImg.setAttribute("title", "WebEx");
+		  				webex.appendChild(webexImg)
+		  				social.appendChild(webex)
+		  				
+		  				//<a href="https://www.linkedin.com/in/stevenponessa/"><i class="bi bi-linkedin" title="LinkedIn"></i></a>
+						//<a href="https://twitter.com/ponessa?lang=en"><i class="bi bi-twitter" title="Twitter"></i></a> 	  				
+		  				if (linkedin) {
+		  					var lx = document.createElement("a");
+		  					lx.setAttribute("href", "https://www.linkedin.com/in/"+linkedin);
+			  				var linkedinImg = document.createElement("i");
+			  				linkedinImg.setAttribute("class", "bi bi-linkedin");
+			  				linkedinImg.setAttribute("title", "LinkedIn");
+			  				lx.appendChild(linkedinImg)
+			  				social.appendChild(lx)
+		  				}
+		  				if (twitter) {
+		  					var tx = document.createElement("a");
+		  					tx.setAttribute("href", "https://twitter.com/"+twitter);
+			  				var twitterImg = document.createElement("i");
+			  				twitterImg.setAttribute("class", "bi bi-twitter");
+			  				twitterImg.setAttribute("title", "Twitter");
+			  				tx.appendChild(twitterImg)
+			  				social.appendChild(tx)
+		  				}
+		  				
+		  				var memberInfo = document.createElement("div");
+		  				memberInfo.setAttribute("class", "member-info");
+		  				
+		  				var h4 = document.createElement("h4");
+		  				h4.innerHTML = data.content.nameDisplay;
+		  				var span = document.createElement("span");
+		  				span.innerHTML = data.content.address.business.location
+		  				var p = document.createElement("p");
+		  				p.innerHTML = data.content.role
+;
+		  				
+		  				memberInfo.appendChild(h4)
+		  				memberInfo.appendChild(span)
+		  				memberInfo.appendChild(p)
+		  				
+		  				
+		  				memberImg.appendChild(social)
+		  				memberImg.appendChild(img)
+		  				member.appendChild(memberImg)
+		  				member.appendChild(memberInfo)
+		  				el.appendChild(member)
+		  				//el.appendChild(element)
+
+
+		  			}
+		  			else {
+				    	// Reached the server, but it returned an error
+					   console.error('An error occured '+ request.status + ' - ' + request.statusText);
+				 	}  
+				}
+				
+				request.onerror = function() {
+					console.error('An error occurred fetching the JSON from ' + url);
+				};
+
+				request.send();
+			}
+			//})
+		}
+		
+	}
+</script>
+
+<body onload="javascript:init()">
+
+	<!-- ======= Header ======= -->
+	<header id="header" class="header fixed-top">
+		<div
+			class="container-fluid container-xl d-flex align-items-center justify-content-between">
+
+			<a href="index.html" class="logo d-flex align-items-center"> <img
+				src="assets/img/logo.png" alt=""> <span>WFM</span>
+			</a>
+
+			<nav id="navbar" class="navbar">
+				<ul>
+					<li><a class="nav-link scrollto active" href="#hero">Home</a></li>
+					<li><a class="nav-link scrollto" href="#about">About</a></li>
+					<li><a class="nav-link scrollto" href="#try-it">Try-it</a></li>
+					<li><a class="nav-link scrollto" href="#faq">FAQs</a></li>
+					<li><a class="nav-link scrollto" href="#team">Team</a></li>
+					<li><a class="getstarted scrollto" href="swagger-ui.html">Get
+							Started</a></li>
+				</ul>
+				<i class="bi bi-list mobile-nav-toggle"></i>
+			</nav>
+			<!-- .navbar -->
+
+		</div>
+	</header>
+	<!-- End Header -->
+
+	<!-- ======= Hero Section ======= -->
+	<section id="hero" class="hero d-flex align-items-center">
+
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-6 d-flex flex-column justify-content-center">
+					<h1 data-aos="fade-up">IBM Workforce Management Data Management
+						Framework</h1>
+					<h2 data-aos="fade-up" data-aos-delay="400">A collection of
+						services to support data acquisition, ETL
+						processing, and data quality insurance.</h2>
+					<div data-aos="fade-up" data-aos-delay="600">
+						<div class="text-center text-lg-start">
+							<a href="swagger-ui.html"
+								class="btn-get-started scrollto d-inline-flex align-items-center justify-content-center align-self-center">
+								<span>Get Started</span> <i class="bi bi-arrow-right"></i>
+							</a>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-6 hero-img" data-aos="zoom-out"
+					data-aos-delay="200">
+					<img src="assets/img/code.png" class="img-fluid" alt="">
+				</div>
+			</div>
+		</div>
+
+	</section>
+	<!-- End Hero -->
+
+	<main id="main">
+		<!-- ======= About Section ======= -->
+		<section id="about" class="about">
+
+			<div class="container" data-aos="fade-up">
+				<div class="row gx-0">
+
+					<div class="col-lg-6 d-flex flex-column justify-content-center"
+						data-aos="fade-up" data-aos-delay="200">
+						<div class="content">
+							<h3>WFM Data Management Framework</h3>
+							<h2>A framework supporting infrastructure services for data management. The framework is
+							 implemented using fine and coarse grained microservices accessible thru API, using Swagger 
+							 annotations to automatically publish the APIs.</h2>
+							<p>This project allows for the deployment of Java based
+								microservices on the SpringBoot platform. Microservices are a
+								modern approach to software whereby application code is
+								delivered in small, manageable pieces, independent of others.
+								Their small scale and relative isolation can lead to many
+								additional benefits, such as easier maintenance, improved
+								productivity, greater fault tolerance, better business
+								alignment, and more.</p>
+							<div class="text-center text-lg-start">
+								<a href="https://pages.github.ibm.com/IBM-Consulting-WFM/wfm-dmf-ga"
+									class="btn-read-more d-inline-flex align-items-center justify-content-center align-self-center">
+									<span>Learn More</span> <i class="bi bi-arrow-right"></i>
+								</a>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-lg-6 d-flex align-items-center" data-aos="zoom-out"
+						data-aos-delay="200">
+						<img src="assets/img/background-learning-1.jpg" class="img-fluid"
+							alt="">
+					</div>
+
+				</div>
+			</div>
+
+		</section>
+		<!-- End About Section -->
+
+		<!-- ======= Values Section ======= -->
+		<section id="values" class="values">
+
+			<div class="container" data-aos="fade-up">
+
+				<header class="section-header">
+					<h2>About - Service Types</h2>
+					<p>The following are the types of services made available.</p>
+				</header>
+
+				<div class="row">
+
+					<div class="col-lg-4">
+						<div class="box" data-aos="fade-up" data-aos-delay="200">
+							<img src="assets/img/values-1.png" class="img-fluid" alt="">
+							<h3>RESTful Data Retrieval</h3>
+							<p>Retrieve data from any SQL against any JDBC connection.</p>
+						</div>
+					</div>
+
+					<div class="col-lg-4 mt-4 mt-lg-0">
+						<div class="box" data-aos="fade-up" data-aos-delay="400">
+							<img src="assets/img/values-2.png" class="img-fluid" alt="">
+							<h3>ETL Services</h3>
+							<p>Run ETLs with services to identify and apply inserts,
+								updates, and deletes.</p>
+						</div>
+					</div>
+
+					<div class="col-lg-4 mt-4 mt-lg-0">
+						<div class="box" data-aos="fade-up" data-aos-delay="600">
+							<img src="assets/img/values-3.png" class="img-fluid" alt="">
+							<h3>Data Quality Services</h3>
+							<p>Compare data against EDS AVLs and taxonomies.</p>
+						</div>
+					</div>
+
+				</div>
+
+			</div>
+
+		</section>
+		<!-- End Values Section -->
+
+		<!-- ======= Counts Section ======= -->
+		<section id="counts" class="counts">
+			<div class="container" data-aos="fade-up">
+
+				<div class="row gy-4">
+
+					<div class="col-lg-3 col-md-6">
+						<div class="count-box">
+							<i class="bi bi-emoji-smile"></i>
+							<div>
+								<span data-purecounter-start="0" data-purecounter-end="8"
+									data-purecounter-duration="3" class="purecounter"></span>
+								<p>Happy Clients</p>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-lg-3 col-md-6">
+						<div class="count-box">
+							<i class="bi bi-gear-fill" style="color: #ee6c20;"></i>
+							<div>
+								<span data-purecounter-start="0" data-purecounter-end="27"
+									data-purecounter-duration="3" class="purecounter"></span>
+								<p>Services</p>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-lg-3 col-md-6">
+						<div class="count-box">
+							<i class="bi bi-signpost-2-fill" style="color: #15be56;"></i>
+							<div>
+								<span data-purecounter-start="0" data-purecounter-end="308"
+									data-purecounter-duration="3" class="purecounter"></span>
+								<p>APIs</p>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-3 col-md-6">
+						<div class="count-box">
+							<i class="bi bi-table" style="color: #af2318;"></i>
+							<div>
+								<span data-purecounter-start="0" data-purecounter-end="8"
+									data-purecounter-duration="3" class="purecounter"></span>
+								<p>Backed database sources</p>
+							</div>
+						</div>
+					</div>
+
+				</div>
+
+			</div>
+		</section>
+		<!-- End Counts Section -->
+
+		<!-- ======= Features Section ======= -->
+		<section id="features" class="features">
+
+			<div class="container" data-aos="fade-up">
+
+				<header class="section-header">
+					<h2>About - Design Principles</h2>
+					<p>
+						Follows <a href="" target="_blank">twelve-factor app</a>
+						methodology for building software-as-a-service apps.
+					</p>
+				</header>
+
+				<div class="row">
+
+					<div class="col-lg-3">
+						<img src="assets/img/values-3.png" class="img-fluid" alt="">
+					</div>
+
+					<div class="col-lg-9 mt-5 mt-lg-0 d-flex">
+						<div class="row align-self-center gy-4">
+
+							<div class="col-md-4" data-aos="zoom-out" data-aos-delay="200">
+								<div class="feature-box d-flex align-items-center">
+									<i class="bi bi-check"></i>
+									<h3>One Codebase</h3>
+								</div>
+							</div>
+
+							<div class="col-md-4" data-aos="zoom-out" data-aos-delay="300">
+								<div class="feature-box d-flex align-items-center">
+									<i class="bi bi-check"></i>
+									<h3>Dependencies declared &amp; isolated</h3>
+								</div>
+							</div>
+
+							<div class="col-md-4" data-aos="zoom-out" data-aos-delay="400">
+								<div class="feature-box d-flex align-items-center">
+									<i class="bi bi-check"></i>
+									<h3>Config stored in environment</h3>
+								</div>
+							</div>
+
+							<div class="col-md-4" data-aos="zoom-out" data-aos-delay="500">
+								<div class="feature-box d-flex align-items-center">
+									<i class="bi bi-check"></i>
+									<h3>Backing services as attached resources</h3>
+								</div>
+							</div>
+
+							<div class="col-md-4" data-aos="zoom-out" data-aos-delay="600">
+								<div class="feature-box d-flex align-items-center">
+									<i class="bi bi-check"></i>
+									<h3>Separate build, release, & run stages</h3>
+								</div>
+							</div>
+
+							<div class="col-md-4" data-aos="zoom-out" data-aos-delay="700">
+								<div class="feature-box d-flex align-items-center">
+									<i class="bi bi-check"></i>
+									<h3>App 1-m stateless processes</h3>
+								</div>
+							</div>
+							<div class="col-md-4" data-aos="zoom-out" data-aos-delay="200">
+								<div class="feature-box d-flex align-items-center">
+									<i class="bi bi-check"></i>
+									<h3>Export services via port binding</h3>
+								</div>
+							</div>
+
+							<div class="col-md-4" data-aos="zoom-out" data-aos-delay="300">
+								<div class="feature-box d-flex align-items-center">
+									<i class="bi bi-check"></i>
+									<h3>Concurrency</h3>
+								</div>
+							</div>
+
+							<div class="col-md-4" data-aos="zoom-out" data-aos-delay="400">
+								<div class="feature-box d-flex align-items-center">
+									<i class="bi bi-check"></i>
+									<h3>Disposability</h3>
+								</div>
+							</div>
+
+							<div class="col-md-4" data-aos="zoom-out" data-aos-delay="500">
+								<div class="feature-box d-flex align-items-center">
+									<i class="bi bi-check"></i>
+									<h3>Dev/prod parity</h3>
+								</div>
+							</div>
+
+							<div class="col-md-4" data-aos="zoom-out" data-aos-delay="600">
+								<div class="feature-box d-flex align-items-center">
+									<i class="bi bi-check"></i>
+									<h3>Logs as event streams</h3>
+								</div>
+							</div>
+
+							<div class="col-md-4" data-aos="zoom-out" data-aos-delay="700">
+								<div class="feature-box d-flex align-items-center">
+									<i class="bi bi-check"></i>
+									<h3>Admin one-off process</h3>
+								</div>
+							</div>
+
+						</div>
+					</div>
+
+				</div>
+				<!-- / row -->
+
+				<!-- Feature Tabs -->
+				<div class="row feture-tabs" data-aos="fade-up">
+					<div class="col-lg-10">
+						<h3>Looking at thee 12-factor app in more detail</h3>
+
+						<!-- Tabs -->
+						<ul class="nav nav-pills mb-3">
+							<li><a class="nav-link active" data-bs-toggle="pill"
+								href="#tab1">Codebase</a></li>
+							<li><a class="nav-link" data-bs-toggle="pill" href="#tab2">Dependencies</a>
+							</li>
+							<li><a class="nav-link" data-bs-toggle="pill" href="#tab3">Config</a>
+							</li>
+							<li><a class="nav-link" data-bs-toggle="pill" href="#tab4">Backing
+									services</a></li>
+							<li><a class="nav-link" data-bs-toggle="pill" href="#tab5">Build,
+									release, run</a></li>
+							<li><a class="nav-link" data-bs-toggle="pill" href="#tab6">Processes</a>
+							</li>
+							<li><a class="nav-link" data-bs-toggle="pill" href="#tab7">Port
+									binding</a></li>
+							<li><a class="nav-link" data-bs-toggle="pill" href="#tab8">Concurrency</a></li>
+							<li><a class="nav-link" data-bs-toggle="pill" href="#tab9">Disposability</a></li>
+							<li><a class="nav-link" data-bs-toggle="pill" href="#tab10">Dev/prod
+									parity</a></li>
+							<li><a class="nav-link" data-bs-toggle="pill" href="#tab11">Logs</a></li>
+							<li><a class="nav-link" data-bs-toggle="pill" href="#tab12">Admin
+									processes</a></li>
+						</ul>
+						<!-- End Tabs -->
+
+						<!-- Tab Content -->
+						<div class="tab-content">
+
+							<div class="tab-pane fade show active" id="tab1">
+								<h3>One codebase tracked in revision control, many deploys</h3>
+								<p>A twelve-factor app is always tracked in a version
+									control system, such as Git, Mercurial, or Subversion. A copy
+									of the revision tracking database is known as a code
+									repository, often shortened to code repo or just repo.</p>
+								<p>A codebase is any single repo (in a centralized revision
+									control system like Subversion), or any set of repos who share
+									a root commit (in a decentralized revision control system like
+									Git).</p>
+								<div class="d-flex align-items-center mb-2">
+									<i class="bi bi-check2"></i>
+									<h4>One codebase maps to many deploys</h4>
+								</div>
+								<div class="d-flex align-items-center mb-2">
+									<i class="bi bi-check2"></i>
+									<h4>There is always a one-to-one correlation between the
+										codebase and the app.</h4>
+								</div>
+							</div>
+							<!-- End Tab 1 Content -->
+
+							<div class="tab-pane fade show" id="tab2">
+								<h3>Explicitly declare and isolate dependencies</h3>
+								<p>
+									Most programming languages offer a packaging system for
+									distributing support libraries, such as <a
+										href="https://maven.apache.org/">Mavin</a> for Java, <a
+										href="https://www.npmjs.com/">NPM</a> for Node.js, <a
+										href="https://pypi.org/project/pip/">PIP</a>, <a href="">YUM</a>,
+									<a href="https://www.anaconda.com/">Anaconda</a>, and others
+									for Python, or <a href="http://rubygems.org/">Rubygems</a> for
+									Ruby. Libraries installed through a packaging system can be
+									installed system-wide (known as “site packages”) or scoped into
+									the directory containing the app (known as “vendoring” or
+									“bundling”).
+								</p>
+
+								<p>
+									<strong>A twelve-factor app never relies on implicit
+										existence of system-wide packages.</strong> It declares all
+									dependencies, completely and exactly, via a <em>dependency
+										declaration</em> manifest. Furthermore, it uses a <em>dependency
+										isolation</em> tool during execution to ensure that no implicit
+									dependencies “leak in” from the surrounding system. The full
+									and explicit dependency specification is applied uniformly to
+									both production and development.
+								</p>
+
+								<p>
+									One benefit of explicit dependency declaration is that it
+									simplifies setup for developers new to the app. The new
+									developer can check out the app’s codebase onto their
+									development machine, requiring only the language runtime and
+									dependency manager installed as prerequisites. They will be
+									able to set up everything needed to run the app’s code with a
+									deterministic <em>build command</em>.
+								</p>
+
+							</div>
+							<!-- End Tab 2 Content -->
+
+							<div class="tab-pane fade show" id="tab3">
+								<h3>Store config in the environment</h3>
+								<p>
+									An app’s <em>config</em> is everything that is likely to vary
+									between <a href="./codebase">deploys</a> (staging, production,
+									developer environments, etc). This includes:
+								</p>
+								<ul>
+									<li>Resource handles to the database, Memcached, and other
+										<a href="./backing-services">backing services</a>
+									</li>
+
+									<li>Credentials to external services such as Amazon S3 or
+										Twitter</li>
+									<li>Per-deploy values such as the canonical hostname for
+										the deploy</li>
+								</ul>
+
+								<p>
+									Apps sometimes store config as constants in the code. This is a
+									violation of twelve-factor, which requires <strong>strict
+										separation of config from code</strong>. Config varies substantially
+									across deploys, code does not.
+								</p>
+
+							</div>
+							<!-- End Tab 3 Content -->
+							<div class="tab-pane fade show" id="tab4">
+								<h3>Treat backing services as attached resources</h3>
+
+								<p>
+									A <em>backing service</em> is any service the app consumes over
+									the network as part of its normal operation. Examples include
+									datastores (such as <a href="http://dev.mysql.com/">MySQL</a>
+									or <a href="http://couchdb.apache.org/">CouchDB</a>),
+									messaging/queueing systems (such as <a
+										href="http://www.rabbitmq.com/">RabbitMQ</a> or <a
+										href="https://beanstalkd.github.io">Beanstalkd</a>), SMTP
+									services for outbound email (such as <a
+										href="http://www.postfix.org/">Postfix</a>), and caching
+									systems (such as <a href="http://memcached.org/">Memcached</a>).
+								</p>
+
+								<p>
+									<strong>The code for a twelve-factor app makes no
+										distinction between local and third party services.</strong> To the
+									app, both are attached resources, accessed via a URL or other
+									locator/credentials stored in the <a href="./config">config</a>.
+									A <a href="./codebase">deploy</a> of the twelve-factor app
+									should be able to swap out a local MySQL database with one
+									managed by a third party (such as <a
+										href="http://aws.amazon.com/rds/">Amazon RDS</a>) without any
+									changes to the app’s code. Likewise, a local SMTP server could
+									be swapped with a third-party SMTP service (such as Postmark)
+									without code changes. In both cases, only the resource handle
+									in the config needs to change.
+								</p>
+
+								<p>
+									Each distinct backing service is a <em>resource</em>. For
+									example, a MySQL database is a resource; two MySQL databases
+									(used for sharding at the application layer) qualify as two
+									distinct resources. The twelve-factor app treats these
+									databases as <em>attached resources</em>, which indicates their
+									loose coupling to the deploy they are attached to.
+								</p>
+
+							</div>
+							<!-- End Tab 4 Content -->
+							<div class="tab-pane fade show" id="tab5">
+								<h3 id="strictly_separate_build_and_run_stages">Strictly
+									separate build and run stages</h3>
+
+								<p>
+									A <a href="./codebase">codebase</a> is transformed into a
+									(non-development) deploy through three stages:
+								</p>
+
+								<ul>
+									<li>The <em>build stage</em> is a transform which converts
+										a code repo into an executable bundle known as a <em>build</em>.
+										Using a version of the code at a commit specified by the
+										deployment process, the build stage fetches vendors <a
+										href="./dependencies">dependencies</a> and compiles binaries
+										and assets.
+									</li>
+
+									<li>The <em>release stage</em> takes the build produced by
+										the build stage and combines it with the deploy’s current <a
+										href="./config">config</a>. The resulting <em>release</em>
+										contains both the build and the config and is ready for
+										immediate execution in the execution environment.
+									</li>
+
+									<li>The <em>run stage</em> (also known as “runtime”) runs
+										the app in the execution environment, by launching some set of
+										the app’s <a href="./processes">processes</a> against a
+										selected release.
+									</li>
+								</ul>
+
+								<p>
+									<strong>The twelve-factor app uses strict separation
+										between the build, release, and run stages.</strong> For example, it is
+									impossible to make changes to the code at runtime, since there
+									is no way to propagate those changes back to the build stage.
+								</p>
+
+							</div>
+							<!-- End Tab 5 Content -->
+
+							<div class="tab-pane fade show" id="tab6">
+								<h3>Execute the app as one or more stateless processes</h3>
+
+								<p>
+									The app is executed in the execution environment as one or more
+									<em>processes</em>.
+								</p>
+
+								<p>
+									In the simplest case, the code is a stand-alone script, the
+									execution environment is a developer’s local laptop with an
+									installed language runtime, and the process is launched via the
+									command line (for example,
+									<code>python my_script.py</code>
+									). On the other end of the spectrum, a production deploy of a
+									sophisticated app may use many <a href="./concurrency">process
+										types, instantiated into zero or more running processes</a>.
+								</p>
+
+								<p>
+									<strong>Twelve-factor processes are stateless and <a
+										href="http://en.wikipedia.org/wiki/Shared_nothing_architecture">share-nothing</a>.
+									</strong> Any data that needs to persist must be stored in a stateful <a
+										href="./backing-services">backing service</a>, typically a
+									database.
+								</p>
+
+								<p>The memory space or filesystem of the process can be used
+									as a brief, single-transaction cache. For example, downloading
+									a large file, operating on it, and storing the results of the
+									operation in the database. The twelve-factor app never assumes
+									that anything cached in memory or on disk will be available on
+									a future request or job – with many processes of each type
+									running, chances are high that a future request will be served
+									by a different process. Even when running only one process, a
+									restart (triggered by code deploy, config change, or the
+									execution environment relocating the process to a different
+									physical location) will usually wipe out all local (e.g.,
+									memory and filesystem) state.</p>
+							</div>
+							<!-- End Tab 6 Content -->
+							<div class="tab-pane fade show" id="tab7">
+								<h3>Export services via port binding</h3>
+								<p>
+									<em>put content here...</em>
+								</p>
+							</div>
+							<!-- End Tab 7 Content -->
+							<div class="tab-pane fade show" id="tab8">
+								<h3>Scale out via the process model</h3>
+								<p>
+									<em>put content here...</em>
+								</p>
+							</div>
+							<!-- End Tab 8 Content -->
+							<div class="tab-pane fade show" id="tab9">
+								<h3>Maximize robustness with fast startup and graceful
+									shutdown</h3>
+								<p>
+									<em>put content here...</em>
+								</p>
+							</div>
+							<!-- End Tab 9 Content -->
+							<div class="tab-pane fade show" id="tab10">
+								<h3>Keep development, staging, and production as similar as
+									possible</h3>
+								<p>
+									<em>put content here...</em>
+								</p>
+							</div>
+							<!-- End Tab 10 Content -->
+							<div class="tab-pane fade show" id="tab11">
+								<h3>Treat logs as event streams</h3>
+								<p>
+									<em>put content here...</em>
+								</p>
+							</div>
+							<!-- End Tab 11 Content -->
+							<div class="tab-pane fade show" id="tab12">
+								<h3>Run admin/management tasks as one-off processes</h3>
+								<p>
+									<em>put content here...</em>
+								</p>
+							</div>
+							<!-- End Tab 12 Content -->
+
+						</div>
+
+					</div>
+
+					<div class="col-lg-2">
+						<img src="assets/img/features-2.png" class="img-fluid" alt="">
+					</div>
+
+				</div>
+				<!-- End Feature Tabs -->
+
+			</div>
+
+		</section>
+		<!-- End Features Section -->
+
+		<!-- ======= Services Section ======= -->
+		<section id="try-it" class="services">
+
+			<div class="container" data-aos="fade-up">
+
+				<header class="section-header">
+					<h2>Try it</h2>
+					<p>Example applications invoking services</p>
+				</header>
+
+				<div class="row gy-4">
+
+					<div class="col-lg-4 col-md-6" data-aos="fade-up"
+						data-aos-delay="200">
+						<div class="service-box blue">
+							<i class="ri-upload-cloud-2-line icon"></i>
+							<h3>Upload/Download</h3>
+							<p>UI to upload single or multiple files and download
+								previously uploaded files.</p>
+							<a href="try-it-up-download.html" class="read-more"><span>Try
+									it out</span> <i class="bi bi-arrow-right"></i></a>
+						</div>
+					</div>
+
+					<div class="col-lg-4 col-md-6" data-aos="fade-up"
+						data-aos-delay="300">
+						<div class="service-box orange">
+							<i class="ri-database-2-line icon"></i>
+							<h3>ETL and SCD</h3>
+							<p>See how the ETL, Ladder processing algorithm, and slow
+								changing dimension work first hand.</p>
+							<a href="try-it-etl-services.html" class="read-more"><span>Try it out</span> <i
+								class="bi bi-arrow-right"></i></a>
+						</div>
+					</div>
+					
+					<div class="col-lg-4 col-md-6" data-aos="fade-up"
+						data-aos-delay="300">
+						<div class="service-box green">
+							<i class="ri-compass-3-line icon"></i>
+							<h3>Sourcing Strategy</h3>
+							<p>See how the APIs can be used together to form a mini-application.</p>
+							<a href="try-it-sourcing-strategy.html" class="read-more"><span>Try it out</span> <i
+								class="bi bi-arrow-right"></i></a>
+						</div>
+					</div>
+					
+					<div class="col-lg-4 col-md-6" data-aos="fade-up"
+						data-aos-delay="300">
+						<div class="service-box red">
+							<i class="ri-checkbox-line icon"></i>
+							<h3>Sourcing Strategy Validation</h3>
+							<p>Another example of APIs used together to form a mini-application.</p>
+							<a href="try-it-sourcing-strategy-validation.html" class="read-more"><span>Try it out</span> <i
+								class="bi bi-arrow-right"></i></a>
+						</div>
+					</div>
+					
+					<div class="col-lg-4 col-md-6" data-aos="fade-up"
+						data-aos-delay="300">
+						<div class="service-box purple">
+							<i class="ri-node-tree icon"></i>
+							<h3>View taxonomies</h3>
+							<p>Visualize taxonomy API results.</p>
+							<a href="try-it-taxonomy.html" class="read-more"><span>Try it out</span> <i
+								class="bi bi-arrow-right"></i></a>
+						</div>
+					</div>
+					
+					<div class="col-lg-4 col-md-6" data-aos="fade-up"
+						data-aos-delay="300">
+						<div class="service-box pink">
+							<i class="ri-organization-chart icon"></i>
+							<h3>Dynamic SQL</h3>
+							<p>Execute Dynamic SQL against a data source with substitution variables.</p>
+							<a href="try-it-dynamic-sql.html" class="read-more"><span>Try it out</span> <i
+								class="bi bi-arrow-right"></i></a>
+						</div>
+					</div>
+					
+					<div class="col-lg-4 col-md-6" data-aos="fade-up"
+						data-aos-delay="300">
+						<div class="service-box blue">
+							<i class="ri-node-tree icon"></i>
+							<h3>JRS Navigator</h3>
+							<p>Browse and/or build valid Job Role Specialty branch from Brand to JR/S.</p>
+							<a href="try-it-jrs-navigator.html" class="read-more"><span>Try it out</span> <i
+								class="bi bi-arrow-right"></i></a>
+						</div>
+					</div>
+
+					<div class="col-lg-4 col-md-6" data-aos="fade-up"
+						data-aos-delay="300">
+						<div class="service-box green">
+							<i class="ri-award-fill icon"></i>
+							<h3>DIF JRS Validator</h3>
+							<p>Data Integrity Framework Job Role Specialty validator. Identies and enables WFM professionals to remediate JR/S branch errors for professionals.</p>
+							<a href="try-it-dif-jrs-validator.html" class="read-more"><span>Try it out</span> <i
+								class="bi bi-arrow-right"></i></a>
+						</div>
+					</div>
+					
+					<div class="col-lg-4 col-md-6" data-aos="fade-up"
+						data-aos-delay="300">
+						<div class="service-box orange">
+							<i class="ri-share-fill icon"></i>
+							<h3>JRS Collapasible Tree Search</h3>
+							<p>This page displays an interactive D3 expandable/collapsible tree representing full Job Role / Specialty taxonomy and provides a search feature to find and highlight a specific node.</p>
+							<a href="try-it-jrs-collapsible-tree-search.html" class="read-more"><span>Try it out</span> <i
+								class="bi bi-arrow-right"></i></a>
+						</div>
+					</div>
+					
+					<div class="col-lg-4 col-md-6" data-aos="fade-up"
+						data-aos-delay="300">
+						<div class="service-box green">
+							<i class="ri-globe-fill icon"></i>
+							<h3>Alt Geography Taxonomies</h3>
+							<p>Nodes within a taxonomy often need to be aggregated in multiple ways depending on the perspective of the information gatherer looking at the node's detail. Alternative taxonomies provide a way to have multiple perspectives on the same data.</p>
+							<a href="try-it-geographies.html" class="read-more"><span>Try it out</span> <i
+								class="bi bi-arrow-right"></i></a>
+						</div>
+					</div>
+
+				</div>
+
+			</div>
+
+		</section>
+		<!-- End Services Section -->
+
+		<!-- ======= F.A.Q Section ======= -->
+		<section id="faq" class="faq">
+
+			<div class="container" data-aos="fade-up">
+
+				<header class="section-header">
+					<h2>F.A.Q</h2>
+					<p>Frequently Asked Questions</p>
+				</header>
+
+				<div class="row">
+					<div class="col-lg-6">
+						<!-- F.A.Q List 1-->
+						<div class="accordion accordion-flush" id="faqlist1">
+							<div class="accordion-item">
+								<h2 class="accordion-header">
+									<button class="accordion-button collapsed" type="button"
+										data-bs-toggle="collapse" data-bs-target="#faq-content-1">
+										What is a microservice architecture?</button>
+								</h2>
+								<div id="faq-content-1" class="accordion-collapse collapse"
+									data-bs-parent="#faqlist1">
+									<div class="accordion-body">
+										An architecture that structures the application as a set of
+										loosely coupled, collaborating services. Each service is
+										<ul>
+											<li>Highly maintainable and testable, enabling rapid and
+												frequent development and deployment</li>
+											<li>loosely coupled with other services; enables a team
+												to work independently the majority of time on their
+												service(s) without being impacted by changes to other
+												services and without affecting other services</li>
+											<li>Independently deployable, enabling a team to deploy
+												their service without having to coordinate with other teams</li>
+											<li>Capable of being developed by a small team -
+												essential for high productivity by avoiding the high
+												communication head of large teams</li>
+										</ul>
+										<p>
+											Services communicate using either synchronous protocols such
+											as HTTP/REST or asynchronous protocols such as AMQP. Services
+											can be developed and deployed independently of one another.
+											Each service has its own database in order to be decoupled
+											from other services. Data consistency between services is
+											maintained using the <a
+												href="https://microservices.io/patterns/data/saga.html"
+												target="_blank">Saga pattern</a>.
+										</p>
+									</div>
+								</div>
+							</div>
+
+							<div class="accordion-item">
+								<h2 class="accordion-header">
+									<button class="accordion-button collapsed" type="button"
+										data-bs-toggle="collapse" data-bs-target="#faq-content-2">
+										Why use microservices?</button>
+								</h2>
+								<div id="faq-content-2" class="accordion-collapse collapse"
+									data-bs-parent="#faqlist1">
+									<div class="accordion-body">
+										A traditional “monolithic” application houses code in a single
+										location for all of the services needed to fulfill its
+										functions.
+
+										<p>To start with, that usually works well. But what
+											happens if a specific service needs to be scaled to meet
+											demand? Generally, a new instance of the entire server-side
+											component will need to be created, and work will need to be
+											done across the codebase to ensure the newly-scaled service
+											fits into the wider application ecosystem. This is hardly a
+											good use of resources.</p>
+										<p>Alternatively, if an application grows over time, it’s
+											likely that independent teams of programmers will be
+											responsible for working on different functions. Even with the
+											best of intentions, it’s difficult for these teams to work on
+											the same codebase at the same time while maintaining strong
+											communication. Even if perfect communication is possible, a
+											lot of time and agility is inevitably lost.</p>
+										<p>These are the problems microservices architecture is
+											designed to solve. Because each service has its own code
+											base, microservices can be modified or scaled individually by
+											independent teams without causing wider compatibility issues
+											or requiring heavy inter-team communication.</p>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-lg-6">
+
+						<!-- F.A.Q List 2-->
+						<div class="accordion accordion-flush" id="faqlist2">
+						
+						
+							<div class="accordion-item">
+								<h2 class="accordion-header">
+									<button class="accordion-button collapsed" type="button"
+										data-bs-toggle="collapse" data-bs-target="#faq2-content-1">
+										What is Service Discovery?</button>
+								</h2>
+								<div id="faq2-content-1" class="accordion-collapse collapse"
+									data-bs-parent="#faqlist2">
+									<div class="accordion-body">In a microservices
+										application, the set of running service instances changes
+										dynamically. Instances have dynamically assigned network
+										locations. Consequently, in order for a client to make a
+										request to a service it must use a service‑discovery
+										mechanism. A key part of service discovery is the service
+										registry.</div>
+								</div>
+							</div>
+
+							<div class="accordion-item">
+								<h2 class="accordion-header">
+									<button class="accordion-button collapsed" type="button"
+										data-bs-toggle="collapse" data-bs-target="#faq2-content-2">
+										How do microservices communicate?</button>
+								</h2>
+								<div id="faq2-content-2" class="accordion-collapse collapse"
+									data-bs-parent="#faqlist2">
+									<div class="accordion-body">
+										There are several different ways for microservices to
+										communicate. Two important methods are:
+										<ol>
+											<li>Synchronous HTTP communication</li>
+											<li>Asynchronous Message-Driven communication</li>
+										</ol>
+										<p>Typically, implementation starts with synchronous HTTP
+											REST-like communication between services. There are plenty of
+											libraries supporting this method of communication and it’s
+											straightforward to bootstrap this approach. However, a
+											synchronous call will force the calling side to wait until
+											the execution on the receiver side is done, leading to
+											unnecessary blocking. Further, the calling service must
+											“know” the receiving service exists in order to make a call,
+											which leads to tight coupling. HTTP communication is commonly
+											used in small, simple systems, and in instances where the
+											caller needs to instantaneously find out the state of the
+											system (i.e., by performing a GET call).</p>
+										<p>To achieve better location transparency and looser
+											coupling, an alternative approach is asynchronous
+											Message-Driven communication between services. This approach
+											requires an additional component – a Message Broker – which
+											increases the system’s complexity. In large scale systems,
+											message-driven communication is usually chosen over
+											synchronous HTTP communication.</p>
+									</div>
+								</div>
+							</div>
+
+						</div>
+					</div>
+
+				</div>
+
+			</div>
+
+		</section>
+		<!-- End F.A.Q Section -->
+
+
+		<!-- ======= Team Section ======= -->
+		<section id="team" class="team" >
+
+			<header class="section-header">
+				<h2>Team</h2>
+				<p>Our team</p>
+			</header>
+			
+			<div class="container" data-aos="fade-up">
+
+				<div class="row gy-4">
+
+					<div class="col-lg-3 col-md-6 d-flex align-items-stretch"
+						data-aos="fade-up" data-aos-delay="100">
+						<div class="member">
+							<div class="member-img">
+								<img src="https://unified-profile-api.us-south-k8s.intranet.ibm.com/v3/image/139181897?def=none" class="img-fluid" alt="">
+								<div class="social">
+									<a href="https://ibm.enterprise.slack.com/user/@W46QBNZ46"><i class="bi bi-slack" title="Slack"></i></a> 
+									<a href="mailto:rlaurie@us.ibm.com"><i class="bi bi-envelope-fill" title="Mail to"></i></a> 
+									<a href="https://ibm.webex.com/meet/rlaurie"><i class="bi bi-camera-video-fill" title="Webex"></i></a> 
+									<a href="https://www.linkedin.com/in/laurie-schaefer-75828421/"><i class="bi bi-linkedin" title="LinkedIn"></i></a>
+									<a href="https://twitter.com/lauriejschaefer?lang=en"><i class="bi bi-twitter" title="Twitter"></i></a> 
+								</div>
+							</div>
+							<div class="member-info">
+								<h4>Laurie Schaefer</h4>
+								<span>VP Workforce Management</span>
+								<p>GBS/WFM Process, Technology and Data Leader Global
+									Business Services</p>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-lg-3 col-md-6 d-flex align-items-stretch"
+						data-aos="fade-up" data-aos-delay="200">
+						<div class="member">
+							<div class="member-img">
+								<img src="assets/img/team/steven.bayline@us.ibm.com.jpeg" class="img-fluid" alt="">
+								<!--  img src="https://unified-profile-api.us-south-k8s.intranet.ibm.com/v3/image/233128897?def=none" class="img-fluid" alt="" -->
+								<div class="social">
+									<a href="https://ibm.enterprise.slack.com/user/@W53J74JKZ"><i class="bi bi-slack" title="Slack"></i></a> 
+									<a href="mailto:steven.bayline@us.ibm.com"><i class="bi bi-envelope-fill" title="Mail to"></i></a> 
+									<a href="https://ibm.webex.com/meet/steven.bayline"><i class="bi bi-camera-video-fill" title="Webeex"></i></a> 
+									<a href="https://www.linkedin.com/in/steve-bayline-2878801/"><i class="bi bi-linkedin" title="LinkedIn"></i></a>
+									<a href=""><i class="bi bi-twitter" title="Twitter"></i></a> 
+								</div>
+							</div>
+							<div class="member-info">
+								<h4>Steve Bayline</h4>
+								<span>Product Manager</span>
+								<p>GBS WFM Global Reporting and Analytics.</p>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-lg-3 col-md-6 d-flex align-items-stretch"
+						data-aos="fade-up" data-aos-delay="300">
+						<div class="member">
+							<div class="member-img">
+								<img src="https://unified-profile-api.us-south-k8s.intranet.ibm.com/v3/image/834717897?def=none" class="img-fluid" alt="">
+								<div class="social">
+									<a href="https://ibm.enterprise.slack.com/user/@W4NN9KTJQ"><i class="bi bi-slack" title="Slack"></i></a> 
+									<a href="mailto:mshahids@us.ibm.com"><i class="bi bi-envelope-fill" title="Mail to"></i></a> 
+									<a href="https://ibm.webex.com/meet/mshahids"><i class="bi bi-camera-video-fill" title="Weebex"></i></a> 
+									<a href="https://www.linkedin.com/in/steve-bayline-2878801/"><i class="bi bi-linkedin" title="LinkedIn"></i></a>
+									<a href=""><i class="bi bi-twitter" title="Twitter"></i></a> 
+								</div>
+							</div>
+							<div class="member-info">
+								<h4>Mani Shahidsales</h4>
+								<span>IT Architect</span>
+								<p>GBS WFM Global Reporting and Analytics</p>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-lg-3 col-md-6 d-flex align-items-stretch"
+						data-aos="fade-up" data-aos-delay="400">
+						<div class="member">
+							<div class="member-img">
+								<img src="https://unified-profile-api.us-south-k8s.intranet.ibm.com/v3/image/008121897?def=none" class="img-fluid" alt="">
+								<div class="social">
+									<a href="https://ibm.enterprise.slack.com/user/@W52QZ3BJ8"><i class="bi bi-slack" title="Slack"></i></a> 
+									<a href="mailto:ponessa@us.ibm.com@us.ibm.com"><i class="bi bi-envelope-fill" title="Mail to"></i></a> 
+									<a href="https://ibm.webex.com/meet/ponessa"><i class="bi bi-camera-video-fill" title="Webex"></i></a> 
+									<a href="https://www.linkedin.com/in/stevenponessa/"><i class="bi bi-linkedin" title="LinkedIn"></i></a>
+									<a href="https://twitter.com/ponessa?lang=en"><i class="bi bi-twitter" title="Twitter"></i></a> 
+								</div>
+							</div>
+							<div class="member-info">
+								<h4>Steven J. Ponessa</h4>
+								<span>Executive IT Architect</span>
+								<p>GBS WFM Global Reporting and Analytics</p>
+							</div>
+						</div>
+					</div>
+
+				</div>
+
+			</div>
+
+		</section>
+		<!-- End Team Section -->
+		
+		<!-- ======= Team Division/container ======= -->
+		<div class="container team" data-aos="fade-up">
+			<div class="row gy-4">
+				<div class="person-card col-lg-3 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="100" id="139181897" pc-data-twitter="lauriejschaefer?lang=en" pc-data-linkedin="laurie-schaefer-75828421">Laurie</div>
+				<div class="person-card col-lg-3 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="200" id="233128897" >Steve B</div>
+				<div class="person-card col-lg-3 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="300" id="834717897" >Mani</div>
+				<div class="person-card col-lg-3 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="100" id="008121897" pc-data-twitter="ponessa?lang=en" pc-data-linkedin="stevenponessa">Steve P</div>
+			</div>
+
+		</div>
+
+		<!-- End Team Division/Container -->
+
+
+	</main>
+	<!-- End #main -->
+
+	<!-- ======= Footer ======= -->
+	<footer id="footer" class="footer">
+
+
+		<div class="footer-top">
+			<div class="container">
+				<div class="row gy-4">
+					<div class="col-lg-5 col-md-12 footer-info">
+						<a href="index.html" class="logo d-flex align-items-center"> <img
+							src="assets/img/logo.png" alt=""> <span>WFM</span>
+						</a>
+						<p>Empower profitable growth through cognitive workforce management capabilities to anticipate client needs, delivering the right skills at the right time yielding business outcomes that matter to our clients, our employees, and our company.</p>
+						<div class="social-links mt-3">
+							<a href="#"	class="linkedin"><i class="bi bi-linkedin bx bxl-linkedin"></i></a>
+							<a href="#" class="twitter"><i class="bi bi-twitter"></i></a> 
+							<a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
+						</div>
+					</div>
+
+					<div class="col-lg-2 col-6 footer-links">
+						<h4>Useful Links</h4>
+						<ul>
+							<li><i class="bi bi-chevron-right"></i> <a href="https://w3.ibm.com/w3publisher/ibm-services-workforce-management">WFM Home</a></li>
+							<li><i class="bi bi-chevron-right"></i> <a href="#about">About
+									us</a></li>
+							<li><i class="bi bi-chevron-right"></i> <a href="#services">Services</a></li>
+							<li><i class="bi bi-chevron-right"></i> <a href="https://w3.ibm.com">Terms
+									of service</a></li>
+							<li><i class="bi bi-chevron-right"></i> <a href="https://w3.ibm.com/w3publisher/w3-privacy-notice/ibm-internal-privacy-statement-us-en">Privacy
+									policy</a></li>
+						</ul>
+					</div>
+
+					<div class="col-lg-2 col-6 footer-links">
+						<h4>Our Services</h4>
+						<ul>
+							<li><i class="bi bi-chevron-right"></i> <a href="#">tbd</a></li>
+
+						</ul>
+					</div>
+
+					<div
+						class="col-lg-3 col-md-12 footer-contact text-center text-md-start">
+						<h4>Contact Us</h4>
+						<p>
+							<b>Steven J Ponessa</b> <br> 
+							Mount Pleasant, SC, United States <br> 
+							<strong>Phone:</strong> +1 845-699-5617 <br>
+							<strong>Email:</strong> <a href="mailto:ponessa@us.ibm.com">ponessa@us.ibm.com</a>
+						</p>
+						<p>
+							<b>Mani Shahidsales</b> <br> 
+							Camp Hill, PA , United States <br> 
+							<strong>Phone:</strong> +1 720-395-4399 <br>
+							<strong>Email:</strong> <a href="mailto:mshahids@us.ibm.com">mshahids@us.ibm.com</a>
+						</p>
+
+					</div>
+
+				</div>
+			</div>
+		</div>
+
+		<div class="container">
+			<div class="copyright">
+				&copy; Copyright <strong><span>IBM</span></strong>. All Rights
+				Reserved
+			</div>
+			<div class="credits">
+				<!-- All the links in the footer should remain intact. -->
+				<!-- You can delete the links only if you purchased the pro version. -->
+				<!-- Licensing information: https://bootstrapmade.com/license/ -->
+				<!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/flexstart-bootstrap-startup-template/ -->
+				Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+			</div>
+		</div>
+	</footer>
+	<!-- End Footer -->
+
+	<a href="#"
+		class="back-to-top d-flex align-items-center justify-content-center"><i
+		class="bi bi-arrow-up-short"></i></a>
+
+	<!-- Vendor JS Files -->
+	<script src="assets/vendor/bootstrap/js/bootstrap.bundle.js"></script>
+	<script src="assets/vendor/aos/aos.js"></script>
+	<script src="assets/vendor/php-email-form/validate.js"></script>
+	<script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
+	<script src="assets/vendor/purecounter/purecounter.js"></script>
+	<script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+	<script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
+
+	<!-- Template Main JS File -->
+	<script src="assets/js/main.js"></script>
+	<script>
+		//https://unified-profile-api.us-south-k8s.intranet.ibm.com/v3/profiles/139181897/profile
+		//$(document).ready(
+		//	function() {
+		//		people = document.getElementsByClassName("person-card");
+		//		people.map((person) => {
+		//			let cnum = person.getAttribute("person-card-data")
+		//			console.log(cnum)
+		//		})
+		//
+		//	})
+	</script>
+
+</body>
+
+</html>

@@ -1,0 +1,97 @@
+---
+layout: default
+---
+{% for section in site.data.docs %}
+	{% for item in section.docs %}
+		{% assign item_url = item | prepend:"/" | append:"/" %}
+		{% assign item_url2 = item | prepend:"/" %}
+		{% assign p = site.docs | where:"url", item_url2 | first %}
+
+		{% if item_url2 == page.url %}
+			{% assign bread_crumb_section_title = section.title %}
+			{% assign url_parts = page.url | split: "/" %}
+		{% endif %}
+	{% endfor %}
+{% endfor %}
+<div id="__next">
+	<div class="d-lg-flex">
+		<div class="jsx-4031964419 d-none d-lg-block color-bg-tertiary position-sticky top-0 overflow-y-auto root">
+			{% include logo.html %}
+			{% include navigator.html %}
+		</div>
+		<main class="flex-1 min-width-0 print-full-width">
+			{% include header.html %}
+			<div class="container-xl px-3 px-md-6 my-4 my-lg-4 print-full-width">
+				<article class="markdown-body print-full-width">
+					{% include breadcrumbs-versions.html %}
+					<div class="article-grid-container mt-2">
+						<div class="article-grid-head">
+							<div class="d-flex flex-items-baseline flex-justify-between">
+								<h1 class="my-4 border-bottom-0" id="page-title">{{ page.title }}</h1>
+								<div class="d-none d-lg-block ml-2">
+									<span aria-label="Print this article"
+										class="Tooltip__TooltipBase-kp39nc-0 kavMra tooltipped-n tooltipped-no-delay">
+										<button class="btn-link Link--muted" onclick="window.print();">
+											<svg xmlns="http://www.w3.org/2000/svg" height="18" width="18" fill="none"
+												viewBox="0 0 24 24" stroke="currentColor">
+												<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+													d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z">
+												</path>
+											</svg>
+										</button>
+									</span>
+								</div>
+							</div>
+							<div class="lead-mktg">
+								<p>{{ page.abstract }}</p>
+							</div>
+						</div>
+						<div class="article-grid-toc border-bottom border-xl-0 pb-4 mb-5 pb-xl-0 mb-xl-0">
+							<div class="article-grid-toc-content">
+								<h2 id="in-this-article" class="f5 mb-2">
+									<a class="Link--primary" href="#in-this-article">In this article</a>
+								</h2>
+								{% assign include_toc = page.include_toc | true %}
+								{% assign my_min = page.toc_min | default: site.toc_min | default: 1 %}
+								{% assign my_max = page.toc_max | default: site.toc_max | default: 3 %}
+
+								{% include toc.html html=content sanitize=true h_min=my_min h_max=my_max %}
+							</div>
+						</div>
+						<div class="markdown-body print-full-width">
+							<div id="article-contents" class="article-grid-body print-full-width">
+								{{ content }}
+							</div>
+						</div>
+					</div>
+				</article>
+			</div>
+			{% include contribute-section.html %}
+			{% include footer.html %}
+			{% include back-to-top.html %}
+		</main>
+	</div>
+</div>
+
+<script language="javascript">
+	dp.SyntaxHighlighter.ClipboardSwf = '{{ site.baseurl }}/assets/js/clipboard.swf';
+	dp.SyntaxHighlighter.HighlightAll('code', true, false, false, 1, false);
+</script>
+
+{% if page.features %}
+{% for feature in page.features %}
+{% if feature == 'mermaid' %}
+
+<script language="javascript" src="{{ site.baseurl }}/assets/js/my-zoom.js"></script>	
+
+
+{% elsif feature == 'd3' %}
+
+{% elsif feature == 'zoom' %}
+
+
+{% elsif feature == 'rest' %}
+
+{% endif %}
+{% endfor %}
+{% endif %}

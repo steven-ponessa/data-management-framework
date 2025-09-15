@@ -1,0 +1,434 @@
+{
+    "_embedded":{
+       "requestList":[
+          {
+             "statusUpdatedDate":"02-20-2023 21:45:28",
+             "creationDate":"02-20-2023 15:53:20",
+             "info":{
+                "approvalFlowResult":null,
+                "reviewGroup":{
+                   "reviews":[
+                      {
+                         "reviewer":{
+                            "userType":"USER",
+                            "assignedBy":null,
+                            "assignedManually":false,
+                            "email":"kspess@us.ibm.com"
+                         },
+                         "executor":null,
+                         "jobTitle":"Governance Focal",
+                         "role":"LEAD_REVIEWER",
+                         "createdTimestamp":"02-20-2023 21:45:28",
+                         "updatedTimestamp":null,
+                         "status":"PENDING"
+                      },
+                      {
+                         "reviewer":{
+                            "userType":"USER",
+                            "assignedBy":null,
+                            "assignedManually":false,
+                            "email":"Kimberlly.Mariduena@ibm.com"
+                         },
+                         "executor":null,
+                         "jobTitle":"IP Legal",
+                         "role":"LEAD_REVIEWER",
+                         "createdTimestamp":"02-20-2023 21:45:28",
+                         "updatedTimestamp":null,
+                         "status":"PENDING"
+                      }
+                   ],
+                   "revisionNumber":0
+                },
+                "lock":null,
+                "strategy":null,
+                "userEmail":null,
+                "processing":[
+                   
+                ],
+                "draft":false,
+                "needingIprcAction":true,
+                "readyForSubmit":false,
+                "renewal":null
+             },
+             "useRestrictions":"Low",
+             "selfCertificated":false,
+             "id":"63f3ddc06ffb5dfb4f8f8b96",
+             "businessUnit":"IBM Consulting",
+             "businessDivision":null,
+             "useCaseOwner":"ponessa@us.ibm.com",
+             "operationsOwner":[
+                
+             ],
+             "requester":"ponessa@us.ibm.com",
+             "firstLineManager":"steven.bayline@us.ibm.com",
+             "status":"Review",
+             "prevStatus":null,
+             "contentLocationSample":"SIW Geographies",
+             "contentObtain":"API",
+             "dataShared":"No",
+             "contentTermsFiles":[
+                
+             ],
+             "contentDescriptionFiles":[
+                
+             ],
+             "dueDate":"03-06-2023",
+             "fee":"No",
+             "currentSection":5,
+             "contentUse":[
+                "Reference"
+             ],
+             "contentLocation":"",
+             "updates":"No",
+             "contentOwner":"Other",
+             "contentLocationSampleFiles":[
+                {
+                   "id":"63f3e8c1a77cbc2e2f6a7e0c",
+                   "name":"siw-geo.csv"
+                }
+             ],
+             "contentDescription":"Test data of SIW geography",
+             "otherContentOwner":"Glass Ceilling",
+             "guidelines":[
+                "N/A"
+             ],
+             "intendedUse":"Test data",
+             "priorClearances":"No",
+             "dataSourceRegion":[
+                {
+                   "code":"WW",
+                   "level":50,
+                   "value":"Worldwide"
+                }
+             ],
+             "contentLocationFiles":[
+                
+             ],
+             "dataDomainDescription":"Test data",
+             "offerings":[
+                
+             ],
+             "expirationDate":"02-20-2024",
+             "requestType":"New data",
+             "citation":"No",
+             "royaltyManagement":"No",
+             "dataFormat":[
+                "CSV"
+             ],
+             "dataType":"Public/Unrestricted Data",
+             "dataClass":[
+                "No"
+             ],
+             "contentTitle":"Test 3rd party review request",
+             "internetSearch":"Yes",
+             "modification":"No",
+             "license":"Public Domain",
+             "dataDomain":"Other",
+             "isTechData":"No",
+             "termsAccepted":true,
+             "intendedUseFiles":[
+                
+             ],
+             "piIncluded":"No",
+             "contentTerms":"https://localhost",
+             "dataLocationRegion":[
+                {
+                   "code":"WW",
+                   "level":50,
+                   "value":"Worldwide"
+                }
+             ],
+             "submissionDate":"02-20-2023 21:45:28"
+          },
+          {
+             "statusUpdatedDate":"02-20-2023 21:45:28",
+             "creationDate":"02-20-2023 15:53:20",
+             "info":{
+                "approvalFlowResult":null,
+                "reviewGroup":{
+                   "reviews":[
+                      {
+                         "reviewer":{
+                            "userType":"USER",
+                            "assignedBy":null,
+                            "assignedManually":false,
+                            "email":"kspess@us.ibm.com"
+                         },
+                         "executor":null,
+                         "jobTitle":"Governance Focal",
+                         "role":"LEAD_REVIEWER",
+                         "createdTimestamp":"02-20-2023 21:45:28",
+                         "updatedTimestamp":null,
+                         "status":"PENDING"
+                      },
+                      {
+                         "reviewer":{
+                            "userType":"USER",
+                            "assignedBy":null,
+                            "assignedManually":false,
+                            "email":"Kimberlly.Mariduena@ibm.com"
+                         },
+                         "executor":null,
+                         "jobTitle":"IP Legal",
+                         "role":"LEAD_REVIEWER",
+                         "createdTimestamp":"02-20-2023 21:45:28",
+                         "updatedTimestamp":null,
+                         "status":"PENDING"
+                      }
+                   ],
+                   "revisionNumber":0
+                },
+                "lock":null,
+                "strategy":null,
+                "userEmail":null,
+                "processing":[
+                   
+                ],
+                "draft":false,
+                "needingIprcAction":true,
+                "readyForSubmit":false,
+                "renewal":null
+             },
+             "useRestrictions":"Low",
+             "selfCertificated":false,
+             "id":"1234567890abcdefg",
+             "businessUnit":"IBM Consulting",
+             "businessDivision":null,
+             "useCaseOwner":"ponessa@us.ibm.com",
+             "operationsOwner":[
+                
+             ],
+             "requester":"ponessa@us.ibm.com",
+             "firstLineManager":"steven.bayline@us.ibm.com",
+             "status":"Review",
+             "prevStatus":null,
+             "contentLocationSample":"SIW Geographies",
+             "contentObtain":"API",
+             "dataShared":"No",
+             "contentTermsFiles":[
+                
+             ],
+             "contentDescriptionFiles":[
+                
+             ],
+             "dueDate":"03-06-2023",
+             "fee":"No",
+             "currentSection":5,
+             "contentUse":[
+                "Reference"
+             ],
+             "contentLocation":"",
+             "updates":"No",
+             "contentOwner":"Other",
+             "contentLocationSampleFiles":[
+                {
+                   "id":"63f3e8c1a77cbc2e2f6a7e0c",
+                   "name":"siw-geo.csv"
+                }
+             ],
+             "contentDescription":"Test data of SIW geography",
+             "otherContentOwner":"Glass Ceilling",
+             "guidelines":[
+                "N/A"
+             ],
+             "intendedUse":"Test data",
+             "priorClearances":"No",
+             "dataSourceRegion":[
+                {
+                   "code":"WW",
+                   "level":50,
+                   "value":"Worldwide"
+                }
+             ],
+             "contentLocationFiles":[
+                
+             ],
+             "dataDomainDescription":"Test data",
+             "offerings":[
+                
+             ],
+             "expirationDate":"02-20-2024",
+             "requestType":"New data",
+             "citation":"No",
+             "royaltyManagement":"No",
+             "dataFormat":[
+                "CSV"
+             ],
+             "dataType":"Public/Unrestricted Data",
+             "dataClass":[
+                "No"
+             ],
+             "contentTitle":"Test 3rd party review request",
+             "internetSearch":"Yes",
+             "modification":"No",
+             "license":"Public Domain",
+             "dataDomain":"Other",
+             "isTechData":"No",
+             "termsAccepted":true,
+             "intendedUseFiles":[
+                
+             ],
+             "piIncluded":"No",
+             "contentTerms":"https://localhost",
+             "dataLocationRegion":[
+                {
+                   "code":"WW",
+                   "level":50,
+                   "value":"Worldwide"
+                }
+             ],
+             "submissionDate":"02-20-2023 21:45:28"
+          }  ,
+          {
+             "statusUpdatedDate":"02-20-2023 21:45:28",
+             "creationDate":"02-20-2023 15:53:20",
+             "info":{
+                "approvalFlowResult":null,
+                "reviewGroup":{
+                   "reviews":[
+                      {
+                         "reviewer":{
+                            "userType":"USER",
+                            "assignedBy":null,
+                            "assignedManually":false,
+                            "email":"kspess@us.ibm.com"
+                         },
+                         "executor":null,
+                         "jobTitle":"Governance Focal",
+                         "role":"LEAD_REVIEWER",
+                         "createdTimestamp":"02-20-2023 21:45:28",
+                         "updatedTimestamp":null,
+                         "status":"PENDING"
+                      },
+                      {
+                         "reviewer":{
+                            "userType":"USER",
+                            "assignedBy":null,
+                            "assignedManually":false,
+                            "email":"Kimberlly.Mariduena@ibm.com"
+                         },
+                         "executor":null,
+                         "jobTitle":"IP Legal",
+                         "role":"LEAD_REVIEWER",
+                         "createdTimestamp":"02-20-2023 21:45:28",
+                         "updatedTimestamp":null,
+                         "status":"PENDING"
+                      }
+                   ],
+                   "revisionNumber":0
+                },
+                "lock":null,
+                "strategy":null,
+                "userEmail":null,
+                "processing":[
+                   
+                ],
+                "draft":false,
+                "needingIprcAction":true,
+                "readyForSubmit":false,
+                "renewal":null
+             },
+             "useRestrictions":"Low",
+             "selfCertificated":false,
+             "id":"abcdefghijklmnop",
+             "businessUnit":"IBM Consulting",
+             "businessDivision":null,
+             "useCaseOwner":"ponessa@us.ibm.com",
+             "operationsOwner":[
+                
+             ],
+             "requester":"ponessa@us.ibm.com",
+             "firstLineManager":"steven.bayline@us.ibm.com",
+             "status":"Review",
+             "prevStatus":null,
+             "contentLocationSample":"SIW Geographies",
+             "contentObtain":"API",
+             "dataShared":"No",
+             "contentTermsFiles":[
+                
+             ],
+             "contentDescriptionFiles":[
+                
+             ],
+             "dueDate":"03-06-2023",
+             "fee":"No",
+             "currentSection":5,
+             "contentUse":[
+                "Reference"
+             ],
+             "contentLocation":"",
+             "updates":"No",
+             "contentOwner":"Other",
+             "contentLocationSampleFiles":[
+                {
+                   "id":"63f3e8c1a77cbc2e2f6a7e0c",
+                   "name":"siw-geo.csv"
+                }
+             ],
+             "contentDescription":"Test data of SIW geography",
+             "otherContentOwner":"Glass Ceilling",
+             "guidelines":[
+                "N/A"
+             ],
+             "intendedUse":"Test data",
+             "priorClearances":"No",
+             "dataSourceRegion":[
+                {
+                   "code":"WW",
+                   "level":50,
+                   "value":"Worldwide"
+                }
+             ],
+             "contentLocationFiles":[
+                
+             ],
+             "dataDomainDescription":"Test data",
+             "offerings":[
+                
+             ],
+             "expirationDate":"02-20-2024",
+             "requestType":"New data",
+             "citation":"No",
+             "royaltyManagement":"No",
+             "dataFormat":[
+                "CSV"
+             ],
+             "dataType":"Public/Unrestricted Data",
+             "dataClass":[
+                "No"
+             ],
+             "contentTitle":"Test 3rd party review request",
+             "internetSearch":"Yes",
+             "modification":"No",
+             "license":"Public Domain",
+             "dataDomain":"Other",
+             "isTechData":"No",
+             "termsAccepted":true,
+             "intendedUseFiles":[
+                
+             ],
+             "piIncluded":"No",
+             "contentTerms":"https://localhost",
+             "dataLocationRegion":[
+                {
+                   "code":"WW",
+                   "level":50,
+                   "value":"Worldwide"
+                }
+             ],
+             "submissionDate":"02-20-2023 21:45:28"
+          }         
+       ]
+    },
+    "_links":{
+       "self":{
+          "href":"https://one-ibm-tool-fe-staging.dal1a.ciocloud.nonprod.intranet.ibm.com/api/v1/one-ibm-tool/request/my-requests?page=0&size=10"
+       }
+    },
+    "page":{
+       "size":10,
+       "totalPages":1,
+       "number":0,
+      "totalElements":3
+    }
+ }

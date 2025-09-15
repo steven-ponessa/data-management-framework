@@ -1,0 +1,20 @@
+<p>Basic search comes in the form of filters for a multi-select box. Each option in the select box is a valid node within the taxonomy.</p>
+<p>The select box provides all the features of a standard select box with the addition of:</p>
+<ul>
+	<li>Grouping options by taxonomy level
+		<ol>
+			<li>Total IBM Consulting</li>
+			<li>Business Units</li>
+			<li>Sub Business Units</li>
+		</ol>
+	</li>
+	<li>Type-ahead filtering. As the user types, options (taxonomy nodes) that do not contain the string entered are removed from the list of options.</li>
+	<li>Once an option has been selected, it is removed from the list of available options within the group it belongs.</li>
+</ul>
+<p>As taxonomy nodes are selected or removed, they are searched for and found in the tree. The d3 tree is then re-drawn with branches of non-found nodes collapsed and found nodes 
+expanded and the nodes, and arcs between the nodes, are highlighted in red.</p>
+<p>The selection dropdown allows for multiple nodes to be selected.  These selections are logically <b>OR</b>ed together upon selection with a "pillbox" for the selection 
+appearing within the search input box.  These nodes/pillboxes may be removed/closed by clicking on the 'x' at the right of the pillbox. To request a search where nodes are <b>AND</b>ed 
+together, use the <b>Advanced</b> search tab.</p>
+<p>By default, the tree is searched ignoring case and using a <b>pattern</b> match. Therefore, if the node selected was <em>SAP</em> it would find any node containing <em>SAP</em>, regardless
+of case. To return only nodes that exactly match the node selected change the radio button selection to <b>Exact match</b>.</p>

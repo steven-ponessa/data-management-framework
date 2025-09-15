@@ -1,0 +1,179 @@
+				<div class="border-bottom color-border-secondary no-print">
+					<header class="container-xl px-3 px-md-6 pt-3 pb-3 position-relative" style="z-index: 2">
+						<div class="d-none d-lg-flex flex-justify-end" data-testid="desktop-header">
+							<div class="py-2">
+								<details
+									class="Details-ssy9qz-0 Dropdown__StyledDetails-sc-16yoecj-0 hsHkEW gmJTSj LanguagePicker___StyledDropdown-sc-1bg5j11-0 fGhRVA">
+									<summary>
+										English
+										<div class="Dropdown__DropdownCaret-sc-16yoecj-1 Iervn"></div>
+									</summary>
+									<ul direction="sw" class="Dropdown__DropdownMenu-sc-16yoecj-2 irDUZe">
+										<li class="Dropdown__DropdownItem-sc-16yoecj-3 jGEzhc"><a href="{{ site.baseurl }}{{ page.url | replace: "en/", "en/"}}"
+											rel="">English</a></li>
+										<li class="Dropdown__DropdownItem-sc-16yoecj-3 jGEzhc"><a href="{{ site.baseurl }}{{ page.url | replace: "en/", "cn/"}}"
+											rel="">简体中文<!-- --> (<!-- -->Simplified Chinese<!-- -->)
+										</a></li>
+										<li class="Dropdown__DropdownItem-sc-16yoecj-3 jGEzhc"><a href="{{ site.baseurl }}{{ page.url | replace: "en/", "ja/"}}"
+											rel="">日本語<!-- --> (<!-- -->Japanese<!-- -->)
+										</a></li>
+										<li class="Dropdown__DropdownItem-sc-16yoecj-3 jGEzhc"><a href="{{ site.baseurl }}{{ page.url | replace: "en/", "es/"}}"
+											rel="">Español<!-- --> (<!-- -->Spanish<!-- -->)
+										</a></li>
+										<li class="Dropdown__DropdownItem-sc-16yoecj-3 jGEzhc"><a href="{{ site.baseurl }}{{ page.url | replace: "en/", "pt/"}}"
+											rel="">Português do Brasil<!-- --> (<!-- -->Portuguese<!-- -->)
+										</a></li>
+										<li class="Dropdown__DropdownItem-sc-16yoecj-3 jGEzhc"><a href="{{ site.baseurl }}{{ page.url | replace: "en/", "de/"}}"
+											rel="">Deutsch<!-- --> (<!-- -->German<!-- -->)
+										</a></li>
+									</ul>
+								</details>
+							</div>
+							<div class="d-inline-block ml-4">
+								<div id="search-input-container" aria-hidden="true">
+									<div class="ais-SearchBox">
+										<form role="search" class="ais-SearchBox-form" action="{{site.baseurl | append: "/search"}}" onsubmit="return validateSearchBox()">
+											<input type="search" id="search-box" data-testid="site-search-input" name="query" class="ais-SearchBox-input"
+												placeholder="Search topics, products..." autoComplete="off" autoCorrect="off" autoCapitalize="off"
+												spellcheck="false" maxLength="512" value="" />
+											<button class="ais-SearchBox-submit" type="submit" title="Submit the search query." hidden=""></button>
+										</form>
+									</div>
+								</div>
+								<div id="search-results-container" class=""></div>
+								<div class="search-overlay-desktop"></div>
+							</div>
+						</div>
+						<div class="d-lg-none" data-testid="mobile-header">
+							<div class="d-flex flex-justify-between">
+								<div class="d-flex flex-items-center" id="github-logo-mobile" role="banner">
+									<a href="/en" rel="" aria-hidden="true" tabindex="-1"><svg aria-hidden="true" role="img"
+											class="color-icon-primary" viewBox="0 0 16 16" width="32" height="32" fill="currentColor"
+											style="display: inline-block; user-select: none; vertical-align: text-bottom; overflow: visible">
+											<path fill-rule="evenodd"
+												d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path></svg></a><a
+										href="/en" rel="" class="h4-mktg color-text-primary no-underline no-wrap pl-2">{{ site.organization }} Docs</a>
+								</div>
+								<div>
+									<button data-testid="mobile-menu-button" aria-label="Navigation Menu"
+										class="ButtonBase-sc-181ps9o-0 ButtonOutline-sc-15gta9l-0 kNqLJV vyfcw">
+										<svg aria-hidden="true" role="img" class="octicon octicon-three-bars" viewBox="0 0 16 16" width="16"
+											height="16" fill="currentColor"
+											style="display: inline-block; user-select: none; vertical-align: text-bottom; overflow: visible">
+											<path fill-rule="evenodd"
+												d="M1 2.75A.75.75 0 011.75 2h12.5a.75.75 0 110 1.5H1.75A.75.75 0 011 2.75zm0 5A.75.75 0 011.75 7h12.5a.75.75 0 110 1.5H1.75A.75.75 0 011 7.75zM1.75 12a.75.75 0 100 1.5h12.5a.75.75 0 100-1.5H1.75z"></path></svg>
+									</button>
+								</div>
+							</div>
+							<div class="relative">
+								<div
+									class="width-full position-absolute left-0 right-0 color-shadow-large color-bg-primary px-3 px-md-6 pb-3 d-none">
+									<div class="mt-3 mb-2">
+										<h4 class="text-mono f5 text-normal color-text-secondary">Explore by product</h4>
+										<details class="Details-ssy9qz-0 hsHkEW details-reset">
+											<summary class="color-text-link" role="button" aria-label="Toggle products list">
+												<div id="current-product" class="d-flex flex-items-center flex-justify-between py-2">
+													<span>Get started</span>
+													<svg aria-hidden="true" role="img" class="arrow ml-md-1" viewBox="0 0 24 24" width="24" height="24"
+														fill="currentColor"
+														style="display: inline-block; user-select: none; vertical-align: text-bottom; overflow: visible">
+														<path fill-rule="evenodd"
+															d="M5.22 8.72a.75.75 0 000 1.06l6.25 6.25a.75.75 0 001.06 0l6.25-6.25a.75.75 0 00-1.06-1.06L12 14.44 6.28 8.72a.75.75 0 00-1.06 0z"></path></svg>
+												</div>
+											</summary>
+											<div id="homepages" style="z-index: 6">
+												<a href="/en/get-started" rel="" class="d-block py-2 color-text-link text-underline active">Get started</a><a
+													href="/en/github" rel="" class="d-block py-2 Link--primary no-underline">GitHub.com</a><a
+													href="/en/enterprise-server@3.1/admin" rel="" class="d-block py-2 Link--primary no-underline">Enterprise
+													administrators</a><a href="/en/billing" rel="" class="d-block py-2 Link--primary no-underline">Billing and
+													payments</a><a href="/en/organizations" rel="" class="d-block py-2 Link--primary no-underline">Organizations</a><a
+													href="/en/code-security" rel="" class="d-block py-2 Link--primary no-underline">Code security</a><a
+													href="/en/issues" rel="" class="d-block py-2 Link--primary no-underline">GitHub Issues</a><a
+													href="/en/actions" rel="" class="d-block py-2 Link--primary no-underline">GitHub Actions</a><a
+													href="/en/packages" rel="" class="d-block py-2 Link--primary no-underline">GitHub Packages</a><a
+													href="/en/developers" rel="" class="d-block py-2 Link--primary no-underline">Developers</a><a
+													href="/en/rest" rel="" class="d-block py-2 Link--primary no-underline">REST API</a><a href="/en/graphql"
+													rel="" class="d-block py-2 Link--primary no-underline">GraphQL API</a><a
+													href="/en/enterprise-server@3.1/insights" rel="" class="d-block py-2 Link--primary no-underline">GitHub
+													Insights</a><a href="/en/discussions" rel="" class="d-block py-2 Link--primary no-underline">GitHub
+													Discussions</a><a href="/en/codespaces" rel="" class="d-block py-2 Link--primary no-underline">GitHub
+													Codespaces</a><a href="/en/sponsors" rel="" class="d-block py-2 Link--primary no-underline">GitHub Sponsors</a><a
+													href="/en/communities" rel="" class="d-block py-2 Link--primary no-underline">Building communities</a><a
+													href="/en/pages" rel="" class="d-block py-2 Link--primary no-underline">GitHub Pages</a><a
+													href="/en/education" rel="" class="d-block py-2 Link--primary no-underline">Education</a><a
+													href="/en/desktop" rel="" class="d-block py-2 Link--primary no-underline">GitHub Desktop</a><a
+													href="https://cli.github.com/manual" rel="noopener" class="d-block py-2 Link--primary no-underline">GitHub
+													CLI<span class="ml-1"><svg aria-hidden="true" role="img" class="octicon octicon-link-external"
+															viewBox="0 0 16 16" width="16" height="16" fill="currentColor"
+															style="display: inline-block; user-select: none; vertical-align: text-bottom; overflow: visible">
+															<path fill-rule="evenodd"
+																d="M10.604 1h4.146a.25.25 0 01.25.25v4.146a.25.25 0 01-.427.177L13.03 4.03 9.28 7.78a.75.75 0 01-1.06-1.06l3.75-3.75-1.543-1.543A.25.25 0 0110.604 1zM3.75 2A1.75 1.75 0 002 3.75v8.5c0 .966.784 1.75 1.75 1.75h8.5A1.75 1.75 0 0014 12.25v-3.5a.75.75 0 00-1.5 0v3.5a.25.25 0 01-.25.25h-8.5a.25.25 0 01-.25-.25v-8.5a.25.25 0 01.25-.25h3.5a.75.75 0 000-1.5h-3.5z"></path></svg></span>
+												</a><a href="https://atom.io/docs" rel="noopener" class="d-block py-2 Link--primary no-underline">Atom<span
+													class="ml-1"><svg aria-hidden="true" role="img" class="octicon octicon-link-external"
+															viewBox="0 0 16 16" width="16" height="16" fill="currentColor"
+															style="display: inline-block; user-select: none; vertical-align: text-bottom; overflow: visible">
+															<path fill-rule="evenodd"
+																d="M10.604 1h4.146a.25.25 0 01.25.25v4.146a.25.25 0 01-.427.177L13.03 4.03 9.28 7.78a.75.75 0 01-1.06-1.06l3.75-3.75-1.543-1.543A.25.25 0 0110.604 1zM3.75 2A1.75 1.75 0 002 3.75v8.5c0 .966.784 1.75 1.75 1.75h8.5A1.75 1.75 0 0014 12.25v-3.5a.75.75 0 00-1.5 0v3.5a.25.25 0 01-.25.25h-8.5a.25.25 0 01-.25-.25v-8.5a.25.25 0 01.25-.25h3.5a.75.75 0 000-1.5h-3.5z"></path></svg></span></a><a
+													href="https://electronjs.org/docs" rel="noopener" class="d-block py-2 Link--primary no-underline">Electron<span
+													class="ml-1"><svg aria-hidden="true" role="img" class="octicon octicon-link-external"
+															viewBox="0 0 16 16" width="16" height="16" fill="currentColor"
+															style="display: inline-block; user-select: none; vertical-align: text-bottom; overflow: visible">
+															<path fill-rule="evenodd"
+																d="M10.604 1h4.146a.25.25 0 01.25.25v4.146a.25.25 0 01-.427.177L13.03 4.03 9.28 7.78a.75.75 0 01-1.06-1.06l3.75-3.75-1.543-1.543A.25.25 0 0110.604 1zM3.75 2A1.75 1.75 0 002 3.75v8.5c0 .966.784 1.75 1.75 1.75h8.5A1.75 1.75 0 0014 12.25v-3.5a.75.75 0 00-1.5 0v3.5a.25.25 0 01-.25.25h-8.5a.25.25 0 01-.25-.25v-8.5a.25.25 0 01.25-.25h3.5a.75.75 0 000-1.5h-3.5z"></path></svg></span></a><a
+													href="https://codeql.github.com/docs" rel="noopener" class="d-block py-2 Link--primary no-underline">CodeQL<span
+													class="ml-1"><svg aria-hidden="true" role="img" class="octicon octicon-link-external"
+															viewBox="0 0 16 16" width="16" height="16" fill="currentColor"
+															style="display: inline-block; user-select: none; vertical-align: text-bottom; overflow: visible">
+															<path fill-rule="evenodd"
+																d="M10.604 1h4.146a.25.25 0 01.25.25v4.146a.25.25 0 01-.427.177L13.03 4.03 9.28 7.78a.75.75 0 01-1.06-1.06l3.75-3.75-1.543-1.543A.25.25 0 0110.604 1zM3.75 2A1.75 1.75 0 002 3.75v8.5c0 .966.784 1.75 1.75 1.75h8.5A1.75 1.75 0 0014 12.25v-3.5a.75.75 0 00-1.5 0v3.5a.25.25 0 01-.25.25h-8.5a.25.25 0 01-.25-.25v-8.5a.25.25 0 01.25-.25h3.5a.75.75 0 000-1.5h-3.5z"></path></svg></span></a>
+											</div>
+										</details>
+									</div>
+									<div class="border-top py-2">
+										<details class="Details-ssy9qz-0 hsHkEW details-reset">
+											<summary aria-label="Toggle language list">
+												<div class="d-flex flex-items-center flex-justify-between py-2">
+													<span>English</span>
+													<svg aria-hidden="true" role="img" class="arrow ml-md-1" viewBox="0 0 24 24" width="24" height="24"
+														fill="currentColor"
+														style="display: inline-block; user-select: none; vertical-align: text-bottom; overflow: visible">
+														<path fill-rule="evenodd"
+															d="M5.22 8.72a.75.75 0 000 1.06l6.25 6.25a.75.75 0 001.06 0l6.25-6.25a.75.75 0 00-1.06-1.06L12 14.44 6.28 8.72a.75.75 0 00-1.06 0z"></path></svg>
+												</div>
+											</summary>
+											<div>
+												<a href="/en/get-started/quickstart/set-up-git" rel=""
+													class="d-block py-2 color-text-link text-underline active">English</a><a
+													href="/cn/get-started/quickstart/set-up-git" rel="" class="d-block py-2 Link--primary no-underline">简体中文<!-- -->
+													(<!-- -->Simplified Chinese<!-- -->)
+												</a><a href="/ja/get-started/quickstart/set-up-git" rel="" class="d-block py-2 Link--primary no-underline">日本語<!-- -->
+													(<!-- -->Japanese<!-- -->)
+												</a><a href="/es/get-started/quickstart/set-up-git" rel="" class="d-block py-2 Link--primary no-underline">Español<!-- -->
+													(<!-- -->Spanish<!-- -->)
+												</a><a href="/pt/get-started/quickstart/set-up-git" rel="" class="d-block py-2 Link--primary no-underline">Português
+													do Brasil<!-- --> (<!-- -->Portuguese<!-- -->)
+												</a><a href="/de/get-started/quickstart/set-up-git" rel="" class="d-block py-2 Link--primary no-underline">Deutsch<!-- -->
+													(<!-- -->German<!-- -->)
+												</a>
+											</div>
+										</details>
+									</div>
+									<div class="pt-3 border-top">
+										<div id="search-input-container" aria-hidden="true">
+											<div class="ais-SearchBox">
+												<form role="search" class="ais-SearchBox-form" novalidate="">
+													<input type="search" data-testid="site-search-input" class="ais-SearchBox-input"
+														placeholder="Search topics, products..." autoComplete="off" autoCorrect="off" autoCapitalize="off"
+														spellcheck="false" maxLength="512" value="" />
+													<button class="ais-SearchBox-submit" type="submit" title="Submit the search query." hidden=""></button>
+												</form>
+											</div>
+										</div>
+										<div id="search-results-container" class=""></div>
+										<div class="search-overlay-desktop"></div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</header>
+				</div>

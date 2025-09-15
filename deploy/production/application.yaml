@@ -1,0 +1,39 @@
+apiVersion: cirrus.ibm.com/v1alpha1
+kind: Application
+metadata:
+  name: wfm-dmf-ga-prod
+  labels:
+    applications.cirrus.ibm.com/pipeline: 9d8b62cd-9dd2-4450-8816-cf79826c3c41
+spec:
+  port: 9080
+  quota: q2gb
+  replicas: 3
+  livenessProbe:
+    exec:
+      command:
+        - sh
+        - -c
+        - if [ -d /wfm-dmf ] && [ -x /wfm-dmf ];
+          then echo 'COS volume connection OK';
+          else echo 'COS volume not available'; exit 1; fi;
+          if curl -f http://localhost:9080/health;
+          then echo 'Application is up and running';
+          else echo 'Application is not available'; exit 1; fi
+    periodSeconds: 30
+    timeoutSeconds: 30
+  readinessProbe:
+    httpGet:
+      path: /health
+    periodSeconds: 30
+    timeoutSeconds: 30
+  envFrom:
+    - secretRef:
+        name: wfm-dmf-ga-secrets-prod
+  volumeMounts:
+  - name: wfm-dmf-cos
+    mountPath: /wfm-dmf
+    readOnly: false
+  volumes:
+  - name: wfm-dmf-cos
+    persistentVolumeClaim:
+      claimName: wfm-dmf-cos

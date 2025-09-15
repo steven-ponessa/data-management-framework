@@ -1,0 +1,1386 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+<title>Try it - JR/S Navigator</title>
+<meta content="" name="description">
+<meta content="" name="keywords">
+
+<!-- Favicons -->
+<link href="assets/img/favicon.png" rel="icon">
+<link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+<!-- Google Fonts -->
+<link
+	href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+	rel="stylesheet">
+
+<!-- Vendor CSS Files -->
+<link href="assets/vendor/bootstrap/css/bootstrap.min.css" 	rel="stylesheet">
+<link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" 	rel="stylesheet">
+<!--  link href="assets/vendor/aos/aos.css" rel="stylesheet" -->
+<link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
+<link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+<link href="assets/vendor/glightbox/css/glightbox.min.css" 	rel="stylesheet">
+<link rel="stylesheet" href="assets/vendor/font-awesome-4.7.0/css/font-awesome.min.css">
+
+<!-- Template Main CSS File -->
+<link href="assets/css/style.css" rel="stylesheet">
+<link href="assets/css/jsonview.bundle.css" rel="stylesheet">
+
+<!--  script src="assets/vendor/jquery/jquery-1.6.4.min.js"></script -->
+<script src="assets/vendor/jquery/jquery-3.3.1.min.js"></script>
+
+<!-- =======================================================
+  * Template Name: FlexStart - v1.4.0
+  * Template URL: https://bootstrapmade.com/flexstart-bootstrap-startup-template/
+  * Author: BootstrapMade.com
+  * License: https://bootstrapmade.com/license/
+  ======================================================== -->
+<style>
+.sec-text {
+	margin-left: 48px;
+	margin-right: 48px;
+}
+
+th, td, input {
+	font: 11px Verdana;
+}
+
+.note {
+	background-color: #e7f3fe;
+	border-left: 6px solid #2196F3;
+	font-size: small;
+}
+
+.tryit-form {
+	margin: 20px;
+}
+
+.col-form-label {
+	padding-top: 0;
+	margin-bottom: 0;
+	font-size: inherit;
+	line-height: 2;
+}
+
+/* The max width is dependant on the container */
+.popover{
+    max-width: 35%; /* Max Width of the popover (depending on the container!) */
+}
+
+/* CSS for generic JR/S toggle */
+.form-check-input {
+  clear: left;
+}
+
+.form-switch {
+    padding-left: 1.5em;
+}
+
+.form-check-label {
+    padding-left: 0.25em;
+}
+
+.form-switch.form-switch-sm {
+  margin-bottom: 0.5rem; /* JUST FOR STYLING PURPOSE */
+}
+
+.form-switch.form-switch-sm .form-check-input {
+  height: 1rem;
+  width: calc(1rem + 0.75rem);
+  border-radius: 2rem;
+}
+
+.form-switch.form-switch-md {
+  margin-bottom: 1rem; /* JUST FOR STYLING PURPOSE */
+}
+
+.form-switch.form-switch-md .form-check-input {
+  height: 1.5rem;
+  width: calc(2rem + 0.75rem);
+  border-radius: 3rem;
+}
+
+.form-switch.form-switch-lg {
+  margin-bottom: 1.5rem; /* JUST FOR STYLING PURPOSE */
+}
+
+.form-switch.form-switch-lg .form-check-input {
+  height: 2rem;
+  width: calc(3rem + 0.75rem);
+  border-radius: 4rem;
+}
+
+.form-switch.form-switch-xl {
+  margin-bottom: 2rem; /* JUST FOR STYLING PURPOSE */
+}
+
+.form-switch.form-switch-xl .form-check-input {
+  height: 2.5rem;
+  width: calc(4rem + 0.75rem);
+  border-radius: 5rem;
+}
+
+</style>
+
+<script>
+
+	const api2TableNew = async () => {
+		const response = fetch('http://localhost:8080/api/v1/sec-Football/pit?pit=2021-06-29-00.00.00.0', {
+		    method: 'GET',
+		    headers: {
+		      'Content-Type': 'application/json'
+		    }
+		  });
+		  const returnedJson = await response.json(); //extract JSON from the http response
+		  createTableFromJson(returnedJson);
+		}
+	
+	var apiCnt=0;
+	var growthPlatformCd = 'x';
+	var growthPlatformNm = 'x';
+	var serviceLineCd = 'x';
+	var serviceLineNm = 'x';
+	var practiceCd = 'x';
+	var practiceNm = 'x';
+	var serviceAreaCd = 'x';
+	var serviceAreaNm = 'x';
+	var jobRoleGlobalArray=[];
+	var jobRoleCd = 'x';
+	var jobRoleNm = 'x';
+	var specialtyGlobalArray=[];
+	var specialtyCd = 'x';
+	var specialtyNm = 'x';
+	
+	var helpStructure = [
+		{"id":"tree-search",
+			 "title": "JR/S Collapsible Tree Search Help",
+			 "context" : "/help/en/tree-search.html"
+			} ,
+			{"id":"basic",
+			 "title": "Basic Search Help",
+			 "context" : "/help/en/basic-search.html"
+			} ,
+			{"id":"adv",
+			 "title": "Advanced Search Help",
+			 "context" : "/help/en/advanced-search.html"
+			} ,
+			{"id":"regex",
+			 "title": "Regular Expression Search Help",
+			 "context" : "/help/en/reg-ex-search.html"
+			} 	
+		];
+	
+	var tree;
+	
+	//$('#growth-platform-dropdown').change(function () {
+	//	growthPlatformTxt = $(this).find("option:selected").text();
+	//});
+	
+	function init() {
+		
+		/*
+		 * Listener for information button.  When being shown, it retrieves the title
+		 * and content for the information modal based on the key of the information 
+		 * button selected.
+		 */
+		var informationModal = document.getElementById('id-info-modal')
+		informationModal.addEventListener('show.bs.modal', function(event) {
+			// Button that triggered the modal
+			var button = event.relatedTarget
+			// Extract info from data-bs-* attributes
+			var contentId = button.getAttribute('data-bs-content')
+			
+			for (help of helpStructure) {
+				if (help.id==contentId) break;
+			}
+			
+			var modalTitle = informationModal.querySelector('.modal-title')
+			let bodyDiv = document.getElementById('id-info-modal-body')
+
+			modalTitle.textContent = help.title
+			bodyDiv.innerHTML = '<div w3-include-html="'+help.context+'"></div>';
+			/*make an HTTP request using the attribute value as the file name:*/
+			xhttp = new XMLHttpRequest();
+			xhttp.onreadystatechange = function() {
+		        if (this.readyState == 4) {
+		          if (this.status == 200) {bodyDiv.innerHTML = this.responseText;}
+		          if (this.status == 404) {bodyDiv.innerHTML = "Page not found.";}
+		        }
+			}      
+			xhttp.open("GET", window.location.protocol+"//"+window.location.host+help.context, true);
+			xhttp.send();
+		})
+
+		clear('growth-platform');
+		clear('service-line');
+		clear('practice');
+		clear('service-area');
+		
+		const url = window.location.protocol+"//"+window.location.host+'/api/v1/eds-ut-jrs-tax/brands/10J00/growth-platforms'
+		+ "?filters=GROWTH_PLATFORM_NM%20NOT%20LIKE%20'*(AUO)*' AND GROWTH_PLATFORM_CD%20!=%20'*(AUO)*'%20AND%20GROWTH_PLATFORM_CD%20<>%2715GEN%27";
+	
+		addToList('id_api_list',url);
+
+		const request = new XMLHttpRequest();
+		request.open('GET', url, true);
+
+		request.onload = function() {
+		  if (request.status === 200) {
+			let  growthPlatformDd = document.getElementById('growth-platform-dropdown');
+		    const data = JSON.parse(request.responseText);
+		    let option;
+		    option = document.createElement('option');
+		    option.text = 'Choose a growth platform';
+		    option.value = 'x';
+		    growthPlatformDd.add(option);
+		    for (let i = 0; i < data.length; i++) {
+		      option = document.createElement('option');
+		      option.text = data[i].growthPlatformNm;
+		      option.value = data[i].growthPlatformCd;
+		      growthPlatformDd.add(option);
+		    }
+		    
+			getTaxonomyFromUrl();
+			
+		   } else {
+		    	// Reached the server, but it returned an error
+			   console.error('An error occured ${request.status} - ${request.statusText}');
+		  }   
+		}
+
+		request.onerror = function() {
+		  console.error('An error occurred fetching the JSON from ' + url);
+		};
+
+		request.send();
+	}
+	
+	function clear(key) {
+		if (key=='service-area') {
+			let keyText = document.getElementById(key+'-text');
+			if (keyText!=null) keyText.innerHTML = '';
+		}
+		else if (key=='job-role') {
+			let keyText = document.getElementById(key+'-text');
+			if (keyText!=null) keyText.innerHTML = '';
+			
+			let jobRoleTable = document.getElementById(key+'-table');
+			if (jobRoleTable!=null) jobRoleTable.innerHTML = '';
+			
+			const jobRoleElement = document.getElementById('id-job-role');
+			if (jobRoleElement) jobRoleElement.innerHTML="";
+		}
+		else if (key=='specialty') {
+			let keyText = document.getElementById(key+'-text');
+			if (keyText!=null) keyText.innerHTML = '';
+			
+			let jobRoleTable = document.getElementById(key+'-table');
+			if (jobRoleTable!=null) jobRoleTable.innerHTML = '';
+		}
+		else {
+			let  keyDropDown = document.getElementById(key+'-dropdown');
+			if (keyDropDown!=null) keyDropDown.length = 0;
+		}
+	}
+	
+	function growthPlatformUpdated() {
+		let  growthPlatformDd = document.getElementById('growth-platform-dropdown');
+		growthPlatformCd = growthPlatformDd.value;
+		growthPlatformNm = $('#growth-platform-dropdown').find("option:selected").text();
+		
+		clear('service-line');
+		clear('practice');
+		clear('service-area');
+		clear('job-role');
+		clear('specialty');
+		hideMsg();
+		
+		if (growthPlatformCd != 'x') {
+			const url = window.location.protocol+"//"+window.location.host+'/api/v1/eds-ut-jrs-tax/brands/10J00/growth-platforms/'+growthPlatformCd+'/service-lines'
+			+"?filters=SERVICE_LINE_NM%20NOT%20LIKE%20'*(AUO)*'";
+			
+			addToList('id_api_list',url);
+
+			const request = new XMLHttpRequest();
+			request.open('GET', url, true);
+
+			request.onload = function() {
+			  if (request.status === 200) {
+				let  serviceLineDd = document.getElementById('service-line-dropdown');
+			    const respJson = JSON.parse(request.responseText);
+			    const data = respJson[0].children[0].children;
+			    let option;
+			    option = document.createElement('option');
+			    option.text = 'Choose a service line';
+			    option.value = 'x';
+			    serviceLineDd.add(option);
+			    for (let i = 0; i < data.length; i++) {
+			      option = document.createElement('option');
+			      option.text = data[i].serviceLineNm;
+			      option.value = data[i].serviceLineCd;
+			      serviceLineDd.add(option);
+			    }
+			   } else {
+			    	// Reached the server, but it returned an error
+				   console.error('An error occured ${request.status} - ${request.statusText}');
+			  }   
+			}
+
+			request.onerror = function() {
+			  console.error('An error occurred fetching the JSON from ' + url);
+			};
+
+			request.send();
+		}
+	}
+	
+	function serviceLineUpdated() {
+		let  serviceLineDd = document.getElementById('service-line-dropdown');
+		serviceLineCd = serviceLineDd.value;
+		serviceLineNm = $('#service-line-dropdown').find("option:selected").text();
+		
+		clear('practice');
+		clear('service-area');
+		clear('job-role');
+		clear('specialty');
+		hideMsg();
+		
+		if (growthPlatformCd != 'x') {
+			const url = window.location.protocol+"//"+window.location.host+'/api/v1/eds-ut-jrs-tax/brands/10J00/growth-platforms/'+growthPlatformCd+'/service-lines/'+serviceLineCd+'/practices';
+			
+			addToList('id_api_list',url);
+
+			const request = new XMLHttpRequest();
+			request.open('GET', url, true);
+
+			request.onload = function() {
+			  if (request.status === 200) {
+				let  practiceDd = document.getElementById('practice-dropdown');
+			    const respJson = JSON.parse(request.responseText);
+			    const data = respJson[0].children[0].children[0].children;
+			    let option;
+			    option = document.createElement('option');
+			    option.text = 'Choose a practice';
+			    option.value = 'x';
+			    practiceDd.add(option);
+			    for (let i = 0; i < data.length; i++) {
+			      option = document.createElement('option');
+			      option.text = data[i].practiceNm;
+			      option.value = data[i].practiceCd;
+			      practiceDd.add(option);
+			    }
+			   } else {
+			    	// Reached the server, but it returned an error
+				   console.error('An error occured ${request.status} - ${request.statusText}');
+			  }   
+			}
+
+			request.onerror = function() {
+			  console.error('An error occurred fetching the JSON from ' + url);
+			};
+
+			request.send();
+		}
+	}	
+	
+	function practiceUpdated() {
+		let  practiceDd = document.getElementById('practice-dropdown');
+		practiceCd = practiceDd.value;
+		practiceNm = $('#practice-dropdown').find("option:selected").text();
+		jobRolePopulate(practiceCd, practiceNm);
+	}
+	
+	function jobRolePopulate(practiceCd, practiceNm) {
+		
+		clear('service-area');
+		clear('job-role');
+		clear('specialty');
+		hideMsg();
+		
+		if (practiceCd != 'x') {
+			const url = window.location.protocol+"//"+window.location.host+'/api/v1/eds-ut-jrs-tax/practices/'+practiceCd+'/job-roles';
+			
+			addToList('id_api_list',url);
+			
+			api2JobRoleTable(url);
+			
+			/*
+			*  Add a generic JR/S switch
+			*/
+			const jobRoleElement = document.getElementById('id-job-role');
+			
+			var div = document.createElement("div");
+			div.setAttribute("class","form-check form-switch form-switch-md");
+			
+			var input = document.createElement("input");
+			input.setAttribute("class", "form-check-input");
+			input.setAttribute("type", "checkbox");
+			input.setAttribute("id", 'include-generics-id');
+			input.setAttribute("onclick", 'genericSwithUpdated(this)');
+			
+			var label = document.createElement("label");
+			label.setAttribute("class", "form-check-label");
+			label.setAttribute("for", "include-generics-id");
+			label.innerHTML = "Include generic Job Role and Job Role/Specialties";
+			
+			div.appendChild(input);
+			div.appendChild(label);
+			jobRoleElement.appendChild(div);
+		}
+	}
+	
+	function jobRoleUpdated(index, generic) {
+		
+		clear('specialty');
+		hideMsg();
+		
+		jobRoleCd = jobRoleGlobalArray[index].jobRoleCd;
+		jobRoleNm = jobRoleGlobalArray[index].jobRoleNm;
+		
+		let jobRoleTxt = document.getElementById('job-role-text');
+		jobRoleTxt.innerHTML = jobRoleGlobalArray[index].jobRoleCd + " - "+jobRoleGlobalArray[index].jobRoleNm;
+		
+		if (jobRoleCd != 'x') {
+			const url = window.location.protocol+"//"+window.location.host+'/api/v1/eds-ut-jrs-tax/practices/'+(generic?'generic':practiceCd)+'/job-roles/'+jobRoleCd+'/specialties';
+			
+			addToList('id_api_list',url);
+			
+			api2SpecialtiesTable(url);
+		}
+		
+	}
+	
+	function specialtyUpdated(index) {
+		
+		specialtyCd = specialtyGlobalArray[index].specialtyCd;
+		specialtyNm = specialtyGlobalArray[index].specialtyNm;
+		
+		let specialtyTxt = document.getElementById('specialty-text');
+		specialtyTxt.innerHTML = specialtyGlobalArray[index].specialtyCd + " - "+specialtyGlobalArray[index].specialtyNm;
+		
+		if (specialtyCd != 'x') {
+			const url = window.location.protocol+"//"+window.location.host+'/api/v1/eds-ut-jrs-tax/jrss/'+jobRoleCd+'-'+specialtyCd+'/?includeParentage=true';
+			
+			addToList('id_api_list',url);
+
+			const request = new XMLHttpRequest();
+			request.open('GET', url, true);
+
+			request.onload = function() {
+			  if (request.status === 200) {
+				let  serviceAreaTxt = document.getElementById('service-area-text');
+				const respJson = JSON.parse(request.responseText);
+			    const data = respJson[0].children[0].children[0].children[0].children[0];
+			    serviceAreaTxt.innerHTML = data.serviceAreaCd + " - " + data.serviceAreaNm;
+			    serviceAreaCd = data.serviceAreaCd;
+			    serviceAreaNm = data.serviceAreaNm;
+			    
+				let uiMsg = document.getElementById("msg")
+				let msgLine = document.getElementById("msg-line")
+				uiMsg.innerHTML = ""
+				msgLine.classList.remove('show'); 
+			    let msg = "<h5>Job Role Specialty</h5>"
+			         +"<ul><li><b>Brand: </b> 10J00 - IBM Consulting</li>"
+			         + "<li><b>Growth Platform: </b> "+growthPlatformCd + " - " + growthPlatformNm + "</li>"
+			         + "<li><b>Service Line: </b> "+serviceLineCd + " - " + serviceLineNm + "</li>"
+			         + "<li><b>Practice: </b> "+practiceCd + " - " + practiceNm + "</li>"
+			         + "<li><b>Service Area: </b> "+serviceAreaCd + " - " + serviceAreaNm + "</li>"
+			         + "<li><b>Job Role: </b> "+jobRoleCd + " - " + jobRoleNm + "</li>"
+			         + "<li><b>Specialty: </b> "+specialtyCd + " - " + specialtyNm + "</li>"
+			         + "</ul>";
+			    uiMsg.innerHTML=msg;
+			    msgLine.classList.remove('alert-warning');
+				msgLine.classList.remove('alert-success'); 
+				msgLine.classList.remove('alert-danger'); 
+				msgLine.classList.remove('show');
+				msgLine.classList.add('alert-success'); 
+				msgLine.classList.add('show');
+
+			   } else {
+			    	// Reached the server, but it returned an error
+				   console.error('An error occured ${request.status} - ${request.statusText}');
+			  }   
+			}
+
+			request.onerror = function() {
+			  console.error('An error occurred fetching the JSON from ' + url);
+			};
+
+			request.send();
+		}
+		
+	}
+	
+	function api2JobRoleTable(url) {
+		
+	    var req = new XMLHttpRequest();
+	    req.onreadystatechange = function() {
+	         if (this.readyState == 4 && this.status == 200) {
+	        	 createJobRoleTableFromJson(this.response);
+	         }
+	    };
+	    req.open("GET", url, true);
+	    req.setRequestHeader("Content-type", "application/json");
+	    req.responseType = 'json';
+	    req.send(null);
+	}
+	
+	function api3JobRoleTable(url) {
+		
+	    var req = new XMLHttpRequest();
+	    req.onreadystatechange = function() {
+	         if (this.readyState == 4 && this.status == 200) {
+	        	 appendJobRoleTableFromJson(this.response);
+	         }
+	    };
+	    req.open("GET", url, true);
+	    req.setRequestHeader("Content-type", "application/json");
+	    req.responseType = 'json';
+	    req.send(null);
+	}
+	
+	function api2SpecialtiesTable(url) {
+		
+	    var req = new XMLHttpRequest();
+	    req.onreadystatechange = function() {
+	         if (this.readyState == 4 && this.status == 200) {
+	        	 createSpecialtyTableFromJson(this.response);
+	         }
+	    };
+	    req.open("GET", url, true);
+	    req.setRequestHeader("Content-type", "application/json");
+	    req.responseType = 'json';
+	    req.send(null);
+	}
+	
+	function createJobRoleTableFromJson(jobRoles) {
+
+		// EXTRACT VALUE FOR HTML HEADER. 
+
+		var colTemp = ['Select', 'Job Role Code', 'Job Role', 'Compensation Grade List', 'Description'];
+
+		// CREATE DYNAMIC TABLE.
+		var table = document.createElement("table");
+		table.setAttribute("class","table table-hover table-sm table-striped");
+
+		// CREATE HTML TABLE HEADER ROW USING THE EXTRACTED HEADERS ABOVE.
+		
+		var thead = document.createElement("thead");
+
+		var tr = document.createElement("tr");
+
+		for (var i = 0; i < colTemp.length; i++) {
+			var th = document.createElement("th"); // TABLE HEADER.
+			th.innerHTML = colTemp[i];
+			tr.appendChild(th);
+		}
+		thead.appendChild(tr);
+		table.appendChild(thead);
+
+		var tbody = document.createElement("tbody");
+		tbody.setAttribute("id","id-job-role-table-body");
+		
+		//jobRoles = myJson[0].children;
+		jobRoleGlobalArray = jobRoles;
+		
+		for (var i=0; i<jobRoles.length; i++) {
+			//let jobRoleCd = jobRoles[i].jobRoleCd;
+			tr = tbody.insertRow(-1);
+			
+			var x = document.createElement("input");
+			x.setAttribute("value", i);
+			x.setAttribute("id", 'job-role-'+i);
+			x.setAttribute("name", 'job-role');
+			x.setAttribute("type", 'radio');
+			x.setAttribute("onclick", 'jobRoleUpdated(this.value, false)');
+
+			var tabCell = tr.insertCell(-1);
+			tabCell.appendChild(x);
+			
+			tabCell = tr.insertCell(-1);
+			tabCell.innerHTML = jobRoles[i].jobRoleCd;
+			
+			tabCell = tr.insertCell(-1);
+			tabCell.innerHTML = jobRoles[i].jobRoleNm;
+			
+			tabCell = tr.insertCell(-1);
+			tabCell.innerHTML = jobRoles[i].cmpnstnGrdLst;
+			
+			tabCell = tr.insertCell(-1);
+			var descSpan = document.createElement("span");
+			descSpan.setAttribute("class", "d-inline-block");
+			descSpan.setAttribute("tabindex", "0");
+			descSpan.setAttribute("title", jobRoles[i].jobRoleCd + " : "+jobRoles[i].jobRoleNm);
+			descSpan.setAttribute("data-bs-toggle", "popover");
+			descSpan.setAttribute("data-bs-trigger", "hover focus");
+			descSpan.setAttribute("data-bs-content", "Loading...");
+			descSpan.setAttribute("data-bs-job-role-cd", jobRoles[i].jobRoleCd);
+			descSpan.setAttribute("id", "id-"+jobRoles[i].jobRoleCd);
+			
+			new bootstrap.Popover(descSpan);
+			
+			descSpan.addEventListener('shown.bs.popover', function () {
+				let jobRoleCd = $(this).attr('data-bs-job-role-cd');
+				
+				let dataBsContent = $(this).attr('data-bs-content');
+				
+				if (dataBsContent=='Loading...') {	
+					const url = window.location.protocol+"//"+window.location.host+'/api/v1/eds-ut-jrs-tax/job-role-descriptions/'+jobRoleCd;
+					
+					addToList('id_api_list',url);
+	
+					const request = new XMLHttpRequest();
+					request.open('GET', url, true);
+	
+					request.onload = function() {
+					  if (request.status === 200) {
+						  const respJson = JSON.parse(request.responseText);
+						  
+						  let popupEl = document.getElementById("id-"+respJson[0].jobRoleCd);
+						  popupEl.setAttribute('data-bs-content',respJson[0].jobRoleDesc);
+						  
+						  var popover = bootstrap.Popover.getInstance(popupEl);
+
+    					  // change the content
+						  popover._config.content = respJson[0].jobRoleDesc;
+						  popover.setContent();
+					  }
+					  else {
+						  $(this).attr('data-bs-content','Could not retrieve job role description.');
+					  }
+					}
+					
+					request.onerror = function() {
+						console.error('An error occurred fetching the JSON from ' + url);
+						$(this).attr('data-bs-content','Could not retrieve job role description.');
+					};
+	
+					request.send();
+				}
+				
+			})
+			
+			const descIcon = document.createElement('i');
+			descIcon.setAttribute('class','fa fa-commenting fa-lg');		
+			descSpan.appendChild(descIcon);
+			
+			tabCell.appendChild(descSpan);
+		}
+		
+		table.appendChild(tbody);
+
+		// FINALLY ADD THE NEWLY CREATED TABLE WITH JSON DATA TO A CONTAINER.
+		var jobRoleContainer = document.getElementById("job-role-table");
+		jobRoleContainer.innerHTML = "";
+		jobRoleContainer.appendChild(table);
+	}	
+	
+	function appendJobRoleTableFromJson(jobRoles) {
+		var tbody = document.getElementById("id-job-role-table-body");
+		
+		j = jobRoleGlobalArray.length;
+		
+		for (var i=0; i<jobRoles.length; i++) {
+			jobRoleGlobalArray.push(jobRoles[i]);
+			
+			tr = tbody.insertRow(-1);
+			
+			var x = document.createElement("input");
+			x.setAttribute("value", j+i);
+			x.setAttribute("id", 'job-role-'+(j+i));
+			x.setAttribute("name", 'job-role');
+			x.setAttribute("type", 'radio');
+			x.setAttribute("onclick", "jobRoleUpdated(this.value, true)");
+
+			var tabCell = tr.insertCell(-1);
+			tabCell.appendChild(x);
+			
+			tabCell = tr.insertCell(-1);
+			tabCell.innerHTML = jobRoles[i].jobRoleCd+" <sup><b>(g)</b></sup>";
+			
+			tabCell = tr.insertCell(-1);
+			tabCell.innerHTML = jobRoles[i].jobRoleNm+" <sup><b>(g)</b></sup>";
+			
+			tabCell = tr.insertCell(-1);
+			tabCell.innerHTML = jobRoles[i].cmpnstnGrdLst;
+			
+			tabCell = tr.insertCell(-1);
+			var descSpan = document.createElement("span");
+			descSpan.setAttribute("class", "d-inline-block");
+			descSpan.setAttribute("tabindex", "0");
+			descSpan.setAttribute("title", jobRoles[i].jobRoleCd + " : "+jobRoles[i].jobRoleNm);
+			descSpan.setAttribute("data-bs-toggle", "popover");
+			descSpan.setAttribute("data-bs-trigger", "hover focus");
+			descSpan.setAttribute("data-bs-content", "Loading...");
+			descSpan.setAttribute("data-bs-job-role-cd", jobRoles[i].jobRoleCd);
+			descSpan.setAttribute("id", "id-g-"+jobRoles[i].jobRoleCd);
+			
+			new bootstrap.Popover(descSpan);
+			
+			descSpan.addEventListener('shown.bs.popover', function () {
+				let jobRoleCd = $(this).attr('data-bs-job-role-cd');
+				
+				let dataBsContent = $(this).attr('data-bs-content');
+				
+				if (dataBsContent=='Loading...') {				
+					const url = window.location.protocol+"//"+window.location.host+'/api/v1/eds-ut-jrs-tax/job-role-descriptions/'+jobRoleCd;
+					
+					addToList('id_api_list',url);
+	
+					const request = new XMLHttpRequest();
+					request.open('GET', url, true);
+	
+					request.onload = function() {
+					  if (request.status === 200) {
+						  const respJson = JSON.parse(request.responseText);
+						  
+						  let popupEl = document.getElementById("id-g-"+respJson[0].jobRoleCd);
+						  popupEl.setAttribute('data-bs-content',respJson[0].jobRoleDesc);
+						  
+						  var popover = bootstrap.Popover.getInstance(popupEl);
+
+    					  // change the content
+						  popover._config.content = respJson[0].jobRoleDesc;
+						  popover.setContent();
+					  }
+					  else {
+						  $(this).attr('data-bs-content','Could not retrieve job role description.');
+					  }
+					}
+					
+					request.onerror = function() {
+						console.error('An error occurred fetching the JSON from ' + url);
+						$(this).attr('data-bs-content','Could not retrieve job role description.');
+					};
+	
+					request.send();
+				}
+				
+			})
+			
+			const descIcon = document.createElement('i');
+			descIcon.setAttribute('class','fa fa-commenting fa-lg');		
+			descSpan.appendChild(descIcon);
+			
+			tabCell.appendChild(descSpan);
+		}
+	}	
+	
+	function createSpecialtyTableFromJson(specialties) {
+
+		// EXTRACT VALUE FOR HTML HEADER. 
+
+		var colTemp = ['Select', 'Specialty Code', 'Specialty', 'Compensation Grade List','Description'];
+
+		// CREATE DYNAMIC TABLE.
+		var table = document.createElement("table");
+		table.setAttribute("class","table table-hover table-sm table-striped");
+
+		// CREATE HTML TABLE HEADER ROW USING THE EXTRACTED HEADERS ABOVE.
+		
+		var thead = document.createElement("thead");
+
+		var tr = document.createElement("tr");
+
+		for (var i = 0; i < colTemp.length; i++) {
+			var th = document.createElement("th"); // TABLE HEADER.
+			th.innerHTML = colTemp[i];
+			tr.appendChild(th);
+		}
+		thead.appendChild(tr);
+		table.appendChild(thead);
+
+		var tbody = document.createElement("tbody");
+		
+		specialtyGlobalArray = specialties;
+		
+		for (var i=0; i<specialties.length; i++) {
+			tr = tbody.insertRow(-1);
+			
+			var x = document.createElement("input");
+			x.setAttribute("value", i);
+			x.setAttribute("id", 'specialty-'+i);
+			x.setAttribute("name", 'specialty');
+			x.setAttribute("type", 'radio');
+			x.setAttribute("onclick", 'specialtyUpdated(this.value)');
+
+			var tabCell = tr.insertCell(-1);
+			tabCell.appendChild(x);
+			
+			tabCell = tr.insertCell(-1);
+			tabCell.innerHTML = specialties[i].specialtyCd;
+			
+			tabCell = tr.insertCell(-1);
+			tabCell.innerHTML = specialties[i].specialtyNm;
+			
+			tabCell = tr.insertCell(-1);
+			tabCell.innerHTML = specialties[i].cmpnstnGrdLst;
+			
+			tabCell = tr.insertCell(-1);
+			var descSpan = document.createElement("span");
+			descSpan.setAttribute("class", "d-inline-block");
+			descSpan.setAttribute("tabindex", "0");
+			descSpan.setAttribute("title", jobRoleCd+"-"+specialties[i].specialtyCd + " : "+jobRoleNm+"-"+specialties[i].specialtyNm);
+			descSpan.setAttribute("data-bs-toggle", "popover");
+			descSpan.setAttribute("data-bs-trigger", "hover focus");
+			descSpan.setAttribute("data-bs-content", "Loading...");
+			descSpan.setAttribute("data-bs-jrs-cd", jobRoleCd+"-"+specialties[i].specialtyCd);
+			descSpan.setAttribute("id", "id-"+jobRoleCd+"-"+specialties[i].specialtyCd);
+			
+			new bootstrap.Popover(descSpan);
+			
+			descSpan.addEventListener('shown.bs.popover', function () {
+				let jrsCd = $(this).attr('data-bs-jrs-cd');
+				
+				let dataBsContent = $(this).attr('data-bs-content');
+				
+				if (dataBsContent=='Loading...') {				
+					const url = window.location.protocol+"//"+window.location.host+'/api/v1/eds-ut-jrs-tax/jrs-descriptions/'+jrsCd;
+					
+					addToList('id_api_list',url);
+	
+					const request = new XMLHttpRequest();
+					request.open('GET', url, true);
+	
+					request.onload = function() {
+					  if (request.status === 200) {
+						  const respJson = JSON.parse(request.responseText);
+						  
+						  let popupEl = document.getElementById("id-"+respJson[0].jrsCd);
+						  popupEl.setAttribute('data-bs-content',respJson[0].jrsDesc);
+						  
+						  var popover = bootstrap.Popover.getInstance(popupEl);
+
+    					  // change the content
+						  popover._config.content = respJson[0].jrsDesc;
+						  popover.setContent();
+					  }
+					  else {
+						  $(this).attr('data-bs-content','Could not retrieve job role description.');
+					  }
+					}
+					
+					request.onerror = function() {
+						console.error('An error occurred fetching the JSON from ' + url);
+						$(this).attr('data-bs-content','Could not retrieve job role description.');
+					};
+	
+					request.send();
+				}
+				
+			})
+			
+			const descIcon = document.createElement('i');
+			descIcon.setAttribute('class','fa fa-commenting fa-lg');		
+			descSpan.appendChild(descIcon);
+			
+			tabCell.appendChild(descSpan);			
+		}
+		
+		table.appendChild(tbody);
+
+		// FINALLY ADD THE NEWLY CREATED TABLE WITH JSON DATA TO A CONTAINER.
+		var specialtyContainer = document.getElementById("specialty-table");
+		specialtyContainer.innerHTML = "";
+		specialtyContainer.appendChild(table);
+	}
+	
+	function addToList(root, item) {
+		var ul = document.getElementById(root);
+		var li = document.createElement('li');
+		li.setAttribute("class","list-group-item");
+
+	    var a = document.createElement('a');
+	    a.target = '_blank';
+	    a.href = item;
+	    a.innerText = item;
+	    li.appendChild(document.createTextNode(String(++apiCnt)+". "));
+	    li.appendChild(a);
+	    
+		//li.appendChild(document.createTextNode(item));
+		
+		ul.appendChild(li);
+	}
+	
+	function jrsLookup() {
+		alert('placeholder button .. if needed.');
+	}
+	
+	function jrsFind() {
+		alert('Will trigger a find based on the search critria and populate the left hand panel.');
+	}
+	
+	function getTaxonomyFromUrl() {
+
+		let url = window.location.protocol+"//"+window.location.host+'/api/v1/eds-ut-jrs-tax/jrss?includeParentage=true';
+		addToList('id_api_list',url);
+		
+		let headers = new Headers();
+		headers.append('Content-Type', 'application/json');
+		headers.append('Accept', 'application/json');
+		headers.append('Access-Control-Allow-Origin', 'http://localhost:8080');
+		headers.append('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
+		headers.append('Access-Control-Allow-Headers', 'Origin, Content-Type, Accept');
+
+		fetch(url) //, { headers: headers })
+			.then((res)=> {
+				return res.text();
+			})
+			.then((data) => {
+				skinnyJson = buildJrsTree(data);
+				//console.log(skinnyJson);
+				tree = JsonView.createTree(skinnyJson); //(data)
+				rootElement = document.getElementById('root');
+				rootElement.innerHTML="";
+				JsonView.render(tree, rootElement);
+			})
+			.catch((err) => {
+				console.log(err);
+		})
+	}
+	
+	function buildJrsTree(data) {
+		const json = JSON.parse(data);
+		growthPlatforms = json[0].children;
+		
+		let brand = {"code":"10J00","description": "IBM Consulting", "growthPlatforms":[]};
+		let brands = [];
+		brands.push(brand);
+		
+		for (i=0;i<growthPlatforms.length;i++) {
+			let growthPlatform = {};
+			growthPlatform["code"] = growthPlatforms[i].growthPlatformCd;
+			growthPlatform["description"] = growthPlatforms[i].growthPlatformNm;
+			growthPlatform["serviceLines"] = [];
+			
+			serviceLines = growthPlatforms[i].children;
+			for (j=0;j<serviceLines.length;j++) {
+				let serviceLine = {};
+				serviceLine["code"] = serviceLines[j].serviceLineCd;
+				serviceLine["description"] = serviceLines[j].serviceLineNm;
+				serviceLine["practices"] = [];
+				
+				practices = serviceLines[j].children;
+				for (p=0;p<practices.length;p++) {
+					let practice = {};
+					practice["code"] = practices[p].practiceCd;
+					practice["description"] = practices[p].practiceNm;
+					practice["serviceAreas"] = [];
+					
+					serviceAreas = practices[p].children;
+					for (k=0;k<serviceAreas.length;k++) {
+						let serviceArea = {};
+						serviceArea["code"] = serviceAreas[k].serviceAreaCd;
+						serviceArea["description"] = serviceAreas[k].serviceAreaNm;
+						serviceArea["jrss"] = [];
+						
+						jrss = serviceAreas[k].children;
+						for (l=0;l<jrss.length;l++) {
+							let jrs = {};
+							jrs["code"] = jrss[l].jrsCd;
+							jrs["description"] = jrss[l].jrsNm;
+							jrs["compGrdLst"] = jrss[l].cmpnstnGrdLst;
+							
+							serviceArea.jrss.push(jrs);
+						}
+						practice.serviceAreas.push(serviceArea);
+					}
+					serviceLine.practices.push(practice);
+				}
+				growthPlatform.serviceLines.push(serviceLine);
+			}
+			brand.growthPlatforms.push(growthPlatform)
+		}
+		
+		return JSON.stringify(brands);
+	}
+	
+	function hideMsg() {
+		let uiMsg = document.getElementById("msg")
+		let msgLine = document.getElementById("msg-line")
+		uiMsg.innerHTML = ""
+		msgLine.classList.remove('show'); 
+	}
+	
+	function genericSwithUpdated(includeGenericsSwitch) {
+		if (includeGenericsSwitch.checked) {
+			console.log("pull the generics and append them to the current table");
+			//const url = window.location.protocol+"//"+window.location.host+'/api/v1/dyn/sql/wfm-bridge/a-tmp-generic-job-roles';
+			const url = window.location.protocol+"//"+window.location.host+'/api/v1/eds-ut-jrs-tax/practices/generic/job-roles';
+			
+			addToList('id_api_list',url);
+			
+			api3JobRoleTable(url);
+		}
+		else {
+			practiceUpdated();
+		}
+	}	
+	
+</script>
+</head>
+
+<body onload="javascript:init()">
+
+<!-- could use modal-fullscreen or modal-xl -->
+<div class="modal fade" id="id-info-modal" tabindex="-1" aria-labelledby="id-info-modalLabel" aria-hidden="true">
+	<div class="modal-dialog  modal-fullscreen">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="id-info-modal-title">New message</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body" id="id-info-modal-body"></div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade jrs-modal-wide" id="jrsViewerModal" tabindex="-1" role="dialog" aria-labelledby="jrsViewerModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="jrsViewerLabel">Full JR/S taxonomy viewer</h5>
+				<button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<div class="panel-body">
+					<div>
+						<button type="button" class="btn btn-primary btn-sm" onclick="javascript:JsonView.expandChildren(tree)">Expand all</button>
+						<button type="button" class="btn btn-primary btn-sm" onclick="javascript:JsonView.collapseChildren(tree)">Collapse all</button>
+					</div>
+					<div class="mt-2"></div>
+					<div id="root">
+						<div class="spinner-border text-primary" role="status">
+							<span class="visually-hidden">Loading...</span>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- ======= Header  ======= -->
+  <header id="header" class="header fixed-top">
+    <div
+		class="container-fluid container-xl d-flex align-items-center justify-content-between">
+
+      <a href="index.html" class="logo d-flex align-items-center">
+        <img src="assets/img/logo.png" alt="">
+        <span>WFM</span>
+      </a>
+
+      <nav id="navbar" class="navbar">
+        <ul>
+          <li><a class="nav-link scrollto " href="..">Home</a></li>
+          <li><a class="nav-link scrollto" href="..#about">About</a></li>
+          <li><a class="nav-link scrollto" href="..#try-it">Try-it</a></li>
+          <li><a class="nav-link scrollto" href="..#team">Team</a></li>
+          <li><a class="getstarted scrollto" href="swagger-ui.html">Get Started</a></li>
+        </ul>
+        <i class="bi bi-list mobile-nav-toggle"></i>
+      </nav>
+		<!-- .navbar -->
+
+    </div>
+  </header>
+<!-- End Header -->
+
+  <main id="main">
+
+    <!-- ======= Breadcrumbs ======= -->
+    <section class="breadcrumbs">
+      <div class="container">
+
+        <ol>
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="../index.html#try-it">Try-it</a></li>
+          <li>JR/S Navigator</li>
+        </ol>
+        <h2>JR/S Navigator</h2>
+
+      </div>
+    </section>
+	<!-- End Breadcrumbs -->
+
+    <!-- ======= Portfolio Details Section ======= -->
+    <section id="portfolio-details" class="portfolio-details">
+      <div class="container">
+
+        <div class="row gy-4">
+
+          <div class="col-lg-8">
+
+			<div class="container">
+
+				<div class="ss-form">
+					<form action="javascript:jrsLookup()">
+						<div class="form-group row">
+							<label for="brand" class="col-sm-3 col-form-label"><b>Brand</b></label>
+							<div class="col-sm-9">
+								<select id="brand-dropdown" name="brand" onchange="brandUpdated()" class="form-select">
+									<option selected>IBM Consulting</option>
+								</select>
+							</div>
+						</div>
+						<div class="row mt-2"></div>
+						<div class="form-group row">
+							<label for="growth-platform" class="col-sm-3 col-form-label"><b>Growth Platform</b></label>
+							<div class="col-sm-9">
+								<select id="growth-platform-dropdown" name="growth-platform"
+											onchange="growthPlatformUpdated()" class="form-select"></select>
+							</div>
+						</div>
+						<div class="row mt-2"></div>
+						<div class="form-group row">
+							<label for="service-line" class="col-sm-3 col-form-label"><b>Service Line</b></label>
+							<div class="col-sm-9">
+								<select id="service-line-dropdown" name="service-line"
+											onchange="serviceLineUpdated()" class="form-select"></select>
+							</div>
+						</div>
+						<div class="row mt-2"></div>
+						<div class="form-group row">
+							<label for="practice" class="col-sm-3 col-form-label"><b>Practice</b></label>
+							<div class="col-sm-9">
+								<select id="practice-dropdown" name="practice"
+											onchange="practiceUpdated()" class="form-select"></select>
+							</div>
+						</div>
+						<div class="row mt-2"></div>
+						<div class="form-group row">
+							<label for="service-area-text" class="col-sm-3 col-form-label"><b>Service Area</b></label>
+							<div class="col-sm-9">
+								<p id="service-area-text"></p>
+							</div>
+						</div>
+						<div class="row mt-2"></div>
+						<div class="form-group row">
+							<label for="job-role-text" class="col-sm-3 col-form-label"><b>Job Role</b></label>
+							<div class="col-sm-9">
+								<div id="job-role-text"></div>
+								<div id="id-job-role"></div>
+							</div>
+						</div>
+						<div class="form-group row">
+							<div id="job-role-table"></div>
+						</div>
+						<div class="row mt-2"></div>
+						<div class="form-group row">
+							<label for="specialty-text" class="col-sm-3 col-form-label"><b>Specialty</b></label>
+							<div class="col-sm-9">
+								<div id="specialty-text"></div>
+							</div>
+						</div>
+						<div class="form-group row">
+							<div id="specialty-table"></div>
+						</div>
+						<div class="form-group row">
+							<div class="col-sm-12">
+								<div id="msg-line" class="alert alert-danger alert-dismissible fade">
+									<button type="button" class="close" data-dismiss="alert" onclick="hideMsg()">&times;</button>
+									<span id="msg"></span>
+								</div>
+							</div>
+						</div>
+						<div class="form-group row">
+							<div class="col-sm-12">
+								<button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#id-info-modal" data-bs-content="data-integrity-framework-jrs-validator">Help</button>
+							</div>
+						</div>
+						<div class="form-group row">
+							<div class="col-sm-12">
+								<p></p>
+								<hr/>
+							</div>
+						</div>
+
+					</form>
+
+				</div>
+
+
+			</div>
+
+
+          </div>
+
+          <div class="col-lg-4">
+            <div class="portfolio-info">
+				<h3>Find</h3>
+				<form action="javascript:jrsFind()">
+					<div class="form-group row">
+						<label for="findBy" class="col-sm-1 col-form-label">By</label>
+						<div class="col-sm-11">
+							<select id="find-by-dropdown" name="find-by" class="form-select">
+								<option value="0" selected>Select search by option</option>
+								<option value="1">Growth Platform Code</option>
+								<option value="2">Growth Platform Name</option>
+								<option value="3">Service Line Code</option>
+								<option value="4">Service Line Name</option>
+								<option value="5">Practice Code</option>
+								<option value="6">Practice Name</option>
+								<option value="7">Job Role Code</option>
+								<option value="8">Job Role Name</option>
+								<option value="9">Specialty Code</option>
+								<option value="10">Specialty Name</option>
+								<option value="11">Job Role - Specialty Code</option>
+							</select>
+						</div>
+					</div>
+					<div class="row mt-2"></div>
+					<div class="form-group row">
+						<div class="col-sm-12">
+							<div class="input-group">
+								<input id="find-text" type="text" class="form-control"
+											name="find-text" placeholder="find...">
+							</div>
+						</div>
+					</div>
+					<div class="row mt-2"></div>
+					<div class="form-group row">
+						<div class="col-sm-12">
+							<button type="submit" class="btn btn-primary">Find</button>
+						</div>
+					</div>
+				</form>
+            </div>
+            <div class="portfolio-description">
+				<h2>Full JR/S taxonomy viewer</h2>
+				<div>
+					<p>The full job role specialty taxonomy viewer loads the complete JR/S taxonomy and allows the user to navigate it.</p>
+					<!-- Button trigger modal -->
+					<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#jrsViewerModal">
+						Launch viewer...
+					</button>
+				</div>
+
+            </div>
+          </div>
+
+        </div>
+
+        <div class="row gy-12">
+      			<div class="panel panel-primary" id="api_panel">
+				<div class="panel-heading">
+					<h3 class="panel-title">API Execution List</h3>
+				</div>
+				<div class="panel-body">
+					<ul class="list-group" id="id_api_list">
+
+					</ul>
+				</div>
+			</div>
+		</div>
+      
+      </div>
+    </section>
+	<!-- End Portfolio Details Section -->
+
+  </main>
+<!-- End #main -->
+
+	<!-- ======= Footer ======= -->
+	<footer id="footer" class="footer">
+
+
+		<div class="footer-top">
+			<div class="container">
+				<div class="row gy-4">
+					<div class="col-lg-5 col-md-12 footer-info">
+						<a href="index.html" class="logo d-flex align-items-center"> <img src="assets/img/logo.png" alt=""> <span>WFM</span>
+						</a>
+						<p>Empower profitable growth through cognitive workforce management capabilities to anticipate client needs,
+							delivering the right skills at the right time yielding business outcomes that matter to our clients, our
+							employees, and our company.</p>
+						<div class="social-links mt-3">
+							<a href="#" class="linkedin"><i class="bi bi-linkedin bx bxl-linkedin"></i></a> <a href="#" class="twitter"><i
+								class="bi bi-twitter"></i></a> <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
+						</div>
+					</div>
+
+					<div class="col-lg-2 col-6 footer-links">
+						<h4>Useful Links</h4>
+						<ul>
+							<li><i class="bi bi-chevron-right"></i> <a
+								href="https://w3.ibm.com/w3publisher/ibm-services-workforce-management">WFM Home</a></li>
+							<li><i class="bi bi-chevron-right"></i> <a href="index.html#about">About us</a></li>
+							<li><i class="bi bi-chevron-right"></i> <a href="index.html#services">Services</a></li>
+							<li><i class="bi bi-chevron-right"></i> <a href="https://w3.ibm.com">Terms of service</a></li>
+							<li><i class="bi bi-chevron-right"></i> <a href="https://w3.ibm.com/w3publisher/w3-privacy-notice/ibm-internal-privacy-statement-us-en">Privacy
+									policy</a></li>
+						</ul>
+					</div>
+
+					<div class="col-lg-2 col-6 footer-links">
+						<h4>Our Services</h4>
+						<ul>
+							<li><i class="bi bi-chevron-right"></i> <a href="#">tbd</a></li>
+
+						</ul>
+					</div>
+
+					<div class="col-lg-3 col-md-12 footer-contact text-center text-md-start">
+						<h4>Contact Us</h4>
+						<p>
+							<b>Steven J Ponessa</b> <br> Mount Pleasant, SC, United States <br> <strong>Phone:</strong> +1
+							845-699-5617 <br> <strong>Email:</strong> <a href="mailto:ponessa@us.ibm.com">ponessa@us.ibm.com</a>
+						</p>
+						<p>
+							<b>Mani Shahidsales</b> <br> Blue Bell, PA, United States <br> <strong>Phone:</strong> +1 845-699-5617
+							<br> <strong>Email:</strong> <a href="mailto:mshahids@us.ibm.com">mshahids@us.ibm.com</a>
+						</p>
+
+					</div>
+
+				</div>
+			</div>
+		</div>
+
+		<div class="container">
+			<div class="copyright">
+				&copy; Copyright <strong><span>IBM</span></strong>. All Rights Reserved
+			</div>
+			<div class="credits">
+				<!-- All the links in the footer should remain intact. -->
+				<!-- You can delete the links only if you purchased the pro version. -->
+				<!-- Licensing information: https://bootstrapmade.com/license/ -->
+				<!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/flexstart-bootstrap-startup-template/ -->
+				Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+			</div>
+		</div>
+	</footer>
+	<!-- End Footer -->
+
+
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+  <!-- Vendor JS Files -->
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.js"></script>
+  <script src="assets/vendor/aos/aos.js"></script>
+  <script src="assets/vendor/php-email-form/validate.js"></script>
+  <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
+  <script src="assets/vendor/purecounter/purecounter.js"></script>
+  <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+  <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
+
+  <!-- Template Main JS File -->
+  <script src="assets/js/main.js"></script>
+  <script src="assets/js/jsonview.bundle.js"></script>
+
+</body>
+</html>

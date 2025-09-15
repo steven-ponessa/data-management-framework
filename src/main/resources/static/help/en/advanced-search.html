@@ -1,0 +1,84 @@
+<p>In the basic search, users can filter through node values and select nodes that meet the filter criteria. With the Advance search users can build very granular searches 
+ of arbitrary complexity.  Users may specify specifics about the term being searched, such as should the exact term only be searched, or should the search consider 
+ &quot;contained in&quot;, &quot;begins with&quot;, and/or &quot;ends with&quot;. Terms may also be ANDed (&amp;) and ORed (|) together and grouped with parathesis.</p>
+
+ <h3>Symbols</h3>
+ <ul>
+ 	<li><b>^</b> - the match must start at the beginning of the string</li>
+ 	<li><b>$</b> - the match must occur at the end of the string</li>
+ 	<li><b>~</b> - Word boundary - Starts and/or ends a word. The match must occur on a boundary between an alphanumeric and a nonalphanumeric 
+ 	(e.g., blank/whitespace) character.</li>
+ 	<li><b>&quot;&quot;</b> or <b>&apos;&apos;</b> - wrap multiple text strings<br/><br/></li>
+ 	<li><b>&amp;</b> - AND operator</li>
+ 	<li><b>|</b> - OR operator
+ 	<li><b>()</b> - grouping constructs delineating sub conditions of an expression, e.g., ((this | that) &amp; (&apos;something else&apos;))</li>
+ </ul>
+ 
+<hr/>
+
+<h5>Examples</h5>
+
+<p>The table below shows some examples of advanced search criteria and what each would return.</p> 
+ 
+<table class="table table-striped table-hover"> 
+<thead class="table-dark">
+	<tr>
+		<th>Expression</th>
+		<th>Meaning</th>
+		<th>Examples Found</th>
+		<th>Examples NOT Found</th>
+	</tr>
+</thead>
+<tbody>
+	<tr>
+		<td><em>microservice</em></td>
+		<td>Containing <em>microservice</em></td>
+		<td><em>microservice</em>, <em>microservices</em>, <em>MyMicroservice</em>, &quot;<em>Any text microservice</em>&quot;, &quot;<em>Any text microservices</em>&quot;</td>
+		<td><em>Microserv</em></td>
+	</tr>
+	<tr>
+		<td><em>~microservice~</em></td>
+		<td>Exact term <em>microservice</em></td>
+		<td><em>microservice</em>, &quot;<em>Any text microservice</em>&quot;</td>
+		<td><em>microservices</em>, <em>MyMicroservice</em>, &quot;<em>Any text microservice</em>&quot;</td>
+	</tr>
+	<tr>
+		<td><em>^microservice</em></td>
+		<td>Node begins with <em>microservice</em></td>
+		<td><em>microservice</em>, <em>microservices</em></td>
+		<td><em>MyMicroservice</em>, &quot;<em>Any text microservice</em>&quot;, &quot;<em>Any text microservices</em>&quot;</td>
+	</tr>
+	<tr>
+		<td><em>^microservice$</em></td>
+		<td>Exact string <em>microservice</em></td>
+		<td><em>microservice</em> ONLY</td>
+		<td><em>microservices</em>,  <em>MyMicroservice</em>, &quot;<em>Any text microservice</em>&quot;</td>
+	</tr>
+	<tr>
+		<td><em>blockchain | serviceNow</em></td>
+		<td>Containing <em>blockchain</em> or <em>ServiceNow</em></td>
+		<td><em>Blockchain</em>, <em>ServiceNow</em>, <em>MyBlockchain</em>, &quot;<em>Application Architect-ServiceNow</em>&quot;</td>
+		<td><em>Blocknow-Service</em></td>
+	</tr>
+	<tr>
+		<td><em>~blockchain~ | ~serviceNow~</em></td>
+		<td>Exact terms <em>blockchain</em> or <em>ServiceNow</em></td>
+		<td><em>Blockchain</em>, <em>ServiceNow</em>, &quot;<em>Application Architect-ServiceNow</em>&quot;</td>
+		<td><em>MyBlockchain</em>, <em>Blocknow-Service</em></td>
+	</tr>
+	<tr>
+		<td><em>~blockchain~ | ^ServiceNow~</em></td>
+		<td>Exact term <em>blockchain</em> or begins with <em>ServiceNow</em></td>
+		<td><em>Blockchain</em>, <em>ServiceNow</em></td>
+		<td><em>MyBlockchain</em>, <em>Blocknow-Service</em>, &quot;<em>Application Architect-ServiceNow</em>&quot;</td>
+	</tr>
+	<tr>
+		<td><em>(~blockchain~ | "~sap hana~") & architect</em></td>
+		<td>Exact terms <em>blockchain</em> or <em>ServiceNow</em> and contains <em>architect</em></td>
+		<td><em>Application Architect-Blockchain</em>, <em>Application Architect-SAP HANA Analytics</em></td>
+		<td><em>Package Consultant-SAP HANA BPC</em>, <em>Project Manager-Blockchain</em></td>
+	</tr>
+	
+</tbody>
+ </table> 
+ 
