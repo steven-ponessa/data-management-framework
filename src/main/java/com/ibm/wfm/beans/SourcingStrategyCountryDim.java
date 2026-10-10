@@ -5,6 +5,7 @@ import java.sql.Timestamp;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import com.ibm.wfm.annotations.DbTable;
+import com.ibm.wfm.annotations.ExcelSheet;
 import com.ibm.wfm.annotations.DbColumn;
 
 import com.ibm.wfm.utils.Helpers;
@@ -25,7 +26,11 @@ public class SourcingStrategyCountryDim {
 	private String     ctryIsoCd;
 	@DbColumn(columnName="CTRY_CD")
 	private String     ctryCd;
-	@DbColumn(columnName="JRS_CD",keySeq=6)
+	
+	@DbColumn(columnName="BAND_CAT_NM",keySeq=6)
+	private String     bandCatNm;
+	
+	@DbColumn(columnName="JRS_CD",keySeq=7)
 	private String     jrsCd;
 	@DbColumn(columnName="GEO_TYP_NM")
 	private String     geoTypNm;
@@ -39,10 +44,12 @@ public class SourcingStrategyCountryDim {
 	private String     ctryNm;
 	@DbColumn(columnName="JRS_NM")
 	private String     jrsNm;
-	@DbColumn(columnName="LONGEVITY_NM")
-	private String     longevityNm;
-	@DbColumn(columnName="SKILL_VALUE_NM")
-	private String     skillValueNm;
+	
+	@DbColumn(columnName="MSI_NM")
+	private String     msiNm;
+	@DbColumn(columnName="ADS_NM")	
+	private String     adsNm;
+	
 	@DbColumn(columnName="SRC_STRGY_CD")
 	private String     srcStrgyCd;
 	@DbColumn(columnName="SRC_STRGY_NM")
@@ -70,6 +77,7 @@ public class SourcingStrategyCountryDim {
     , String     mrktCd
     , String     mrktRgnCd
     , String     ctryIsoCd
+    , String     bandCatNm
     , String     jrsCd
 	) {
 		this.geoTypCd                       = geoTypCd;
@@ -77,6 +85,7 @@ public class SourcingStrategyCountryDim {
 		this.mrktCd                         = mrktCd;
 		this.mrktRgnCd                      = mrktRgnCd;
 		this.ctryIsoCd                      = ctryIsoCd;
+		this.bandCatNm                      = bandCatNm;
 		this.jrsCd                          = jrsCd;
 		
 	}
@@ -89,6 +98,7 @@ public class SourcingStrategyCountryDim {
     , String     mrktRgnCd
     , String     ctryIsoCd
     , String     ctryCd
+    , String     bandCatNm
     , String     jrsCd
     , String     geoTypNm
     , String     geoNm
@@ -96,8 +106,8 @@ public class SourcingStrategyCountryDim {
     , String     mrktRgnNm
     , String     ctryNm
     , String     jrsNm
-    , String     longevityNm
-    , String     skillValueNm
+    , String     msiNm
+    , String     adsNm
     , String     srcStrgyCd
     , String     srcStrgyNm
     , String     srcTypNm
@@ -115,8 +125,8 @@ public class SourcingStrategyCountryDim {
 		this.mrktRgnNm                      = mrktRgnNm;
 		this.ctryNm                         = ctryNm;
 		this.jrsNm                          = jrsNm;
-		this.longevityNm                    = longevityNm;
-		this.skillValueNm                   = skillValueNm;
+		this.msiNm                    = msiNm;
+		this.adsNm                   = adsNm;
 		this.srcStrgyCd                     = srcStrgyCd;
 		this.srcStrgyNm                     = srcStrgyNm;
 		this.srcTypNm                       = srcTypNm;
@@ -139,8 +149,8 @@ public class SourcingStrategyCountryDim {
 		, String     mrktRgnNm
 		, String     ctryNm
 		, String     jrsNm
-		, String     longevityNm
-		, String     skillValueNm
+		, String     msiNm
+		, String     adsNm
 		, String     srcStrgyCd
 		, String     srcStrgyNm
 		, String     srcTypNm
@@ -159,8 +169,8 @@ public class SourcingStrategyCountryDim {
 		this.mrktRgnNm                      = mrktRgnNm;
 		this.ctryNm                         = ctryNm;
 		this.jrsNm                          = jrsNm;
-		this.longevityNm                    = longevityNm;
-		this.skillValueNm                   = skillValueNm;
+		this.msiNm                    = msiNm;
+		this.adsNm                   = adsNm;
 		this.srcStrgyCd                     = srcStrgyCd;
 		this.srcStrgyNm                     = srcStrgyNm;
 		this.srcTypNm                       = srcTypNm;
@@ -201,8 +211,8 @@ public class SourcingStrategyCountryDim {
         + "," + Helpers.formatCsvField(String.valueOf(this.mrktRgnNm))
         + "," + Helpers.formatCsvField(String.valueOf(this.ctryNm))
         + "," + Helpers.formatCsvField(String.valueOf(this.jrsNm))
-        + "," + Helpers.formatCsvField(String.valueOf(this.longevityNm))
-        + "," + Helpers.formatCsvField(String.valueOf(this.skillValueNm))
+        + "," + Helpers.formatCsvField(String.valueOf(this.msiNm))
+        + "," + Helpers.formatCsvField(String.valueOf(this.adsNm))
         + "," + Helpers.formatCsvField(String.valueOf(this.srcStrgyCd))
         + "," + Helpers.formatCsvField(String.valueOf(this.srcStrgyNm))
         + "," + Helpers.formatCsvField(String.valueOf(this.srcTypNm))
@@ -317,17 +327,17 @@ public class SourcingStrategyCountryDim {
 	public void setJrsNm(String jrsNm) {
 		this.jrsNm = jrsNm;
 	}
-	public String getLongevityNm() {
-		return longevityNm;
+	public String getMsiNm() {
+		return msiNm;
 	}
-	public void setLongevityNm(String longevityNm) {
-		this.longevityNm = longevityNm;
+	public void setMsiNm(String msiNm) {
+		this.msiNm = msiNm;
 	}
-	public String getSkillValueNm() {
-		return skillValueNm;
+	public String getAdsNm() {
+		return adsNm;
 	}
-	public void setSkillValueNm(String skillValueNm) {
-		this.skillValueNm = skillValueNm;
+	public void setAdsNm(String adsNm) {
+		this.adsNm = adsNm;
 	}
 	public String getSrcStrgyCd() {
 		return srcStrgyCd;
@@ -364,5 +374,13 @@ public class SourcingStrategyCountryDim {
 	}
 	public void setRowStatusCd(String rowStatusCd) {
 		this.rowStatusCd = rowStatusCd;
+	}
+
+	public String getBandCatNm() {
+		return bandCatNm;
+	}
+
+	public void setBandCatNm(String bandCatNm) {
+		this.bandCatNm = bandCatNm;
 	}
 }

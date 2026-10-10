@@ -12,7 +12,8 @@ import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.web.client.RestTemplate;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.json.JsonMapper;
 
 
 public class ApiHelpers {
@@ -82,7 +83,7 @@ public class ApiHelpers {
 			//JsonObject jsonObject = new JsonParser().parse((String)myObject.getBody()).getAsJsonObject();
 			
 			//create ObjectMapper instance
-			ObjectMapper objectMapper = new ObjectMapper();
+			ObjectMapper objectMapper = JsonMapper.builder().build();
 
 			try {
 				//read JSON like DOM Parser
@@ -120,7 +121,7 @@ public class ApiHelpers {
 				//LinkedHashMap attributes = (LinkedHashMap)((ArrayList)entries.get(0)).get(1);
 				System.out.println("Debug here");
 			}
-			catch (Exception e) { //JsonProcessingException e) {
+			catch (Exception e) { //JacksonException e) {
 				System.out.println("Error ("+member+", "+e.getMessage());
 				e.printStackTrace();
 			}

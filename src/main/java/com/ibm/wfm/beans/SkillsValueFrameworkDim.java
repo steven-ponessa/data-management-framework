@@ -13,7 +13,7 @@ import com.ibm.wfm.utils.Helpers;
 @DbTable(beanName="SkillsValueFrameworkDim",baseTableName="REFT.SKILLS_VALUE_FRAMEWORK")
 public class SkillsValueFrameworkDim extends NaryTreeNode {
 	@DbColumn(columnName="ESVF_ID",isId=true,keySeq=1)
-	private int        esvfId;
+	private String        esvfId;
 	@DbColumn(columnName="GEOGRAPHY_TYPE_NM")
 	@ExcelSheet(columnName="Geography Type",columnNum=0)	
 	private String     geographyTypeNm;
@@ -30,29 +30,47 @@ public class SkillsValueFrameworkDim extends NaryTreeNode {
 	@ExcelSheet(columnName="Country",columnNum=4)	
 	private String     countryNm;
 	@DbColumn(columnName="GROWTH_PLATFORM_NM")
-	@ExcelSheet(columnName="Growth Platform",columnNum=5)	
+	@ExcelSheet(columnName="JR/S Growth Platform",columnNum=5)	
 	private String     growthPlatformNm;
 	@DbColumn(columnName="SERVICE_LINE_NM")
-	@ExcelSheet(columnName="Service Line",columnNum=6)	
+	@ExcelSheet(columnName="JR/S Service Line",columnNum=6)	
 	private String     serviceLineNm;
 	@DbColumn(columnName="PRACTICE_NM")
-	@ExcelSheet(columnName="Practice",columnNum=7)	
+	@ExcelSheet(columnName="JR/S Practice",columnNum=7)	
 	private String     practiceNm;
 	@DbColumn(columnName="JRS_NM")
-	@ExcelSheet(columnName="JRS",columnNum=8)	
+	@ExcelSheet(columnName="JR/S",columnNum=8)	
 	private String     jrsNm;
 	@DbColumn(columnName="JRS_ID")
-	@ExcelSheet(columnName="JRS ID",columnNum=9)	
+	@ExcelSheet(columnName="JR/S ID",columnNum=9)	
 	private String     jrsId;
-	@DbColumn(columnName="LONGEVITY_NM")
-	@ExcelSheet(columnName="Longevity",columnNum=11)	
-	private String     longevityNm;
-	@DbColumn(columnName="SVF_NM")
-	@ExcelSheet(columnName="SVF Final Value",columnNum=12)	
-	private String     svfNm;
+	
+	@DbColumn(columnName="MSI_NM")
+	@ExcelSheet(columnName="MSI",columnNum=11)	
+	private String     msiNm;
+	@DbColumn(columnName="BAND_CAT_NM")
+	@ExcelSheet(columnName="Band Category",columnNum=12)	
+	private String     bandCatNm;
+	@DbColumn(columnName="ADS_NM")
+	@ExcelSheet(columnName="Anticipated Demand for Skills",columnNum=13)	
+	private String     adsNm;	
+
 	@DbColumn(columnName="SOURCING_STRATEGY_NM")
-	@ExcelSheet(columnName="Sourcing Strategy",columnNum=13)	
+	@ExcelSheet(columnName="Sourcing Strategy",columnNum=14)	
 	private String     sourcingStrategyNm;
+	
+	@DbColumn(columnName="APRVL_CD")
+	@ExcelSheet(columnName="Approval Code",columnNum=15)	
+	private String     aprvlCd;
+	
+	@DbColumn(columnName="INTRANET_ID")
+	@ExcelSheet(columnName="Intranet Id",columnNum=16)	
+	private String     intranetId;
+	
+	@DbColumn(columnName="EXCEPT_CD")
+	@ExcelSheet(columnName="Exception Code",columnNum=16)	
+	private int     exceptCd;	
+	
 	@DbColumn(columnName ="EFF_TMS",isScd=true) 
 	@JsonFormat(pattern="yyyy-MM-dd-HH.mm.ss.SSS",timezone="GMT-04:00")
 	private Timestamp effTms;
@@ -69,7 +87,7 @@ public class SkillsValueFrameworkDim extends NaryTreeNode {
 	
 	// Define natural key constructor
 	public SkillsValueFrameworkDim (
-      int        esvfId
+      String        esvfId
 	) {
 		this.esvfId                         = esvfId;
 		
@@ -87,8 +105,9 @@ public class SkillsValueFrameworkDim extends NaryTreeNode {
     , String     practiceNm
     , String     jrsNm
     , String     jrsId
-    , String     longevityNm
-    , String     svfNm
+    , String     msiNm
+    , String     bandCatNm
+    , String     adsNm
     , String     sourcingStrategyNm
 	) {
 		this.geographyTypeNm                = geographyTypeNm;
@@ -101,15 +120,15 @@ public class SkillsValueFrameworkDim extends NaryTreeNode {
 		this.practiceNm                     = practiceNm;
 		this.jrsNm                          = jrsNm;
 		this.jrsId                          = jrsId;
-		this.longevityNm                    = longevityNm;
-		this.svfNm                          = svfNm;
+		this.bandCatNm                      = bandCatNm;
+		this.msiNm                          = msiNm;
+		this.adsNm                          = adsNm;
 		this.sourcingStrategyNm             = sourcingStrategyNm;
-		
 	}
     
 	// Define full constructor
 	public SkillsValueFrameworkDim (
-		  int        esvfId
+		  String     esvfId
 		, String     geographyTypeNm
 		, String     geographyNm
 		, String     marketNm
@@ -120,9 +139,13 @@ public class SkillsValueFrameworkDim extends NaryTreeNode {
 		, String     practiceNm
 		, String     jrsNm
 		, String     jrsId
-		, String     longevityNm
-		, String     svfNm
+		, String     msiNm
+		, String     bandCatNm
+		, String     adsNm
 		, String     sourcingStrategyNm
+		, String     aprvlCd
+		, String     intranetId
+		, int        exceptCd
 	) {
 		this.esvfId                         = esvfId;
 		this.geographyTypeNm                = geographyTypeNm;
@@ -135,10 +158,13 @@ public class SkillsValueFrameworkDim extends NaryTreeNode {
 		this.practiceNm                     = practiceNm;
 		this.jrsNm                          = jrsNm;
 		this.jrsId                          = jrsId;
-		this.longevityNm                    = longevityNm;
-		this.svfNm                          = svfNm;
+		this.bandCatNm                      = bandCatNm;
+		this.msiNm                          = msiNm;
+		this.adsNm                          = adsNm;
 		this.sourcingStrategyNm             = sourcingStrategyNm;
-		
+		this.aprvlCd                        = aprvlCd;
+		this.intranetId                     = intranetId;
+		this.exceptCd                       = exceptCd;
 	}
 	
 	@Override
@@ -160,6 +186,10 @@ public class SkillsValueFrameworkDim extends NaryTreeNode {
 		if (
             this.geographyTypeNm.equals(other.getGeographyTypeNm())
          && this.geographyNm.equals(other.getGeographyNm())
+         && this.marketNm.equals(other.getMarketNm())
+         && this.marketRegionNm==null?other.getMarketRegionNm()==null:this.marketRegionNm.equals(other.getMarketRegionNm())
+         && this.countryNm.equals(other.getCountryNm())
+         && this.bandCatNm.equals(other.getBandCatNm())
 		) return true;
 		return false;
 	}	
@@ -175,9 +205,10 @@ public class SkillsValueFrameworkDim extends NaryTreeNode {
         + "," + Helpers.formatCsvField(String.valueOf(this.serviceLineNm))
         + "," + Helpers.formatCsvField(String.valueOf(this.practiceNm))
         + "," + Helpers.formatCsvField(String.valueOf(this.jrsNm))
-        + "," + Helpers.formatCsvField(String.valueOf(this.jrsId))
-        + "," + Helpers.formatCsvField(String.valueOf(this.longevityNm))
-        + "," + Helpers.formatCsvField(String.valueOf(this.svfNm))
+        + "," + Helpers.formatCsvField(String.valueOf(this.jrsId)) 
+        + "," + Helpers.formatCsvField(String.valueOf(this.msiNm))
+        + "," + Helpers.formatCsvField(String.valueOf(this.bandCatNm))
+        + "," + Helpers.formatCsvField(String.valueOf(this.adsNm))
         + "," + Helpers.formatCsvField(String.valueOf(this.sourcingStrategyNm))
 		;
 	}
@@ -194,20 +225,22 @@ public class SkillsValueFrameworkDim extends NaryTreeNode {
         + "," + Helpers.formatCsvField("PRACTICE_NM")
         + "," + Helpers.formatCsvField("JRS_NM")
         + "," + Helpers.formatCsvField("JRS_ID")
-        + "," + Helpers.formatCsvField("LONGEVITY_NM")
+        + "," + Helpers.formatCsvField("MSI_NM")
+        + "," + Helpers.formatCsvField("BAND_CAT_NM")
+        + "," + Helpers.formatCsvField("ADS_NM")
         + "," + Helpers.formatCsvField("SVF_NM")
         + "," + Helpers.formatCsvField("SOURCING_STRATEGY_NM")
 		;
 	}
     
 	// Define Getters and Setters
-	public int getEsvfId() {
+	public String getEsvfId() {
 		return esvfId;
 	}
-	public int getId() {
+	public String getId() {
 		return esvfId;
 	}
-	public void setEsvfId(int esvfId) {
+	public void setEsvfId(String esvfId) {
 		this.esvfId = esvfId;
 	}
 	public String getGeographyTypeNm() {
@@ -270,17 +303,17 @@ public class SkillsValueFrameworkDim extends NaryTreeNode {
 	public void setJrsId(String jrsId) {
 		this.jrsId = jrsId;
 	}
-	public String getLongevityNm() {
-		return longevityNm;
+	public String getMsiNm() {
+		return msiNm;
 	}
-	public void setLongevityNm(String longevityNm) {
-		this.longevityNm = longevityNm;
+	public void setMsiNm(String msiNm) {
+		this.msiNm = msiNm;
 	}
-	public String getSvfNm() {
-		return svfNm;
+	public String getAdsNm() {
+		return adsNm;
 	}
-	public void setSvfNm(String svfNm) {
-		this.svfNm = svfNm;
+	public void setAdsNm(String adsNm) {
+		this.adsNm = adsNm;
 	}
 	public String getSourcingStrategyNm() {
 		return sourcingStrategyNm;
@@ -305,5 +338,35 @@ public class SkillsValueFrameworkDim extends NaryTreeNode {
 	}
 	public void setRowStatusCd(String rowStatusCd) {
 		this.rowStatusCd = rowStatusCd;
+	}
+	public String getBandCatNm() {
+		return bandCatNm;
+	}
+	public void setBandCatNm(String bandCatNm) {
+		this.bandCatNm = bandCatNm;
+	}
+
+	public String getAprvlCd() {
+		return aprvlCd;
+	}
+
+	public void setAprvlCd(String aprvlCd) {
+		this.aprvlCd = aprvlCd;
+	}
+
+	public String getIntranetId() {
+		return intranetId;
+	}
+
+	public void setIntranetId(String intranetId) {
+		this.intranetId = intranetId;
+	}
+
+	public int getExceptCd() {
+		return exceptCd;
+	}
+
+	public void setExceptCd(int exceptCd) {
+		this.exceptCd = exceptCd;
 	}
 }

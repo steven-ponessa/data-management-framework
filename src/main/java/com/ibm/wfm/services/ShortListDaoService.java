@@ -15,18 +15,12 @@ import com.ibm.wfm.utils.DataMarshaller;
 
 @Component
 public class ShortListDaoService extends AbstractDaoService {
-
-	private Class t = GbsShortListDim.class;
-	private String tableNm = "REFT.GBS_SHORT_LIST_DIM_V";
-	private String scdTableNm = "REFT.GBS_SHORT_LIST_SCD_V";
 	
 	@Autowired
 	private BridgeDatasourceProperties bridgeProp;
 	
 	public ShortListDaoService() {
-		super.setT(t);
-		super.setTableNm(tableNm);
-		super.setScdTableNm(scdTableNm);
+
 	}
 
 	@Override

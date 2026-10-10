@@ -1,0 +1,32 @@
+[
+	{
+	    "code": "10DOM",
+	    "fullKey": null,
+	    "description": "Domestic",
+	    "level": 1,
+	    "children": null,
+	    "geographyTypeId": 10000,
+	    "geographyTypeCd": "10DOM",
+	    "geographyTypeNm": "Domestic"
+	},
+	{
+	    "code": "10GIC",
+	    "fullKey": null,
+	    "description": "Domestic",
+	    "level": 1,
+	    "children": null,
+	    "geographyTypeId": 10001,
+	    "geographyTypeCd": "10GIC",
+	    "geographyTypeNm": "Globally Integrated Capabilities"
+	},
+	{
+	    "code": "10BPO",
+	    "fullKey": null,
+	    "description": "Domestic",
+	    "level": 1,
+	    "children": null,
+	    "geographyTypeId": 10002,
+	    "geographyTypeCd": "10BPO",
+	    "geographyTypeNm": "BPO Delivery"
+	}
+]

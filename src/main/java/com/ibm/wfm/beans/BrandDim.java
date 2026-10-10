@@ -1,13 +1,12 @@
 package com.ibm.wfm.beans;
 
-
 import java.sql.Timestamp;
 
 import org.springframework.stereotype.Repository;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.ibm.wfm.annotations.DbTable;
 import com.ibm.wfm.annotations.DbColumn;
+import com.ibm.wfm.annotations.DbTable;
 import com.ibm.wfm.utils.Helpers;
 
 @Repository
@@ -172,4 +171,5 @@ public class BrandDim extends NaryTreeNode implements Comparable<BrandDim> {
 				+ brandDesc + ", lgcyBrandCd=" + lgcyBrandCd + ", effTms=" + effTms + ", expirTms=" + expirTms
 				+ ", rowStatusCd=" + rowStatusCd + "]";
 	}
+
 }

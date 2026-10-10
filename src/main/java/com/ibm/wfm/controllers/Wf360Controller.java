@@ -34,8 +34,8 @@ public class Wf360Controller {
 	@GetMapping("/wf360/future-skills")
 	public List<FutureSkillsDim> retrieveAllFutureSkills() {
 		int resultSetSize=0; //return all
-		//                           findAll(Map<String, Object> pathVarMap, String filters, boolean includePit, String pit, int size, String orderByCols, boolean edsOnly)   
-		return futureSkillDaoService.findAll(null                          ,""             ,false              ,null       ,-1, resultSetSize,null           , false);
+		//                           findAll(Class<T> type, Map<String, Object> pathVarMap, String filters, boolean includePit, String pit, int size, String orderByCols, boolean edsOnly, Integer orgMask)   
+		return futureSkillDaoService.findAll(null         , null                          ,""             ,false              ,null       ,-1, resultSetSize,null           , false, null);
 	}
 	
 	@Operation(summary = "Get all Future Skills as CSV", responses = {
@@ -44,33 +44,15 @@ public class Wf360Controller {
 	@GetMapping(value="/wf360/future-skills/csv",produces="text/csv")
 	public void toCsvAllFutureSkills(HttpServletResponse response) throws IOException {
 		response.setContentType("text/csv; charset=utf-8");
-		List<FutureSkill> futureSkills = futureSkillDaoService.findAll();
+		List<FutureSkill> futureSkills = futureSkillDaoService.findAll(null);
 		DataMarshaller.writeCsv2PrintWriter(FutureSkill.class, response.getWriter(), futureSkills);
 		return;
 	}
-	
-	/*
-	
-	@GetMapping("/wf360/etl/future-skills")
-	public int etlFutureSkills() {
-		List<FutureSkill> futureSkills = futureSkillDaoService.findAll();
-		return futureSkillDaoService.insertAll(futureSkills);
-		//return null;
-	}
-	*/
 	
 	@GetMapping("/wf360/certifications")
 	public List<Certification> retrieveAllCertifications() throws IOException {
 		return certificationDaoService.findAll();
 	}
-	
-	/*
-	@GetMapping("/wf360/idl/certifications")
-	public int idlCertifications() {
-		List<Certification> certifications = certificationDaoService.findAll();
-		return certificationDaoService.insertAll(certifications);
-	}
-	*/
 	
 	@DeleteMapping("/wf360/certifications")
 	public int deleteCertifications() {

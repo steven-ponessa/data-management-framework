@@ -15,11 +15,11 @@ import org.json.JSONObject;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
+import tools.jackson.core.JacksonException;
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.node.ArrayNode;
+import tools.jackson.databind.node.ObjectNode;
 import com.ibm.wfm.beans.JsonNaryTreeNode;
 import com.ibm.wfm.beans.NaryTreeNode;
 
@@ -76,7 +76,7 @@ public class Tester {
 			
 			List<JsonNaryTreeNode> nodes = new ArrayList<>();
 			//Create a list of objects from the row.
-			for (Iterator<String> iter = jsonNode.fieldNames(); iter.hasNext();) {
+			for (Iterator<String> iter = jsonNode.propertyNames().iterator(); iter.hasNext();) {
 				String fieldNm = iter.next();
 				JsonNode value = jsonNode.get(fieldNm);
 				
@@ -140,19 +140,19 @@ public class Tester {
 		list.forEach(item -> {			
 			ObjectNode objectNode = (ObjectNode)item;
 			
-			for (Iterator<String> iter = objectNode.fieldNames(); iter.hasNext();) {
+			for (Iterator<String> iter = objectNode.propertyNames().iterator(); iter.hasNext();) {
 				String fieldNm = iter.next();
 				JsonNode value = objectNode.get(fieldNm);
 				
 				int keyPos = isKey(fieldNm,keys);
 				if (keyPos>=0) {
 					//Check if node for the key has been created
-					if (!value.asText().equals(currentKey[keyPos])) {
-						JsonNaryTreeNode node = new JsonNaryTreeNode(value.asText().trim(),null, keyPos);
+					if (!value.asString().equals(currentKey[keyPos])) {
+						JsonNaryTreeNode node = new JsonNaryTreeNode(value.asString().trim(),null, keyPos);
 						//root.addAttribute("X", "Y");
 					}
 				}
-				System.out.println(fieldNm + ":"+value.asText());
+				System.out.println(fieldNm + ":"+value.asString());
 			}
 			
 		});

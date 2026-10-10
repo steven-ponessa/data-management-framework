@@ -95,8 +95,8 @@ public class IhubMrdDaoController {
 	 * @throws ClassNotFoundException
 	 * @throws IOException
 	 */
-	@GetMapping(path = { "/ihub-mrd/brands", "/ihub-mrd/brands/{brand-cd}" }, produces = {
-			"application/json", "application/xml" })
+	@GetMapping(path = { "/ihub-mrd/brands", "/ihub-mrd/brands/{brand-cd}" }, 
+			produces = MediaType.APPLICATION_JSON_VALUE)
 	public <T> ResponseEntity<Object> retrieveAllBrandByCode(
 			@PathVariable(name = "brand-cd", required = false) String brandCd,
 			@RequestParam(defaultValue = "") @Parameter(description = "Add filter in format of a SQL WHERE clause.") String filters,
@@ -159,34 +159,6 @@ public class IhubMrdDaoController {
 		return ihubMrdDaoService.etl(BrandDim.class, oldFile, newFile, keyLength, outputFileName);
 	}
 
-	/*
-	 * @GetMapping(path="/eds/growth-platforms",produces = { "application/json",
-	 * "application/xml"}) public <T> List<T> retrieveAllGrowthPlatformsTaxCsv(
-	 * 
-	 * @RequestParam(defaultValue = "") @Parameter(description =
-	 * "Add filter in format of a SQL WHERE clause.") String filters
-	 * , @RequestParam(required=false, defaultValue="false") @Parameter(description =
-	 * "Include parent nodes?") boolean includeParentage
-	 * , @RequestParam(required=false, defaultValue="false") @Parameter(description =
-	 * "Include Point in Time data?") boolean includePit
-	 * , @RequestParam(required=false, defaultValue="") @Parameter(description =
-	 * "Specific Point in Time (format: yyyy-MM-dd-hh.mm.ss.sssssss, example = 2021-06-28-00.00.00.0)"
-	 * ) String pit , @RequestParam(defaultValue = "All") @Parameter(description =
-	 * "Size of the results, use ‘ALL’ to get all data.") String resultSetMaxSize )
-	 * throws SQLException, ClassNotFoundException, IOException {
-	 * ihubMrdDaoService.setT(GrowthPlatformDim.class);
-	 * ihubMrdDaoService.setTableNm("REFT.GROWTH_PLATFORM_DIM_V");
-	 * ihubMrdDaoService.setScdTableNm("REFT.GROWTH_PLATFORM_SCD_V");
-	 * 
-	 * boolean useScd = false; if (includePit==true || (pit!=null &&
-	 * pit.trim().length()>0)) useScd = true; int size = -1; if
-	 * (!resultSetMaxSize.equalsIgnoreCase("all")) size =
-	 * Integer.parseInt(resultSetMaxSize);
-	 * 
-	 * if (includeParentage) return ihubMrdDaoService.findAllTax(filters, null, size,
-	 * false); else { if (!useScd) pit=null; return ihubMrdDaoService.findAll(filters,
-	 * pit, size); } }
-	 */
 
 	/**
 	 * GROWTH_PLATFORM - growth-platforms
@@ -218,8 +190,8 @@ public class IhubMrdDaoController {
 	 * @throws IOException
 	 */
 	@GetMapping(path = { "/ihub-mrd/growth-platforms",
-			"/ihub-mrd/growth-platforms/{growth-platform-cd}" }, produces = { "application/json",
-					"application/xml" })
+			"/ihub-mrd/growth-platforms/{growth-platform-cd}" }, 
+			produces = MediaType.APPLICATION_JSON_VALUE)
 	public synchronized <T> ResponseEntity<Object> retrieveAllGrowthPlatformByCode(
 			@PathVariable(name = "growth-platform-cd", required = false) String growthPlatformCd,
 			@RequestParam(defaultValue = "") @Parameter(description = "Add filter in format of a SQL WHERE clause.") String filters,
@@ -243,8 +215,8 @@ public class IhubMrdDaoController {
 	}
 
 	@GetMapping(path = { "/ihub-mrd/brands/{brand-cd}/growth-platforms",
-			"/ihub-mrd/brands/{brand-cd}/growth-platforms/{growth-platform-cd}" }, produces = {
-					"application/json", "application/xml" })
+			"/ihub-mrd/brands/{brand-cd}/growth-platforms/{growth-platform-cd}" }, 
+			produces = MediaType.APPLICATION_JSON_VALUE)
 	public synchronized <T> ResponseEntity<Object> retrieveAllGrowthPlatformByBrandGrowthPlatformCode(
 			@PathVariable(name = "growth-platform-cd", required = false) String growthPlatformCd,
 			@PathVariable(name = "brand-cd") String brandCd,
@@ -338,7 +310,7 @@ public class IhubMrdDaoController {
 	 * @throws IOException
 	 */
 	@GetMapping(path = { "/ihub-mrd/service-lines",
-			"/ihub-mrd/service-lines/{service-line-cd}" }, produces = { "application/json", "application/xml" })
+			"/ihub-mrd/service-lines/{service-line-cd}" }, produces = MediaType.APPLICATION_JSON_VALUE)
 	public synchronized <T> ResponseEntity<Object> retrieveAllServiceLineByCode(
 			@PathVariable(name = "service-line-cd", required = false) String serviceLineCd,
 			@RequestParam(defaultValue = "") @Parameter(description = "Add filter in format of a SQL WHERE clause.") String filters,
@@ -362,8 +334,8 @@ public class IhubMrdDaoController {
 	}
 
 	@GetMapping(path = { "/ihub-mrd/growth-platforms/{growth-platform-cd}/service-lines",
-			"/ihub-mrd/growth-platforms/{growth-platform-cd}/service-lines/{service-line-cd}" }, produces = {
-					"application/json", "application/xml" })
+			"/ihub-mrd/growth-platforms/{growth-platform-cd}/service-lines/{service-line-cd}" }, 
+			produces = MediaType.APPLICATION_JSON_VALUE)
 	public synchronized <T> ResponseEntity<Object> retrieveAllServiceLineByGrowthPlatformServiceLineCode(
 			@PathVariable(name = "service-line-cd", required = false) String serviceLineCd,
 			@PathVariable(name = "growth-platform-cd") String growthPlatformCd,
@@ -388,8 +360,8 @@ public class IhubMrdDaoController {
 	}
 
 	@GetMapping(path = { "/ihub-mrd/brands/{brand-cd}/growth-platforms/{growth-platform-cd}/service-lines",
-			"/ihub-mrd/brands/{brand-cd}/growth-platforms/{growth-platform-cd}/service-lines/{service-line-cd}" }, produces = {
-					"application/json", "application/xml" })
+			"/ihub-mrd/brands/{brand-cd}/growth-platforms/{growth-platform-cd}/service-lines/{service-line-cd}" }, 
+			produces = MediaType.APPLICATION_JSON_VALUE)
 	public <T> ResponseEntity<Object> retrieveAllServiceLineByBrandGrowthPlatformServiceLineCode(
 			@PathVariable(name = "service-line-cd", required = false) String serviceLineCd,
 			@PathVariable(name = "brand-cd") String brandCd,
@@ -483,8 +455,8 @@ public class IhubMrdDaoController {
 	 * @throws ClassNotFoundException
 	 * @throws IOException
 	 */
-	@GetMapping(path = { "/ihub-mrd/practices", "/ihub-mrd/practices/{practice-cd}" }, produces = {
-			"application/json", "application/xml" })
+	@GetMapping(path = { "/ihub-mrd/practices", "/ihub-mrd/practices/{practice-cd}" }, 
+			produces = MediaType.APPLICATION_JSON_VALUE)
 	public synchronized <T> ResponseEntity<Object> retrieveAllPracticeByCode(
 			@PathVariable(name = "practice-cd", required = false) String practiceCd,
 			@RequestParam(defaultValue = "") @Parameter(description = "Add filter in format of a SQL WHERE clause.") String filters,
@@ -508,8 +480,8 @@ public class IhubMrdDaoController {
 	}
 
 	@GetMapping(path = { "/ihub-mrd/service-lines/{service-line-cd}/practices",
-			"/ihub-mrd/service-line/{service-line-cd}/practices/{practice-cd}" }, produces = { "application/json",
-					"application/xml" })
+			"/ihub-mrd/service-line/{service-line-cd}/practices/{practice-cd}" }, 
+			produces = MediaType.APPLICATION_JSON_VALUE)
 	public <T> ResponseEntity<Object> retrieveAllPracticeByServiceLine(
 			@PathVariable(name = "practice-cd", required = false) String practiceCd,
 			@PathVariable(name = "service-line-cd") String serviceLineCd,
@@ -535,8 +507,8 @@ public class IhubMrdDaoController {
 
 	@GetMapping(path = {
 			"/ihub-mrd/brands/{brand-cd}/growth-platforms/{growth-platform-cd}/service-lines/{service-line-cd}/practices",
-			"/ihub-mrd/brands/{brand-cd}/growth-platforms/{growth-platform-cd}/service-lines/{service-line-cd}/practices/{practice-cd}" }, produces = {
-					"application/json", "application/xml" })
+			"/ihub-mrd/brands/{brand-cd}/growth-platforms/{growth-platform-cd}/service-lines/{service-line-cd}/practices/{practice-cd}" }, 
+			produces = MediaType.APPLICATION_JSON_VALUE)
 	public <T> ResponseEntity<Object> retrieveAllPracticeByBrandGpServiceLine(
 			@PathVariable(name = "practice-cd", required = false) String practiceCd,
 			@PathVariable(name = "brand-cd") String brandCd,
@@ -636,7 +608,7 @@ public class IhubMrdDaoController {
 	 * @throws IOException
 	 */
 	@GetMapping(path = { "/ihub-mrd/service-areas",
-			"/ihub-mrd/service-areas/{service-area-cd}" }, produces = { "application/json", "application/xml" })
+			"/ihub-mrd/service-areas/{service-area-cd}" }, produces = MediaType.APPLICATION_JSON_VALUE)
 	public synchronized <T> ResponseEntity<Object> retrieveAllServiceAreaByCode(
 			@PathVariable(name = "service-area-cd", required = false) String serviceAreaCd,
 			@RequestParam(defaultValue = "") @Parameter(description = "Add filter in format of a SQL WHERE clause.") String filters,
@@ -660,8 +632,8 @@ public class IhubMrdDaoController {
 	}
 
 	@GetMapping(path = { "/ihub-mrd/practices/{practice-cd}/service-areas",
-			"/ihub-mrd/practices/{practice-cd}/service-areas/{service-area-cd}" }, produces = {
-					"application/json", "application/xml" })
+			"/ihub-mrd/practices/{practice-cd}/service-areas/{service-area-cd}" }, 
+			produces = MediaType.APPLICATION_JSON_VALUE)
 	public synchronized <T> ResponseEntity<Object> retrieveAllServiceAreaByPracticeCode(
 			@PathVariable(name = "service-area-cd", required = false) String serviceAreaCd,
 			@PathVariable(name = "practice-cd") String practiceCd,
@@ -687,8 +659,8 @@ public class IhubMrdDaoController {
 
 	@GetMapping(path = {
 			"/ihub-mrd/brands/{brand-cd}/growth-platforms/{growth-platform-cd}/service-lines/{service-line-cd}/practices/{practice-cd}/service-areas",
-			"/ihub-mrd/brands/{brand-cd}/growth-platforms/{growth-platform-cd}/service-lines/{service-line-cd}/practices/{practice-cd}/service-areas/{service-area-cd}" }, produces = {
-					"application/json", "application/xml" })
+			"/ihub-mrd/brands/{brand-cd}/growth-platforms/{growth-platform-cd}/service-lines/{service-line-cd}/practices/{practice-cd}/service-areas/{service-area-cd}" }, 
+			produces = MediaType.APPLICATION_JSON_VALUE)
 	public <T> ResponseEntity<Object> retrieveAllServiceAreaByBrandGpSlPracticeCode(
 			@PathVariable(name = "service-area-cd", required = false) String serviceAreaCd,
 			@PathVariable(name = "brand-cd") String brandCd,
@@ -763,7 +735,7 @@ public class IhubMrdDaoController {
 	/*
 	 * job-role
 	 */
-	@GetMapping(path = "/ihub-mrd/job-roles", produces = { "application/json", "application/xml" })
+	@GetMapping(path = "/ihub-mrd/job-roles", produces = MediaType.APPLICATION_JSON_VALUE)
 	public <T> ResponseEntity<Object> retrieveAllJobRoles(
 			@RequestParam(defaultValue = "") @Parameter(description = "Add filter in format of a SQL WHERE clause.") String filters,
 			@RequestParam(required = false, defaultValue = "false") @Parameter(description = "Return results as CSV") boolean returnCsv,
@@ -772,18 +744,15 @@ public class IhubMrdDaoController {
 			HttpServletRequest request)
 			throws SQLException, ClassNotFoundException, IOException {
 
-		ihubMrdDaoService.setT(JobRoleDim.class);
+		//ihubMrdDaoService.setT(JobRoleDim.class);
 		
-
-		//String sql = "SELECT DISTINCT JOB_ROLE_CD, JOB_ROLE_NM FROM REFT.JRS_DIM_V ORDER BY JOB_ROLE_NM";
 		String sql = "SELECT DISTINCT JOB_ROLE_CD, JOB_ROLE_NM, CMPNSTN_GRD_LST, INCENTIVE_FLG FROM REFT.JRS_DIM_V ORDER BY JOB_ROLE_NM";
 
-		//return ihubMrdDaoService.getListForSql(JobRoleDim.class, ihubMrdDaoService.getConnection(), sql);
 		return ihubMrdDaoService.getListForSql(JobRoleDim.class, ihubMrdDaoService.getConnection(), sql, returnCsv, request);
 	}
 
-	@GetMapping(path = "/ihub-mrd/practices/{practice-cd}/job-roles", produces = { "application/json",
-			"application/xml" })
+	@GetMapping(path = "/ihub-mrd/practices/{practice-cd}/job-roles", 
+			produces = MediaType.APPLICATION_JSON_VALUE)
 	//public <T> List<T> retrieveJobRolesByPractice(@PathVariable(name = "practice-cd") String practiceCd,
 	public <T> ResponseEntity<Object> retrieveJobRolesByPractice(@PathVariable(name = "practice-cd") String practiceCd,
 			@RequestParam(defaultValue = "") @Parameter(description = "Add filter in format of a SQL WHERE clause.") String filters,
@@ -793,9 +762,6 @@ public class IhubMrdDaoController {
 			@RequestParam(defaultValue = "All") @Parameter(description = "Size of the results, use ‘ALL’ to get all data.") String resultSetMaxSize,
 			HttpServletRequest request)
 			throws SQLException, ClassNotFoundException, IOException {
-		ihubMrdDaoService.setT(JobRoleDim.class);
-		//ihubMrdDaoService.setTableNm("REFT.JRS_DIM_V");
-		//ihubMrdDaoService.setScdTableNm("REFT.JRS_SCD_V");
 
 		String sql = "SELECT DISTINCT JRS.JOB_ROLE_CD, JRS.JOB_ROLE_NM, CMPNSTN_GRD_LST, INCENTIVE_FLG FROM REFT.JRS_DIM_V JRS INNER JOIN REFT.SERVICE_AREA_DIM_V SA ON JRS.SERVICE_AREA_CD=SA.SERVICE_AREA_CD"
 				+ " WHERE SA.PRACTICE_CD";
@@ -807,13 +773,12 @@ public class IhubMrdDaoController {
 			sql += " AND ( " + filters + " )";
 		sql += " ORDER BY 2";
 		
-		//return ihubMrdDaoService.getListForSql(JobRoleDim.class, ihubMrdDaoService.getConnection(), sql);
 		return ihubMrdDaoService.getListForSql(JobRoleDim.class, ihubMrdDaoService.getConnection(), sql, returnCsv, request);
 
 	}
 
-	@GetMapping(path = "/ihub-mrd/practices/{practice-cd}/job-roles/{job-role-cd}/specialties", produces = {
-			"application/json", "application/xml" })
+	@GetMapping(path = "/ihub-mrd/practices/{practice-cd}/job-roles/{job-role-cd}/specialties", 
+			produces = MediaType.APPLICATION_JSON_VALUE)
 	public <T> ResponseEntity<Object> retrieveSpecialtiesByPracticeAndJobRoles(@PathVariable(name = "practice-cd") String practiceCd,
 			@PathVariable(name = "job-role-cd") String jobRoleCd,
 			@RequestParam(defaultValue = "") @Parameter(description = "Add filter in format of a SQL WHERE clause.") String filters,
@@ -823,7 +788,7 @@ public class IhubMrdDaoController {
 			@RequestParam(defaultValue = "All") @Parameter(description = "Size of the results, use ‘ALL’ to get all data.") String resultSetMaxSize,
 			HttpServletRequest request)
 			throws SQLException, ClassNotFoundException, IOException {
-		ihubMrdDaoService.setT(SpecialtyDim.class);
+		//ihubMrdDaoService.setT(SpecialtyDim.class);
 
 		String sql = "SELECT DISTINCT JRS.SPECIALTY_CD, JRS.SPECIALTY_NM, JRS.JOB_ROLE_CD, JRS.CMPNSTN_GRD_LST, JRS.INCENTIVE_FLG FROM REFT.JRS_DIM_V JRS INNER JOIN REFT.SERVICE_AREA_DIM_V SA ON JRS.SERVICE_AREA_CD=SA.SERVICE_AREA_CD"
 				+ " WHERE SA.PRACTICE_CD";
@@ -839,7 +804,7 @@ public class IhubMrdDaoController {
 	/*
 	 * job-role
 	 */
-	@GetMapping(path = "/ihub-mrd/specialties", produces = { "application/json", "application/xml" })
+	@GetMapping(path = "/ihub-mrd/specialties", produces = MediaType.APPLICATION_JSON_VALUE)
 	public <T> ResponseEntity<Object> retrieveAllSpecialtiess(
 			@RequestParam(defaultValue = "") @Parameter(description = "Add filter in format of a SQL WHERE clause.") String filters,
 			@RequestParam(required = false, defaultValue = "false") @Parameter(description = "Return results as CSV") boolean returnCsv,
@@ -848,14 +813,14 @@ public class IhubMrdDaoController {
 			@RequestParam(defaultValue = "All") @Parameter(description = "Size of the results, use ‘ALL’ to get all data.") String resultSetMaxSize,
 			HttpServletRequest request)
 			throws SQLException, ClassNotFoundException, IOException {
-		ihubMrdDaoService.setT(SpecialtyDim.class);
+		//ihubMrdDaoService.setT(SpecialtyDim.class);
 
 		String sql = "SELECT DISTINCT SPECIALTY_CD, SPECIALTY_NM, JOB_ROLE_CD FROM REFT.JRS_DIM_V ORDER BY SPECIALTY_NM";
 		return ihubMrdDaoService.getListForSql(SpecialtyDim.class, ihubMrdDaoService.getConnection(), sql, returnCsv, request);
 	}
 
-	@GetMapping(path = "/ihub-mrd/job-roles/{job-role-cd}/specialties", produces = { "application/json",
-			"application/xml" })
+	@GetMapping(path = "/ihub-mrd/job-roles/{job-role-cd}/specialties", 
+			produces = MediaType.APPLICATION_JSON_VALUE)
 	public <T> ResponseEntity<Object> retrieveSpecialtiesForJobRole(@PathVariable(name = "job-role-cd") String jobRoleCd,
 			@RequestParam(defaultValue = "") @Parameter(description = "Add filter in format of a SQL WHERE clause.") String filters,
 			@RequestParam(required = false, defaultValue = "false") @Parameter(description = "Return results as CSV") boolean returnCsv,
@@ -864,8 +829,7 @@ public class IhubMrdDaoController {
 			@RequestParam(defaultValue = "All") @Parameter(description = "Size of the results, use ‘ALL’ to get all data.") String resultSetMaxSize,
 			HttpServletRequest request)
 			throws SQLException, ClassNotFoundException, IOException {
-		ihubMrdDaoService.setT(SpecialtyDim.class);
-
+		//ihubMrdDaoService.setT(SpecialtyDim.class);
 
 		String sql = "SELECT  SPECIALTY_CD, SPECIALTY_NM, JOB_ROLE_CD FROM REFT.JRS_DIM_V WHERE JOB_ROLE_CD='"
 				+ jobRoleCd + "' ORDER BY SPECIALTY_NM";
@@ -901,8 +865,8 @@ public class IhubMrdDaoController {
 	 * @throws ClassNotFoundException
 	 * @throws IOException
 	 */
-	@GetMapping(path = { "/ihub-mrd/jrss", "/ihub-mrd/jrss/{jrs-cd}" }, produces = { "application/json",
-			"application/xml" })
+	@GetMapping(path = { "/ihub-mrd/jrss", "/ihub-mrd/jrss/{jrs-cd}" }, 
+			produces = MediaType.APPLICATION_JSON_VALUE)
 	public <T> ResponseEntity<Object> retrieveAllJrsByCode(
 			@PathVariable(name = "jrs-cd", required = false) String jrsCd,
 			@RequestParam(defaultValue = "") @Parameter(description = "Add filter in format of a SQL WHERE clause.") String filters,
@@ -926,8 +890,8 @@ public class IhubMrdDaoController {
 	}
 
 	@GetMapping(path = { "/ihub-mrd/service-areas/{service-area-cd}/jrss",
-			"/ihub-mrd/service-areas/{service-area-cd}/jrss/{jrs-cd}" }, produces = { "application/json",
-					"application/xml" })
+			"/ihub-mrd/service-areas/{service-area-cd}/jrss/{jrs-cd}" }, 
+			produces = MediaType.APPLICATION_JSON_VALUE)
 	public <T> ResponseEntity<Object> retrieveAllJrsByServiceAreaCode(
 			@PathVariable(name = "jrs-cd", required = false) String jrsCd,
 			@PathVariable(name = "service-area-cd") String serviceAreaCd,
@@ -953,8 +917,8 @@ public class IhubMrdDaoController {
 
 	@GetMapping(path = {
 			"/ihub-mrd/brands/{brand-cd}/growth-platforms/{growth-platform-cd}/service-lines/{service-line-cd}/practices/{practice-cd}/service-areas/{service-area-cd}/jrss",
-			"/ihub-mrd/brands/{brand-cd}/growth-platforms/{growth-platform-cd}/service-lines/{service-line-cd}/practices/{practice-cd}/service-areas/{service-area-cd}/jrss/{jrs-cd}" }, produces = {
-					"application/json", "application/xml" })
+			"/ihub-mrd/brands/{brand-cd}/growth-platforms/{growth-platform-cd}/service-lines/{service-line-cd}/practices/{practice-cd}/service-areas/{service-area-cd}/jrss/{jrs-cd}" }, 
+			produces = MediaType.APPLICATION_JSON_VALUE)
 	public <T> ResponseEntity<Object> retrieveAllJrsByBrandGpSlPracticeSaCode(
 			@PathVariable(name = "jrs-cd", required = false) String jrsCd,
 			@PathVariable(name = "brand-cd") String brandCd,
@@ -1057,8 +1021,8 @@ public class IhubMrdDaoController {
 	 * @throws IOException
 	 */
 	@GetMapping(path = { "/ihub-mrd/offering-portfolios",
-			"/ihub-mrd/offering-portfolios/{offering-portfolio-cd}" }, produces = { "application/json",
-					"application/xml" })
+			"/ihub-mrd/offering-portfolios/{offering-portfolio-cd}" }, 
+			produces = MediaType.APPLICATION_JSON_VALUE)
 	public <T> ResponseEntity<Object> retrieveAllOfferingPortfolioByCode(
 			@PathVariable(name = "offering-portfolio-cd", required = false) String offeringPortfolioCd,
 			@RequestParam(defaultValue = "") @Parameter(description = "Add filter in format of a SQL WHERE clause.") String filters,
@@ -1083,8 +1047,8 @@ public class IhubMrdDaoController {
 
 	@GetMapping(path = {
 			"/ihub-mrd/brands/{brand-cd}/growth-platforms/{growth-platform-cd}/service-lines/{service-line-cd}/offering-portfolios",
-			"/ihub-mrd/brands/{brand-cd}/growth-platforms/{growth-platform-cd}/service-lines/{service-line-cd}/offering-portfolios/{offering-portfolio-cd}" }, produces = {
-					"application/json", "application/xml" })
+			"/ihub-mrd/brands/{brand-cd}/growth-platforms/{growth-platform-cd}/service-lines/{service-line-cd}/offering-portfolios/{offering-portfolio-cd}" }, 
+			produces = MediaType.APPLICATION_JSON_VALUE)
 	public <T> ResponseEntity<Object> retrieveAllOfferingPortfoliosByBrandGpServiceLine(
 			@PathVariable(name = "offering-portfolio-cd", required = false) String offeringPortfolioCd,
 			@PathVariable(name = "brand-cd") String brandCd,
@@ -1184,8 +1148,8 @@ public class IhubMrdDaoController {
 	 * @throws ClassNotFoundException
 	 * @throws IOException
 	 */
-	@GetMapping(path = { "/ihub-mrd/offerings", "/ihub-mrd/offerings/{offering-cd}" }, produces = {
-			"application/json", "application/xml" })
+	@GetMapping(path = { "/ihub-mrd/offerings", "/ihub-mrd/offerings/{offering-cd}" }, 
+			produces = MediaType.APPLICATION_JSON_VALUE)
 	public <T> ResponseEntity<Object> retrieveAllOfferingByCode(
 			@PathVariable(name = "offering-cd", required = false) String offeringCd,
 			@RequestParam(defaultValue = "") @Parameter(description = "Add filter in format of a SQL WHERE clause.") String filters,
@@ -1210,8 +1174,8 @@ public class IhubMrdDaoController {
 
 	@GetMapping(path = {
 			"/ihub-mrd/brands/{brand-cd}/growth-platforms/{growth-platform-cd}/service-lines/{service-line-cd}/offering-portfolios/{offering-portfolio-cd}/offerings",
-			"/ihub-mrd/brands/{brand-cd}/growth-platforms/{growth-platform-cd}/service-lines/{service-line-cd}/offering-portfolios/{offering-portfolio-cd}/offerings/{offering-cd}" }, produces = {
-					"application/json", "application/xml" })
+			"/ihub-mrd/brands/{brand-cd}/growth-platforms/{growth-platform-cd}/service-lines/{service-line-cd}/offering-portfolios/{offering-portfolio-cd}/offerings/{offering-cd}" }, 
+			produces = MediaType.APPLICATION_JSON_VALUE)
 	public <T> ResponseEntity<Object> retrieveAllOfferingByBrandGpSlOfferingPorttfolioCode(
 			@PathVariable(name = "offering-cd", required = false) String offeringCd,
 			@PathVariable(name = "brand-cd") String brandCd,
@@ -1315,8 +1279,8 @@ public class IhubMrdDaoController {
 	 * @throws IOException
 	 */
 	@GetMapping(path = { "/ihub-mrd/offering-components",
-			"/ihub-mrd/offering-components/{offering-component-cd}" }, produces = { "application/json",
-					"application/xml" })
+			"/ihub-mrd/offering-components/{offering-component-cd}" }, 
+			produces = MediaType.APPLICATION_JSON_VALUE)
 	public <T> ResponseEntity<Object> retrieveAllOfferingComponentByCode(
 			@PathVariable(name = "offering-component-cd", required = false) String offeringComponentCd,
 			@RequestParam(defaultValue = "") @Parameter(description = "Add filter in format of a SQL WHERE clause.") String filters,
@@ -1341,8 +1305,8 @@ public class IhubMrdDaoController {
 
 	@GetMapping(path = {
 			"/ihub-mrd/brands/{brand-cd}/growth-platforms/{growth-platform-cd}/service-lines/{service-line-cd}/offering-portfolios/{offering-portfolio-cd}/offerings/{offering-cd}/offering-components",
-			"/ihub-mrd/brands/{brand-cd}/growth-platforms/{growth-platform-cd}/service-lines/{service-line-cd}/offering-portfolios/{offering-portfolio-cd}/offerings/{offering-cd}/offering-components/{offering-component-cd}" }, produces = {
-					"application/json", "application/xml" })
+			"/ihub-mrd/brands/{brand-cd}/growth-platforms/{growth-platform-cd}/service-lines/{service-line-cd}/offering-portfolios/{offering-portfolio-cd}/offerings/{offering-cd}/offering-components/{offering-component-cd}" }, 
+			produces = MediaType.APPLICATION_JSON_VALUE)
 	public <T> ResponseEntity<Object> retrieveAllOfferingByBrandGpSlOpOfferingCode(
 			@PathVariable(name = "offering-component-cd", required = false) String offeringComponentCd,
 			@PathVariable(name = "brand-cd") String brandCd,
@@ -1447,8 +1411,8 @@ public class IhubMrdDaoController {
 	 * @throws IOException
 	 */
 	@GetMapping(path = { "/ihub-mrd/job-role-descriptions",
-			"/ihub-mrd/job-role-descriptions/{job-role-cd}" }, produces = { "application/json",
-					"application/xml" })
+			"/ihub-mrd/job-role-descriptions/{job-role-cd}" }, 
+			produces = MediaType.APPLICATION_JSON_VALUE)
 	public <T> ResponseEntity<Object> retrieveAllJobRoleDescriptionByCode(
 			@PathVariable(name = "job-role-cd", required = false) String jobRoleCd,
 			@RequestParam(defaultValue = "") @Parameter(description = "Add filter in format of a SQL WHERE clause.") String filters,
@@ -1542,8 +1506,8 @@ public class IhubMrdDaoController {
 	 * @throws ClassNotFoundException
 	 * @throws IOException
 	 */
-	@GetMapping(path = { "/ihub-mrd/jrs-descriptions", "/ihub-mrd/jrs-descriptions/{jrs-cd}" }, produces = {
-			"application/json", "application/xml" })
+	@GetMapping(path = { "/ihub-mrd/jrs-descriptions", "/ihub-mrd/jrs-descriptions/{jrs-cd}" }, 
+			produces = MediaType.APPLICATION_JSON_VALUE)
 	public <T> ResponseEntity<Object> retrieveAllJrsDescriptionByCode(
 			@PathVariable(name = "jrs-cd", required = false) String jrsCd,
 			@RequestParam(defaultValue = "") @Parameter(description = "Add filter in format of a SQL WHERE clause.") String filters,
@@ -1634,7 +1598,7 @@ public class IhubMrdDaoController {
 	 * @throws IOException
 	 */
 	@GetMapping(path = { "/ihub-mrd/jrs-compensation-grades",
-			"/ihub-mrd/jrs-compensation-grades/{jrs-cd}" }, produces = { "application/json", "application/xml" })
+			"/ihub-mrd/jrs-compensation-grades/{jrs-cd}" }, produces = MediaType.APPLICATION_JSON_VALUE)
 	public <T> ResponseEntity<Object> retrieveAllJrsCompensationGradeByCode(
 			@PathVariable(name = "jrs-cd", required = false) String jrsCd,
 			@RequestParam(defaultValue = "") @Parameter(description = "Add filter in format of a SQL WHERE clause.") String filters,
@@ -1698,22 +1662,19 @@ public class IhubMrdDaoController {
 	}
 
 	@GetMapping(path = { "/ihub-mrd/jrs-compensation-grades-list",
-			"/ihub-mrd/jrs-compensation-grades-list/{jrs-cd}" }, produces = { "application/json",
-					"application/xml" })
+			"/ihub-mrd/jrs-compensation-grades-list/{jrs-cd}" }, 
+			produces = MediaType.APPLICATION_JSON_VALUE)
 	public <T> ResponseEntity<Object> retrieveJrsCompensationGradeList(@PathVariable(name = "jrs-cd", required = false) String jrsCd,
 			@RequestParam(required = false, defaultValue = "false") @Parameter(description = "Return results as CSV") boolean returnCsv,
 			@RequestParam(defaultValue = "All") @Parameter(description = "Size of the results, use ‘ALL’ to get all data.") String resultSetMaxSize,
 			HttpServletRequest request)
 			throws SQLException, ClassNotFoundException, IOException {
-		ihubMrdDaoService.setT(JrsCompensationGradeDim.class);
-		ihubMrdDaoService.setTableNm("REFT.JRS_COMPENSATION_GRADE_DIM_V");
 
 		String sql = "SELECT JRS_CD, LISTAGG(CMPNSTN_GRD_CD, ', ' ) WITHIN GROUP (ORDER BY CMPNSTN_GRD_CD) CMPNSTN_GRD_CD FROM REFT.JRS_COMPENSATION_GRADE_DIM_V";
 		if (jrsCd != null) {
 			sql += (" WHERE JRS_CD = '" + jrsCd + "'");
 		}
 		sql += " GROUP BY JRS_CD";
-		//return ihubMrdDaoService.getListForSql(JrsCompensationGradeDim.class, ihubMrdDaoService.getConnection(), sql);
 		return ihubMrdDaoService.getListForSql(SpecialtyDim.class, ihubMrdDaoService.getConnection(), sql, returnCsv, request);
 	}
 
@@ -1747,8 +1708,8 @@ public class IhubMrdDaoController {
 	 * @throws IOException
 	 */
 	@GetMapping(path = { "/ihub-mrd/enhanced-expertise-taxonomies",
-			"/ihub-mrd/enhanced-expertise-taxonomies/{jrs-cd}" }, produces = { "application/json",
-					"application/xml" })
+			"/ihub-mrd/enhanced-expertise-taxonomies/{jrs-cd}" }, 
+			produces = MediaType.APPLICATION_JSON_VALUE)
 	public synchronized <T> ResponseEntity<Object> retrieveAllEnhancedExpertiseTaxonomyByCode(
 			@PathVariable(name = "jrs-cd", required = false) String jrsCd,
 			@RequestParam(defaultValue = "") @Parameter(description = "Add filter in format of a SQL WHERE clause.") String filters,
@@ -1770,7 +1731,7 @@ public class IhubMrdDaoController {
 				returnCsv, includePit, pit, offset, resultSetMaxSize, request);
 	}
 	
-	@GetMapping(path={"/ihub-mrd/enhanced-expertise-taxonomies/count"},produces = { "application/json", "application/xml"})
+	@GetMapping(path={"/ihub-mrd/enhanced-expertise-taxonomies/count"},produces = MediaType.APPLICATION_JSON_VALUE)
 	public synchronized ResponseEntity<Count> retrieveCountFbsTeamByCode(
               @RequestParam(defaultValue = "") @Parameter(description = "Add filter in format of a SQL WHERE clause.") String filters
 			, @RequestParam(defaultValue = "") @Parameter(description = "Override the SQL ORDER BY clause (default is by natural key).") String orderByCols
@@ -1790,8 +1751,8 @@ public class IhubMrdDaoController {
 	}
 
 	// @MatrixVariable
-	@GetMapping(path = { "/ihub-mrd/enhanced-expertise-taxonomies/q/{q-values}" }, produces = {
-			"application/json", "application/xml" })
+	@GetMapping(path = { "/ihub-mrd/enhanced-expertise-taxonomies/q/{q-values}" }, 
+			produces = MediaType.APPLICATION_JSON_VALUE)
 	//@RequestMapping(value = "/ihub-mrd/enhanced-expertise-taxonomies/q/{q-values}", method = RequestMethod.GET)
 	public <T> ResponseEntity<Object> retrieveAllEnhancedExpertiseTaxonomyQuery(
 			@MatrixVariable(pathVar = "q-values", required = true) Map<String, Object> pathVarMap,
@@ -1810,8 +1771,8 @@ public class IhubMrdDaoController {
 
 	}
 
-	@GetMapping(path = { "/ihub-mrd/enhanced-expertise-taxonomies/aaa/{employee}" }, produces = {
-			"application/json", "application/xml" })
+	@GetMapping(path = { "/ihub-mrd/enhanced-expertise-taxonomies/aaa/{employee}" }, 
+			produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public ResponseEntity<Map<String, String>> getEmployeeData(
 			@MatrixVariable(pathVar = "employee") Map<String, String> matrixVars) {
@@ -1882,7 +1843,7 @@ public class IhubMrdDaoController {
 	 * @throws ClassNotFoundException
 	 * @throws IOException
 	 */
-	@GetMapping(path={"/ihub-mrd/jrs-skill-assocs","/ihub-mrd/jrs-skill-assocs/{jrs-cd}/{skill-id}"},produces = { "application/json", "application/xml"})
+	@GetMapping(path={"/ihub-mrd/jrs-skill-assocs","/ihub-mrd/jrs-skill-assocs/{jrs-cd}/{skill-id}"},produces = MediaType.APPLICATION_JSON_VALUE)
 	public <T> ResponseEntity<Object> retrieveAllJrsSkillAssocByCode(
 			  @PathVariable(name="jrs-cd", required=false) String jrsCd
 			, @PathVariable(name="skill-id", required=false) String skillId
@@ -1923,7 +1884,7 @@ public class IhubMrdDaoController {
 		                                                     , request);
 	}
 	
-	@GetMapping(path={"/ihub-mrd/jrs-skill-assocs/{jrs-cd}/skills"},produces = { "application/json", "application/xml"})
+	@GetMapping(path={"/ihub-mrd/jrs-skill-assocs/{jrs-cd}/skills"},produces = MediaType.APPLICATION_JSON_VALUE)
 	public <T> ResponseEntity<Object> retrieveAllJrsSkillAssocByJrsCode(
 			  @PathVariable(name="jrs-cd") String jrsCd
 			, @RequestParam(defaultValue = "") @Parameter(description = "Add filter in format of a SQL WHERE clause.") String filters
@@ -2016,7 +1977,7 @@ public class IhubMrdDaoController {
 	 * @throws ClassNotFoundException
 	 * @throws IOException
 	 */
-	@GetMapping(path={"/ihub-mrd/skills","/ihub-mrd/skills/{skill-id}"},produces = { "application/json", "application/xml"})
+	@GetMapping(path={"/ihub-mrd/skills","/ihub-mrd/skills/{skill-id}"},produces = MediaType.APPLICATION_JSON_VALUE)
 	public <T> ResponseEntity<Object> retrieveAllSkillByCode(
 			  @PathVariable(name="skill-id", required=false) String skillId
 			, @RequestParam(defaultValue = "") @Parameter(description = "Add filter in format of a SQL WHERE clause.") String filters
@@ -2085,16 +2046,14 @@ public class IhubMrdDaoController {
 	}	
 	
 	
-	@GetMapping(path = "/ihub-mrd/jrss/{jrs-cd}/skills", produces = {
-			"application/json", "application/xml" })
+	@GetMapping(path = "/ihub-mrd/jrss/{jrs-cd}/skills", 
+			produces = MediaType.APPLICATION_JSON_VALUE)
 	public <T> ResponseEntity<Object> retrieveSkillsForJrs(@PathVariable(name = "jrs-cd") String jrsCd,
 			@RequestParam(required = false, defaultValue = "false") @Parameter(description = "Return results as CSV") boolean returnCsv,
 			//@RequestParam(required = false, defaultValue = "") @Parameter(description = "Specific Point in Time (format: yyyy-MM-dd-hh.mm.ss.sssssss, example = 2021-06-28-00.00.00.0)") String pit,
 			@RequestParam(defaultValue = "All") @Parameter(description = "Size of the results, use ‘ALL’ to get all data.") String resultSetMaxSize,
 			HttpServletRequest request)
 			throws SQLException, ClassNotFoundException, IOException {
-		
-		ihubMrdDaoService.setT(SkillDim.class);
 
 		String sql = "SELECT S.SKILL_SK_ID, S.SKILL_ID, S.SKILL_NM, S.SKILL_DESC FROM REFT.SKILL_DIM_V S INNER JOIN REFT.JRS_SKILL_ASSOC_DIM_V A ON S.SKILL_ID=A.SKILL_ID WHERE A.JRS_CD='"+jrsCd+"' ORDER BY S.SKILL_ID";
 
@@ -2124,7 +2083,7 @@ public class IhubMrdDaoController {
 	 * @throws ClassNotFoundException
 	 * @throws IOException
 	 */
-	@GetMapping(path={"/ihub-mrd/work-locations","/ihub-mrd/work-locations/{wrk-loc-cd}"},produces = { "application/json", "application/xml"})
+	@GetMapping(path={"/ihub-mrd/work-locations","/ihub-mrd/work-locations/{wrk-loc-cd}"},produces = MediaType.APPLICATION_JSON_VALUE)
 	public <T> ResponseEntity<Object> retrieveAllWorkLocationByCode(
 			  @PathVariable(name="wrk-loc-cd", required=false) String wrkLocCd
 			, @RequestParam(defaultValue = "") @Parameter(description = "Add filter in format of a SQL WHERE clause.") String filters

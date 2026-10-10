@@ -15,9 +15,10 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ArrayNode;
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.json.JsonMapper;
+import tools.jackson.databind.node.ArrayNode;
 import com.ibm.wfm.beans.TaxonomyEvaluationResponse;
 import com.ibm.wfm.beans.tram.TramProjectFinancialsByQuarter;
 import com.ibm.wfm.beans.tram.TramProjectFinancialsByQuarterDetailItem;
@@ -58,7 +59,7 @@ public class TramApiController extends AbstractDaoController {
 	        while ((lineBuffer = br.readLine()) != null) {
 	        	jsonString.append(lineBuffer);
 	        }
-            ObjectMapper mapper = new ObjectMapper();
+            ObjectMapper mapper = JsonMapper.builder().build();
             //JsonNode resultObject = mapper.readTree(jsonString.toString());
 
             ArrayNode results = (ArrayNode) mapper.readTree(jsonString.toString()).get("results");

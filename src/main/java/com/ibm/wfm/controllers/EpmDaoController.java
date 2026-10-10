@@ -65,7 +65,7 @@ public class EpmDaoController {
 	 * @throws ClassNotFoundException
 	 * @throws IOException
 	 */
-	@GetMapping(path={"/epm/global-buying-groups","/epm/global-buying-groups/{global-buying-group-id}"},produces = { "application/json", "application/xml"})
+	@GetMapping(path={"/epm/global-buying-groups","/epm/global-buying-groups/{global-buying-group-id}"},produces = MediaType.APPLICATION_JSON_VALUE)
 	public <T> ResponseEntity<Object> retrieveAllGlobalBuyingGroupByCode(
 			  @PathVariable(name="global-buying-group-id", required=false) String globalBuyingGroupId
 			, @RequestParam(defaultValue = "") @Parameter(description = "Add filter in format of a SQL WHERE clause.") String filters

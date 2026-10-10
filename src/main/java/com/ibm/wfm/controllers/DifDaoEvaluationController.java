@@ -68,7 +68,7 @@ public class DifDaoEvaluationController extends AbstractDaoController {
 	 * @throws ClassNotFoundException
 	 * @throws IOException
 	 */
-	@GetMapping(path={"/dif-evaluation/jrs-evaluation-errors","/dif-evaluation/jrs-evaluation-errors/{inet-email-id}"},produces = { "application/json", "application/xml"})
+	@GetMapping(path={"/dif-evaluation/jrs-evaluation-errors","/dif-evaluation/jrs-evaluation-errors/{inet-email-id}"},produces = MediaType.APPLICATION_JSON_VALUE)
 	public <T> ResponseEntity<Object> retrieveAllJrsEvaluationErrorByCode(
 			  @PathVariable(name="inet-email-id", required=false) String inetEmailId
 			, @RequestParam(defaultValue = "") @Parameter(description = "Add filter in format of a SQL WHERE clause.") String filters
@@ -89,7 +89,7 @@ public class DifDaoEvaluationController extends AbstractDaoController {
 		return difEvaluationDaoService.find(JrsEvaluationErrorDim.class, pathVarMap, filters, orderByCols, false, null, returnCsv, includePit, pit, resultSetMaxSize, request);
 	}
 	
-	@GetMapping(path="/dif-evaluation/jrs-evaluation-errors/mgr-inet-ids",produces = { "application/json", "application/xml"})
+	@GetMapping(path="/dif-evaluation/jrs-evaluation-errors/mgr-inet-ids",produces = MediaType.APPLICATION_JSON_VALUE)
 	public <T> ResponseEntity<Object> retrieveMgrInetIds(
 			  @RequestParam(defaultValue = "") @Parameter(description = "Add filter in format of a SQL WHERE clause.") String filters
 			, @RequestParam(required=false, defaultValue="false") @Parameter(description = "Include Point in Time data?") boolean includePit
@@ -98,8 +98,6 @@ public class DifDaoEvaluationController extends AbstractDaoController {
 			, @RequestParam(required = false, defaultValue = "false") @Parameter(description = "Return results as CSV") boolean returnCsv
 			, HttpServletRequest request)
 			throws SQLException, ClassNotFoundException, IOException {
-		difEvaluationDaoService.setTableNm("DIF.JRS_EVALUATION_ERROR_DIM_V");
-		difEvaluationDaoService.setScdTableNm("DIF.JRS_EVALUATION_ERROR_SCD_V");
 
 		String sql = "SELECT DISTINCT MGR_INET_EMAIL_ID FROM DIF.JRS_EVALUATION_ERROR_DIM_V ";
 		if (filters.trim().length()>0) sql+=(filters+" ");
@@ -108,7 +106,7 @@ public class DifDaoEvaluationController extends AbstractDaoController {
 		return difEvaluationDaoService.getListForSql(JrsEvaluationErrorDim.class, difEvaluationDaoService.getConnection(), sql, returnCsv, request);
 	}
 	
-	@GetMapping(path="/dif-evaluation/jrs-evaluation-errors/mgr-inet-ids/{mgr-inet-id}/professionals",produces = { "application/json", "application/xml"})
+	@GetMapping(path="/dif-evaluation/jrs-evaluation-errors/mgr-inet-ids/{mgr-inet-id}/professionals",produces = MediaType.APPLICATION_JSON_VALUE)
 	public <T>ResponseEntity<Object>  retrieveProfessionalForMgrInetId(
 			  @PathVariable(name="mgr-inet-id") String mgrInetId
 			, @RequestParam(defaultValue = "") @Parameter(description = "Add filter in format of a SQL WHERE clause.") String filters
@@ -118,9 +116,6 @@ public class DifDaoEvaluationController extends AbstractDaoController {
 			, @RequestParam(required = false, defaultValue = "false") @Parameter(description = "Return results as CSV") boolean returnCsv
 			, HttpServletRequest request)
 			throws SQLException, ClassNotFoundException, IOException {
-		difEvaluationDaoService.setT(JrsEvaluationErrorDim.class);
-		difEvaluationDaoService.setTableNm("DIF.JRS_EVALUATION_ERROR_DIM_V");
-		difEvaluationDaoService.setScdTableNm("DIF.JRS_EVALUATION_ERROR_SCD_V");
 
 		String sql = "SELECT * FROM DIF.JRS_EVALUATION_ERROR_DIM_V ";
 		if (filters.trim().length()>0) sql+=(filters+" AND ");

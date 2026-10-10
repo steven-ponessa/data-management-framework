@@ -161,6 +161,20 @@ public class OpnsetTDim extends NaryTreeNode {
 	private String     pcwFlag;
 	@DbColumn(columnName="BCKFIL_NM")
 	private String     bckfilNm;
+	@DbColumn(columnName="DSR_DRIVEN")
+	private String dsrDriven;
+	@DbColumn(columnName="TALENT_REQUEST_ID")
+	private String talentRequestId;
+	@DbColumn(columnName="DSR_ID")
+	private String dsrId;
+	@DbColumn(columnName="CRIT_SIT")
+	private String critSit;
+	@DbColumn(columnName="CRIT_SIT_SCNR_ID")
+	private Integer critSitScnrId;
+	@DbColumn(columnName="TR_ESTIMATE_STAGE")
+	private String trEstimateStage;
+	@DbColumn(columnName="TR_OPP_CLASS")
+	private String trOppClass;
 	@DbColumn(columnName ="EFF_TMS",isScd=true) 
 	@JsonFormat(pattern="yyyy-MM-dd-HH.mm.ss.SSS",timezone="GMT-04:00")
 	private Timestamp effTms;
@@ -255,6 +269,13 @@ public class OpnsetTDim extends NaryTreeNode {
     , Integer        opporCallStatusId
     , String     pcwFlag
     , String     bckfilNm
+	, String     dsrDriven
+	, String     talentRequestId
+	, String     dsrId
+	, String     critSit
+	, Integer     critSitScnrId
+	, String     trEstimateStage
+	, String     trOppClass
 	) {
 		this.opnsetId                       = opnsetId;
 		this.setStatId                      = setStatId;
@@ -326,7 +347,13 @@ public class OpnsetTDim extends NaryTreeNode {
 		this.opporCallStatusId              = opporCallStatusId;
 		this.pcwFlag                        = pcwFlag;
 		this.bckfilNm                       = bckfilNm;
-		
+		this.dsrDriven                      = dsrDriven;
+		this.talentRequestId                = talentRequestId;
+		this.dsrId                          = dsrId;
+		this.critSit                        = critSit;
+		this.critSitScnrId                  = critSitScnrId;
+		this.trEstimateStage                = trEstimateStage;
+		this.trOppClass                     = trOppClass;
 	}
     
 	// Define full constructor
@@ -402,6 +429,13 @@ public class OpnsetTDim extends NaryTreeNode {
 		, Integer        opporCallStatusId
 		, String     pcwFlag
 		, String     bckfilNm
+		, String     dsrDriven
+		, String     talentRequestId
+		, String     dsrId
+		, String     critSit
+		, Integer     critSitScnrId
+		, String     trEstimateStage
+		, String     trOppClass
 	) {
 		this.recordId                       = recordId;
 		this.opnsetId                       = opnsetId;
@@ -474,7 +508,14 @@ public class OpnsetTDim extends NaryTreeNode {
 		this.opporCallStatusId              = opporCallStatusId;
 		this.pcwFlag                        = pcwFlag;
 		this.bckfilNm                       = bckfilNm;
-		
+		this.dsrDriven                      = dsrDriven;
+		this.talentRequestId                = talentRequestId;
+		this.dsrId                          = dsrId;
+		this.critSit                        = critSit;
+		this.critSitScnrId                  = critSitScnrId;
+		this.trEstimateStage                = trEstimateStage;
+		this.trOppClass                     = trOppClass;
+
 	}
 	
 	@Override
@@ -572,6 +613,13 @@ public class OpnsetTDim extends NaryTreeNode {
         + "," + Helpers.formatCsvField(String.valueOf(this.opporCallStatusId))
         + "," + Helpers.formatCsvField(String.valueOf(this.pcwFlag))
         + "," + Helpers.formatCsvField(String.valueOf(this.bckfilNm))
+		+ "," + Helpers.formatCsvField(String.valueOf(this.dsrDriven))
+		+ "," + Helpers.formatCsvField(String.valueOf(this.talentRequestId))
+		+ "," + Helpers.formatCsvField(String.valueOf(this.dsrId))
+		+ "," + Helpers.formatCsvField(String.valueOf(this.critSit))
+		+ "," + Helpers.formatCsvField(String.valueOf(this.critSitScnrId))
+		+ "," + Helpers.formatCsvField(String.valueOf(this.trEstimateStage))
+		+ "," + Helpers.formatCsvField(String.valueOf(this.trOppClass))
 		;
 	}
 	
@@ -647,6 +695,13 @@ public class OpnsetTDim extends NaryTreeNode {
         + "," + Helpers.formatCsvField("OPPOR_CALL_STATUS_ID")
         + "," + Helpers.formatCsvField("PCW_FLAG")
         + "," + Helpers.formatCsvField("BCKFIL_NM")
+		+ "," + Helpers.formatCsvField("DSR_DRIVEN")
+		+ "," + Helpers.formatCsvField("TALENT_REQUEST_ID")
+		+ "," + Helpers.formatCsvField("DSR_ID")
+		+ "," + Helpers.formatCsvField("CRIT_SIT")
+		+ "," + Helpers.formatCsvField("CRIT_SIT_SCNR_ID")
+		+ "," + Helpers.formatCsvField("TR_ESTIMATE_STAGE")
+		+ "," + Helpers.formatCsvField("TR_OPP_CLASS")
 		;
 	}
     
@@ -1076,6 +1131,55 @@ public class OpnsetTDim extends NaryTreeNode {
 	}
 	public void setBckfilNm(String bckfilNm) {
 		this.bckfilNm = bckfilNm;
+	}
+	public String getDsrDriven() {
+		return dsrDriven;
+	}
+	public void setDsrDriven(String dsrDriven) {
+		this.dsrDriven = dsrDriven;
+	}
+	public String getTalentRequestId() {
+		return talentRequestId;
+	}
+	public void setTalentRequestId(String talentRequestId) {
+		this.talentRequestId = talentRequestId;
+	}
+	public String getDsrId() {
+		return dsrId;
+	}
+	public void setDsrId(String dsrId) {
+		this.dsrId = dsrId;
+	}
+	public String getCritSit() {
+		return critSit;
+	}
+
+	public void setCritSit(String critSit) {
+		this.critSit = critSit;
+	}
+
+	public Integer getCritSitScnrId() {
+		return critSitScnrId;
+	}
+
+	public void setCritSitScnrId(Integer critSitScnrId) {
+		this.critSitScnrId = critSitScnrId;
+	}
+
+	public String getTrEstimateStage() {
+		return trEstimateStage;
+	}
+
+	public void setTrEstimateStage(String trEstimateStage) {
+		this.trEstimateStage = trEstimateStage;
+	}
+
+	public String getTrOppClass() {
+		return trOppClass;
+	}
+
+	public void setTrOppClass(String trOppClass) {
+		this.trOppClass = trOppClass;
 	}
 	public Timestamp getEffTms() {
 		return effTms;

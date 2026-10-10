@@ -12,17 +12,12 @@ import com.ibm.wfm.configurations.BridgeDatasourceProperties;
 
 @Component
 public class SkillDaoService extends AbstractDaoService {
-	private Class t = FutureSkillsDim.class;
-	private String tableNm = "SKILL.FUTURE_SKILLS_DIM_V";
-	private String scdTableNm = "SKILL.FUTURE_SKILLS_SCD_V";
 	
 	@Autowired
 	private BridgeDatasourceProperties bridgeProp;
 	
 	public SkillDaoService() {
-		super.setT(t);
-		super.setTableNm(tableNm);
-		super.setScdTableNm(scdTableNm);
+
 	}
 	
 	@Override

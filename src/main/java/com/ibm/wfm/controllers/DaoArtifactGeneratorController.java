@@ -25,6 +25,7 @@ import com.ibm.wfm.utils.Helpers;
 import com.opencsv.exceptions.CsvValidationException;
 
 import freemarker.template.TemplateException;
+import io.swagger.v3.oas.annotations.Parameter;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -77,7 +78,10 @@ public class DaoArtifactGeneratorController {
 	
 	@PostMapping(value="dao-artifact-generator", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 	public ResponseEntity<Resource> daoGenerateAll(@RequestParam("excelFile") MultipartFile excelFile
-			                , @RequestParam(name="Excel Tab Name") String excelTabName
+			                //, @RequestParam(name="Excel Tab Name") String excelTabName
+			                , @RequestParam(name="Excel Tab Name", defaultValue = "All") 
+	                          @Parameter(description = "comma separated list of tabs to generate artifacts for, use ‘ALL’ to get all data.")
+							  String excelTabName
 			                , HttpServletRequest request) throws CsvValidationException, IOException, EtlException, TemplateException, NoSuchMethodException, SecurityException {
 		
 		String excelFileName = fileStorageService.storeFile(excelFile);

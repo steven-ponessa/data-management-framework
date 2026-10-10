@@ -1,6 +1,6 @@
 package com.ibm.wfm.utils;
 
-import java.io.IOException;
+import java.math.BigDecimal;
 import java.sql.Blob;
 import java.sql.Clob;
 import java.sql.ResultSet;
@@ -9,14 +9,17 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.sql.Types;
 
-import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonSerializer;
-import com.fasterxml.jackson.databind.SerializerProvider;
+import tools.jackson.core.JsonGenerator;
+import tools.jackson.core.JacksonException;
+import tools.jackson.databind.SerializationContext;
+import tools.jackson.databind.ValueSerializer;
 
-public class ResultSetSerializer extends JsonSerializer<ResultSet> {
+public class ResultSetSerializer extends ValueSerializer<ResultSet> {
+    //private static ValueSerializer<Object> objectSerializer = null;
+    private static ValueSerializer<Object> clobSerializer   = null;
+    private static ValueSerializer<Object> blobSerializer   = null;
 
-    public static class ResultSetSerializerException extends JsonProcessingException{
+    public static class ResultSetSerializerException extends JacksonException{
         private static final long serialVersionUID = -914957626413580734L;
 
         public ResultSetSerializerException(Throwable cause){
@@ -30,7 +33,7 @@ public class ResultSetSerializer extends JsonSerializer<ResultSet> {
     }
 
     @Override
-    public void serialize(ResultSet rs, JsonGenerator jgen, SerializerProvider provider) throws IOException, JsonProcessingException {
+    public void serialize(ResultSet rs, JsonGenerator jgen, SerializationContext context) throws JacksonException {
 
         try {
             ResultSetMetaData rsmd = rs.getMetaData();
@@ -55,7 +58,7 @@ public class ResultSetSerializer extends JsonSerializer<ResultSet> {
 
                 for (int i = 0; i < columnNames.length; i++) {
 
-                    jgen.writeFieldName(columnNames[i]);
+                    jgen.writeName(columnNames[i]);
                     switch (columnTypes[i]) {
 
                     case Types.INTEGER:
@@ -78,7 +81,11 @@ public class ResultSetSerializer extends JsonSerializer<ResultSet> {
 
                     case Types.DECIMAL:
                     case Types.NUMERIC:
-                        jgen.writeNumber(rs.getBigDecimal(i + 1));
+                        BigDecimal bigDecimal = rs.getBigDecimal(i + 1);
+                        if (rs.wasNull())
+                            jgen.writeNull();
+                        else
+                            jgen.writeNumber(bigDecimal);
                         break;
 
                     case Types.FLOAT:
@@ -92,11 +99,17 @@ public class ResultSetSerializer extends JsonSerializer<ResultSet> {
                         }
                         break;
 
+                    case Types.CHAR:
+                    case Types.NCHAR:
                     case Types.NVARCHAR:
                     case Types.VARCHAR:
                     case Types.LONGNVARCHAR:
                     case Types.LONGVARCHAR:
-                        jgen.writeString(rs.getString(i + 1));
+                        String string = rs.getString(i + 1);
+                        if (rs.wasNull())
+                            jgen.writeNull();
+                        else
+                            jgen.writeString(string);
                         break;
 
                     case Types.BOOLEAN:
@@ -112,7 +125,12 @@ public class ResultSetSerializer extends JsonSerializer<ResultSet> {
                     case Types.BINARY:
                     case Types.VARBINARY:
                     case Types.LONGVARBINARY:
-                        jgen.writeBinary(rs.getBytes(i + 1));
+                        byte[] bytes = rs.getBytes(i + 1);
+                        if (rs.wasNull())
+                            jgen.writeNull();
+                        else {
+                            jgen.writeBinary(bytes);
+                        }
                         break;
 
                     case Types.TINYINT:
@@ -130,7 +148,7 @@ public class ResultSetSerializer extends JsonSerializer<ResultSet> {
                     	if (dt==null)
                     		jgen.writeNull();
                     	else
-                    		provider.defaultSerializeDateValue(rs.getDate(i + 1), jgen);
+                    		context.defaultSerializeDateValue(rs.getDate(i + 1), jgen);
                         break;
 
                     case Types.TIMESTAMP:
@@ -138,18 +156,24 @@ public class ResultSetSerializer extends JsonSerializer<ResultSet> {
                     	if (ts==null)
                     		jgen.writeNull();
                     	else
-                    		provider.defaultSerializeDateValue(rs.getTimestamp(i + 1), jgen);
+                    		context.defaultSerializeDateValue(rs.getTimestamp(i + 1), jgen);
                         break;
 
                     case Types.BLOB:
                         Blob blob = rs.getBlob(i);
-                        provider.defaultSerializeValue(blob.getBinaryStream(), jgen);
+                        if (rs.wasNull())
+                            jgen.writeNull();
+                        else {
+                            if (blobSerializer == null) blobSerializer = context.findValueSerializer(Blob.class);
+                            blobSerializer.serialize(blob, jgen, context);
+                        }
                         blob.free();
                         break;
 
                     case Types.CLOB:
                         Clob clob = rs.getClob(i);
-                        provider.defaultSerializeValue(clob.getCharacterStream(), jgen);
+                        if (clobSerializer == null) clobSerializer = context.findValueSerializer(Clob.class);
+                        clobSerializer.serialize(clob, jgen, context);
                         clob.free();
                         break;
 
@@ -165,9 +189,18 @@ public class ResultSetSerializer extends JsonSerializer<ResultSet> {
                     case Types.REF:
                         throw new RuntimeException("ResultSetSerializer not yet implemented for SQL type REF");
 
+                    //insures that the serializer returned matches the exact class being serialized.
                     case Types.JAVA_OBJECT:
                     default:
-                        provider.defaultSerializeValue(rs.getObject(i + 1), jgen);
+                        Object object = rs.getObject(i + 1);
+                        if (rs.wasNull())
+                            jgen.writeNull();
+                        else {
+                        	ValueSerializer<Object> serializer =
+                        		    context.findValueSerializer(object.getClass());
+
+                        	serializer.serialize(object, jgen, context);
+                        }
                         break;
                     }
                 }

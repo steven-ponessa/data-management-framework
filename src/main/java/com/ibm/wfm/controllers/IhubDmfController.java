@@ -3,9 +3,12 @@ package com.ibm.wfm.controllers;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -19,17 +22,24 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.ibm.wfm.beans.EtlResponse;
+import com.ibm.wfm.beans.ihub.Assignment;
+import com.ibm.wfm.beans.ihub.AssignmentCalendarDay;
+import com.ibm.wfm.beans.ihub.AssignmentScheduleBundle;
 import com.ibm.wfm.beans.ihub.BrandIhubDim;
 import com.ibm.wfm.beans.ihub.GrowthPlatformDim;
 import com.ibm.wfm.beans.ihub.JrsDim;
 import com.ibm.wfm.beans.ihub.JrsSkillAssocDim;
 import com.ibm.wfm.beans.ihub.PracticeDim;
+import com.ibm.wfm.beans.ihub.Schedule;
+import com.ibm.wfm.beans.ihub.ScheduleException;
 import com.ibm.wfm.beans.ihub.ServiceAreaDim;
 import com.ibm.wfm.beans.ihub.ServiceLineDim;
 import com.ibm.wfm.beans.ihub.SkillDim;
 import com.ibm.wfm.configurations.FileStorageProperties;
 import com.ibm.wfm.exceptions.EtlException;
+import com.ibm.wfm.repositories.AssignmentScheduleRepository;
 import com.ibm.wfm.services.FileStorageService;
+import com.ibm.wfm.services.IhubAssignmentCalendarService;
 import com.ibm.wfm.services.IhubDaoService;
 import com.opencsv.exceptions.CsvValidationException;
 
@@ -81,8 +91,7 @@ public class IhubDmfController {
 	 * @throws ClassNotFoundException
 	 * @throws IOException
 	 */
-	@GetMapping(path = { "/wfm-ihub/brands", "/wfm-ihub/brands/{brand-cd}" }, produces = {
-			"application/json", "application/xml" })
+	@GetMapping(path = { "/wfm-ihub/brands", "/wfm-ihub/brands/{brand-cd}"}, produces = MediaType.APPLICATION_JSON_VALUE)
 	public <T> ResponseEntity<Object> retrieveAllBrandByCode(
 			@PathVariable(name = "brand-cd", required = false) String brandCd,
 			@RequestParam(defaultValue = "") @Parameter(description = "Add filter in format of a SQL WHERE clause.") String filters,
@@ -145,35 +154,6 @@ public class IhubDmfController {
 		return ihubDaoService.etl(BrandIhubDim.class, oldFile, newFile, keyLength, outputFileName);
 	}
 
-	/*
-	 * @GetMapping(path="/eds/growth-platforms",produces = { "application/json",
-	 * "application/xml"}) public <T> List<T> retrieveAllGrowthPlatformsTaxCsv(
-	 * 
-	 * @RequestParam(defaultValue = "") @Parameter(description =
-	 * "Add filter in format of a SQL WHERE clause.") String filters
-	 * , @RequestParam(required=false, defaultValue="false") @Parameter(description =
-	 * "Include parent nodes?") boolean includeParentage
-	 * , @RequestParam(required=false, defaultValue="false") @Parameter(description =
-	 * "Include Point in Time data?") boolean includePit
-	 * , @RequestParam(required=false, defaultValue="") @Parameter(description =
-	 * "Specific Point in Time (format: yyyy-MM-dd-hh.mm.ss.sssssss, example = 2021-06-28-00.00.00.0)"
-	 * ) String pit , @RequestParam(defaultValue = "All") @Parameter(description =
-	 * "Size of the results, use ‘ALL’ to get all data.") String resultSetMaxSize )
-	 * throws SQLException, ClassNotFoundException, IOException {
-	 * ihubDaoService.setT(GrowthPlatformDim.class);
-	 * ihubDaoService.setTableNm("REFT.GROWTH_PLATFORM_DIM_V");
-	 * ihubDaoService.setScdTableNm("REFT.GROWTH_PLATFORM_SCD_V");
-	 * 
-	 * boolean useScd = false; if (includePit==true || (pit!=null &&
-	 * pit.trim().length()>0)) useScd = true; int size = -1; if
-	 * (!resultSetMaxSize.equalsIgnoreCase("all")) size =
-	 * Integer.parseInt(resultSetMaxSize);
-	 * 
-	 * if (includeParentage) return ihubDaoService.findAllTax(filters, null, size,
-	 * false); else { if (!useScd) pit=null; return ihubDaoService.findAll(filters,
-	 * pit, size); } }
-	 */
-
 	/**
 	 * GROWTH_PLATFORM - growth-platforms
 	 */
@@ -204,8 +184,7 @@ public class IhubDmfController {
 	 * @throws IOException
 	 */
 	@GetMapping(path = { "/wfm-ihub/growth-platforms",
-			"/wfm-ihub/growth-platforms/{growth-platform-cd}" }, produces = { "application/json",
-					"application/xml" })
+			"/wfm-ihub/growth-platforms/{growth-platform-cd}" }, produces = MediaType.APPLICATION_JSON_VALUE)
 	public synchronized <T> ResponseEntity<Object> retrieveAllGrowthPlatformByCode(
 			@PathVariable(name = "growth-platform-cd", required = false) String growthPlatformCd,
 			@RequestParam(defaultValue = "") @Parameter(description = "Add filter in format of a SQL WHERE clause.") String filters,
@@ -229,8 +208,7 @@ public class IhubDmfController {
 	}
 
 	@GetMapping(path = { "/wfm-ihub/brands/{brand-cd}/growth-platforms",
-			"/wfm-ihub/brands/{brand-cd}/growth-platforms/{growth-platform-cd}" }, produces = {
-					"application/json", "application/xml" })
+			"/wfm-ihub/brands/{brand-cd}/growth-platforms/{growth-platform-cd}" }, produces = MediaType.APPLICATION_JSON_VALUE)
 	public synchronized <T> ResponseEntity<Object> retrieveAllGrowthPlatformByBrandGrowthPlatformCode(
 			@PathVariable(name = "growth-platform-cd", required = false) String growthPlatformCd,
 			@PathVariable(name = "brand-cd") String brandCd,
@@ -324,7 +302,7 @@ public class IhubDmfController {
 	 * @throws IOException
 	 */
 	@GetMapping(path = { "/wfm-ihub/service-lines",
-			"/wfm-ihub/service-lines/{service-line-cd}" }, produces = { "application/json", "application/xml" })
+			"/wfm-ihub/service-lines/{service-line-cd}" }, produces = MediaType.APPLICATION_JSON_VALUE)
 	public synchronized <T> ResponseEntity<Object> retrieveAllServiceLineByCode(
 			@PathVariable(name = "service-line-cd", required = false) String serviceLineCd,
 			@RequestParam(defaultValue = "") @Parameter(description = "Add filter in format of a SQL WHERE clause.") String filters,
@@ -348,8 +326,8 @@ public class IhubDmfController {
 	}
 
 	@GetMapping(path = { "/wfm-ihub/growth-platforms/{growth-platform-cd}/service-lines",
-			"/wfm-ihub/growth-platforms/{growth-platform-cd}/service-lines/{service-line-cd}" }, produces = {
-					"application/json", "application/xml" })
+			"/wfm-ihub/growth-platforms/{growth-platform-cd}/service-lines/{service-line-cd}" }
+			, produces = MediaType.APPLICATION_JSON_VALUE)
 	public synchronized <T> ResponseEntity<Object> retrieveAllServiceLineByGrowthPlatformServiceLineCode(
 			@PathVariable(name = "service-line-cd", required = false) String serviceLineCd,
 			@PathVariable(name = "growth-platform-cd") String growthPlatformCd,
@@ -374,8 +352,8 @@ public class IhubDmfController {
 	}
 
 	@GetMapping(path = { "/wfm-ihub/brands/{brand-cd}/growth-platforms/{growth-platform-cd}/service-lines",
-			"/wfm-ihub/brands/{brand-cd}/growth-platforms/{growth-platform-cd}/service-lines/{service-line-cd}" }, produces = {
-					"application/json", "application/xml" })
+			"/wfm-ihub/brands/{brand-cd}/growth-platforms/{growth-platform-cd}/service-lines/{service-line-cd}" }
+			, produces = MediaType.APPLICATION_JSON_VALUE)
 	public <T> ResponseEntity<Object> retrieveAllServiceLineByBrandGrowthPlatformServiceLineCode(
 			@PathVariable(name = "service-line-cd", required = false) String serviceLineCd,
 			@PathVariable(name = "brand-cd") String brandCd,
@@ -469,8 +447,8 @@ public class IhubDmfController {
 	 * @throws ClassNotFoundException
 	 * @throws IOException
 	 */
-	@GetMapping(path = { "/wfm-ihub/practices", "/wfm-ihub/practices/{practice-cd}" }, produces = {
-			"application/json", "application/xml" })
+	@GetMapping(path = { "/wfm-ihub/practices", "/wfm-ihub/practices/{practice-cd}" }
+			, produces = MediaType.APPLICATION_JSON_VALUE)
 	public synchronized <T> ResponseEntity<Object> retrieveAllPracticeByCode(
 			@PathVariable(name = "practice-cd", required = false) String practiceCd,
 			@RequestParam(defaultValue = "") @Parameter(description = "Add filter in format of a SQL WHERE clause.") String filters,
@@ -494,8 +472,8 @@ public class IhubDmfController {
 	}
 
 	@GetMapping(path = { "/wfm-ihub/service-lines/{service-line-cd}/practices",
-			"/wfm-ihub/service-line/{service-line-cd}/practices/{practice-cd}" }, produces = { "application/json",
-					"application/xml" })
+			"/wfm-ihub/service-line/{service-line-cd}/practices/{practice-cd}" }, 
+			produces = MediaType.APPLICATION_JSON_VALUE)
 	public <T> ResponseEntity<Object> retrieveAllPracticeByServiceLine(
 			@PathVariable(name = "practice-cd", required = false) String practiceCd,
 			@PathVariable(name = "service-line-cd") String serviceLineCd,
@@ -521,8 +499,8 @@ public class IhubDmfController {
 
 	@GetMapping(path = {
 			"/wfm-ihub/brands/{brand-cd}/growth-platforms/{growth-platform-cd}/service-lines/{service-line-cd}/practices",
-			"/wfm-ihub/brands/{brand-cd}/growth-platforms/{growth-platform-cd}/service-lines/{service-line-cd}/practices/{practice-cd}" }, produces = {
-					"application/json", "application/xml" })
+			"/wfm-ihub/brands/{brand-cd}/growth-platforms/{growth-platform-cd}/service-lines/{service-line-cd}/practices/{practice-cd}" }, 
+			produces = MediaType.APPLICATION_JSON_VALUE)
 	public <T> ResponseEntity<Object> retrieveAllPracticeByBrandGpServiceLine(
 			@PathVariable(name = "practice-cd", required = false) String practiceCd,
 			@PathVariable(name = "brand-cd") String brandCd,
@@ -622,7 +600,7 @@ public class IhubDmfController {
 	 * @throws IOException
 	 */
 	@GetMapping(path = { "/wfm-ihub/service-areas",
-			"/wfm-ihub/service-areas/{service-area-cd}" }, produces = { "application/json", "application/xml" })
+			"/wfm-ihub/service-areas/{service-area-cd}" }, produces = MediaType.APPLICATION_JSON_VALUE)
 	public synchronized <T> ResponseEntity<Object> retrieveAllServiceAreaByCode(
 			@PathVariable(name = "service-area-cd", required = false) String serviceAreaCd,
 			@RequestParam(defaultValue = "") @Parameter(description = "Add filter in format of a SQL WHERE clause.") String filters,
@@ -646,8 +624,8 @@ public class IhubDmfController {
 	}
 
 	@GetMapping(path = { "/wfm-ihub/practices/{practice-cd}/service-areas",
-			"/wfm-ihub/practices/{practice-cd}/service-areas/{service-area-cd}" }, produces = {
-					"application/json", "application/xml" })
+			"/wfm-ihub/practices/{practice-cd}/service-areas/{service-area-cd}" }, 
+			produces = MediaType.APPLICATION_JSON_VALUE)
 	public synchronized <T> ResponseEntity<Object> retrieveAllServiceAreaByPracticeCode(
 			@PathVariable(name = "service-area-cd", required = false) String serviceAreaCd,
 			@PathVariable(name = "practice-cd") String practiceCd,
@@ -673,8 +651,8 @@ public class IhubDmfController {
 
 	@GetMapping(path = {
 			"/wfm-ihub/brands/{brand-cd}/growth-platforms/{growth-platform-cd}/service-lines/{service-line-cd}/practices/{practice-cd}/service-areas",
-			"/wfm-ihub/brands/{brand-cd}/growth-platforms/{growth-platform-cd}/service-lines/{service-line-cd}/practices/{practice-cd}/service-areas/{service-area-cd}" }, produces = {
-					"application/json", "application/xml" })
+			"/wfm-ihub/brands/{brand-cd}/growth-platforms/{growth-platform-cd}/service-lines/{service-line-cd}/practices/{practice-cd}/service-areas/{service-area-cd}" }, 
+			produces = MediaType.APPLICATION_JSON_VALUE)
 	public <T> ResponseEntity<Object> retrieveAllServiceAreaByBrandGpSlPracticeCode(
 			@PathVariable(name = "service-area-cd", required = false) String serviceAreaCd,
 			@PathVariable(name = "brand-cd") String brandCd,
@@ -776,8 +754,7 @@ public class IhubDmfController {
 	 * @throws ClassNotFoundException
 	 * @throws IOException
 	 */
-	@GetMapping(path = { "/wfm-ihub/jrss", "/wfm-ihub/jrss/{jrs-cd}" }, produces = { "application/json",
-			"application/xml" })
+	@GetMapping(path = { "/wfm-ihub/jrss", "/wfm-ihub/jrss/{jrs-cd}" }, produces = MediaType.APPLICATION_JSON_VALUE)
 	public <T> ResponseEntity<Object> retrieveAllJrsByCode(
 			@PathVariable(name = "jrs-cd", required = false) String jrsCd,
 			@RequestParam(defaultValue = "") @Parameter(description = "Add filter in format of a SQL WHERE clause.") String filters,
@@ -801,8 +778,7 @@ public class IhubDmfController {
 	}
 
 	@GetMapping(path = { "/wfm-ihub/service-areas/{service-area-cd}/jrss",
-			"/wfm-ihub/service-areas/{service-area-cd}/jrss/{jrs-cd}" }, produces = { "application/json",
-					"application/xml" })
+			"/wfm-ihub/service-areas/{service-area-cd}/jrss/{jrs-cd}" }, produces = MediaType.APPLICATION_JSON_VALUE)
 	public <T> ResponseEntity<Object> retrieveAllJrsByServiceAreaCode(
 			@PathVariable(name = "jrs-cd", required = false) String jrsCd,
 			@PathVariable(name = "service-area-cd") String serviceAreaCd,
@@ -828,8 +804,8 @@ public class IhubDmfController {
 
 	@GetMapping(path = {
 			"/wfm-ihub/brands/{brand-cd}/growth-platforms/{growth-platform-cd}/service-lines/{service-line-cd}/practices/{practice-cd}/service-areas/{service-area-cd}/jrss",
-			"/wfm-ihub/brands/{brand-cd}/growth-platforms/{growth-platform-cd}/service-lines/{service-line-cd}/practices/{practice-cd}/service-areas/{service-area-cd}/jrss/{jrs-cd}" }, produces = {
-					"application/json", "application/xml" })
+			"/wfm-ihub/brands/{brand-cd}/growth-platforms/{growth-platform-cd}/service-lines/{service-line-cd}/practices/{practice-cd}/service-areas/{service-area-cd}/jrss/{jrs-cd}" }
+			, produces = MediaType.APPLICATION_JSON_VALUE)
 	public <T> ResponseEntity<Object> retrieveAllJrsByBrandGpSlPracticeSaCode(
 			@PathVariable(name = "jrs-cd", required = false) String jrsCd,
 			@PathVariable(name = "brand-cd") String brandCd,
@@ -922,7 +898,7 @@ public class IhubDmfController {
 	 * @throws ClassNotFoundException
 	 * @throws IOException
 	 */
-	@GetMapping(path={"/wfm-ihub/jrs-skill-assocs","/wfm-ihub/jrs-skill-assocs/{jrs-cd}/{skill-id}"},produces = { "application/json", "application/xml"})
+	@GetMapping(path={"/wfm-ihub/jrs-skill-assocs","/wfm-ihub/jrs-skill-assocs/{jrs-cd}/{skill-id}"},produces = MediaType.APPLICATION_JSON_VALUE)
 	public <T> ResponseEntity<Object> retrieveAllJrsSkillAssocByCode(
 			  @PathVariable(name="jrs-cd", required=false) String jrsCd
 			, @PathVariable(name="skill-id", required=false) String skillId
@@ -963,7 +939,7 @@ public class IhubDmfController {
 		                                                     , request);
 	}
 	
-	@GetMapping(path={"/wfm-ihub/jrs-skill-assocs/{jrs-cd}/skills"},produces = { "application/json", "application/xml"})
+	@GetMapping(path={"/wfm-ihub/jrs-skill-assocs/{jrs-cd}/skills"},produces = MediaType.APPLICATION_JSON_VALUE)
 	public <T> ResponseEntity<Object> retrieveAllJrsSkillAssocByJrsCode(
 			  @PathVariable(name="jrs-cd") String jrsCd
 			, @RequestParam(defaultValue = "") @Parameter(description = "Add filter in format of a SQL WHERE clause.") String filters
@@ -1055,7 +1031,7 @@ public class IhubDmfController {
 	 * @throws ClassNotFoundException
 	 * @throws IOException
 	 */
-	@GetMapping(path={"/wfm-ihub/skills","/wfm-ihub/skills/{skill-id}"},produces = { "application/json", "application/xml"})
+	@GetMapping(path={"/wfm-ihub/skills","/wfm-ihub/skills/{skill-id}"},produces = MediaType.APPLICATION_JSON_VALUE)
 	public <T> ResponseEntity<Object> retrieveAllSkillByCode(
 			  @PathVariable(name="skill-id", required=false) String skillId
 			, @RequestParam(defaultValue = "") @Parameter(description = "Add filter in format of a SQL WHERE clause.") String filters
@@ -1124,8 +1100,7 @@ public class IhubDmfController {
 	}	
 	
 	
-	@GetMapping(path = "/wfm-ihub/jrss/{jrs-cd}/skills", produces = {
-			"application/json", "application/xml" })
+	@GetMapping(path = "/wfm-ihub/jrss/{jrs-cd}/skills", produces = MediaType.APPLICATION_JSON_VALUE)
 	public <T> ResponseEntity<Object> retrieveSkillsForJrs(@PathVariable(name = "jrs-cd") String jrsCd,
 			@RequestParam(required = false, defaultValue = "false") @Parameter(description = "Return results as CSV") boolean returnCsv,
 			//@RequestParam(required = false, defaultValue = "") @Parameter(description = "Specific Point in Time (format: yyyy-MM-dd-hh.mm.ss.sssssss, example = 2021-06-28-00.00.00.0)") String pit,
@@ -1133,12 +1108,260 @@ public class IhubDmfController {
 			HttpServletRequest request)
 			throws SQLException, ClassNotFoundException, IOException {
 		
-		ihubDaoService.setT(SkillDim.class);
+		//ihubDaoService.setT(SkillDim.class);
 
 		String sql = "SELECT S.SKILL_SK_ID, S.SKILL_ID, S.SKILL_NM, S.SKILL_DESC FROM REFT.SKILL_DIM_V S INNER JOIN REFT.JRS_SKILL_ASSOC_DIM_V A ON S.SKILL_ID=A.SKILL_ID WHERE A.JRS_CD='"+jrsCd+"' ORDER BY S.SKILL_ID";
 
 		return ihubDaoService.getListForSql(SkillDim.class, ihubDaoService.getConnection(), sql, returnCsv, request);
 	}
+	
+	/*
+	 * get 13 week calendar
+	 */
+	
+	@GetMapping(
+		    path = {"/wfm-ihub/assignment-calendar/{assignmentId}", "/wfm-ihub/assignment-calendar"},
+		    produces = MediaType.APPLICATION_JSON_VALUE
+		)
+		public ResponseEntity<Object> getAssignment13WeekCalendar(
+		        @PathVariable(name = "assignmentId", required = false) String assignmentId,
+		        @RequestParam(name = "assignmentId", required = false) String assignmentIdParam,
+		        @RequestParam(required = false, defaultValue = "false")
+		        @Parameter(description = "Return results as CSV")
+		        boolean returnCsv) {
+
+		    String resolvedAssignmentId =
+		            assignmentId != null && !assignmentId.isBlank() ? assignmentId : assignmentIdParam;
+
+		    if (resolvedAssignmentId == null || resolvedAssignmentId.isBlank()) {
+		        return ResponseEntity.badRequest()
+		                .body("A value must be provided for assignmentId.");
+		    }
+
+		    try (java.sql.Connection conn = ihubDaoService.getConnection()) {
+
+		    	AssignmentScheduleRepository assignmentScheduleRepository = new AssignmentScheduleRepository();
+		        AssignmentScheduleBundle bundle =
+		                assignmentScheduleRepository.loadAssignmentScheduleBundle(conn, resolvedAssignmentId);
+
+		        if (bundle == null || bundle.getAssignment() == null || bundle.getSchedule() == null) {
+		            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+		                    .body("No Assignment/Schedule data found for assignmentId=" + resolvedAssignmentId);
+		        }
+
+		        IhubAssignmentCalendarService assignmentCalendarService = new IhubAssignmentCalendarService();
+		        List<AssignmentCalendarDay> calendar =
+		        		assignmentCalendarService.generate13WeekCalendar(bundle);
+
+		        if (returnCsv) {
+		            String csv = buildAssignmentCalendarCsv(calendar);
+		            return ResponseEntity.ok()
+		                    .header(HttpHeaders.CONTENT_DISPOSITION,
+		                            "attachment; filename=assignment-calendar-" + resolvedAssignmentId + ".csv")
+		                    .contentType(org.springframework.http.MediaType.parseMediaType("text/csv"))
+		                    .body(csv);
+		        }
+
+		        return ResponseEntity.ok(calendar);
+
+		    } catch (Exception e) {
+		        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+		                .body("Error generating 13-week calendar for assignmentId=" + resolvedAssignmentId
+		                        + ": " + e.getMessage());
+		    }
+		}
+	
+	@GetMapping(
+		    path = {"/wfm-ihub/assignment-schedule/{assignmentId}", "/wfm-ihub/assignment-schedule"},
+		    produces = MediaType.APPLICATION_JSON_VALUE
+		)
+		public ResponseEntity<Object> getAssignmentScheduleBundle(
+		        @PathVariable(name = "assignmentId", required = false) String assignmentId,
+		        @RequestParam(name = "assignmentId", required = false) String assignmentIdParam,
+		        @RequestParam(required = false, defaultValue = "false")
+		        @Parameter(description = "Return results as CSV")
+		        boolean returnCsv) {
+
+		    String resolvedAssignmentId =
+		            (assignmentId != null && !assignmentId.isBlank())
+		                    ? assignmentId
+		                    : assignmentIdParam;
+
+		    if (resolvedAssignmentId == null || resolvedAssignmentId.isBlank()) {
+		        return ResponseEntity.badRequest()
+		                .body("A value must be provided for assignmentId.");
+		    }
+
+		    try (java.sql.Connection conn = ihubDaoService.getConnection()) {
+
+		    	AssignmentScheduleRepository assignmentScheduleRepository = new AssignmentScheduleRepository();
+		        AssignmentScheduleBundle bundle =
+		                assignmentScheduleRepository.loadAssignmentScheduleBundle(conn, resolvedAssignmentId);
+
+		        if (bundle == null || bundle.getAssignment() == null || bundle.getSchedule() == null) {
+		            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+		                    .body("No Assignment/Schedule data found for assignmentId=" + resolvedAssignmentId);
+		        }
+		        if (returnCsv) {
+		            String csv = buildAssignmentScheduleBundleCsv(bundle);
+
+		            return ResponseEntity.ok()
+		                    .header(HttpHeaders.CONTENT_DISPOSITION,
+		                            "attachment; filename=assignment-schedule-" + resolvedAssignmentId + ".csv")
+		                    .contentType(org.springframework.http.MediaType.parseMediaType("text/csv"))
+		                    .body(csv);
+		        }
+
+		        return ResponseEntity.ok(bundle);
+
+		    } catch (Exception e) {
+		        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+		                .body("Error retrieving AssignmentScheduleBundle for assignmentId=" + resolvedAssignmentId
+		                        + ": " + e.getMessage());
+		    }
+		}
+	
+	/*
+	 * CSV Helper Methods
+	 */
+	private String buildAssignmentCalendarCsv(List<AssignmentCalendarDay> calendar) {
+	    StringBuilder sb = new StringBuilder();
+
+	    sb.append("ASSIGNMENT_ID,")
+	      .append("ASSIGNMENT_NAME,")
+	      .append("SCHEDULE_ID,")
+	      .append("SCHEDULE_NAME,")
+	      .append("DATE_DT,")
+	      .append("EFFECTIVE_HOURS,")
+	      .append("HOURS_SOURCE,")
+	      .append("EXCEPTION_ID")
+	      .append("\n");
+
+	    for (AssignmentCalendarDay day : calendar) {
+	        sb.append(csv(day.getAssignmentId())).append(",")
+	          .append(csv(day.getAssignmentName())).append(",")
+	          .append(csv(day.getScheduleId())).append(",")
+	          .append(csv(day.getScheduleName())).append(",")
+	          .append(csv(day.getDate())).append(",")
+	          .append(csv(day.getEffectiveHours())).append(",")
+	          .append(csv(day.getHoursSource())).append(",")
+	          .append(csv(day.getExceptionId()))
+	          .append("\n");
+	    }
+
+	    return sb.toString();
+	}	
+	
+	private String buildAssignmentScheduleBundleCsv(AssignmentScheduleBundle bundle) {
+	    StringBuilder sb = new StringBuilder();
+
+	    sb.append("ASSIGNMENT_ID,")
+	      .append("ASSIGNMENT_NAME,")
+	      .append("ASG_START_DT,")
+	      .append("ASG_END_DT,")
+	      .append("SCHEDULE_ID,")
+	      .append("SCHEDULE_NAME,")
+	      .append("PSE_WEEK_TOTAL_HOURS,")
+	      .append("PSE_SCHEDULED_DAYS,")
+	      .append("PSE_SCHEDULED_HOURS,")
+	      .append("PSE_IS_BLOCKING,")
+	      .append("T_MO,")
+	      .append("T_TU,")
+	      .append("T_WE,")
+	      .append("T_TH,")
+	      .append("T_FR,")
+	      .append("T_SA,")
+	      .append("T_SU,")
+	      .append("EXCEPTION_ID,")
+	      .append("EXC_START_DT,")
+	      .append("EXC_END_DT,")
+	      .append("LASTMODIFIEDDATE,")
+	      .append("X_MO,")
+	      .append("X_TU,")
+	      .append("X_WE,")
+	      .append("X_TH,")
+	      .append("X_FR,")
+	      .append("X_SA,")
+	      .append("X_SU")
+	      .append("\n");
+
+	    Assignment a = bundle.getAssignment();
+	    Schedule s = bundle.getSchedule();
+	    List<ScheduleException> exceptions = bundle.getScheduleExceptions();
+
+	    if (exceptions == null || exceptions.isEmpty()) {
+	        appendBundleCsvRow(sb, a, s, null);
+	    } else {
+	        for (ScheduleException e : exceptions) {
+	            appendBundleCsvRow(sb, a, s, e);
+	        }
+	    }
+
+	    return sb.toString();
+	}
+	
+	private void appendBundleCsvRow(
+	        StringBuilder sb,
+	        Assignment a,
+	        Schedule s,
+	        ScheduleException e) {
+
+	    sb.append(csv(a != null ? a.getAssignmentId() : null)).append(",")
+	      .append(csv(a != null ? a.getAssignmentName() : null)).append(",")
+	      .append(csv(a != null ? a.getStartDate() : null)).append(",")
+	      .append(csv(a != null ? a.getEndDate() : null)).append(",")
+	      .append(csv(s != null ? s.getScheduleId() : null)).append(",")
+	      .append(csv(s != null ? s.getScheduleName() : null)).append(",")
+	      .append(csv(s != null ? s.getWeekTotalHours() : null)).append(",")
+	      .append(csv(s != null ? s.getScheduledDays() : null)).append(",")
+	      .append(csv(s != null ? s.getScheduledHours() : null)).append(",")
+	      .append(csv(s != null ? s.getBlocking() : null)).append(",")
+	      .append(csv(s != null ? s.getMondayHours() : null)).append(",")
+	      .append(csv(s != null ? s.getTuesdayHours() : null)).append(",")
+	      .append(csv(s != null ? s.getWednesdayHours() : null)).append(",")
+	      .append(csv(s != null ? s.getThursdayHours() : null)).append(",")
+	      .append(csv(s != null ? s.getFridayHours() : null)).append(",")
+	      .append(csv(s != null ? s.getSaturdayHours() : null)).append(",")
+	      .append(csv(s != null ? s.getSundayHours() : null)).append(",");
+
+	    if (e != null) {
+	        sb.append(csv(e.getExceptionId())).append(",")
+	          .append(csv(e.getStartDate())).append(",")
+	          .append(csv(e.getEndDate())).append(",")
+	          .append(csv(e.getLastModifiedDate())).append(",")
+	          .append(csv(e.getMondayHours())).append(",")
+	          .append(csv(e.getTuesdayHours())).append(",")
+	          .append(csv(e.getWednesdayHours())).append(",")
+	          .append(csv(e.getThursdayHours())).append(",")
+	          .append(csv(e.getFridayHours())).append(",")
+	          .append(csv(e.getSaturdayHours())).append(",")
+	          .append(csv(e.getSundayHours()));
+	    } else {
+	        sb.append(",,,,,,,,,,");
+	    }
+
+	    sb.append("\n");
+	}
+	
+	private String csv(Object value) {
+	    if (value == null) {
+	        return "";
+	    }
+
+	    String text = String.valueOf(value);
+
+	    boolean mustQuote =
+	            text.contains(",") ||
+	            text.contains("\"") ||
+	            text.contains("\n") ||
+	            text.contains("\r");
+
+	    if (text.contains("\"")) {
+	        text = text.replace("\"", "\"\"");
+	    }
+
+	    return mustQuote ? "\"" + text + "\"" : text;
+	}	
 	
 
 }

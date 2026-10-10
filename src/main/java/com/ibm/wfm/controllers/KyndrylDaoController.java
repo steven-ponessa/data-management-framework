@@ -52,16 +52,13 @@ public class KyndrylDaoController {
 	 * KYNDRYL_ORGANIZATION_MARKET
 	 */
 	/* KYNDRYL_ORGANIZATION_MARKET */
-	@GetMapping(path="/kyndryl/organization-markets",produces = { "application/json", "application/xml"})
-	public <T> List<T> retrieveAllOrgMarkets(
+	@GetMapping(path="/kyndryl/organization-markets",produces = MediaType.APPLICATION_JSON_VALUE)
+	public <T> List<KyndrylOrganizationMarketDim> retrieveAllOrgMarkets(
 			  @RequestParam(defaultValue = "") @Parameter(description = "Add filter in format of a SQL WHERE clause.") String filters
 			, @RequestParam(required=false, defaultValue="false") @Parameter(description = "Include Point in Time data?") boolean includePit
 			, @RequestParam(required=false, defaultValue="") @Parameter(description = "Specific Point in Time (format: yyyy-MM-dd-hh.mm.ss.sssssss, example = 2021-06-28-00.00.00.0)") String pit
 			, @RequestParam(defaultValue = "All") @Parameter(description = "Size of the results, use ‘ALL’ to get all data.") String resultSetMaxSize
 			) throws SQLException, ClassNotFoundException, IOException {
-		kyndrylDaoService.setT(KyndrylOrganizationMarketDim.class);
-		kyndrylDaoService.setTableNm("REFT.KYNDRYL_ORGANIZATION_MARKET_DIM_V");
-		kyndrylDaoService.setScdTableNm("REFT.KYNDRYL_ORGANIZATION_MARKET_SCD_V");
 		
 		boolean includeParentage = false;
 		boolean useScd = false;
@@ -70,25 +67,22 @@ public class KyndrylDaoController {
 		if (!resultSetMaxSize.equalsIgnoreCase("all")) 
 			size = Integer.parseInt(resultSetMaxSize);
 		if (includeParentage)
-			return kyndrylDaoService.findAllTax(filters, null, size, "WW"); //SP - 2021-09-08
+			return kyndrylDaoService.findAllTax(KyndrylOrganizationMarketDim.class, filters, null, size, "WW"); //SP - 2021-09-08
 		else {
 			if (!useScd) pit=null;
-			return kyndrylDaoService.findAll(filters, pit, size);
+			return kyndrylDaoService.findAll(KyndrylOrganizationMarketDim.class, filters, pit, size);
 		}
 	}
 	
-	@GetMapping(path="/kyndryl/organization-markets/{org-market-cd}",produces = { "application/json", "application/xml"})
-	public <T> List<T> retrieveOrgMarket(
+	@GetMapping(path="/kyndryl/organization-markets/{org-market-cd}",produces = MediaType.APPLICATION_JSON_VALUE)
+	public <T> List<KyndrylOrganizationMarketDim> retrieveOrgMarket(
 			  @PathVariable(name="org-market-cd") String orgMarketCd
 			, @RequestParam(defaultValue = "") @Parameter(description = "Add filter in format of a SQL WHERE clause.") String filters
 			, @RequestParam(required=false, defaultValue="false") @Parameter(description = "Include Point in Time data?") boolean includePit
 			, @RequestParam(required=false, defaultValue="") @Parameter(description = "Specific Point in Time (format: yyyy-MM-dd-hh.mm.ss.sssssss, example = 2021-06-28-00.00.00.0)") String pit
 			, @RequestParam(defaultValue = "All") @Parameter(description = "Size of the results, use ‘ALL’ to get all data.") String resultSetMaxSize
 			) throws SQLException, ClassNotFoundException, IOException {
-		kyndrylDaoService.setT(KyndrylOrganizationMarketDim.class);
-		kyndrylDaoService.setTableNm("REFT.KYNDRYL_ORGANIZATION_MARKET_DIM_V");
-		kyndrylDaoService.setScdTableNm("REFT.KYNDRYL_ORGANIZATION_MARKET_SCD_V");
-		
+
 		//Bad implementation - add String key to findAll() method strateically
 		filters+= (filters.trim().length()>0?" AND ":"")+"ORG_MKT_CD='"+orgMarketCd.trim()+"'";
 		
@@ -99,10 +93,10 @@ public class KyndrylDaoController {
 		if (!resultSetMaxSize.equalsIgnoreCase("all")) 
 			size = Integer.parseInt(resultSetMaxSize);
 		if (includeParentage)
-			return kyndrylDaoService.findAllTax(filters, null, size, "WW"); //SP - 2021-09-08
+			return kyndrylDaoService.findAllTax(KyndrylOrganizationMarketDim.class, filters, null, size, "WW"); //SP - 2021-09-08
 		else {
 			if (!useScd) pit=null;
-			return kyndrylDaoService.findAll(filters, pit, size);
+			return kyndrylDaoService.findAll(KyndrylOrganizationMarketDim.class, filters, pit, size);
 		}
 	}
 	
@@ -133,17 +127,11 @@ public class KyndrylDaoController {
 	
 	@DeleteMapping("/kyndryl/organization-markets")
 	public int deleteAllOrgMarkets() {
-		kyndrylDaoService.setT(KyndrylOrganizationMarketDim.class);
-		kyndrylDaoService.setTableNm("REFT.KYNDRYL_ORGANIZATION_MARKET_DIM_V");
-		kyndrylDaoService.setScdTableNm("REFT.KYNDRYL_ORGANIZATION_MARKET_SCD_V");
-		return kyndrylDaoService.deleteAll();
+		return kyndrylDaoService.deleteAll(KyndrylOrganizationMarketDim.class);
 	}
 	
 	@DeleteMapping("/kyndryl/organization-markets/{org-market-cd}")
 	public int deleteOrgMarket(@PathVariable(name="org-market-cd") String orgMarketCd) {
-		kyndrylDaoService.setT(KyndrylOrganizationMarketDim.class);
-		kyndrylDaoService.setTableNm("REFT.KYNDRYL_ORGANIZATION_MARKET_DIM_V");
-		kyndrylDaoService.setScdTableNm("REFT.KYNDRYL_ORGANIZATION_MARKET_SCD_V");
 		
 		KyndrylOrganizationMarketDim kyndrylOrganizationMarketDim = new KyndrylOrganizationMarketDim(orgMarketCd);
 		
@@ -156,11 +144,9 @@ public class KyndrylDaoController {
 			                , @RequestParam(name="Output File Name",defaultValue="kyndryl-org-market.csv") String outputFileNm) throws CsvValidationException, IOException, EtlException, IllegalArgumentException, IllegalAccessException, SQLException {
 		String oldFileName = fileStorageService.storeFile(oldFile);
 		String newFileName = fileStorageService.storeFile(newFile);
-		kyndrylDaoService.setT(KyndrylOrganizationMarketDim.class);
-		kyndrylDaoService.setTableNm("REFT.KYNDRYL_ORGANIZATION_MARKET_DIM_V");
-		kyndrylDaoService.setScdTableNm("REFT.KYNDRYL_ORGANIZATION_MARKET_SCD_V");
 		
-		EtlResponse etlResponse = kyndrylDaoService.etl(fileStorageProperties.getUploadDir()+"/"+oldFileName
+		EtlResponse etlResponse = kyndrylDaoService.etl(KyndrylOrganizationMarketDim.class
+				                                          , fileStorageProperties.getUploadDir()+"/"+oldFileName
 				                                          , fileStorageProperties.getUploadDir()+"/"+newFileName
 				                                          , 1
 				                                          , fileStorageProperties.getUploadDir()+"/"+outputFileNm);
@@ -169,16 +155,13 @@ public class KyndrylDaoController {
 	}
 	
 	/* KYNDRYL_STRATEGIC_MARKET */
-	@GetMapping(path="/kyndryl/strategic-markets",produces = { "application/json", "application/xml"})
-	public <T> List<T> retrieveAllStrategicMarkets(
+	@GetMapping(path="/kyndryl/strategic-markets",produces = MediaType.APPLICATION_JSON_VALUE)
+	public <T> List<KyndrylOrganizationMarketDim> retrieveAllStrategicMarkets(
 			  @RequestParam(defaultValue = "") @Parameter(description = "Add filter in format of a SQL WHERE clause.") String filters
 			, @RequestParam(required=false, defaultValue="false") @Parameter(description = "Include Point in Time data?") boolean includePit
 			, @RequestParam(required=false, defaultValue="") @Parameter(description = "Specific Point in Time (format: yyyy-MM-dd-hh.mm.ss.sssssss, example = 2021-06-28-00.00.00.0)") String pit
 			, @RequestParam(defaultValue = "All") @Parameter(description = "Size of the results, use ‘ALL’ to get all data.") String resultSetMaxSize
 			) throws SQLException, ClassNotFoundException, IOException {
-		kyndrylDaoService.setT(KyndrylStrategicMarketDim.class);
-		kyndrylDaoService.setTableNm("REFT.KYNDRYL_STRATEGIC_MARKET_DIM_V");
-		kyndrylDaoService.setScdTableNm("REFT.KYNDRYL_STRATEGIC_MARKET_SCD_V");
 		
 		boolean includeParentage = false;
 		boolean useScd = false;
@@ -187,24 +170,21 @@ public class KyndrylDaoController {
 		if (!resultSetMaxSize.equalsIgnoreCase("all")) 
 			size = Integer.parseInt(resultSetMaxSize);
 		if (includeParentage)
-			return kyndrylDaoService.findAllTax(filters, null, size, "WW"); //SP - 2021-09-08
+			return kyndrylDaoService.findAllTax(KyndrylOrganizationMarketDim.class, filters, null, size, "WW"); //SP - 2021-09-08
 		else {
 			if (!useScd) pit=null;
-			return kyndrylDaoService.findAll(filters, pit, size);
+			return kyndrylDaoService.findAll(KyndrylOrganizationMarketDim.class, filters, pit, size);
 		}
 	}
 	
-	@GetMapping(path="/kyndryl/strategic-markets/{strategic-market-cd}",produces = { "application/json", "application/xml"})
-	public <T> List<T> retrieveStategicMarket(
+	@GetMapping(path="/kyndryl/strategic-markets/{strategic-market-cd}",produces = MediaType.APPLICATION_JSON_VALUE)
+	public <T> List<KyndrylStrategicMarketDim> retrieveStategicMarket(
 			  @PathVariable(name="strategic-market-cd") String strategicMarketCd
 			, @RequestParam(defaultValue = "") @Parameter(description = "Add filter in format of a SQL WHERE clause.") String filters
 			, @RequestParam(required=false, defaultValue="false") @Parameter(description = "Include Point in Time data?") boolean includePit
 			, @RequestParam(required=false, defaultValue="") @Parameter(description = "Specific Point in Time (format: yyyy-MM-dd-hh.mm.ss.sssssss, example = 2021-06-28-00.00.00.0)") String pit
 			, @RequestParam(defaultValue = "All") @Parameter(description = "Size of the results, use ‘ALL’ to get all data.") String resultSetMaxSize
 			) throws SQLException, ClassNotFoundException, IOException {
-		kyndrylDaoService.setT(KyndrylStrategicMarketDim.class);
-		kyndrylDaoService.setTableNm("REFT.KYNDRYL_STRATEGIC_MARKET_DIM_V");
-		kyndrylDaoService.setScdTableNm("REFT.KYNDRYL_STRATEGIC_MARKET_SCD_V");
 		
 		//Bad implementation - add String key to findAll() method strateically
 		filters+= (filters.trim().length()>0?" AND ":"")+"STRATEGIC_MKT_CD='"+strategicMarketCd.trim()+"'";
@@ -216,10 +196,10 @@ public class KyndrylDaoController {
 		if (!resultSetMaxSize.equalsIgnoreCase("all")) 
 			size = Integer.parseInt(resultSetMaxSize);
 		if (includeParentage)
-			return kyndrylDaoService.findAllTax(filters, null, size, "WW"); //SP - 2021-09-08
+			return kyndrylDaoService.findAllTax(KyndrylStrategicMarketDim.class, filters, null, size, "WW"); //SP - 2021-09-08
 		else {
 			if (!useScd) pit=null;
-			return kyndrylDaoService.findAll(filters, pit, size);
+			return kyndrylDaoService.findAll(KyndrylStrategicMarketDim.class, filters, pit, size);
 		}
 	}
 	
@@ -250,17 +230,11 @@ public class KyndrylDaoController {
 	
 	@DeleteMapping("/kyndryl/strategic-markets")
 	public int deleteAllStrategicMarkets() {
-		kyndrylDaoService.setT(KyndrylStrategicMarketDim.class);
-		kyndrylDaoService.setTableNm("REFT.KYNDRYL_STRATEGIC_MARKET_DIM_V");
-		kyndrylDaoService.setScdTableNm("REFT.KYNDRYL_STRATEGIC_MARKET_SCD_V");
-		return kyndrylDaoService.deleteAll();
+		return kyndrylDaoService.deleteAll(KyndrylStrategicMarketDim.class);
 	}
 	
 	@DeleteMapping("/kyndryl/strategic-markets/{strategic-market-cd}")
 	public int deleteStrategicMarket(@PathVariable(name="strategic-market-cd") String strategicMarketCd) {
-		kyndrylDaoService.setT(KyndrylStrategicMarketDim.class);
-		kyndrylDaoService.setTableNm("REFT.KYNDRYL_STRATEGIC_MARKET_DIM_V");
-		kyndrylDaoService.setScdTableNm("REFT.KYNDRYL_STRATEGIC_MARKET_SCD_V");
 		
 		KyndrylStrategicMarketDim kyndrylOrganizationMarketDim = new KyndrylStrategicMarketDim(strategicMarketCd);
 		
@@ -273,11 +247,9 @@ public class KyndrylDaoController {
 			                , @RequestParam(name="Output File Name",defaultValue="kyndryl-strategic-market.csv") String outputFileNm) throws CsvValidationException, IOException, EtlException, IllegalArgumentException, IllegalAccessException, SQLException {
 		String oldFileName = fileStorageService.storeFile(oldFile);
 		String newFileName = fileStorageService.storeFile(newFile);
-		kyndrylDaoService.setT(KyndrylStrategicMarketDim.class);
-		kyndrylDaoService.setTableNm("REFT.KYNDRYL_STRATEGIC_MARKET_DIM_V");
-		kyndrylDaoService.setScdTableNm("REFT.KYNDRYL_STRATEGIC_MARKET_SCD_V");
 		
-		EtlResponse etlResponse = kyndrylDaoService.etl(fileStorageProperties.getUploadDir()+"/"+oldFileName
+		EtlResponse etlResponse = kyndrylDaoService.etl(KyndrylStrategicMarketDim.class
+				                                          , fileStorageProperties.getUploadDir()+"/"+oldFileName
 				                                          , fileStorageProperties.getUploadDir()+"/"+newFileName
 				                                          , 1
 				                                          , fileStorageProperties.getUploadDir()+"/"+outputFileNm);
@@ -286,16 +258,13 @@ public class KyndrylDaoController {
 	}	
 	
 	/* KYNDRYL_COUNTRY_DIM */
-	@GetMapping(path="/kyndryl/countries",produces = { "application/json", "application/xml"})
-	public <T> List<T> retrieveAllCountries(
+	@GetMapping(path="/kyndryl/countries",produces = MediaType.APPLICATION_JSON_VALUE)
+	public <T> List<KyndrylCountryDim> retrieveAllCountries(
 			  @RequestParam(defaultValue = "") @Parameter(description = "Add filter in format of a SQL WHERE clause.") String filters
 			, @RequestParam(required=false, defaultValue="false") @Parameter(description = "Include Point in Time data?") boolean includePit
 			, @RequestParam(required=false, defaultValue="") @Parameter(description = "Specific Point in Time (format: yyyy-MM-dd-hh.mm.ss.sssssss, example = 2021-06-28-00.00.00.0)") String pit
 			, @RequestParam(defaultValue = "All") @Parameter(description = "Size of the results, use ‘ALL’ to get all data.") String resultSetMaxSize
 			) throws SQLException, ClassNotFoundException, IOException {
-		kyndrylDaoService.setT(KyndrylCountryDim.class);
-		kyndrylDaoService.setTableNm("REFT.KYNDRYL_COUNTRY_DIM_V");
-		kyndrylDaoService.setScdTableNm("REFT.KYNDRYL_COUNTRY_SCD_V");
 		
 		boolean includeParentage = false;
 		boolean useScd = false;
@@ -304,25 +273,22 @@ public class KyndrylDaoController {
 		if (!resultSetMaxSize.equalsIgnoreCase("all")) 
 			size = Integer.parseInt(resultSetMaxSize);
 		if (includeParentage)
-			return kyndrylDaoService.findAllTax(filters, null, size, "WW"); //SP - 2021-09-08
+			return kyndrylDaoService.findAllTax(KyndrylCountryDim.class, filters, null, size, "WW"); //SP - 2021-09-08
 		else {
 			if (!useScd) pit=null;
-			return kyndrylDaoService.findAll(filters, pit, size);
+			return kyndrylDaoService.findAll(KyndrylCountryDim.class, filters, pit, size);
 		}
 	}
 	
-	@GetMapping(path="/kyndryl/countries/{country-iso-cd}",produces = { "application/json", "application/xml"})
-	public <T> List<T> retrieveCountries(
+	@GetMapping(path="/kyndryl/countries/{country-iso-cd}",produces = MediaType.APPLICATION_JSON_VALUE)
+	public <T> List<KyndrylCountryDim> retrieveCountries(
 			  @PathVariable(name="country-iso-cd") String ctryIsoCd
 			, @RequestParam(defaultValue = "") @Parameter(description = "Add filter in format of a SQL WHERE clause.") String filters
 			, @RequestParam(required=false, defaultValue="false") @Parameter(description = "Include Point in Time data?") boolean includePit
 			, @RequestParam(required=false, defaultValue="") @Parameter(description = "Specific Point in Time (format: yyyy-MM-dd-hh.mm.ss.sssssss, example = 2021-06-28-00.00.00.0)") String pit
 			, @RequestParam(defaultValue = "All") @Parameter(description = "Size of the results, use ‘ALL’ to get all data.") String resultSetMaxSize
 			) throws SQLException, ClassNotFoundException, IOException {
-		kyndrylDaoService.setT(KyndrylCountryDim.class);
-		kyndrylDaoService.setTableNm("REFT.KYNDRYL_COUNTRY_DIM_V");
-		kyndrylDaoService.setScdTableNm("REFT.KYNDRYL_COUNTRY_SCD_V");
-		
+
 		//Bad implementation - add String key to findAll() method strateically
 		filters+= (filters.trim().length()>0?" AND ":"")+"CTRY_ISO_CD='"+ctryIsoCd.trim()+"'";
 		
@@ -333,10 +299,10 @@ public class KyndrylDaoController {
 		if (!resultSetMaxSize.equalsIgnoreCase("all")) 
 			size = Integer.parseInt(resultSetMaxSize);
 		if (includeParentage)
-			return kyndrylDaoService.findAllTax(filters, null, size, "WW"); //SP - 2021-09-08
+			return kyndrylDaoService.findAllTax(KyndrylCountryDim.class, filters, null, size, "WW"); //SP - 2021-09-08
 		else {
 			if (!useScd) pit=null;
-			return kyndrylDaoService.findAll(filters, pit, size);
+			return kyndrylDaoService.findAll(KyndrylCountryDim.class, filters, pit, size);
 		}
 	}
 	
@@ -367,17 +333,11 @@ public class KyndrylDaoController {
 	
 	@DeleteMapping("/kyndryl/countries")
 	public int deleteAllCountries() {
-		kyndrylDaoService.setT(KyndrylCountryDim.class);
-		kyndrylDaoService.setTableNm("REFT.KYNDRYL_COUNTRY_DIM_V");
-		kyndrylDaoService.setScdTableNm("REFT.KYNDRYL_COUNTRY_SCD_V");
-		return kyndrylDaoService.deleteAll();
+		return kyndrylDaoService.deleteAll(KyndrylCountryDim.class);
 	}
 	
 	@DeleteMapping("/kyndryl/countries/{country-iso-cd}")
 	public int deleteKyndrylCountries(@PathVariable(name="country-iso-cd") String ctryIsoCd) {
-		kyndrylDaoService.setT(KyndrylCountryDim.class);
-		kyndrylDaoService.setTableNm("REFT.KYNDRYL_COUNTRY_DIM_V");
-		kyndrylDaoService.setScdTableNm("REFT.KYNDRYL_COUNTRY_SCD_V");
 		
 		KyndrylCountryDim kyndrylCountryDim = new KyndrylCountryDim(ctryIsoCd);
 		
@@ -390,11 +350,9 @@ public class KyndrylDaoController {
 			                , @RequestParam(name="Output File Name",defaultValue="kyndryl-countries.csv") String outputFileNm) throws CsvValidationException, IOException, EtlException, IllegalArgumentException, IllegalAccessException, SQLException {
 		String oldFileName = fileStorageService.storeFile(oldFile);
 		String newFileName = fileStorageService.storeFile(newFile);
-		kyndrylDaoService.setT(KyndrylCountryDim.class);
-		kyndrylDaoService.setTableNm("REFT.KYNDRYL_COUNTRY_DIM_V");
-		kyndrylDaoService.setScdTableNm("REFT.KYNDRYL_COUNTRY_SCD_V");
-		
-		EtlResponse etlResponse = kyndrylDaoService.etl(fileStorageProperties.getUploadDir()+"/"+oldFileName
+
+		EtlResponse etlResponse = kyndrylDaoService.etl(KyndrylCountryDim.class
+				                                          , fileStorageProperties.getUploadDir()+"/"+oldFileName
 				                                          , fileStorageProperties.getUploadDir()+"/"+newFileName
 				                                          , 1
 				                                          , fileStorageProperties.getUploadDir()+"/"+outputFileNm);
@@ -403,16 +361,13 @@ public class KyndrylDaoController {
 	}	
 	
 	/* KYNDRYL_INDUSTRY_SECTOR_DIM */
-	@GetMapping(path="/kyndryl/industry-sectors",produces = { "application/json", "application/xml"})
-	public <T> List<T> retrieveAllIndustrySectors(
+	@GetMapping(path="/kyndryl/industry-sectors",produces = MediaType.APPLICATION_JSON_VALUE)
+	public <T> List<KyndrylIndustrySectorDim> retrieveAllIndustrySectors(
 			  @RequestParam(defaultValue = "") @Parameter(description = "Add filter in format of a SQL WHERE clause.") String filters
 			, @RequestParam(required=false, defaultValue="false") @Parameter(description = "Include Point in Time data?") boolean includePit
 			, @RequestParam(required=false, defaultValue="") @Parameter(description = "Specific Point in Time (format: yyyy-MM-dd-hh.mm.ss.sssssss, example = 2021-06-28-00.00.00.0)") String pit
 			, @RequestParam(defaultValue = "All") @Parameter(description = "Size of the results, use ‘ALL’ to get all data.") String resultSetMaxSize
 			) throws SQLException, ClassNotFoundException, IOException {
-		kyndrylDaoService.setT(KyndrylIndustrySectorDim.class);
-		kyndrylDaoService.setTableNm("REFT.KYNDRYL_INDUSTRY_SECTOR_DIM_V");
-		kyndrylDaoService.setScdTableNm("REFT.KYNDRYL_INDUSTRY_SECTOR_SCD_V");
 		
 		boolean includeParentage = false;
 		boolean useScd = false;
@@ -421,24 +376,21 @@ public class KyndrylDaoController {
 		if (!resultSetMaxSize.equalsIgnoreCase("all")) 
 			size = Integer.parseInt(resultSetMaxSize);
 		if (includeParentage)
-			return kyndrylDaoService.findAllTax(filters, null, size, "WW"); //SP - 2021-09-08
+			return kyndrylDaoService.findAllTax(KyndrylIndustrySectorDim.class, filters, null, size, "WW"); //SP - 2021-09-08
 		else {
 			if (!useScd) pit=null;
-			return kyndrylDaoService.findAll(filters, pit, size);
+			return kyndrylDaoService.findAll(KyndrylIndustrySectorDim.class, filters, pit, size);
 		}
 	}
 	
-	@GetMapping(path="/kyndryl/industry-sectors/{industry-sector-cd}",produces = { "application/json", "application/xml"})
-	public <T> List<T> retrieveIndustrySectors(
+	@GetMapping(path="/kyndryl/industry-sectors/{industry-sector-cd}",produces = MediaType.APPLICATION_JSON_VALUE)
+	public <T> List<KyndrylIndustrySectorDim> retrieveIndustrySectors(
 			  @PathVariable(name="industry-sector-cd") String indSctrCd
 			, @RequestParam(defaultValue = "") @Parameter(description = "Add filter in format of a SQL WHERE clause.") String filters
 			, @RequestParam(required=false, defaultValue="false") @Parameter(description = "Include Point in Time data?") boolean includePit
 			, @RequestParam(required=false, defaultValue="") @Parameter(description = "Specific Point in Time (format: yyyy-MM-dd-hh.mm.ss.sssssss, example = 2021-06-28-00.00.00.0)") String pit
 			, @RequestParam(defaultValue = "All") @Parameter(description = "Size of the results, use ‘ALL’ to get all data.") String resultSetMaxSize
 			) throws SQLException, ClassNotFoundException, IOException {
-		kyndrylDaoService.setT(KyndrylIndustrySectorDim.class);
-		kyndrylDaoService.setTableNm("REFT.KYNDRYL_INDUSTRY_SECTOR_DIM_V");
-		kyndrylDaoService.setScdTableNm("REFT.KYNDRYL_INDUSTRY_SECTOR_SCD_V");
 		
 		//Bad implementation - add String key to findAll() method strateically
 		filters+= (filters.trim().length()>0?" AND ":"")+"IND_SCTR_CD='"+indSctrCd.trim()+"'";
@@ -450,10 +402,10 @@ public class KyndrylDaoController {
 		if (!resultSetMaxSize.equalsIgnoreCase("all")) 
 			size = Integer.parseInt(resultSetMaxSize);
 		if (includeParentage)
-			return kyndrylDaoService.findAllTax(filters, null, size, "WW"); //SP - 2021-09-08
+			return kyndrylDaoService.findAllTax(KyndrylIndustrySectorDim.class, filters, null, size, "WW"); //SP - 2021-09-08
 		else {
 			if (!useScd) pit=null;
-			return kyndrylDaoService.findAll(filters, pit, size);
+			return kyndrylDaoService.findAll(KyndrylIndustrySectorDim.class, filters, pit, size);
 		}
 	}
 	
@@ -484,17 +436,11 @@ public class KyndrylDaoController {
 	
 	@DeleteMapping("/kyndryl/industry-sectors")
 	public int deleteAllIndustrySectors() {
-		kyndrylDaoService.setT(KyndrylIndustrySectorDim.class);
-		kyndrylDaoService.setTableNm("REFT.KYNDRYL_INDUSTRY_SECTOR_DIM_V");
-		kyndrylDaoService.setScdTableNm("REFT.KYNDRYL_INDUSTRY_SECTOR_SCD_V");
-		return kyndrylDaoService.deleteAll();
+		return kyndrylDaoService.deleteAll(KyndrylIndustrySectorDim.class);
 	}
 	
 	@DeleteMapping("/kyndryl/industry-sectors/{industry-sector-cd}")
 	public int deleteIndustrySectors(@PathVariable(name="industry-sector-cd") String indSctrCd) {
-		kyndrylDaoService.setT(KyndrylIndustrySectorDim.class);
-		kyndrylDaoService.setTableNm("REFT.KYNDRYL_INDUSTRY_SECTOR_DIM_V");
-		kyndrylDaoService.setScdTableNm("REFT.KYNDRYL_INDUSTRY_SECTOR_SCD_V");
 		
 		KyndrylIndustrySectorDim kyndrylIndustrySectorDim = new KyndrylIndustrySectorDim(indSctrCd);
 		
@@ -507,11 +453,9 @@ public class KyndrylDaoController {
 			                , @RequestParam(name="Output File Name",defaultValue="kyndryl-industry-sectors.csv") String outputFileNm) throws CsvValidationException, IOException, EtlException, IllegalArgumentException, IllegalAccessException, SQLException {
 		String oldFileName = fileStorageService.storeFile(oldFile);
 		String newFileName = fileStorageService.storeFile(newFile);
-		kyndrylDaoService.setT(KyndrylIndustrySectorDim.class);
-		kyndrylDaoService.setTableNm("REFT.KYNDRYL_INDUSTRY_SECTOR_DIM_V");
-		kyndrylDaoService.setScdTableNm("REFT.KYNDRYL_INDUSTRY_SECTOR_SCD_V");
 		
-		EtlResponse etlResponse = kyndrylDaoService.etl(fileStorageProperties.getUploadDir()+"/"+oldFileName
+		EtlResponse etlResponse = kyndrylDaoService.etl(KyndrylIndustrySectorDim.class
+				                                          , fileStorageProperties.getUploadDir()+"/"+oldFileName
 				                                          , fileStorageProperties.getUploadDir()+"/"+newFileName
 				                                          , 1
 				                                          , fileStorageProperties.getUploadDir()+"/"+outputFileNm);
@@ -520,16 +464,13 @@ public class KyndrylDaoController {
 	}	
 	
 	/* KYNDRYL_CTRY_IND_SCTR_ASSOC_DIM */
-	@GetMapping(path="/kyndryl/ctry-ind-sctrs",produces = { "application/json", "application/xml"})
-	public <T> List<T> retrieveAllCtryIndSctr(
+	@GetMapping(path="/kyndryl/ctry-ind-sctrs",produces = MediaType.APPLICATION_JSON_VALUE)
+	public <T> List<KyndrylCtryIndSctrAssocDim> retrieveAllCtryIndSctr(
 			  @RequestParam(defaultValue = "") @Parameter(description = "Add filter in format of a SQL WHERE clause.") String filters
 			, @RequestParam(required=false, defaultValue="false") @Parameter(description = "Include Point in Time data?") boolean includePit
 			, @RequestParam(required=false, defaultValue="") @Parameter(description = "Specific Point in Time (format: yyyy-MM-dd-hh.mm.ss.sssssss, example = 2021-06-28-00.00.00.0)") String pit
 			, @RequestParam(defaultValue = "All") @Parameter(description = "Size of the results, use ‘ALL’ to get all data.") String resultSetMaxSize
 			) throws SQLException, ClassNotFoundException, IOException {
-		kyndrylDaoService.setT(KyndrylCtryIndSctrAssocDim.class);
-		kyndrylDaoService.setTableNm("REFT.KYNDRYL_CTRY_IND_SCTR_ASSOC_DIM_V");
-		kyndrylDaoService.setScdTableNm("REFT.KYNDRYL_CTRY_IND_SCTR_ASSOC_SCD_V");
 		
 		boolean includeParentage = false;
 		boolean useScd = false;
@@ -538,15 +479,15 @@ public class KyndrylDaoController {
 		if (!resultSetMaxSize.equalsIgnoreCase("all")) 
 			size = Integer.parseInt(resultSetMaxSize);
 		if (includeParentage)
-			return kyndrylDaoService.findAllTax(filters, null, size, "WW"); //SP - 2021-09-08
+			return kyndrylDaoService.findAllTax(KyndrylCtryIndSctrAssocDim.class, filters, null, size, "WW"); //SP - 2021-09-08
 		else {
 			if (!useScd) pit=null;
-			return kyndrylDaoService.findAll(filters, pit, size);
+			return kyndrylDaoService.findAll(KyndrylCtryIndSctrAssocDim.class, filters, pit, size);
 		}
 	}
 	
-	@GetMapping(path="/kyndryl/ctry-ind-sctrs/{country-iso-cd}/{industry-sector-cd}",produces = { "application/json", "application/xml"})
-	public <T> List<T> retrieveCtryIndSctr(
+	@GetMapping(path="/kyndryl/ctry-ind-sctrs/{country-iso-cd}/{industry-sector-cd}",produces = MediaType.APPLICATION_JSON_VALUE)
+	public <T> List<KyndrylCtryIndSctrAssocDim> retrieveCtryIndSctr(
 			  @PathVariable(name="country-iso-cd") String ctryIsoCd
       , @PathVariable(name="industry-sector-cd") String indSctrCd
 			, @RequestParam(defaultValue = "") @Parameter(description = "Add filter in format of a SQL WHERE clause.") String filters
@@ -554,9 +495,6 @@ public class KyndrylDaoController {
 			, @RequestParam(required=false, defaultValue="") @Parameter(description = "Specific Point in Time (format: yyyy-MM-dd-hh.mm.ss.sssssss, example = 2021-06-28-00.00.00.0)") String pit
 			, @RequestParam(defaultValue = "All") @Parameter(description = "Size of the results, use ‘ALL’ to get all data.") String resultSetMaxSize
 			) throws SQLException, ClassNotFoundException, IOException {
-		kyndrylDaoService.setT(KyndrylCtryIndSctrAssocDim.class);
-		kyndrylDaoService.setTableNm("REFT.KYNDRYL_CTRY_IND_SCTR_ASSOC_DIM_V");
-		kyndrylDaoService.setScdTableNm("REFT.KYNDRYL_CTRY_IND_SCTR_ASSOC_SCD_V");
 		
 		//Bad implementation - add String key to findAll() method strateically
 		filters+= (filters.trim().length()>0?" AND ":"")+"CTRY_ISO_CD='"+ctryIsoCd.trim()+"' AND IND_SCTR_CD='"+indSctrCd.trim()+"'";
@@ -568,10 +506,10 @@ public class KyndrylDaoController {
 		if (!resultSetMaxSize.equalsIgnoreCase("all")) 
 			size = Integer.parseInt(resultSetMaxSize);
 		if (includeParentage)
-			return kyndrylDaoService.findAllTax(filters, null, size, "WW"); //SP - 2021-09-08
+			return kyndrylDaoService.findAllTax(KyndrylCtryIndSctrAssocDim.class, filters, null, size, "WW"); //SP - 2021-09-08
 		else {
 			if (!useScd) pit=null;
-			return kyndrylDaoService.findAll(filters, pit, size);
+			return kyndrylDaoService.findAll(KyndrylCtryIndSctrAssocDim.class, filters, pit, size);
 		}
 	}
 	
@@ -602,18 +540,12 @@ public class KyndrylDaoController {
 	
 	@DeleteMapping("/kyndryl/ctry-ind-sctrs")
 	public int deleteAllCtryIndSctr() {
-		kyndrylDaoService.setT(KyndrylCtryIndSctrAssocDim.class);
-		kyndrylDaoService.setTableNm("REFT.KYNDRYL_CTRY_IND_SCTR_ASSOC_DIM_V");
-		kyndrylDaoService.setScdTableNm("REFT.KYNDRYL_CTRY_IND_SCTR_ASSOC_SCD_V");
-		return kyndrylDaoService.deleteAll();
+		return kyndrylDaoService.deleteAll(KyndrylCtryIndSctrAssocDim.class);
 	}
 	
 	@DeleteMapping("/kyndryl/ctry-ind-sctrs/{industry-sector-cd}")
 	public int deleteCtryIndSctr(@PathVariable(name="country-iso-cd") String ctryIsoCd
                               ,@PathVariable(name="industry-sector-cd") String indSctrCd) {
-		kyndrylDaoService.setT(KyndrylCtryIndSctrAssocDim.class);
-		kyndrylDaoService.setTableNm("REFT.KYNDRYL_CTRY_IND_SCTR_ASSOC_DIM_V");
-		kyndrylDaoService.setScdTableNm("REFT.KYNDRYL_CTRY_IND_SCTR_ASSOC_SCD_V");
 		
 		KyndrylCtryIndSctrAssocDim kyndrylIndustrySectorDim = new KyndrylCtryIndSctrAssocDim(ctryIsoCd, indSctrCd);
 		
@@ -626,11 +558,9 @@ public class KyndrylDaoController {
 			                , @RequestParam(name="Output File Name",defaultValue="kyndryl-ctry-ind-sctrs.csv") String outputFileNm) throws CsvValidationException, IOException, EtlException, IllegalArgumentException, IllegalAccessException, SQLException {
 		String oldFileName = fileStorageService.storeFile(oldFile);
 		String newFileName = fileStorageService.storeFile(newFile);
-		kyndrylDaoService.setT(KyndrylCtryIndSctrAssocDim.class);
-		kyndrylDaoService.setTableNm("REFT.KYNDRYL_CTRY_IND_SCTR_ASSOC_DIM_V");
-		kyndrylDaoService.setScdTableNm("REFT.KYNDRYL_CTRY_IND_SCTR_ASSOC_SCD_V");
 		
-		EtlResponse etlResponse = kyndrylDaoService.etl(fileStorageProperties.getUploadDir()+"/"+oldFileName
+		EtlResponse etlResponse = kyndrylDaoService.etl(KyndrylCtryIndSctrAssocDim.class
+				                                          , fileStorageProperties.getUploadDir()+"/"+oldFileName
 				                                          , fileStorageProperties.getUploadDir()+"/"+newFileName
 				                                          , 1
 				                                          , fileStorageProperties.getUploadDir()+"/"+outputFileNm);

@@ -24,7 +24,7 @@ public class FbsTeamDim extends NaryTreeNode {
 	@DbColumn(columnName="LOCATION_NM")
 	private String     locationNm;
 	@DbColumn(columnName="FOUNDED_YR")
-	private int        foundedYr;
+	private Integer        foundedYr;
 	@DbColumn(columnName="JOINED_DT")
 	@JsonFormat(pattern="yyyy-MM-dd")
 	private Date       joinedDt;
@@ -77,7 +77,7 @@ public class FbsTeamDim extends NaryTreeNode {
 		, String     nickname
 		, String     institutionNm
 		, String     locationNm
-		, int        foundedYr
+		, Integer    foundedYr
 		, Date       joinedDt
 		, int        enrollmentCnt
 		, double     endowmentAmt
@@ -173,10 +173,10 @@ public class FbsTeamDim extends NaryTreeNode {
 	public void setLocationNm(String locationNm) {
 		this.locationNm = locationNm;
 	}
-	public int getFoundedYr() {
+	public Integer getFoundedYr() {
 		return foundedYr;
 	}
-	public void setFoundedYr(int foundedYr) {
+	public void setFoundedYr(Integer foundedYr) {
 		this.foundedYr = foundedYr;
 	}
 	public Date getJoinedDt() {

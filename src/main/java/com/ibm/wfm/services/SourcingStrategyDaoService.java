@@ -12,23 +12,18 @@ import com.ibm.wfm.configurations.BridgeDatasourceProperties;
 
 @Component
 public class SourcingStrategyDaoService extends AbstractDaoService {
-	private Class t = SourcingStrategyDim.class;
-	private String tableNm = "REFT.SOURCING_STRATEGY_DIM_V";
-	private String scdTableNm = "REFT.SOURCING_STRATEGY_SCD_V";
 	
 	@Autowired
 	private BridgeDatasourceProperties bridgeProp;
 	
 	public SourcingStrategyDaoService() {
-		super.setT(t);
-		super.setTableNm(tableNm);
-		super.setScdTableNm(scdTableNm);
+
 	}
 
 	@Override
 	public Connection getConnection() {
 		System.out.println("Before Connection");	
-		String jdbcUrlName = bridgeProp.getUrl().replace("{userid}", System.getenv("bridge-dao-userid")).replace("{password}", System.getenv("bridge-dao-password"));
+		String jdbcUrlName = bridgeProp.getUrl().replace("{userid}", System.getenv("bridge_dao_userid")).replace("{password}", System.getenv("bridge_dao_password"));
 		Connection conn = null;
 		try {
 			conn = DriverManager.getConnection(jdbcUrlName);

@@ -1,0 +1,17 @@
+{
+    "userid": "ponessa@us.ibm.com",
+    "dataSources": [
+           {"dataSource": "fbs-football",
+            "authorization": [
+                { "fieldName": "confCd",    "operator": "IN", "values": ["ACC", "SEC"] },
+                { "fieldName": "foundedYr", "operator": ">",  "values": [1920] }
+              ]
+           },
+           {"dataSource": "skills-value-framework",
+            "authorization": [
+                { "fieldName": "geographyTypeNm",    "operator": "=", "values": ["Globally Integrated Capabilities"] },
+                { "fieldName": "countryNm", "operator": "=",  "values": ["Costa Rica", "India"] }
+              ]
+           }
+    ]
+}

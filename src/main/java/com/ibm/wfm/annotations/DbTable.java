@@ -21,4 +21,15 @@ public @interface DbTable {
 	public String tableName() default "";
 	public boolean isDimension() default true;
 	public boolean useTable() default false;
+	public boolean insertToView() default false;
+	public boolean deleteToView() default false;
+	public Type type() default Type.TABLE;
+
+    enum Type {
+        TABLE,
+        ASSOCIATION,
+        VIEW,
+        TEMPORAL,
+        LOOKUP
+    }
 }

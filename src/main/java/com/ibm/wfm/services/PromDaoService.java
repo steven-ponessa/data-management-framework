@@ -18,17 +18,12 @@ import com.ibm.wfm.configurations.PromDatasourceProperties;
 
 @Component
 public class PromDaoService extends AbstractDaoService {
-	private Class t = OpnsetTDim.class;
-	private String tableNm = "BCSPMPC.OPNSET_T";
-	private String scdTableNm = "BCSPMPC.OPNSET_T_SCD_V";
 	
 	@Autowired
 	private PromDatasourceProperties promProp;
 	
 	public PromDaoService() {
-		super.setT(t);
-		super.setTableNm(tableNm);
-		super.setScdTableNm(scdTableNm);
+
 	}
 
 	/*

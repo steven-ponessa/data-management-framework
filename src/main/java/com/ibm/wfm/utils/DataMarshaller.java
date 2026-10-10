@@ -14,8 +14,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ArrayNode;
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.node.ArrayNode;
 import com.ibm.wfm.annotations.DbColumn;
 import com.ibm.wfm.annotations.ExcelSheet;
 import com.ibm.wfm.beans.EbuXrefDim;
@@ -107,18 +107,18 @@ public class DataMarshaller {
 			
 			List<JsonNaryTreeNode> nodes = new ArrayList<>();
 			//Create a list of objects from the row.
-			for (Iterator<String> iter = jsonNode.fieldNames(); iter.hasNext();) {
+			for (Iterator<String> iter = jsonNode.propertyNames().iterator(); iter.hasNext();) {
 				String fieldNm = iter.next();
 				JsonNode value = jsonNode.get(fieldNm);
 				
 				int keyPos = isKey(fieldNm,keys);
 				if (keyPos>=0) {
-					currentKey[keyPos] = value.asText().trim();
-					JsonNaryTreeNode node = new JsonNaryTreeNode(value.asText().trim(), getFullKey(currentKey, keyPos),keyPos);
+					currentKey[keyPos] = value.asString().trim();
+					JsonNaryTreeNode node = new JsonNaryTreeNode(value.asString().trim(), getFullKey(currentKey, keyPos),keyPos);
 					nodes.add(node);
 				}
 				else {
-					nodes.get(nodes.size()-1).addAttribute(fieldNm, value.asText());
+					nodes.get(nodes.size()-1).addAttribute(fieldNm, value.asString());
 				}
 			} //end
 			

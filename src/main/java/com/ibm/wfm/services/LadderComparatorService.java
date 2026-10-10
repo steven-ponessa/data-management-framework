@@ -7,7 +7,12 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.LineNumberReader;
 import java.io.OutputStreamWriter;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.Timestamp;
+import java.util.Arrays;
+import java.util.List;
 
 import org.springframework.stereotype.Component;
 
@@ -24,6 +29,8 @@ public class LadderComparatorService {
 		String fileName0 = null;
 		String fileName1 = null;
 		int keyLength = 1;
+		String keysString = null;
+		String columnsString = null;
 		String outputFileName = null;
 
 		try {
@@ -34,6 +41,10 @@ public class LadderComparatorService {
 					fileName1 = args[++optind];
 				} else if (args[optind].equalsIgnoreCase("-kl") || args[optind].equalsIgnoreCase("--keyLength")) {
 					keyLength = Integer.parseInt(args[++optind]);
+				} else if (args[optind].equalsIgnoreCase("-keys") || args[optind].equalsIgnoreCase("--keys")) {
+					keysString = args[++optind];
+				} else if (args[optind].equalsIgnoreCase("-cols") || args[optind].equalsIgnoreCase("--columns")) {
+					columnsString = args[++optind];
 				} else if (args[optind].equalsIgnoreCase("-o") || args[optind].equalsIgnoreCase("--output")) {
 					outputFileName = args[++optind];
 				} else if (args[optind].equalsIgnoreCase("-verbose")) {
@@ -52,7 +63,7 @@ public class LadderComparatorService {
 			validParams = false;
 		}
 
-		if (fileName0 == null || fileName1 == null || keyLength == -1) {
+		if (fileName0 == null || fileName1 == null ) {
 			System.out.println("Error: One or more required parameters have not been entered.");
 			validParams = false;
 		}
@@ -81,19 +92,43 @@ public class LadderComparatorService {
 
 		System.out.println("Processing started at " + new java.util.Date());
 		
-		                                                                //Required Timestamp format
-		                                                                //yyyy-mm-dd hh:mm:ss[.fffffffff]
-		Timestamp ts = Timestamp.valueOf("2021-06-23 22:07:18.611143"); //will not parse: 2021-06-23-22.07.18.611143
-		java.sql.Date sql_dt = java.sql.Date.valueOf("9999-12-31");
-		//java.util.Date util_dt = java.util.Date.valueOf("9999-12-31"); //there is not valueOf in java.util.Date
+		int[] keyList = parseIntArray(keysString);
+		int[] compareColumns = parseIntArray(columnsString);
 		
-		System.out.println("Timestamp="+ts);
-		System.out.println("Date="+sql_dt);
+        Path originalCsv = Paths.get(fileName0);
+        Path updatedCsv = Paths.get(fileName1);
+        Path deltaCsv = Paths.get(outputFileName);
 
-		if (LadderComparatorService.processCsv(fileName0, fileName1, keyLength, outputFileName))
+        boolean success = LadderComparatorService.processCsv(
+        		originalCsv,
+        		updatedCsv,
+                deltaCsv,
+                keyList,
+                compareColumns
+        );
+
+		if (success)
 			System.out.println("Comparison completed successfully at " + new java.util.Date());
 		else
 			System.out.println("Comparison failed at " + new java.util.Date());
+	}
+	
+	public static int[] parseIntArray(String input) {
+
+	    if (input == null || input.isBlank()) {
+	        return new int[0];
+	    }
+
+	    return Arrays.stream(
+	            input.replace("{", "")
+	                 .replace("}", "")
+	                 .trim()
+	                 .split(",")
+	        )
+	        .map(String::trim)
+	        .filter(s -> !s.isEmpty())
+	        .mapToInt(Integer::parseInt)
+	        .toArray();
 	}
 	
 	public static int compareArrays(String[] array0, String[] array1, int numKeys) {
@@ -431,5 +466,166 @@ public class LadderComparatorService {
 		}
 		return match;
 	}	
+	
+	public static boolean processCsv(
+	        Path oldFile,
+	        Path newFile,
+	        Path outputFile,
+	        int[] keyColumns,
+	        int[] compareColumns
+	) {
+	    try (
+	            CSVReader oldReader = oldFile == null
+	                    ? null
+	                    : new CSVReader(Files.newBufferedReader(oldFile));
 
+	            CSVReader newReader =
+	                    new CSVReader(Files.newBufferedReader(newFile));
+
+	            BufferedWriter writer = outputFile == null
+	                    ? new BufferedWriter(new OutputStreamWriter(System.out))
+	                    : Files.newBufferedWriter(outputFile)
+	    ) {
+	        validateColumns("keyColumns", keyColumns);
+	        validateColumns("compareColumns", compareColumns);
+
+	        String[] oldRow = null;
+	        boolean oldEof = oldFile == null;
+
+	        if (!oldEof) {
+	            oldReader.readNext(); // skip old header
+	            oldRow = oldReader.readNext();
+	            oldEof = oldRow == null;
+	        }
+
+	        newReader.readNext(); // skip new header
+	        String[] newRow = newReader.readNext();
+	        boolean newEof = newRow == null;
+
+	        int lineCnt = 0;
+
+	        while (!oldEof && !newEof) {
+
+	            int keyCompare = compareByColumns(oldRow, newRow, keyColumns);
+
+	            if (keyCompare == 0) {
+
+	                int bodyCompare =
+	                        compareByColumns(oldRow, newRow, compareColumns);
+
+	                if (bodyCompare != 0) {
+	                    writeDeltaLine(writer, lineCnt++, "U", newRow);
+	                }
+
+	                oldRow = oldReader.readNext();
+	                oldEof = oldRow == null;
+
+	                newRow = newReader.readNext();
+	                newEof = newRow == null;
+	            }
+	            else if (keyCompare < 0) {
+	                writeDeltaLine(writer, lineCnt++, "D", oldRow);
+
+	                oldRow = oldReader.readNext();
+	                oldEof = oldRow == null;
+	            }
+	            else {
+	                writeDeltaLine(writer, lineCnt++, "I", newRow);
+
+	                newRow = newReader.readNext();
+	                newEof = newRow == null;
+	            }
+	        }
+
+	        while (!oldEof) {
+	            writeDeltaLine(writer, lineCnt++, "D", oldRow);
+	            oldRow = oldReader.readNext();
+	            oldEof = oldRow == null;
+	        }
+
+	        while (!newEof) {
+	            writeDeltaLine(writer, lineCnt++, "I", newRow);
+	            newRow = newReader.readNext();
+	            newEof = newRow == null;
+	        }
+
+	        return true;
+
+	    } catch (IOException | CsvValidationException | RuntimeException e) {
+	        e.printStackTrace();
+	        return false;
+	    }
+	}
+	
+	private static void validateColumns(String name, int[] columns) {
+
+	    if (columns == null || columns.length == 0) {
+	        throw new IllegalArgumentException(name + " must contain at least one column.");
+	    }
+	}	
+	
+	private static int compareByColumns(
+	        String[] left,
+	        String[] right,
+	        int[] columns
+	) {
+	    for (int column : columns) {
+
+	        String leftValue = getValue(left, column);
+	        String rightValue = getValue(right, column);
+
+	        int result = leftValue.compareToIgnoreCase(rightValue);
+
+	        if (result != 0) {
+	            return result;
+	        }
+	    }
+
+	    return 0;
+	}
+	
+	private static int compareFullRow(String[] left, String[] right) {
+
+	    int maxLength = Math.max(
+	            left == null ? 0 : left.length,
+	            right == null ? 0 : right.length
+	    );
+
+	    for (int i = 0; i < maxLength; i++) {
+	        String leftValue = getValue(left, i);
+	        String rightValue = getValue(right, i);
+
+	        int result = leftValue.compareToIgnoreCase(rightValue);
+
+	        if (result != 0) {
+	            return result;
+	        }
+	    }
+
+	    return 0;
+	}	
+	
+	private static String getValue(String[] row, int index) {
+
+	    if (row == null || index < 0 || index >= row.length || row[index] == null) {
+	        return "";
+	    }
+
+	    return row[index].trim();
+	}
+	
+	private static void writeDeltaLine(
+	        BufferedWriter writer,
+	        int lineCnt,
+	        String action,
+	        String[] row
+	) throws IOException {
+
+	    if (lineCnt > 0) {
+	        writer.write(System.lineSeparator());
+	    }
+
+	    writer.write(action + "," + Helpers.toCsvLine(row));
+	}
+	
 }

@@ -66,7 +66,7 @@ public class FbsFootballController {
 	 * 
 	 * @param confCd - conf-cd PathVariable. Note that the path variable name must match the table column name.
 	 */
-	@GetMapping(path={"/s/fbs-football/conferences","/s/fbs-football/conferences/{conf-cd}"},produces = { "application/json", "application/xml"})
+	@GetMapping(path={"/s/fbs-football/conferences","/s/fbs-football/conferences/{conf-cd}"},produces = MediaType.APPLICATION_JSON_VALUE)
 	@PreAuthorize("hasAnyRole('wfm-dmf-get-fbs-football', 'wfm-dmf-adminxx')")
 	public synchronized <T> ResponseEntity<Object> retrieveAllConferenceByCodeSecure(
 			  @PathVariable(name="conf-cd", required=false) String confCd
@@ -89,7 +89,7 @@ public class FbsFootballController {
 		return fbsFootballDaoService.find(FbsConferenceDim.class, pathVarMap, filters, orderByCols, false, null, returnCsv, includePit, pit, resultSetMaxSize, request);
 	}
 	
-	@GetMapping(path={"/fbs-football/conferences","/fbs-football/conferences/{conf-cd}"},produces = { "application/json", "application/xml"})
+	@GetMapping(path={"/fbs-football/conferences","/fbs-football/conferences/{conf-cd}"},produces = MediaType.APPLICATION_JSON_VALUE)
 	public synchronized <T> ResponseEntity<Object> retrieveAllConferenceByCode(
 			  @PathVariable(name="conf-cd", required=false) String confCd
 			, @RequestParam(defaultValue = "") @Parameter(description = "Add filter in format of a SQL WHERE clause.") String filters
@@ -165,7 +165,7 @@ public class FbsFootballController {
 	 * @throws ClassNotFoundException
 	 * @throws IOException
 	 */
-	@GetMapping(path="/s/fbs-football/divisions",produces = { "application/json", "application/xml"})
+	@GetMapping(path="/s/fbs-football/divisions",produces = MediaType.APPLICATION_JSON_VALUE)
 	@PreAuthorize("hasAnyRole('wfm-dmf-get-fbs-football', 'wfm-dmf-adminxx')")
 	public synchronized <T> ResponseEntity<Object> retrieveAllDivisions(
 			  @RequestParam(defaultValue = "") @Parameter(description = "Add filter in format of a SQL WHERE clause.") String filters
@@ -186,7 +186,7 @@ public class FbsFootballController {
 	 * 
 	 * @param divCd - div-cd PathVariable. Note that the path variable name must match the table column name.
 	 */
-	@GetMapping(path="/s/fbs-football/divisions/{div-cd}",produces = { "application/json", "application/xml"})
+	@GetMapping(path="/s/fbs-football/divisions/{div-cd}",produces = MediaType.APPLICATION_JSON_VALUE)
 	@PreAuthorize("hasAnyRole('wfm-dmf-get-fbs-football', 'wfm-dmf-adminxx')")
 	public <T> ResponseEntity<Object> retrieveAllDivisionByCode(
 			  @PathVariable(name="div-cd") String divCd
@@ -210,7 +210,7 @@ public class FbsFootballController {
 	 * 
 	 * @param confCd - conf-cd PathVariable. Note that the path variable name must match the table column name.
 	 */
-	@GetMapping(path="/fbs-football/conferences/{conf-cd}/divisions",produces = { "application/json", "application/xml"})
+	@GetMapping(path="/fbs-football/conferences/{conf-cd}/divisions",produces = MediaType.APPLICATION_JSON_VALUE)
 	public synchronized <T> ResponseEntity<Object> retrieveAllDivisionByConfCode(
 			  @PathVariable(name="conf-cd") String confCd
 			, @RequestParam(defaultValue = "") @Parameter(description = "Add filter in format of a SQL WHERE clause.") String filters
@@ -234,7 +234,7 @@ public class FbsFootballController {
 	 * @param confCd - conf-cd PathVariable. Note that the path variable name must match the table column name.
 	 * @param divCd - div-cd PathVariable. Note that the path variable name must match the table column name.
 	 */
-	@GetMapping(path="/fbs-football/conferences/{conf-cd}/divisions/{div-cd}",produces = { "application/json", "application/xml"})
+	@GetMapping(path="/fbs-football/conferences/{conf-cd}/divisions/{div-cd}",produces = MediaType.APPLICATION_JSON_VALUE)
 	public synchronized <T> ResponseEntity<Object> retrieveAllDivisionByConfDivCode(
 			  @PathVariable(name="conf-cd") String confCd
 			, @PathVariable(name="div-cd") String divCd
@@ -310,7 +310,7 @@ public class FbsFootballController {
 	 * @throws ClassNotFoundException
 	 * @throws IOException
 	 */
-	@GetMapping(path="/fbs-football/teams/xxx",produces = { "application/json", "application/xml"})
+	@GetMapping(path="/fbs-football/teams/xxx",produces = MediaType.APPLICATION_JSON_VALUE)
 	public <T> ResponseEntity<Object> retrieveAllFbsTeams(
 			  @RequestParam(defaultValue = "") @Parameter(description = "Add filter in format of a SQL WHERE clause.") String filters
 			, @RequestParam(defaultValue = "") @Parameter(description = "Override the SQL ORDER BY clause (default is by natural key).") String orderByCols
@@ -329,7 +329,7 @@ public class FbsFootballController {
 	 * 
 	 * @param teamCd - team-cd PathVariable. Note that the path variable name must match the table column name.
 	 */
-	@GetMapping(path={"/fbs-football/teams","/fbs-football/teams/{team-cd}"},produces = { "application/json", "application/xml"})
+	@GetMapping(path={"/fbs-football/teams","/fbs-football/teams/{team-cd}"},produces = MediaType.APPLICATION_JSON_VALUE)
 	public synchronized <T> ResponseEntity<Object> retrieveAllFbsTeamByCode(
 			  @PathVariable(name="team-cd", required=false) String teamCd
 			, @RequestParam(defaultValue = "") @Parameter(description = "Add filter in format of a SQL WHERE clause.") String filters
@@ -353,7 +353,7 @@ public class FbsFootballController {
 		return fbsFootballDaoService.find(FbsTeamDim.class, pathVarMap, filters, orderByCols, includeParentage, null, returnCsv, includePit, pit, offset, resultSetMaxSize, request);
 	}
 	
-	@GetMapping(path={"/fbs-football/teams/count"},produces = { "application/json", "application/xml"})
+	@GetMapping(path={"/fbs-football/teams/count"},produces = MediaType.APPLICATION_JSON_VALUE)
 	public synchronized ResponseEntity<Count> retrieveCountFbsTeamByCode(
               @RequestParam(defaultValue = "") @Parameter(description = "Add filter in format of a SQL WHERE clause.") String filters
 			, @RequestParam(defaultValue = "") @Parameter(description = "Override the SQL ORDER BY clause (default is by natural key).") String orderByCols
@@ -377,7 +377,7 @@ public class FbsFootballController {
 	 * @param confCd - conf-cd PathVariable
 	 * @param teamCd - team-cd PathVariable. Note that the path variable name must match the table column name.
 	 */
-	@GetMapping(path="/fbs-football/conferences/{conf-cd}/teams/{team-cd}",produces = { "application/json", "application/xml"})
+	@GetMapping(path="/fbs-football/conferences/{conf-cd}/teams/{team-cd}",produces = MediaType.APPLICATION_JSON_VALUE)
 	public <T> ResponseEntity<Object> retrieveAllFbsTeamByConfCode(
 			  @PathVariable(name="conf-cd") String confCd
 			, @PathVariable(name="team-cd") String teamCd
@@ -405,7 +405,7 @@ public class FbsFootballController {
 	 */
 	@GetMapping(path={"/fbs-football/conferences/{conf-cd}/divisions/{div-cd}/teams"
 			         ,"/fbs-football/conferences/{conf-cd}/divisions/{div-cd}/teams/{team-cd}"}
-	           ,produces = { "application/json", "application/xml"})
+	           ,produces = MediaType.APPLICATION_JSON_VALUE)
 	public <T> ResponseEntity<Object> retrieveAllFbsTeamByDivConfCode(
 			  @PathVariable(name="conf-cd") String confCd
 			, @PathVariable(name="div-cd") String divCd
@@ -434,7 +434,7 @@ public class FbsFootballController {
 	 * @param divCd - div-cd PathVariable
 	 * @param teamCd - team-cd PathVariable. Note that the path variable name must match the table column name.
 	 */
-	@GetMapping(path="/fbs-football/conferences/{conf-cd}/divisions/{div-cd}/teams/xxx",produces = { "application/json", "application/xml"})
+	@GetMapping(path="/fbs-football/conferences/{conf-cd}/divisions/{div-cd}/teams/xxx",produces = MediaType.APPLICATION_JSON_VALUE)
 	public <T> ResponseEntity<Object> retrieveAllFbsTeamsByDivConfCode(
 			  @PathVariable(name="conf-cd") String confCd
 			, @PathVariable(name="div-cd") String divCd
@@ -460,7 +460,7 @@ public class FbsFootballController {
 	 * @param divCd - div-cd PathVariable
 	 * @param teamCd - team-cd PathVariable. Note that the path variable name must match the table column name.
 	 */
-	@GetMapping(path="/fbs-football/conferences/{conf-cd}/teams",produces = { "application/json", "application/xml"})
+	@GetMapping(path="/fbs-football/conferences/{conf-cd}/teams",produces = MediaType.APPLICATION_JSON_VALUE)
 	public <T> ResponseEntity<Object> retrieveAllFbsTeamsByConfCode(
 			  @PathVariable(name="conf-cd") String confCd
 			, @RequestParam(defaultValue = "") @Parameter(description = "Add filter in format of a SQL WHERE clause.") String filters

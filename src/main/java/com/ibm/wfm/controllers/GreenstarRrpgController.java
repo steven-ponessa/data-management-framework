@@ -70,7 +70,7 @@ public class GreenstarRrpgController {
 	 * @throws ClassNotFoundException
 	 * @throws IOException
 	 */
-	@GetMapping(path={"/greenstar-rrpg/job-categories","/greenstar-rrpg/job-categories/{job-cat-cd}"},produces = { "application/json", "application/xml"})
+	@GetMapping(path={"/greenstar-rrpg/job-categories","/greenstar-rrpg/job-categories/{job-cat-cd}"},produces = MediaType.APPLICATION_JSON_VALUE)
 	public <T> ResponseEntity<Object> retrieveAllJobCategoryByCode(
 			  @PathVariable(name="job-cat-cd", required=false) String jobCatCd
 			, @RequestParam(defaultValue = "") @Parameter(description = "Add filter in format of a SQL WHERE clause.") String filters
@@ -147,7 +147,7 @@ public class GreenstarRrpgController {
 	 * @throws ClassNotFoundException
 	 * @throws IOException
 	 */
-	@GetMapping(path={"/greenstar-rrpg/job-roles","/greenstar-rrpg/job-roles/{job-role-cd}"},produces = { "application/json", "application/xml"})
+	@GetMapping(path={"/greenstar-rrpg/job-roles","/greenstar-rrpg/job-roles/{job-role-cd}"},produces = MediaType.APPLICATION_JSON_VALUE)
 	public <T> ResponseEntity<Object> retrieveAllJobRoleByCode(
 			  @PathVariable(name="job-role-cd", required=false) String jobRoleCd
 			, @RequestParam(defaultValue = "") @Parameter(description = "Add filter in format of a SQL WHERE clause.") String filters
@@ -224,7 +224,7 @@ public class GreenstarRrpgController {
 	 * @throws ClassNotFoundException
 	 * @throws IOException
 	 */
-	@GetMapping(path={"/greenstar-rrpg/geography-types","/greenstar-rrpg/geography-types/{geo-typ-cd}"},produces = { "application/json", "application/xml"})
+	@GetMapping(path={"/greenstar-rrpg/geography-types","/greenstar-rrpg/geography-types/{geo-typ-cd}"},produces = MediaType.APPLICATION_JSON_VALUE)
 	public <T> ResponseEntity<Object> retrieveAllGeographyTypeByCode(
 			  @PathVariable(name="geo-typ-cd", required=false) String geoTypCd
 			, @RequestParam(defaultValue = "") @Parameter(description = "Add filter in format of a SQL WHERE clause.") String filters
@@ -301,7 +301,7 @@ public class GreenstarRrpgController {
 	 * @throws ClassNotFoundException
 	 * @throws IOException
 	 */
-	@GetMapping(path={"/greenstar-rrpg/labor-pools","/greenstar-rrpg/labor-pools/{labor-pool-cd}"},produces = { "application/json", "application/xml"})
+	@GetMapping(path={"/greenstar-rrpg/labor-pools","/greenstar-rrpg/labor-pools/{labor-pool-cd}"},produces = MediaType.APPLICATION_JSON_VALUE)
 	public <T> ResponseEntity<Object> retrieveAllLaborPoolByCode(
 			  @PathVariable(name="labor-pool-cd", required=false) String laborPoolCd
 			, @RequestParam(defaultValue = "") @Parameter(description = "Add filter in format of a SQL WHERE clause.") String filters
@@ -379,7 +379,7 @@ public class GreenstarRrpgController {
 	 * @throws ClassNotFoundException
 	 * @throws IOException
 	 */
-	@GetMapping(path={"/greenstar-rrpg/geographies","/greenstar-rrpg/geographies/{geo-cd}"},produces = { "application/json", "application/xml"})
+	@GetMapping(path={"/greenstar-rrpg/geographies","/greenstar-rrpg/geographies/{geo-cd}"},produces = MediaType.APPLICATION_JSON_VALUE)
 	public <T> ResponseEntity<Object> retrieveAllGeographyByCode(
 			  @PathVariable(name="geo-cd", required=false) String geoCd
 			, @RequestParam(defaultValue = "") @Parameter(description = "Add filter in format of a SQL WHERE clause.") String filters
@@ -455,7 +455,7 @@ public class GreenstarRrpgController {
 	 * @throws ClassNotFoundException
 	 * @throws IOException
 	 */
-	@GetMapping(path={"/greenstar-rrpg/markets","/greenstar-rrpg/markets/{mrkt-cd}"},produces = { "application/json", "application/xml"})
+	@GetMapping(path={"/greenstar-rrpg/markets","/greenstar-rrpg/markets/{mrkt-cd}"},produces = MediaType.APPLICATION_JSON_VALUE)
 	public <T> ResponseEntity<Object> retrieveAllMarketByCode(
 			  @PathVariable(name="mrkt-cd", required=false) String mrktCd
 			, @RequestParam(defaultValue = "") @Parameter(description = "Add filter in format of a SQL WHERE clause.") String filters
@@ -531,7 +531,7 @@ public class GreenstarRrpgController {
 	 * @throws ClassNotFoundException
 	 * @throws IOException
 	 */
-	@GetMapping(path={"/greenstar-rrpg/regions","/greenstar-rrpg/regions/{rgn-cd}"},produces = { "application/json", "application/xml"})
+	@GetMapping(path={"/greenstar-rrpg/regions","/greenstar-rrpg/regions/{rgn-cd}"},produces = MediaType.APPLICATION_JSON_VALUE)
 	public <T> ResponseEntity<Object> retrieveAllRegionByCode(
 			  @PathVariable(name="rgn-cd", required=false) String rgnCd
 			, @RequestParam(defaultValue = "") @Parameter(description = "Add filter in format of a SQL WHERE clause.") String filters
@@ -607,7 +607,7 @@ public class GreenstarRrpgController {
 	 * @throws ClassNotFoundException
 	 * @throws IOException
 	 */
-	@GetMapping(path={"/greenstar-rrpg/countries","/greenstar-rrpg/countries/{ctry-iso-id}"},produces = { "application/json", "application/xml"})
+	@GetMapping(path={"/greenstar-rrpg/countries","/greenstar-rrpg/countries/{ctry-iso-id}"},produces = MediaType.APPLICATION_JSON_VALUE)
 	public <T> ResponseEntity<Object> retrieveAllCountryByCode(
 			  @PathVariable(name="ctry-iso-id", required=false) String ctryIsoId
 			, @RequestParam(defaultValue = "") @Parameter(description = "Add filter in format of a SQL WHERE clause.") String filters

@@ -2,7 +2,6 @@ package com.ibm.wfm.beans;
 
 
 import java.sql.Timestamp;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ibm.wfm.annotations.DbTable;
 import com.ibm.wfm.annotations.DbColumn;

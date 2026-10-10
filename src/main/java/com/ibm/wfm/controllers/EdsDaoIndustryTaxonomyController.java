@@ -71,7 +71,7 @@ public class EdsDaoIndustryTaxonomyController extends AbstractDaoController {
 	 * @throws ClassNotFoundException
 	 * @throws IOException
 	 */
-	@GetMapping(path={"/eds-industry-tax/total-industries","/eds-industry-tax/total-industries/{tot-ind-cd}"},produces = { "application/json", "application/xml"})
+	@GetMapping(path={"/eds-industry-tax/total-industries","/eds-industry-tax/total-industries/{tot-ind-cd}"},produces = MediaType.APPLICATION_JSON_VALUE)
 	public <T> ResponseEntity<Object> retrieveAllTotalIndustryByCode(
 			  @PathVariable(name="tot-ind-cd", required=false) String totIndCd
 			, @RequestParam(defaultValue = "") @Parameter(description = "Add filter in format of a SQL WHERE clause.") String filters
@@ -146,7 +146,7 @@ public class EdsDaoIndustryTaxonomyController extends AbstractDaoController {
 	 * @throws ClassNotFoundException
 	 * @throws IOException
 	 */
-	@GetMapping(path={"/eds-industry-tax/gtm-segments","/eds-industry-tax/gtm-segments/{gtm-sgmt-cd}"},produces = { "application/json", "application/xml"})
+	@GetMapping(path={"/eds-industry-tax/gtm-segments","/eds-industry-tax/gtm-segments/{gtm-sgmt-cd}"},produces = MediaType.APPLICATION_JSON_VALUE)
 	public <T> ResponseEntity<Object> retrieveAllGtmSegmentByCode(
 			  @PathVariable(name="gtm-sgmt-cd", required=false) String gtmSgmtCd
 			, @RequestParam(defaultValue = "") @Parameter(description = "Add filter in format of a SQL WHERE clause.") String filters
@@ -221,7 +221,7 @@ public class EdsDaoIndustryTaxonomyController extends AbstractDaoController {
 	 * @throws ClassNotFoundException
 	 * @throws IOException
 	 */
-	@GetMapping(path={"/eds-industry-tax/sectors","/eds-industry-tax/sectors/{sctr-cd}"},produces = { "application/json", "application/xml"})
+	@GetMapping(path={"/eds-industry-tax/sectors","/eds-industry-tax/sectors/{sctr-cd}"},produces = MediaType.APPLICATION_JSON_VALUE)
 	public <T> ResponseEntity<Object> retrieveAllSectorByCode(
 			  @PathVariable(name="sctr-cd", required=false) String sctrCd
 			, @RequestParam(defaultValue = "") @Parameter(description = "Add filter in format of a SQL WHERE clause.") String filters
@@ -245,7 +245,7 @@ public class EdsDaoIndustryTaxonomyController extends AbstractDaoController {
 	
 	@GetMapping(path= { 
 			"/eds-industry-tax/gtm-segments/{gtm-sgmt-cd}/sectors"
-		,   "/eds-industry-tax/gtm-segments/{gtm-sgmt-cd}/sectors/{sctr-cd}"},produces = { "application/json", "application/xml"})
+		,   "/eds-industry-tax/gtm-segments/{gtm-sgmt-cd}/sectors/{sctr-cd}"},produces = MediaType.APPLICATION_JSON_VALUE)
 	public <T> ResponseEntity<Object> retrieveSectorsByGtmSegment(
 			  @PathVariable(name="gtm-sgmt-cd", required=false) String gtmSgmtCd
 			, @PathVariable(name="sctr-cd", required=false) String sctrCd
@@ -325,7 +325,7 @@ public class EdsDaoIndustryTaxonomyController extends AbstractDaoController {
 	 * @throws ClassNotFoundException
 	 * @throws IOException
 	 */
-	@GetMapping(path={"/eds-industry-tax/industry-groups","/eds-industry-tax/industry-groups/{ind-grp-cd}"},produces = { "application/json", "application/xml"})
+	@GetMapping(path={"/eds-industry-tax/industry-groups","/eds-industry-tax/industry-groups/{ind-grp-cd}"},produces = MediaType.APPLICATION_JSON_VALUE)
 	public <T> ResponseEntity<Object> retrieveAllIndustryGroupByCode(
 			  @PathVariable(name="ind-grp-cd", required=false) String indGrpCd
 			, @RequestParam(defaultValue = "") @Parameter(description = "Add filter in format of a SQL WHERE clause.") String filters
@@ -350,7 +350,7 @@ public class EdsDaoIndustryTaxonomyController extends AbstractDaoController {
 	@GetMapping(path= {
 			"/eds-industry-tax/gtm-segments/{gtm-sgmt-cd}/sectors/{sctr-cd}/industry-groups"
 		,   "/eds-industry-tax/gtm-segments/{gtm-sgmt-cd}/sectors/{sctr-cd}/industry-groups/{ind-grp-cd}"
-			         },produces = { "application/json", "application/xml"})
+			         },produces = MediaType.APPLICATION_JSON_VALUE)
 	public <T> ResponseEntity<Object> retrieveIndGrpBySectorByGtmSegment(
 			  @PathVariable(name="gtm-sgmt-cd", required=false) String gtmSgmtCd
 			, @PathVariable(name="sctr-cd", required=false) String sctrCd
@@ -433,7 +433,7 @@ public class EdsDaoIndustryTaxonomyController extends AbstractDaoController {
 	 * @throws ClassNotFoundException
 	 * @throws IOException
 	 */
-	@GetMapping(path={"/eds-industry-tax/isus","/eds-industry-tax/isus/{isu-cd}"},produces = { "application/json", "application/xml"})
+	@GetMapping(path={"/eds-industry-tax/isus","/eds-industry-tax/isus/{isu-cd}"},produces = MediaType.APPLICATION_JSON_VALUE)
 	public <T> ResponseEntity<Object> retrieveAllIndustrySolutionUnitByCode(
 			  @PathVariable(name="isu-cd", required=false) String isuCd
 			, @RequestParam(defaultValue = "") @Parameter(description = "Add filter in format of a SQL WHERE clause.") String filters
@@ -459,7 +459,7 @@ public class EdsDaoIndustryTaxonomyController extends AbstractDaoController {
 	@GetMapping(path= {
 			"/eds-industry-tax/gtm-segments/{gtm-sgmt-cd}/sectors/{sctr-cd}/industry-groups/{ind-grp-cd}/isus"
 		,   "/eds-industry-tax/gtm-segments/{gtm-sgmt-cd}/sectors/{sctr-cd}/industry-groups/{ind-grp-cd}/isus/{isu-cd}"
-			         },produces = { "application/json", "application/xml"})
+			         },produces = MediaType.APPLICATION_JSON_VALUE)
 	public <T> ResponseEntity<Object> retrieveIsuByIndGrpBySectorByGtmSegment(
 			  @PathVariable(name="gtm-sgmt-cd", required=false) String gtmSgmtCd
 			, @PathVariable(name="sctr-cd", required=false) String sctrCd
@@ -546,7 +546,7 @@ public class EdsDaoIndustryTaxonomyController extends AbstractDaoController {
 	 * @throws ClassNotFoundException
 	 * @throws IOException
 	 */
-	@GetMapping(path={"/eds-industry-tax/industries","/eds-industry-tax/industries/{ind-cd}"},produces = { "application/json", "application/xml"})
+	@GetMapping(path={"/eds-industry-tax/industries","/eds-industry-tax/industries/{ind-cd}"},produces = MediaType.APPLICATION_JSON_VALUE)
 	public <T> ResponseEntity<Object> retrieveAllIndustryByCode(
 			  @PathVariable(name="ind-cd", required=false) String indCd
 			, @RequestParam(defaultValue = "") @Parameter(description = "Add filter in format of a SQL WHERE clause.") String filters
@@ -571,7 +571,7 @@ public class EdsDaoIndustryTaxonomyController extends AbstractDaoController {
 	@GetMapping(path= {
 			"/eds-industry-tax/gtm-segments/{gtm-sgmt-cd}/sectors/{sctr-cd}/industry-groups/{ind-grp-cd}/isus/{isu-cd}/industries"
 		,   "/eds-industry-tax/gtm-segments/{gtm-sgmt-cd}/sectors/{sctr-cd}/industry-groups/{ind-grp-cd}/isus/{isu-cd}/industries/{ind-cd}"
-			         },produces = { "application/json", "application/xml"})
+			         },produces = MediaType.APPLICATION_JSON_VALUE)
 	public <T> ResponseEntity<Object> retrieveInsutryByIsuByIndGrpBySectorByGtmSegment(
 			  @PathVariable(name="gtm-sgmt-cd", required=false) String gtmSgmtCd
 			, @PathVariable(name="sctr-cd", required=false) String sctrCd
@@ -661,7 +661,7 @@ public class EdsDaoIndustryTaxonomyController extends AbstractDaoController {
 	 * @throws ClassNotFoundException
 	 * @throws IOException
 	 */
-	@GetMapping(path={"/eds-industry-tax/industry-classs","/eds-industry-tax/industry-classs/{ind-clss-cd}"},produces = { "application/json", "application/xml"})
+	@GetMapping(path={"/eds-industry-tax/industry-classs","/eds-industry-tax/industry-classs/{ind-clss-cd}"},produces = MediaType.APPLICATION_JSON_VALUE)
 	public <T> ResponseEntity<Object> retrieveAllIndustryClassByCode(
 			  @PathVariable(name="ind-clss-cd", required=false) String indClssCd
 			, @RequestParam(defaultValue = "") @Parameter(description = "Add filter in format of a SQL WHERE clause.") String filters
@@ -686,7 +686,7 @@ public class EdsDaoIndustryTaxonomyController extends AbstractDaoController {
 	@GetMapping(path= {
 			"/eds-industry-tax/gtm-segments/{gtm-sgmt-cd}/sectors/{sctr-cd}/industry-groups/{ind-grp-cd}/isus/{isu-cd}/industries/{ind-cd}/industry-classs"
 		,   "/eds-industry-tax/gtm-segments/{gtm-sgmt-cd}/sectors/{sctr-cd}/industry-groups/{ind-grp-cd}/isus/{isu-cd}/industries/{ind-cd}/industry-classs/{ind-clss-cd}"
-			         },produces = { "application/json", "application/xml"})
+			         },produces = MediaType.APPLICATION_JSON_VALUE)
 	public <T> ResponseEntity<Object> retrieveICByInsutryByIsuByIndGrpBySectorByGtmSegment(
 			  @PathVariable(name="gtm-sgmt-cd", required=false) String gtmSgmtCd
 			, @PathVariable(name="sctr-cd", required=false) String sctrCd
@@ -779,7 +779,7 @@ public class EdsDaoIndustryTaxonomyController extends AbstractDaoController {
 	 * @throws ClassNotFoundException
 	 * @throws IOException
 	 */
-	@GetMapping(path={"/eds-industry-tax/isics","/eds-industry-tax/isics/{isic-cd}"},produces = { "application/json", "application/xml"})
+	@GetMapping(path={"/eds-industry-tax/isics","/eds-industry-tax/isics/{isic-cd}"},produces = MediaType.APPLICATION_JSON_VALUE)
 	public <T> ResponseEntity<Object> retrieveAllIsicByCode(
 			  @PathVariable(name="isic-cd", required=false) String isicCd
 			, @RequestParam(defaultValue = "") @Parameter(description = "Add filter in format of a SQL WHERE clause.") String filters
@@ -804,7 +804,7 @@ public class EdsDaoIndustryTaxonomyController extends AbstractDaoController {
 	@GetMapping(path= {
 			"/eds-industry-tax/gtm-segments/{gtm-sgmt-cd}/sectors/{sctr-cd}/industry-groups/{ind-grp-cd}/isus/{isu-cd}/industries/{ind-cd}/industry-classs/isics"
 		,   "/eds-industry-tax/gtm-segments/{gtm-sgmt-cd}/sectors/{sctr-cd}/industry-groups/{ind-grp-cd}/isus/{isu-cd}/industries/{ind-cd}/industry-classs/{ind-clss-cd}/isics/{isic-cd}"
-			         },produces = { "application/json", "application/xml"})
+			         },produces = MediaType.APPLICATION_JSON_VALUE)
 	public <T> ResponseEntity<Object> retrieveIsicByICByInsutryByIsuByIndGrpBySectorByGtmSegment(
 			  @PathVariable(name="gtm-sgmt-cd", required=false) String gtmSgmtCd
 			, @PathVariable(name="sctr-cd", required=false) String sctrCd

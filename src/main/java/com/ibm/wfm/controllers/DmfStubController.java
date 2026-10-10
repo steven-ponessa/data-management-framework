@@ -9,9 +9,9 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,13 +20,24 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.core.JacksonException;
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.ObjectMapper;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
+
+//New 2026-02-06 - support stubs
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
+
+import org.springframework.web.servlet.HandlerMapping;
+import org.springframework.util.AntPathMatcher;
+
+import java.io.InputStream;
+//End New 2026-02-06
 
 @RestController
 @RequestMapping("/api/v1")
@@ -36,36 +47,46 @@ public class DmfStubController {
     private String jsonFilesPath;
     
     private final ObjectMapper objectMapper;
-
-    public DmfStubController(ObjectMapper objectMapper) {
-        this.objectMapper = objectMapper;
-    }
     
-    @GetMapping(path={"/api-stub"}, produces = {"application/json", "application/xml"})
-    public ResponseEntity<Object> getStub(@RequestParam(name="json-input", required=false) @Parameter(description = "Specify a JSON file name or a valid JSON string.") String jsonInput) {
-        try {
-            // Check if input is a valid JSON structure
-            JsonNode jsonNode;
-            if (isValidJson(jsonInput)) {
-                jsonNode = objectMapper.readTree(jsonInput);
-            } else {
-                // Treat input as a filename and attempt to read the JSON file
-                File jsonFile = new File(jsonFilesPath, jsonInput);
-                if (!jsonFile.exists()) {
-                    return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                            .body("File not found: " + jsonInput);
-                }
-                String fileContent = new String(Files.readAllBytes(Paths.get(jsonFile.getPath())));
-                jsonNode = objectMapper.readTree(fileContent);
-            }
-
-            return ResponseEntity.ok(jsonNode);
-
-        } catch (IOException e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Error processing request: " + e.getMessage());
-        }
+    //New 2026-02-06 - support stubs
+    private final ResourceLoader resourceLoader;
+    private final AntPathMatcher antPathMatcher = new AntPathMatcher();
+    
+    public DmfStubController(ObjectMapper objectMapper, ResourceLoader resourceLoader) {
+        this.objectMapper = objectMapper;
+        this.resourceLoader = resourceLoader;
     }
+
+    //public DmfStubController(ObjectMapper objectMapper) {
+    //    this.objectMapper = objectMapper;
+    //}
+    //End New 2026-02-06
+    
+	@GetMapping(path={"/api-stub"}, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Object> getStub(@RequestParam(name="json-input", required=false) @Parameter(description = "Specify a JSON file name or a valid JSON string.") String jsonInput) {
+	    try {
+	        // Check if input is a valid JSON structure
+	        JsonNode jsonNode;
+	        if (isValidJson(jsonInput)) {
+	            jsonNode = objectMapper.readTree(jsonInput);
+	        } else {
+	            // Treat input as a filename and attempt to read the JSON file
+	            File jsonFile = new File(jsonFilesPath, jsonInput);
+	            if (!jsonFile.exists()) {
+	                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+	                        .body("File not found: " + jsonInput);
+	            }
+	            String fileContent = new String(Files.readAllBytes(Paths.get(jsonFile.getPath())));
+	            jsonNode = objectMapper.readTree(fileContent);
+	        }
+	
+	        return ResponseEntity.ok(jsonNode);
+	
+	    } catch (IOException e) {
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+	                .body("Error processing request: " + e.getMessage());
+	    }
+	}
     
     @PostMapping("/echo-stub")
     public ResponseEntity<Object> getEchoStub(@RequestBody @Parameter(description = "Specify a JSON file name or a valid JSON string.") String requestBody) {
@@ -103,7 +124,7 @@ public class DmfStubController {
     //	        @Parameter(description = "Path to JSON file within the stub directory, e.g., `dir1/subdir/myfile`")
     //	        @PathVariable String path) {
     @Operation(summary = "Hierarchical navigation for JSON stubs. Will not work in OpenAPI documenation.")
-    @GetMapping("/stub/**")
+    @GetMapping("/stub-orig/**")
     public ResponseEntity<Object> getStubHierarchicalNavigation() {
         try {
             // Get the full path after `/stub/`
@@ -158,6 +179,45 @@ public class DmfStubController {
         }
     }  
     
+    @GetMapping("/stub/**")
+    public ResponseEntity<?> getStubHierarchicalNavigation(HttpServletRequest request) {
+        try {
+            String pathWithinHandler =
+                    (String) request.getAttribute(HandlerMapping.PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE);
+            String bestMatchPattern =
+                    (String) request.getAttribute(HandlerMapping.BEST_MATCHING_PATTERN_ATTRIBUTE);
+
+            String tail = antPathMatcher.extractPathWithinPattern(bestMatchPattern, pathWithinHandler);
+
+            if (tail == null || tail.isBlank()) {
+                return ResponseEntity.badRequest().body("Invalid path: no file specified");
+            }
+
+            if (!tail.endsWith(".json")) {
+                tail = tail + ".json";
+            }
+
+            // classpath points to src/main/resources at runtime (including when packaged)
+            String resourcePath = "classpath:/static/stubs/" + tail;
+
+            Resource resource = resourceLoader.getResource(resourcePath);
+            if (!resource.exists() || !resource.isReadable()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("File not found: " + resourcePath);
+            }
+
+            try (InputStream in = resource.getInputStream()) {
+                JsonNode json = objectMapper.readTree(in);
+                return ResponseEntity.ok()
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .body(json);
+            }
+
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error processing request: " + e.getMessage());
+        }
+    }
+    
     private String extractWildcardPath(HttpServletRequest request, String userId) {
         String requestURI = request.getRequestURI();
         int index = requestURI.indexOf(userId) + userId.length() + 1; // +1 for the slash
@@ -169,7 +229,7 @@ public class DmfStubController {
         try {
             objectMapper.readTree(input);
             return true;
-        } catch (IOException e) {
+        } catch (JacksonException e) {
             return false;
         }
     }    

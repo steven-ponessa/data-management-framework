@@ -20,9 +20,7 @@ public class EpmDaoService extends AbstractDaoService {
 	private EpmDatasourceProperties epmProp;
 
 	public EpmDaoService() {
-		super.setT(t);
-		super.setTableNm(tableNm);
-		super.setScdTableNm(scdTableNm);
+
 	}
 	
 	@Override

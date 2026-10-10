@@ -21,9 +21,7 @@ public class ErdmDaoService extends AbstractDaoService {
 	private ErdmDatasourceProperties erdmProp;
 	
 	public ErdmDaoService() {
-		super.setT(t);
-		super.setTableNm(tableNm);
-		super.setScdTableNm(scdTableNm);
+
 	}
 
 	@Override

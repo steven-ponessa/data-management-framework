@@ -16,8 +16,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.core.JacksonException;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.json.JsonMapper;
+
 import com.ibm.wfm.models.Token;
 import com.ibm.wfm.models.W3UserDetail;
 import com.ibm.wfm.utils.Helpers;
@@ -52,7 +54,7 @@ public class Oauth2CallbackController {
  		   @RequestParam(name="code", required=false) String code
  		 , @RequestParam(name="grant_id", required=false) String grantId
  		 , HttpServletRequest request
- 		 , HttpServletResponse response) throws IOException, JsonProcessingException {
+ 		 , HttpServletResponse response) throws IOException, JacksonException {
 		
 		System.out.println(
 				"===> Oauth2CallbackController.oauth2CallbackRestTemplateWithRedirect(... @RequestParam code, @RequestParam code grant_id, request, repsonse)");
@@ -72,7 +74,7 @@ public class Oauth2CallbackController {
 		String header = JwtDecoderUtil.decodeJwtTokenHeader(token.getId_token());
 		String payload = JwtDecoderUtil.decodeJwtTokenPayload(token.getId_token());
 		
-		ObjectMapper mapper = new ObjectMapper();
+		ObjectMapper mapper = JsonMapper.builder().build();
 		W3UserDetail w3UserInfo = mapper.readValue(payload, W3UserDetail.class);
 		
 		String wfmDmfOriginalUrl = Helpers.readServletCookie((HttpServletRequest)request, "wfm-dmf-origial-url");

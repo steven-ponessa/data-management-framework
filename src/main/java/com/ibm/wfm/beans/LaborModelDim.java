@@ -1,12 +1,12 @@
 package com.ibm.wfm.beans;
 
 import java.sql.Timestamp;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ibm.wfm.annotations.DbColumn;
-
+import com.ibm.wfm.annotations.DbTable;
 import com.ibm.wfm.utils.Helpers;
 
+@DbTable(beanName="LaborModelDim",baseTableName="REFT.LABOR_MODEL")
 public class LaborModelDim extends NaryTreeNode implements SelfReferenceTaxonomyNodeInterface {
 	
 	@DbColumn(columnName="LBR_MODEL_ID",isId=true)

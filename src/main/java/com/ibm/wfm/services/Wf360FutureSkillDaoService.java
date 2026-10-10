@@ -21,9 +21,7 @@ public class Wf360FutureSkillDaoService extends AbstractDaoService {
 	private Wf360DatasourceProperties wf360Prop;
 	
 	public Wf360FutureSkillDaoService() {
-		super.setT(t);
-		super.setTableNm(tableNm);
-		super.setScdTableNm(scdTableNm);
+
 	}
 
 	@Override

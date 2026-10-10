@@ -50,17 +50,14 @@ public class SkillDaoController {
 	/*
 	 * SKILL FUTURE_SKILLS_DIM
 	 */
-	@GetMapping(path="/skill/future-skills",produces = { "application/json", "application/xml"})
+	@GetMapping(path="/skill/future-skills",produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<FutureSkillsDim> retrieveAllCurrentFutureSkills(
 			  @RequestParam(required=false, defaultValue = "ALL") @Parameter(description="Size of the results, use ‘ALL’ (default) to get all data.") String size
 			, @RequestParam(defaultValue = "") @Parameter(description = "Add filter in format of a SQL WHERE clause.") String filters) {
-		skillDaoService.setT(FutureSkillsDim.class);
-		skillDaoService.setTableNm("SKILL.FUTURE_SKILLS_DIM_V");
-		skillDaoService.setScdTableNm("SKILL.FUTURE_SKILLS_SCD_V");
 		
 		int fetchFirstXRows = 0;
 		if (Helpers.isInteger(size)) fetchFirstXRows = Integer.parseInt(size);
-		return skillDaoService.findAll(filters, fetchFirstXRows);
+		return skillDaoService.findAll(FutureSkillsDim.class, filters, fetchFirstXRows);
 	}
 	
 	@GetMapping("/skill/future-skills/csv")
@@ -71,7 +68,7 @@ public class SkillDaoController {
 		
 		int fetchFirstXRows = 0;
 		if (Helpers.isInteger(size)) fetchFirstXRows = Integer.parseInt(size);
-		List<FutureSkillsDim> futureSkills = skillDaoService.findAll(filters, fetchFirstXRows);
+		List<FutureSkillsDim> futureSkills = skillDaoService.findAll(FutureSkillsDim.class, filters, fetchFirstXRows);
 
 		String returnFile = "future-skills.csv";
 		FileWriter fileWriter = new FileWriter(fileStorageProperties.getUploadDir()+"/" + returnFile);
@@ -105,14 +102,10 @@ public class SkillDaoController {
 		
 	}
 	
-	@GetMapping(path="/skill/future-skills/idl",produces = { "application/json", "application/xml"})
+	@GetMapping(path="/skill/future-skills/idl",produces = MediaType.APPLICATION_JSON_VALUE)
 	public EtlResponse futureSkillsIdl() throws IOException, IllegalArgumentException, IllegalAccessException, SQLException {
 		EtlResponse etlResponse = new EtlResponse();
-		
-		skillDaoService.setT(FutureSkillsDim.class);
-		skillDaoService.setTableNm("SKILL.FUTURE_SKILLS_DIM_V");
-		skillDaoService.setScdTableNm("SKILL.FUTURE_SKILLS_SCD_V");
-		
+			
 		/*
 		 * Retrieve the UT by calling the /api/v1/ut api using the default parameters of 
 		 *   ocstatus: O (open offerings)
@@ -141,10 +134,7 @@ public class SkillDaoController {
 	 */
 	@DeleteMapping("/skill/future-skills")
 	public int deleteAllServiceAreas() {
-		skillDaoService.setT(FutureSkillsDim.class);
-		skillDaoService.setTableNm("SKILL.FUTURE_SKILLS_DIM");
-		skillDaoService.setScdTableNm("SKILL.FUTURE_SKILLS_SCD_V");
-		return skillDaoService.deleteAll();
+		return skillDaoService.deleteAll(FutureSkillsDim.class);
 	}
 
 }

@@ -3,6 +3,7 @@
   - en/quickstart/setting-up-environment
   - en/quickstart/running-the-application
   - en/quickstart/cio-ci-cd-pipeline
+  - en/quickstart/cio-ci-cd-pipeline-new
 
 - title: Learning the Framework
   docs:
@@ -10,6 +11,7 @@
   #- en/learning-framework/reference-architecture
   - en/learning-framework/component-model
   - en/learning-framework/object-model
+  - en/learning-framework/annotations
   - en/learning-framework/consuming-web-services
   - en/learning-framework/utilities
   - en/learning-framework/authentication
@@ -17,6 +19,7 @@
   - en/learning-framework/data-marshalling
   - en/learning-framework/cloud-persistent-data-storage
   - en/learning-framework/profile-manage-env-properties
+  - en/learning-framework/measuring-the-application
 
 - title: Creating Services and APIs
   docs:

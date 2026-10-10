@@ -102,6 +102,7 @@ button.close {
 	let geoTypCd = 'DOM'
 	let ctryIsoCd = null
 	let mrktCd = null
+	let rgnCd = null
 	let geoCd = null
 	let jrsCd = null
 	let apiCnt=0;
@@ -111,8 +112,6 @@ button.close {
 	let timeOverlap = null
 	
 	function init() {
-	    // Define the global variable
-	    let geoTypCd = "DOM";
 
 	    // Define the dropdown options
 	    const geoTypes = [
@@ -319,7 +318,9 @@ button.close {
 		if (dropdown.value.startsWith("897")) {
 			geoCd = 'AM'
 			mrktCd = '4V'
+			rgnCd = '4T'
 			mrktNm = 'US Commercial'
+			rgnNm = 'US Top Region'
 			ctryIsoCd = '897'
 			if (dropdown.value = '897F') {
 				mrktCd = '4F'
@@ -327,8 +328,10 @@ button.close {
 			}
 			let geo = document.getElementById('geo-market-id');
 			//Geography: Americas (AM)     Market: NA (4V)     Country code: 897
-			geo.innerHTML = "<b>Geography:</b> Americas ("+geoCd+")&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Market:</b> "
-            +mrktNm+" ("+mrktCd+")&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Country code:</b> 897"
+			geo.innerHTML = "<b>Geography:</b> Americas ("+geoCd
+					       +")&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Market:</b> "+mrktNm+" ("+mrktCd
+					       +")&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Region:</b> "+rgnNm+" ("+rgnCd
+					       +")&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Country code:</b> 897"
 
 			return
 		}
@@ -345,11 +348,13 @@ button.close {
 			    const wwTop = JSON.parse(request.responseText);
 			    const data = wwTop[0].children;
 			    let geo = document.getElementById('geo-market-id');
-			    geo.innerHTML = "<b>Geography:</b> "+data[0].geoDesc.trim()+" ("+data[0].geoCd.trim()+")&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Market:</b> "
-			             +data[0].children[0].mrktNm.trim()+" ("+data[0].children[0].mrktCd.trim()+")&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Country code:</b> "
-			            		 + data[0].children[0].children[0].children[0].ctryIsoCd.trim()
-			    geoCd = data[0].geoDesc.trim()
-			    mrktCd = data[0].children[0].mrktCd.trim()
+			    geo.innerHTML = "<b>Geography:</b> "+data[0].geoDesc.trim()+" ("+data[0].geoCd.trim()
+			    		+")&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Market:</b> "+data[0].children[0].mrktNm.trim()+" ("+data[0].children[0].mrktCd.trim()
+			    		+")&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Region:</b> "+data[0].children[0].children[0].rgnNm.trim()+" ("+data[0].children[0].children[0].rgnCd.trim()
+			    		+")&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Country code:</b> "+ data[0].children[0].children[0].children[0].ctryIsoCd.trim()
+			    geoCd     = data[0].geoCd.trim()
+			    mrktCd    = data[0].children[0].mrktCd.trim()
+			    rgnCd     = data[0].children[0].children[0].rgnCd.trim()
 			    ctryIsoCd = data[0].children[0].children[0].children[0].ctryIsoCd.trim()
 			   } else {
 			    // Reached the server, but it returned an error
@@ -413,7 +418,7 @@ button.close {
 		msgLine.classList.remove('show'); 
 		let msg="<b>Errors Detected: </b>"
 		let errorCnt=0
-		if (geoCd==null || mrktCd==null || ctryIsoCd==null) {
+		if (geoCd==null || mrktCd==null || rgnCd==null || ctryIsoCd==null) {
 			msg+=" "+ ++errorCnt + ". Contract Owner Country must be specified."
 		}
 		if (jrsCd==null) {
@@ -436,7 +441,12 @@ button.close {
 			msgLine.classList.remove('alert-danger'); 
 			msgLine.classList.remove('show');	
 
-			const url = window.location.protocol+"//"+window.location.host+'/api/v1/eds-wfm/sourcing-strategy-countries/'+geoTypCd+'/'+mrktCd+'/'+ctryIsoCd+'/'+jrsCd;
+			const geoTypCdx = document.getElementById("geoTypeSelect").value;
+			const selectedBand = document.querySelector('input[name="bandCbx"]:checked')?.value;
+			bandPathVariable = '';
+			if (selectedBand && selectedBand!='0') bandPathVariable="/"+selectedBand;
+			
+			const url = window.location.protocol+"//"+window.location.host+'/api/v1/eds-wfm/sourcing-strategy-countries/'+geoTypCdx+'/'+geoCd+'/'+mrktCd+'/'+rgnCd+'/'+ctryIsoCd+bandPathVariable+'/'+jrsCd;
 			addToList('id_api_list',url);
 
 			const request = new XMLHttpRequest();
@@ -693,52 +703,28 @@ button.close {
 							<label for="band" class="col-sm-2 col-form-label">Band?</label>
 							<div class="col-sm-10">
 								<div class="form-check form-check-inline">
-									<input class="form-check-input" type="radio" name="bandCbx" id="bandCbx1" value="1" checked> <label
-										class="form-check-label" for="bandCbx1">1</label>
+									<input class="form-check-input" type="radio" name="bandCbx" id="bandCbx1" value="0" checked> <label
+										class="form-check-label" for="bandCbx1"><i>Ignore</i></label>
 								</div>
 								<div class="form-check form-check-inline">
-									<input class="form-check-input" type="radio" name="bandCbx" id="bandCbx2" value="2"> <label
-										class="form-check-label" for="bandCbx2">2</label>
+									<input class="form-check-input" type="radio" name="bandCbx" id="bandCbx2" value="all"> <label
+										class="form-check-label" for="bandCbx2">All bands (all)</label>
 								</div>
 								<div class="form-check form-check-inline">
-									<input class="form-check-input" type="radio" name="bandCbx" id="bandCbx3" value="3"> <label
-										class="form-check-label" for="bandCbx3">3</label>
+									<input class="form-check-input" type="radio" name="bandCbx" id="bandCbx3" value="b7-"> <label
+										class="form-check-label" for="bandCbx3">Band 7 and below (b7-)</label>
 								</div>
 								<div class="form-check form-check-inline">
-									<input class="form-check-input" type="radio" name="bandCbx" id="bandCbx4" value="4"> <label
-										class="form-check-label" for="bandCbx4">4</label>
+									<input class="form-check-input" type="radio" name="bandCbx" id="bandCbx4" value="b8-"> <label
+										class="form-check-label" for="bandCbx4">Band 8 and below (B8-)</label>
 								</div>
 								<div class="form-check form-check-inline">
-									<input class="form-check-input" type="radio" name="bandCbx" id="bandCbx5" value="5"> <label
-										class="form-check-label" for="bandCbx5">5</label>
+									<input class="form-check-input" type="radio" name="bandCbx" id="bandCbx5" value="b8+"> <label
+										class="form-check-label" for="bandCbx5">Band 8 and above (B8+)</label>
 								</div>
 								<div class="form-check form-check-inline">
-									<input class="form-check-input" type="radio" name="bandCbx" id="bandCbx6" value="6"> <label
-										class="form-check-label" for="bandCbx6">6</label>
-								</div>
-								<div class="form-check form-check-inline">
-									<input class="form-check-input" type="radio" name="bandCbx" id="bandCbx7" value="7"> <label
-										class="form-check-label" for="bandCbx7">7</label>
-								</div>
-								<div class="form-check form-check-inline">
-									<input class="form-check-input" type="radio" name="bandCbx" id="bandCbx8" value="8"> <label
-										class="form-check-label" for="bandCbx8">8</label>
-								</div>
-								<div class="form-check form-check-inline">
-									<input class="form-check-input" type="radio" name="bandCbx" id="bandCbx8" value="9"> <label
-										class="form-check-label" for="bandCbx9">9</label>
-								</div>
-								<div class="form-check form-check-inline">
-									<input class="form-check-input" type="radio" name="bandCbx" id="bandCbx10" value="10"> <label
-										class="form-check-label" for="bandCbx10">10</label>
-								</div>
-								<div class="form-check form-check-inline">
-									<input class="form-check-input" type="radio" name="bandCbx" id="bandCbxD" value="D"> <label
-										class="form-check-label" for="bandCbxD">D</label>
-								</div>
-								<div class="form-check form-check-inline">
-									<input class="form-check-input" type="radio" name="bandCbx" id="bandCbxC" value="C"> <label
-										class="form-check-label" for="bandCbxC">C</label>
+									<input class="form-check-input" type="radio" name="bandCbx" id="bandCbx6" value="b9+"> <label
+										class="form-check-label" for="bandCbx6">Band 9 and above (B9+)</label>
 								</div>
 							</div>
 						</div>

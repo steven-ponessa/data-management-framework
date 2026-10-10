@@ -4,9 +4,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import jakarta.servlet.http.HttpServletResponse;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,6 +24,7 @@ import com.ibm.wfm.services.UtAccessService;
 import com.ibm.wfm.utils.DataMarshaller;
 
 import io.swagger.v3.oas.annotations.Parameter;
+import jakarta.servlet.http.HttpServletResponse;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -64,7 +64,7 @@ public class UtAccessController {
 		return utAccessService.findEdsUt(size, utlevel10, ocstatus, utlevel15, utlevel17, gbspracticecode, utlevel20, utlevel30, addlQueryString);
 	}
 	
-	@GetMapping(value="/ut/brand",produces = { "application/json", "application/xml"})
+	@GetMapping(value="/ut/brand",produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<BrandDim> findBrandsUt(@RequestParam(required=false, defaultValue = "ALL") @Parameter(description="Size of the results, use ‘ALL’ (default) to get all data.") String size
 			, @RequestParam(required=false, defaultValue = "O") @Parameter(description="UT Status. O = Open. Use ‘ALL’ to get all data.") String ocstatus
 			, @RequestParam(required=false, defaultValue = "10J00") @Parameter(description="Brand Code. 10J00 = Global Business Services. Use ‘ALL’ to get all data.") String utlevel10
@@ -92,7 +92,7 @@ public class UtAccessController {
 		return brands;
 	}
 	
-	@GetMapping(value="/ut/growth-platform",produces = { "application/json", "application/xml"})
+	@GetMapping(value="/ut/growth-platform",produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<GrowthPlatformDim> findUtGrowthPlatforms(@RequestParam(required=false, defaultValue = "ALL") @Parameter(description="Size of the results, use ‘ALL’ (default)to get all data.") String size
 			, @RequestParam(required=false, defaultValue = "O") @Parameter(description="UT Status. O = Open") String ocstatus
 			, @RequestParam(required=false, defaultValue = "10J00") @Parameter(description="Brand Code. 10J00 = Global Business Services") String utlevel10
@@ -129,7 +129,7 @@ public class UtAccessController {
 		return growthPlatforms;
 	}
 	
-	@GetMapping(value="/ut/growth-platform/tax",produces = { "application/json", "application/xml"})
+	@GetMapping(value="/ut/growth-platform/tax",produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<BrandDim> findUtGrowthPlatformsTax(@RequestParam(required=false, defaultValue = "ALL") @Parameter(description="Size of the results, use ‘ALL’ (default)to get all data.") String size
 			, @RequestParam(required=false, defaultValue = "O") @Parameter(description="UT Status. O = Open") String ocstatus
 			, @RequestParam(required=false, defaultValue = "10J00") @Parameter(description="Brand Code. 10J00 = Global Business Services") String utlevel10
@@ -183,7 +183,7 @@ public class UtAccessController {
 		return brands;
 	}	
 	
-	@GetMapping(value="/ut/service-line",produces = { "application/json", "application/xml"})
+	@GetMapping(value="/ut/service-line",produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<ServiceLineDim> findUtServiceLines(@RequestParam(required=false, defaultValue = "ALL") @Parameter(description="Size of the results, use ‘ALL’ (default)to get all data.") String size
 			, @RequestParam(required=false, defaultValue = "O") @Parameter(description="UT Status. O = Open") String ocstatus
 			, @RequestParam(required=false, defaultValue = "10J00") @Parameter(description="Brand Code. 10J00 = Global Business Services") String utlevel10
@@ -228,7 +228,7 @@ public class UtAccessController {
 		return serviceLines;
 	}
 	
-	@GetMapping(value="/ut/service-line/tax",produces = { "application/json", "application/xml"})
+	@GetMapping(value="/ut/service-line/tax",produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<BrandDim> findUtServiceLineTax(@RequestParam(required=false, defaultValue = "ALL") @Parameter(description="Size of the results, use ‘ALL’ (default)to get all data.") String size
 			, @RequestParam(required=false, defaultValue = "O") @Parameter(description="UT Status. O = Open") String ocstatus
 			, @RequestParam(required=false, defaultValue = "10J00") @Parameter(description="Brand Code. 10J00 = Global Business Services") String utlevel10
@@ -295,7 +295,7 @@ public class UtAccessController {
 		return brands;
 	}		
 	
-	@GetMapping(value="/ut/practice",produces = { "application/json", "application/xml"})
+	@GetMapping(value="/ut/practice",produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<PracticeDim> findUtPracticess(@RequestParam(required=false, defaultValue = "ALL") @Parameter(description="Size of the results, use ‘ALL’ (default)to get all data.") String size
 			, @RequestParam(required=false, defaultValue = "O") @Parameter(description="UT Status. O = Open") String ocstatus
 			, @RequestParam(required=false, defaultValue = "10J00") @Parameter(description="Brand Code. 10J00 = Global Business Services") String utlevel10
@@ -344,7 +344,7 @@ public class UtAccessController {
 		return practices;
 	}
 	
-	@GetMapping(value="/ut/practice/tax",produces = { "application/json", "application/xml"})
+	@GetMapping(value="/ut/practice/tax",produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<BrandDim> findUtPracticeTax(@RequestParam(required=false, defaultValue = "ALL") @Parameter(description="Size of the results, use ‘ALL’ (default)to get all data.") String size
 			, @RequestParam(required=false, defaultValue = "O") @Parameter(description="UT Status. O = Open") String ocstatus
 			, @RequestParam(required=false, defaultValue = "10J00") @Parameter(description="Brand Code. 10J00 = Global Business Services") String utlevel10

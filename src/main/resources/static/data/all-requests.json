@@ -1,0 +1,433 @@
+{
+   "_embedded":{
+      "requestList":[
+         {
+            "statusUpdatedDate":null,
+            "creationDate":null,
+            "info":{
+               "approvalFlowResult":null,
+               "reviewGroup":null,
+               "lock":null,
+               "strategy":null,
+               "userEmail":null,
+               "processing":null,
+               "draft":false,
+               "needingIprcAction":false,
+               "readyForSubmit":false,
+               "renewal":null
+            },
+            "useRestrictions":"High",
+            "selfCertificated":false,
+            "id":"61b282fa7f723d135daf49eb",
+            "businessUnit":"IBM Consulting",
+            "businessDivision":null,
+            "useCaseOwner":null,
+            "operationsOwner":null,
+            "requester":"mano.bashyam@us.ibm.com",
+            "firstLineManager":null,
+            "status":"Approved",
+            "prevStatus":null,
+            "fee":"No",
+            "contentOwner":"Other",
+            "dataType":"Licensed Data (Contracted/For Consideration)",
+            "contentTitle":"Air travel Passenger traffic data",
+            "royaltyManagement":"No",
+            "dataClass":[
+               "PI"
+            ],
+            "dataDomain":"Option 1",
+            "contentUse":[
+               "Research"
+            ]
+         },
+         {
+            "statusUpdatedDate":null,
+            "creationDate":null,
+            "info":{
+               "approvalFlowResult":null,
+               "reviewGroup":null,
+               "lock":null,
+               "strategy":null,
+               "userEmail":null,
+               "processing":null,
+               "draft":false,
+               "needingIprcAction":false,
+               "readyForSubmit":false,
+               "renewal":null
+            },
+            "useRestrictions":"Medium",
+            "selfCertificated":false,
+            "id":"628f76959ace9aa6d6258f78",
+            "businessUnit":"IBM Worldwide Ecosystem and Blockchain",
+            "businessDivision":"Weather",
+            "useCaseOwner":null,
+            "operationsOwner":null,
+            "requester":"Steve.Early@ibm.com",
+            "firstLineManager":null,
+            "status":"Approved",
+            "prevStatus":null,
+            "fee":"Yes",
+            "contentUse":[
+               "Commercial",
+               "Derivative data set",
+               "AI models",
+               "Ingest",
+               "Internal Use",
+               "Research"
+            ],
+            "contentOwner":"Other",
+            "royaltyManagement":"Yes",
+            "dataType":"Licensed Data (Contracted/For Consideration)",
+            "dataClass":[
+               "No"
+            ],
+            "contentTitle":"EUMETSAT European Satellite Data",
+            "dataDomain":"Weather",
+            "otherContentOwner":"EUMETSAT (European Organization for the Exploitation of Meteorological Satellites)"
+         },
+         {
+            "statusUpdatedDate":null,
+            "creationDate":null,
+            "info":{
+               "approvalFlowResult":null,
+               "reviewGroup":null,
+               "lock":null,
+               "strategy":null,
+               "userEmail":null,
+               "processing":null,
+               "draft":false,
+               "needingIprcAction":false,
+               "readyForSubmit":false,
+               "renewal":null
+            },
+            "useRestrictions":"Medium",
+            "selfCertificated":false,
+            "id":"62ff9ffbce1a4f2dad87d7a2",
+            "businessUnit":"IBM Software",
+            "businessDivision":"Security",
+            "useCaseOwner":null,
+            "operationsOwner":null,
+            "requester":"kspess@us.ibm.com",
+            "firstLineManager":null,
+            "status":"Accepted",
+            "prevStatus":null,
+            "fee":"No",
+            "contentUse":[
+               "Insights from content",
+               "Internal Use"
+            ],
+            "contentOwner":"Other",
+            "royaltyManagement":"No",
+            "dataType":"Licensed Data (Open/No Consideration)",
+            "dataClass":[
+               "No"
+            ],
+            "contentTitle":"Test for Frank M GF for Security BU",
+            "dataDomain":"Other",
+            "otherContentOwner":"Test Security Vendor"
+         },
+         {
+            "statusUpdatedDate":null,
+            "creationDate":null,
+            "info":{
+               "approvalFlowResult":null,
+               "reviewGroup":null,
+               "lock":null,
+               "strategy":null,
+               "userEmail":null,
+               "processing":null,
+               "draft":false,
+               "needingIprcAction":false,
+               "readyForSubmit":false,
+               "renewal":null
+            },
+            "useRestrictions":"Medium",
+            "selfCertificated":false,
+            "id":"62ffa3fd951e98e352bdbab5",
+            "businessUnit":"IBM Software",
+            "businessDivision":"Security",
+            "useCaseOwner":null,
+            "operationsOwner":null,
+            "requester":"kspess@us.ibm.com",
+            "firstLineManager":null,
+            "status":"Approved",
+            "prevStatus":null,
+            "fee":"Yes",
+            "contentUse":[
+               "Commercial",
+               "Evaluation",
+               "Ingest",
+               "Insights from content",
+               "Internal Use"
+            ],
+            "contentOwner":"Other",
+            "royaltyManagement":"No",
+            "dataType":"Licensed Data (Contracted/For Consideration)",
+            "dataClass":[
+               "No"
+            ],
+            "contentTitle":"Test request for Walter H GF of Security",
+            "dataDomain":"Other",
+            "otherContentOwner":"Test Security Vendor"
+         },
+         {
+            "statusUpdatedDate":null,
+            "creationDate":null,
+            "info":{
+               "approvalFlowResult":null,
+               "reviewGroup":null,
+               "lock":null,
+               "strategy":null,
+               "userEmail":null,
+               "processing":null,
+               "draft":false,
+               "needingIprcAction":false,
+               "readyForSubmit":false,
+               "renewal":null
+            },
+            "useRestrictions":"Medium",
+            "selfCertificated":false,
+            "id":"63050e6a6656a11e3ae3fc15",
+            "businessUnit":"IBM Research",
+            "businessDivision":null,
+            "useCaseOwner":null,
+            "operationsOwner":null,
+            "requester":"mamin@ca.ibm.com",
+            "firstLineManager":null,
+            "status":"Accepted",
+            "prevStatus":null,
+            "fee":"Yes",
+            "contentUse":[
+               "Commercial"
+            ],
+            "contentOwner":"Other",
+            "royaltyManagement":"No",
+            "dataType":"Public/Unrestricted Data",
+            "dataClass":[
+               "No"
+            ],
+            "contentTitle":"Test Data - Meraj 2022-08-23",
+            "dataDomain":"Client",
+            "otherContentOwner":"Test"
+         },
+         {
+            "statusUpdatedDate":null,
+            "creationDate":null,
+            "info":{
+               "approvalFlowResult":null,
+               "reviewGroup":null,
+               "lock":null,
+               "strategy":null,
+               "userEmail":null,
+               "processing":null,
+               "draft":false,
+               "needingIprcAction":false,
+               "readyForSubmit":false,
+               "renewal":null
+            },
+            "useRestrictions":"Low",
+            "selfCertificated":false,
+            "id":"630628920a928f03304b2ce3",
+            "businessUnit":"IBM Research",
+            "businessDivision":null,
+            "useCaseOwner":null,
+            "operationsOwner":null,
+            "requester":"mercyb@us.ibm.com",
+            "firstLineManager":null,
+            "status":"Accepted",
+            "prevStatus":null,
+            "fee":"Yes",
+            "contentUse":[
+               "Publish",
+               "Internal Use",
+               "Research Development"
+            ],
+            "contentOwner":"Other",
+            "otherContentOwner":"https://datastock.shop/",
+            "royaltyManagement":"I don't know",
+            "dataType":"Licensed Data (Open/No Consideration)",
+            "dataClass":[
+               "I don't know"
+            ],
+            "contentTitle":"https://datastock.shop/",
+            "dataDomain":"Other"
+         },
+         {
+            "statusUpdatedDate":null,
+            "creationDate":null,
+            "info":{
+               "approvalFlowResult":null,
+               "reviewGroup":null,
+               "lock":null,
+               "strategy":null,
+               "userEmail":null,
+               "processing":null,
+               "draft":false,
+               "needingIprcAction":false,
+               "readyForSubmit":false,
+               "renewal":null
+            },
+            "useRestrictions":"Low",
+            "selfCertificated":false,
+            "id":"6308cbf83e8120bc78548efb",
+            "businessUnit":"Corporate",
+            "businessDivision":null,
+            "useCaseOwner":null,
+            "operationsOwner":null,
+            "requester":"cesarjn@br.ibm.com",
+            "firstLineManager":null,
+            "status":"Accepted",
+            "prevStatus":null,
+            "fee":"No",
+            "contentUse":[
+               "Evaluation"
+            ],
+            "contentOwner":"Other",
+            "otherContentOwner":"Team Test - Staging - Aug 26th",
+            "royaltyManagement":"No",
+            "dataType":"Public/Unrestricted Data",
+            "dataClass":[
+               "I don't know"
+            ],
+            "contentTitle":"Team Test - Staging - Aug 26th",
+            "dataDomain":"People"
+         },
+         {
+            "statusUpdatedDate":null,
+            "creationDate":null,
+            "info":{
+               "approvalFlowResult":null,
+               "reviewGroup":null,
+               "lock":null,
+               "strategy":null,
+               "userEmail":null,
+               "processing":null,
+               "draft":false,
+               "needingIprcAction":false,
+               "readyForSubmit":false,
+               "renewal":null
+            },
+            "useRestrictions":"Medium",
+            "selfCertificated":false,
+            "id":"631f9d9a35254dcb7b9e03ff",
+            "businessUnit":"IBM Research",
+            "businessDivision":null,
+            "useCaseOwner":null,
+            "operationsOwner":null,
+            "requester":"mamin@ca.ibm.com",
+            "firstLineManager":null,
+            "status":"Accepted",
+            "prevStatus":null,
+            "fee":"Yes",
+            "contentUse":[
+               "AI models",
+               "Conference",
+               "Publish",
+               "Research Development",
+               "Internal Use"
+            ],
+            "contentOwner":"Other",
+            "royaltyManagement":"No",
+            "dataType":"Licensed Data (Contracted/For Consideration)",
+            "dataClass":[
+               "No"
+            ],
+            "contentTitle":"Test - Created Sept 12, 2022",
+            "dataDomain":"Other",
+            "otherContentOwner":"Test"
+         },
+         {
+            "statusUpdatedDate":null,
+            "creationDate":null,
+            "info":{
+               "approvalFlowResult":null,
+               "reviewGroup":null,
+               "lock":null,
+               "strategy":null,
+               "userEmail":null,
+               "processing":null,
+               "draft":false,
+               "needingIprcAction":false,
+               "readyForSubmit":false,
+               "renewal":null
+            },
+            "useRestrictions":"Medium",
+            "selfCertificated":false,
+            "id":"63209b880b22978a738670c8",
+            "businessUnit":"Corporate",
+            "businessDivision":null,
+            "useCaseOwner":null,
+            "operationsOwner":null,
+            "requester":"Dzianis.Hetsikau@ibm.com",
+            "firstLineManager":null,
+            "status":"Accepted",
+            "prevStatus":null,
+            "fee":"Yes",
+            "contentUse":[
+               "Evaluation"
+            ],
+            "contentOwner":"Other",
+            "otherContentOwner":"some test content owner",
+            "royaltyManagement":"No",
+            "dataType":"Public/Unrestricted Data",
+            "dataClass":[
+               "No"
+            ],
+            "contentTitle":"test request 1 - no ent content owner",
+            "dataDomain":"Asset Management"
+         },
+         {
+            "statusUpdatedDate":null,
+            "creationDate":null,
+            "info":{
+               "approvalFlowResult":null,
+               "reviewGroup":null,
+               "lock":null,
+               "strategy":null,
+               "userEmail":null,
+               "processing":null,
+               "draft":false,
+               "needingIprcAction":false,
+               "readyForSubmit":false,
+               "renewal":null
+            },
+            "useRestrictions":"Medium",
+            "selfCertificated":false,
+            "id":"632cf5107ca909c66cf67346",
+            "businessUnit":"IBM Software",
+            "businessDivision":"Sustainability Software",
+            "useCaseOwner":null,
+            "operationsOwner":null,
+            "requester":"Pavel.Yansans1@ibm.com",
+            "firstLineManager":null,
+            "status":"Approved",
+            "prevStatus":null,
+            "fee":"Yes",
+            "contentUse":[
+               "Commercial",
+               "Ingest"
+            ],
+            "contentOwner":"Other",
+            "otherContentOwner":"Global Real Estate Sustainability Benchmark (GRESB)",
+            "royaltyManagement":"Yes",
+            "dataType":"Licensed Data (Contracted/For Consideration)",
+            "dataClass":[
+               "No"
+            ],
+            "contentTitle":"Global Real Estate Sustainability Benchmark (GRESB) - Consumption Data",
+            "dataDomain":"Asset Management"
+         }
+      ]
+   },
+   "_links":{
+      "self":{
+         "href":"https://one-ibm-tool-fe-staging.dal1a.ciocloud.nonprod.intranet.ibm.com/api/v1/one-ibm-tool/request/all?page=0&size=10"
+      }
+   },
+   "page":{
+      "size":10,
+      "totalElements":10,
+      "totalPages":1,
+      "number":0
+   }
+}

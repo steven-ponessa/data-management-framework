@@ -1,11 +1,5 @@
 package com.ibm.wfm.utils;
 
-import static org.apache.poi.ss.usermodel.CellType.STRING;
-import static org.apache.poi.ss.usermodel.CellType.FORMULA;
-import static org.apache.poi.ss.usermodel.CellType.NUMERIC;
-import static org.apache.poi.ss.usermodel.CellType.ERROR;
-import static org.apache.poi.ss.usermodel.CellType.BLANK;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -14,12 +8,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import java.time.LocalDateTime;
+
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.DateUtil;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
+import com.ibm.wfm.beans.sdss.SdssExtractMetadata;
 
 /**
  * A simplistic class that provides static utility methods to reads an Excel
@@ -314,6 +312,83 @@ public class ExcelReader {
 
 		} // end - for (Row row : sheet)
 		return rowArray;
+	}
+	
+	public static SdssExtractMetadata readSdssMetadataSheet(String excelFilePath, String tabName) throws IOException {
+		FileInputStream inputStream = new FileInputStream(new File(excelFilePath));
+
+		Workbook workbook = new XSSFWorkbook(inputStream);
+		Sheet sheet = null;
+		if (tabName == null)
+			sheet = workbook.getSheetAt(0);
+		else
+			sheet = workbook.getSheet(tabName);
+		
+	    if (sheet == null) {
+	        throw new IllegalArgumentException(
+	            "Workbook does not contain 'Extract Metadata' sheet"
+	        );
+	    }
+	    
+	    return readSdssMetadataSheet(sheet);
+		
+	}
+	
+	public static SdssExtractMetadata readSdssMetadataSheet(Sheet sheet) {
+
+	    Map<String, String> values = new HashMap<>();
+
+	    // Skip header row (Property | Value)
+	    for (int rowNum = 1; rowNum <= sheet.getLastRowNum(); rowNum++) {
+
+	        Row row = sheet.getRow(rowNum);
+
+	        if (row == null) {
+	            continue;
+	        }
+
+	        String property = getCellValue(row.getCell(0));
+	        String value = getCellValue(row.getCell(1));
+
+	        if (property != null && !property.isBlank()) {
+	            values.put(property.trim(), value);
+	        }
+	    }
+
+	    return new SdssExtractMetadata(
+	        values.get("Data Source"),
+	        values.get("Name"),
+	        values.get("Title"),
+	        values.get("Extracted At"),
+	        Integer.valueOf(
+        	    (int) Double.parseDouble(
+        	        values.getOrDefault("Total Records", "0")
+        	    )
+        	),
+	        values.get("Filter Conditions"),
+	        values.get("Base URL"),
+	        values.get("Filter Parameter")
+	    );
+	}	
+	
+	private static String getCellValue(Cell cell) {
+
+	    if (cell == null) {
+	        return "";
+	    }
+
+	    return switch (cell.getCellType()) {
+	        case STRING -> cell.getStringCellValue();
+	        case NUMERIC -> {
+	            if (DateUtil.isCellDateFormatted(cell)) {
+	                yield cell.getLocalDateTimeCellValue().toString();
+	            }
+	            yield String.valueOf(cell.getNumericCellValue());
+	        }
+	        case BOOLEAN -> String.valueOf(cell.getBooleanCellValue());
+	        case FORMULA -> cell.getCellFormula();
+	        default -> "";
+	    };
 	}
 
 }

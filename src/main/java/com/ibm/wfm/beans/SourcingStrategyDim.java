@@ -20,6 +20,8 @@ public class SourcingStrategyDim {
 	private String     srcStrgyCd;
 	@DbColumn(columnName="SRC_STRGY_NM")
 	private String     srcStrgyNm;
+	@DbColumn(columnName="MRKT_SRC_STRGY_FLG")
+	private int        mrktSrcStrgyFlg;
 	@DbColumn(columnName ="EFF_TMS",isScd=true) 
 	@JsonFormat(pattern="yyyy-MM-dd-HH.mm.ss.SSS",timezone="GMT-04:00")
 	private Timestamp effTms;
@@ -53,10 +55,12 @@ public class SourcingStrategyDim {
 		  int        srcStrgyId
 		, String     srcStrgyCd
 		, String     srcStrgyNm
+		, int        mrktSrcStrgyFlg
 	) {
 		this.srcStrgyId                     = srcStrgyId;
 		this.srcStrgyCd                     = srcStrgyCd;
 		this.srcStrgyNm                     = srcStrgyNm;
+		this.mrktSrcStrgyFlg                = mrktSrcStrgyFlg;
 	}
 	
 	@Override
@@ -77,6 +81,7 @@ public class SourcingStrategyDim {
 		return 
                 Helpers.formatCsvField(String.valueOf(this.srcStrgyCd))
         + "," + Helpers.formatCsvField(String.valueOf(this.srcStrgyNm))
+        + "," + Helpers.formatCsvField(String.valueOf(this.mrktSrcStrgyFlg))
 		;
 	}
 	
@@ -84,6 +89,7 @@ public class SourcingStrategyDim {
 		return 
                 Helpers.formatCsvField("SRC_STRGY_CD")
         + "," + Helpers.formatCsvField("SRC_STRGY_NM")
+        + "," + Helpers.formatCsvField("MRKT_SRC_STRGY_FLG")
 		;
 	}
     
@@ -123,5 +129,13 @@ public class SourcingStrategyDim {
 	}
 	public void setRowStatusCd(String rowStatusCd) {
 		this.rowStatusCd = rowStatusCd;
+	}
+
+	public int getMrktSrcStrgyFlg() {
+		return mrktSrcStrgyFlg;
+	}
+
+	public void setMrktSrcStrgyFlg(int mrktSrcStrgyFlg) {
+		this.mrktSrcStrgyFlg = mrktSrcStrgyFlg;
 	}
 }

@@ -56,7 +56,7 @@ public class EdsDaoCountryTaxonomyController {
 	 * Geographic Taxonomy
 	 */
 	/* Geography */
-	@GetMapping(path={"/eds-country-tax/geographies","/eds-country-tax/geographies/{geo-cd}"},produces = { "application/json", "application/xml"})
+	@GetMapping(path={"/eds-country-tax/geographies","/eds-country-tax/geographies/{geo-cd}"},produces = MediaType.APPLICATION_JSON_VALUE)
 	public <T> ResponseEntity<Object> retrieveAllGeographies(
 			  @PathVariable(name="geo-cd", required=false) String geoCd
 			, @RequestParam(defaultValue = "") @Parameter(description = "Add filter in format of a SQL WHERE clause.") String filters
@@ -132,7 +132,7 @@ public class EdsDaoCountryTaxonomyController {
 	 * @throws IOException
 	 */
 
-	@GetMapping(path={"/eds-country-tax/markets","/eds-country-tax/markets/{mrkt-cd}"},produces = { "application/json", "application/xml"})
+	@GetMapping(path={"/eds-country-tax/markets","/eds-country-tax/markets/{mrkt-cd}"},produces = MediaType.APPLICATION_JSON_VALUE)
 	public <T> ResponseEntity<Object> retrieveAllMarketByCode(
 			  @PathVariable(name="mrkt-cd", required=false) String mrktCd
 			, @RequestParam(defaultValue = "") @Parameter(description = "Add filter in format of a SQL WHERE clause.") String filters
@@ -159,7 +159,7 @@ public class EdsDaoCountryTaxonomyController {
 	 * 
 	 * @param mrktCd - mrkt-cd PathVariable. Note that the path variable name must match the table column name.
 	 */
-	@GetMapping(path={"/eds-country-tax/geographies/{geo-cd}/markets","/eds-country-tax/geographies/{geo-cd}/markets/{mrkt-cd}"},produces = { "application/json", "application/xml"})
+	@GetMapping(path={"/eds-country-tax/geographies/{geo-cd}/markets","/eds-country-tax/geographies/{geo-cd}/markets/{mrkt-cd}"},produces = MediaType.APPLICATION_JSON_VALUE)
 	public <T> ResponseEntity<Object> retrieveAllMarketByGeoMrktCode(
 			  @PathVariable(name="geo-cd") String geoCd
 			, @PathVariable(name="mrkt-cd", required=false) String mrktCd
@@ -234,7 +234,7 @@ public class EdsDaoCountryTaxonomyController {
 	 * @throws ClassNotFoundException
 	 * @throws IOException
 	 */
-	@GetMapping(path={"/eds-country-tax/regions","/eds-country-tax/regions/{rgn-cd}"},produces = { "application/json", "application/xml"})
+	@GetMapping(path={"/eds-country-tax/regions","/eds-country-tax/regions/{rgn-cd}"},produces = MediaType.APPLICATION_JSON_VALUE)
 	public <T> ResponseEntity<Object> retrieveAllBmsRegionByCode(
 			  @PathVariable(name="rgn-cd", required=false) String rgnCd
 			, @RequestParam(defaultValue = "") @Parameter(description = "Add filter in format of a SQL WHERE clause.") String filters
@@ -309,7 +309,7 @@ public class EdsDaoCountryTaxonomyController {
 	 * @throws ClassNotFoundException
 	 * @throws IOException
 	 */
-	@GetMapping(path={"/eds-country-tax/countries","/eds-country-tax/countries/{ctry-cd}"},produces = { "application/json", "application/xml"})
+	@GetMapping(path={"/eds-country-tax/countries","/eds-country-tax/countries/{ctry-cd}"},produces = MediaType.APPLICATION_JSON_VALUE)
 	public <T> ResponseEntity<Object> retrieveAllCountryByCode(
 			  @PathVariable(name="ctry-cd", required=false) String ctryCd
 			, @RequestParam(defaultValue = "") @Parameter(description = "Add filter in format of a SQL WHERE clause.") String filters
@@ -335,7 +335,7 @@ public class EdsDaoCountryTaxonomyController {
 		return edsDaoService.find(BmsCountryDim.class, pathVarMap, filters, orderByCols, includeParentage, "WW Top", returnCsv, includePit, pit, edsOnly, resultSetMaxSize, request);
 	}
 	
-	@GetMapping(path={"/eds-country-tax/countries-alt","/eds-country-tax/countries-alt/{ctry-cd}"},produces = { "application/json", "application/xml"})
+	@GetMapping(path={"/eds-country-tax/countries-alt","/eds-country-tax/countries-alt/{ctry-cd}"},produces = MediaType.APPLICATION_JSON_VALUE)
 	public <T> ResponseEntity<Object> retrieveAllCountryAltByCode(
 			  @PathVariable(name="ctry-cd", required=false) String ctryCd
 			, @RequestParam(defaultValue = "") @Parameter(description = "Add filter in format of a SQL WHERE clause.") String filters
@@ -358,7 +358,7 @@ public class EdsDaoCountryTaxonomyController {
 		return edsDaoService.find(BmsCountry2Dim.class, pathVarMap, filters, orderByCols, includeParentage, "WW Top", returnCsv, includePit, pit, edsOnly, resultSetMaxSize, request);
 	}	
 	
-	@GetMapping(path={"/eds-country-tax/geographies/{geo-cd}/countries","/eds-country-tax/geographies/{geo-cd}/countries/{ctry-cd}"},produces = { "application/json", "application/xml"})
+	@GetMapping(path={"/eds-country-tax/geographies/{geo-cd}/countries","/eds-country-tax/geographies/{geo-cd}/countries/{ctry-cd}"},produces = MediaType.APPLICATION_JSON_VALUE)
 	public <T> ResponseEntity<Object> retrieveAllCountryByGeo(
 			  @PathVariable(name="geo-cd") String geoCd
 			, @PathVariable(name="ctry-cd", required=false) String ctryCd
@@ -386,7 +386,7 @@ public class EdsDaoCountryTaxonomyController {
 		return edsDaoService.find(BmsCountry2Dim.class, pathVarMap, filters, orderByCols, true, "WW Top", returnCsv, includePit, pit, edsOnly, resultSetMaxSize, request);
 	}
 	
-	@GetMapping(path={"/eds-country-tax/geographies/{geo-cd}/markets/{mrkt-cd}/countries","/eds-country-tax/geographies/{geo-cd}/markets/{mrkt-cd}/countries/{ctry-cd}"},produces = { "application/json", "application/xml"})
+	@GetMapping(path={"/eds-country-tax/geographies/{geo-cd}/markets/{mrkt-cd}/countries","/eds-country-tax/geographies/{geo-cd}/markets/{mrkt-cd}/countries/{ctry-cd}"},produces = MediaType.APPLICATION_JSON_VALUE)
 	public <T> ResponseEntity<Object> retrieveAllCountryByGeoMrkt(
 			  @PathVariable(name="geo-cd") String geoCd
 			, @PathVariable(name="mrkt-cd") String mrktCd
@@ -417,7 +417,7 @@ public class EdsDaoCountryTaxonomyController {
 	}
 	
 	@GetMapping(path={"/eds-country-tax/geographies/{geo-cd}/markets/{mrkt-cd}/regions/{rgn-cd}/countries"
-			         ,"/eds-country-tax/geographies/{geo-cd}/markets/{mrkt-cd}/regions/{rgn-cd}/countries/{ctry-cd}"},produces = { "application/json", "application/xml"})
+			         ,"/eds-country-tax/geographies/{geo-cd}/markets/{mrkt-cd}/regions/{rgn-cd}/countries/{ctry-cd}"},produces = MediaType.APPLICATION_JSON_VALUE)
 	public <T> ResponseEntity<Object> retrieveAllCountryByGeoMrktRgn(
 			  @PathVariable(name="geo-cd") String geoCd
 			, @PathVariable(name="mrkt-cd") String mrktCd
@@ -502,7 +502,7 @@ public class EdsDaoCountryTaxonomyController {
 	 * @throws ClassNotFoundException
 	 * @throws IOException
 	 */
-	@GetMapping(path={"/eds-country-tax/country-delivery-org-assocs","/eds-country-tax/country-delivery-org-assocs/{ctry-cd}"},produces = { "application/json", "application/xml"})
+	@GetMapping(path={"/eds-country-tax/country-delivery-org-assocs","/eds-country-tax/country-delivery-org-assocs/{ctry-cd}"},produces = MediaType.APPLICATION_JSON_VALUE)
 	public <T> ResponseEntity<Object> retrieveAllCountryDeliveryOrgAssocByCode(
 			  @PathVariable(name="ctry-cd", required=false) String ctryCd
 			, @RequestParam(defaultValue = "") @Parameter(description = "Add filter in format of a SQL WHERE clause.") String filters
@@ -584,7 +584,7 @@ public class EdsDaoCountryTaxonomyController {
 	 * @throws ClassNotFoundException
 	 * @throws IOException
 	 */
-	@GetMapping(path={"/eds-country-tax/delivery-organizations","/eds-country-tax/delivery-organizations/{dlvry-org-cd}"},produces = { "application/json", "application/xml"})
+	@GetMapping(path={"/eds-country-tax/delivery-organizations","/eds-country-tax/delivery-organizations/{dlvry-org-cd}"},produces = MediaType.APPLICATION_JSON_VALUE)
 	public <T> ResponseEntity<Object> retrieveAllDeliveryOrganizationByCode(
 			  @PathVariable(name="dlvry-org-cd", required=false) String dlvryOrgCd
 			, @RequestParam(defaultValue = "") @Parameter(description = "Add filter in format of a SQL WHERE clause.") String filters
@@ -662,7 +662,7 @@ public class EdsDaoCountryTaxonomyController {
 	 * @throws ClassNotFoundException
 	 * @throws IOException
 	 */
-	@GetMapping(path={"/eds-country-tax/delivery-areas","/eds-country-tax/delivery-areas/{dlvry-area-cd}"},produces = { "application/json", "application/xml"})
+	@GetMapping(path={"/eds-country-tax/delivery-areas","/eds-country-tax/delivery-areas/{dlvry-area-cd}"},produces = MediaType.APPLICATION_JSON_VALUE)
 	public <T> ResponseEntity<Object> retrieveAllDeliveryAreaByCode(
 			  @PathVariable(name="dlvry-area-cd", required=false) String dlvryAreaCd
 			, @RequestParam(defaultValue = "") @Parameter(description = "Add filter in format of a SQL WHERE clause.") String filters
@@ -738,7 +738,7 @@ public class EdsDaoCountryTaxonomyController {
 	 * @throws ClassNotFoundException
 	 * @throws IOException
 	 */
-	@GetMapping(path={"/eds-country-tax/delivery-area-geography-assocs","/eds-country-tax/delivery-area-geography-assocs/{dlvry-area-geo-cd}"},produces = { "application/json", "application/xml"})
+	@GetMapping(path={"/eds-country-tax/delivery-area-geography-assocs","/eds-country-tax/delivery-area-geography-assocs/{dlvry-area-geo-cd}"},produces = MediaType.APPLICATION_JSON_VALUE)
 	public <T> ResponseEntity<Object> retrieveAllDeliveryAreaGeographyAssocByCode(
 			  @PathVariable(name="dlvry-area-geo-cd", required=false) String dlvryAreaGeoCd
 			, @RequestParam(defaultValue = "") @Parameter(description = "Add filter in format of a SQL WHERE clause.") String filters
@@ -814,7 +814,7 @@ public class EdsDaoCountryTaxonomyController {
 	 * @throws ClassNotFoundException
 	 * @throws IOException
 	 */
-	@GetMapping(path={"/eds-country-tax/delivery-area-markets","/eds-country-tax/delivery-area-markets/{dlvry-area-mrkt-cd}"},produces = { "application/json", "application/xml"})
+	@GetMapping(path={"/eds-country-tax/delivery-area-markets","/eds-country-tax/delivery-area-markets/{dlvry-area-mrkt-cd}"},produces = MediaType.APPLICATION_JSON_VALUE)
 	public <T> ResponseEntity<Object> retrieveAllDeliveryAreaMarketByCode(
 			  @PathVariable(name="dlvry-area-mrkt-cd", required=false) String dlvryAreaMrktCd
 			, @RequestParam(defaultValue = "") @Parameter(description = "Add filter in format of a SQL WHERE clause.") String filters

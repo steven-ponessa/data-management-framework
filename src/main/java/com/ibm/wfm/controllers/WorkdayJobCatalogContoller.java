@@ -74,7 +74,7 @@ public class WorkdayJobCatalogContoller {
 			         ,"/workday/job-catalogs/pjc-cd/{pri-job-cat-cd}/sjc-cd/{sec-job-cat-cd}"
 			         ,"/workday/job-catalogs/pjc-cd/{pri-job-cat-cd}/sjc-cd/{sec-job-cat-cd}/comp-grd-cd/{comp-grd-cd}"
 			         ,"/workday/job-catalogs/pjc-cd/{pri-job-cat-cd}/sjc-cd/{sec-job-cat-cd}/comp-grd-cd/{comp-grd-cd}/jrs-cd/{jrs-cd}"
-			         },produces = { "application/json", "application/xml"})
+			         },produces = MediaType.APPLICATION_JSON_VALUE)
 	public <T> ResponseEntity<Object> retrieveAllWorkdayJobCatalogByCode(
 			  @PathVariable(name="pri-job-cat-cd", required=false) String priJobCatCd
 			, @PathVariable(name="sec-job-cat-cd", required=false) String secJobCatCd
@@ -168,7 +168,7 @@ public class WorkdayJobCatalogContoller {
 	 * @throws ClassNotFoundException
 	 * @throws IOException
 	 */
-	@GetMapping(path={"/workday/primary-job-categories","/workday/primary-job-categories/{pri-job-cat-cd}"},produces = { "application/json", "application/xml"})
+	@GetMapping(path={"/workday/primary-job-categories","/workday/primary-job-categories/{pri-job-cat-cd}"},produces = MediaType.APPLICATION_JSON_VALUE)
 	public <T> ResponseEntity<Object> retrieveAllPrimaryJobCategoryByCode(
 			  @PathVariable(name="pri-job-cat-cd", required=false) String priJobCatCd
 			, @RequestParam(defaultValue = "") @Parameter(description = "Add filter in format of a SQL WHERE clause.") String filters
@@ -245,7 +245,7 @@ public class WorkdayJobCatalogContoller {
 	 * @throws ClassNotFoundException
 	 * @throws IOException
 	 */
-	@GetMapping(path={"/workday/primary-job-categories/{pri-job-cat-cd}/secondary-job-categories","/workday/primary-job-categories/{pri-job-cat-cd}/secondary-job-categories/{sec-job-cat-cd}"},produces = { "application/json", "application/xml"})
+	@GetMapping(path={"/workday/primary-job-categories/{pri-job-cat-cd}/secondary-job-categories","/workday/primary-job-categories/{pri-job-cat-cd}/secondary-job-categories/{sec-job-cat-cd}"},produces = MediaType.APPLICATION_JSON_VALUE)
 	public <T> ResponseEntity<Object> retrieveAllSecondaryJobCategoryByCode(
 			  @PathVariable(name="pri-job-cat-cd", required=true) String priJobCatCd
 			, @PathVariable(name="sec-job-cat-cd", required=false) String secJobCatCd
@@ -269,7 +269,7 @@ public class WorkdayJobCatalogContoller {
 		return workdayDaoService.find(SecondaryJobCategoryDim.class, pathVarMap, filters, orderByCols, includeParentage, null, returnCsv, includePit, pit, resultSetMaxSize, request);
 	}
 	
-	@GetMapping(path={"/workday/secondary-job-categories","/workday/secondary-job-categories/{sec-job-cat-cd}"},produces = { "application/json", "application/xml"})
+	@GetMapping(path={"/workday/secondary-job-categories","/workday/secondary-job-categories/{sec-job-cat-cd}"},produces = MediaType.APPLICATION_JSON_VALUE)
 	public <T> ResponseEntity<Object> retrieveAllSecondaryJobCategoryByCodeX(
 			  @PathVariable(name="sec-job-cat-cd", required=false) String secJobCatCd
 			, @RequestParam(defaultValue = "") @Parameter(description = "Add filter in format of a SQL WHERE clause.") String filters
@@ -346,7 +346,7 @@ public class WorkdayJobCatalogContoller {
 	 * @throws ClassNotFoundException
 	 * @throws IOException
 	 */
-	@GetMapping(path={"/workday/wd-job-profiles","/workday/wd-job-profiles/{wd-job-pro-cd}"},produces = { "application/json", "application/xml"})
+	@GetMapping(path={"/workday/wd-job-profiles","/workday/wd-job-profiles/{wd-job-pro-cd}"},produces = MediaType.APPLICATION_JSON_VALUE)
 	public <T> ResponseEntity<Object> retrieveAllWdJobProfileByCode(
 			  @PathVariable(name="wd-job-pro-cd", required=false) String wdJobProCd
 			, @RequestParam(defaultValue = "") @Parameter(description = "Add filter in format of a SQL WHERE clause.") String filters
@@ -368,7 +368,7 @@ public class WorkdayJobCatalogContoller {
 		return workdayDaoService.find(WdJobProfileDim.class, pathVarMap, filters, orderByCols, includeParentage, null, returnCsv, includePit, pit, resultSetMaxSize, request);
 	}
 	
-	@GetMapping(path={"/workday/primary-job-categories/{pri-job-cat-cd}/secondary-job-categories/{sec-job-cat-cd}/wd-job-pro-cd","/workday/primary-job-categories/{pri-job-cat-cd}/secondary-job-categories/{sec-job-cat-cd}/wd-job-pro-cd/{wd-job-pro-cd}"},produces = { "application/json", "application/xml"})
+	@GetMapping(path={"/workday/primary-job-categories/{pri-job-cat-cd}/secondary-job-categories/{sec-job-cat-cd}/wd-job-pro-cd","/workday/primary-job-categories/{pri-job-cat-cd}/secondary-job-categories/{sec-job-cat-cd}/wd-job-pro-cd/{wd-job-pro-cd}"},produces = MediaType.APPLICATION_JSON_VALUE)
 	public <T> ResponseEntity<Object> retrieveAllSecondaryJobCategoryByCodeByParent(
 			  @PathVariable(name="pri-job-cat-cd", required=true) String priJobCatCd
 			, @PathVariable(name="sec-job-cat-cd", required=true) String secJobCatCd
@@ -456,7 +456,7 @@ public class WorkdayJobCatalogContoller {
 	 * @throws ClassNotFoundException
 	 * @throws IOException
 	 */
-	@GetMapping(path={"/workday/wd-job-profile-jrs-assocs","/workday/wd-job-profile-jrs-assocs/{wd-job-pro-cd}"},produces = { "application/json", "application/xml"})
+	@GetMapping(path={"/workday/wd-job-profile-jrs-assocs","/workday/wd-job-profile-jrs-assocs/{wd-job-pro-cd}"},produces = MediaType.APPLICATION_JSON_VALUE)
 	public <T> ResponseEntity<Object> retrieveAllWdJobProfileJrsAssocByCode(
 			  @PathVariable(name="wd-job-pro-cd", required=false) String wdJobProCd
 			, @RequestParam(defaultValue = "") @Parameter(description = "Add filter in format of a SQL WHERE clause.") String filters

@@ -3,6 +3,8 @@ package com.ibm.wfm.controllers;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,7 +58,6 @@ public class EdsDaoJrsTaxonomyController {
 
 	@Autowired
 	private EdsDaoService edsDaoService;
-	//private IhubDaoService edsDaoService;
 
 	@Autowired
 	private FileStorageService fileStorageService;
@@ -96,8 +97,8 @@ public class EdsDaoJrsTaxonomyController {
 	 * @throws ClassNotFoundException
 	 * @throws IOException
 	 */
-	@GetMapping(path = { "/eds-ut-jrs-tax/brands", "/eds-ut-jrs-tax/brands/{brand-cd}" }, produces = {
-			"application/json", "application/xml" })
+	@GetMapping(path = { "/eds-ut-jrs-tax/brands", "/eds-ut-jrs-tax/brands/{brand-cd}" }, 
+			produces = MediaType.APPLICATION_JSON_VALUE)
 	public <T> ResponseEntity<Object> retrieveAllBrandByCode(
 			@PathVariable(name = "brand-cd", required = false) String brandCd,
 			@RequestParam(defaultValue = "") @Parameter(description = "Add filter in format of a SQL WHERE clause.") String filters,
@@ -160,35 +161,6 @@ public class EdsDaoJrsTaxonomyController {
 		return edsDaoService.etl(BrandDim.class, oldFile, newFile, keyLength, outputFileName);
 	}
 
-	/*
-	 * @GetMapping(path="/eds/growth-platforms",produces = { "application/json",
-	 * "application/xml"}) public <T> List<T> retrieveAllGrowthPlatformsTaxCsv(
-	 * 
-	 * @RequestParam(defaultValue = "") @Parameter(description =
-	 * "Add filter in format of a SQL WHERE clause.") String filters
-	 * , @RequestParam(required=false, defaultValue="false") @Parameter(description =
-	 * "Include parent nodes?") boolean includeParentage
-	 * , @RequestParam(required=false, defaultValue="false") @Parameter(description =
-	 * "Include Point in Time data?") boolean includePit
-	 * , @RequestParam(required=false, defaultValue="") @Parameter(description =
-	 * "Specific Point in Time (format: yyyy-MM-dd-hh.mm.ss.sssssss, example = 2021-06-28-00.00.00.0)"
-	 * ) String pit , @RequestParam(defaultValue = "All") @Parameter(description =
-	 * "Size of the results, use ‘ALL’ to get all data.") String resultSetMaxSize )
-	 * throws SQLException, ClassNotFoundException, IOException {
-	 * edsDaoService.setT(GrowthPlatformDim.class);
-	 * edsDaoService.setTableNm("REFT.GROWTH_PLATFORM_DIM_V");
-	 * edsDaoService.setScdTableNm("REFT.GROWTH_PLATFORM_SCD_V");
-	 * 
-	 * boolean useScd = false; if (includePit==true || (pit!=null &&
-	 * pit.trim().length()>0)) useScd = true; int size = -1; if
-	 * (!resultSetMaxSize.equalsIgnoreCase("all")) size =
-	 * Integer.parseInt(resultSetMaxSize);
-	 * 
-	 * if (includeParentage) return edsDaoService.findAllTax(filters, null, size,
-	 * false); else { if (!useScd) pit=null; return edsDaoService.findAll(filters,
-	 * pit, size); } }
-	 */
-
 	/**
 	 * GROWTH_PLATFORM - growth-platforms
 	 */
@@ -219,8 +191,8 @@ public class EdsDaoJrsTaxonomyController {
 	 * @throws IOException
 	 */
 	@GetMapping(path = { "/eds-ut-jrs-tax/growth-platforms",
-			"/eds-ut-jrs-tax/growth-platforms/{growth-platform-cd}" }, produces = { "application/json",
-					"application/xml" })
+			"/eds-ut-jrs-tax/growth-platforms/{growth-platform-cd}" }, 
+			produces = MediaType.APPLICATION_JSON_VALUE)
 	public synchronized <T> ResponseEntity<Object> retrieveAllGrowthPlatformByCode(
 			@PathVariable(name = "growth-platform-cd", required = false) String growthPlatformCd,
 			@RequestParam(defaultValue = "") @Parameter(description = "Add filter in format of a SQL WHERE clause.") String filters,
@@ -244,8 +216,8 @@ public class EdsDaoJrsTaxonomyController {
 	}
 
 	@GetMapping(path = { "/eds-ut-jrs-tax/brands/{brand-cd}/growth-platforms",
-			"/eds-ut-jrs-tax/brands/{brand-cd}/growth-platforms/{growth-platform-cd}" }, produces = {
-					"application/json", "application/xml" })
+			"/eds-ut-jrs-tax/brands/{brand-cd}/growth-platforms/{growth-platform-cd}" }, 
+			produces = MediaType.APPLICATION_JSON_VALUE)
 	public synchronized <T> ResponseEntity<Object> retrieveAllGrowthPlatformByBrandGrowthPlatformCode(
 			@PathVariable(name = "growth-platform-cd", required = false) String growthPlatformCd,
 			@PathVariable(name = "brand-cd") String brandCd,
@@ -339,7 +311,7 @@ public class EdsDaoJrsTaxonomyController {
 	 * @throws IOException
 	 */
 	@GetMapping(path = { "/eds-ut-jrs-tax/service-lines",
-			"/eds-ut-jrs-tax/service-lines/{service-line-cd}" }, produces = { "application/json", "application/xml" })
+			"/eds-ut-jrs-tax/service-lines/{service-line-cd}" }, produces = MediaType.APPLICATION_JSON_VALUE)
 	public synchronized <T> ResponseEntity<Object> retrieveAllServiceLineByCode(
 			@PathVariable(name = "service-line-cd", required = false) String serviceLineCd,
 			@RequestParam(defaultValue = "") @Parameter(description = "Add filter in format of a SQL WHERE clause.") String filters,
@@ -363,8 +335,8 @@ public class EdsDaoJrsTaxonomyController {
 	}
 
 	@GetMapping(path = { "/eds-ut-jrs-tax/growth-platforms/{growth-platform-cd}/service-lines",
-			"/eds-ut-jrs-tax/growth-platforms/{growth-platform-cd}/service-lines/{service-line-cd}" }, produces = {
-					"application/json", "application/xml" })
+			"/eds-ut-jrs-tax/growth-platforms/{growth-platform-cd}/service-lines/{service-line-cd}" }, 
+			produces = MediaType.APPLICATION_JSON_VALUE)
 	public synchronized <T> ResponseEntity<Object> retrieveAllServiceLineByGrowthPlatformServiceLineCode(
 			@PathVariable(name = "service-line-cd", required = false) String serviceLineCd,
 			@PathVariable(name = "growth-platform-cd") String growthPlatformCd,
@@ -389,8 +361,8 @@ public class EdsDaoJrsTaxonomyController {
 	}
 
 	@GetMapping(path = { "/eds-ut-jrs-tax/brands/{brand-cd}/growth-platforms/{growth-platform-cd}/service-lines",
-			"/eds-ut-jrs-tax/brands/{brand-cd}/growth-platforms/{growth-platform-cd}/service-lines/{service-line-cd}" }, produces = {
-					"application/json", "application/xml" })
+			"/eds-ut-jrs-tax/brands/{brand-cd}/growth-platforms/{growth-platform-cd}/service-lines/{service-line-cd}" }, 
+			produces = MediaType.APPLICATION_JSON_VALUE)
 	public <T> ResponseEntity<Object> retrieveAllServiceLineByBrandGrowthPlatformServiceLineCode(
 			@PathVariable(name = "service-line-cd", required = false) String serviceLineCd,
 			@PathVariable(name = "brand-cd") String brandCd,
@@ -484,8 +456,8 @@ public class EdsDaoJrsTaxonomyController {
 	 * @throws ClassNotFoundException
 	 * @throws IOException
 	 */
-	@GetMapping(path = { "/eds-ut-jrs-tax/practices", "/eds-ut-jrs-tax/practices/{practice-cd}" }, produces = {
-			"application/json", "application/xml" })
+	@GetMapping(path = { "/eds-ut-jrs-tax/practices", "/eds-ut-jrs-tax/practices/{practice-cd}" }, 
+			produces = MediaType.APPLICATION_JSON_VALUE)
 	public synchronized <T> ResponseEntity<Object> retrieveAllPracticeByCode(
 			@PathVariable(name = "practice-cd", required = false) String practiceCd,
 			@RequestParam(defaultValue = "") @Parameter(description = "Add filter in format of a SQL WHERE clause.") String filters,
@@ -509,8 +481,8 @@ public class EdsDaoJrsTaxonomyController {
 	}
 
 	@GetMapping(path = { "/eds-ut-jrs-tax/service-lines/{service-line-cd}/practices",
-			"/eds-ut-jrs-tax/service-line/{service-line-cd}/practices/{practice-cd}" }, produces = { "application/json",
-					"application/xml" })
+			"/eds-ut-jrs-tax/service-line/{service-line-cd}/practices/{practice-cd}" }, 
+			produces = MediaType.APPLICATION_JSON_VALUE)
 	public <T> ResponseEntity<Object> retrieveAllPracticeByServiceLine(
 			@PathVariable(name = "practice-cd", required = false) String practiceCd,
 			@PathVariable(name = "service-line-cd") String serviceLineCd,
@@ -536,8 +508,8 @@ public class EdsDaoJrsTaxonomyController {
 
 	@GetMapping(path = {
 			"/eds-ut-jrs-tax/brands/{brand-cd}/growth-platforms/{growth-platform-cd}/service-lines/{service-line-cd}/practices",
-			"/eds-ut-jrs-tax/brands/{brand-cd}/growth-platforms/{growth-platform-cd}/service-lines/{service-line-cd}/practices/{practice-cd}" }, produces = {
-					"application/json", "application/xml" })
+			"/eds-ut-jrs-tax/brands/{brand-cd}/growth-platforms/{growth-platform-cd}/service-lines/{service-line-cd}/practices/{practice-cd}" }, 
+			produces = MediaType.APPLICATION_JSON_VALUE)
 	public <T> ResponseEntity<Object> retrieveAllPracticeByBrandGpServiceLine(
 			@PathVariable(name = "practice-cd", required = false) String practiceCd,
 			@PathVariable(name = "brand-cd") String brandCd,
@@ -637,7 +609,7 @@ public class EdsDaoJrsTaxonomyController {
 	 * @throws IOException
 	 */
 	@GetMapping(path = { "/eds-ut-jrs-tax/service-areas",
-			"/eds-ut-jrs-tax/service-areas/{service-area-cd}" }, produces = { "application/json", "application/xml" })
+			"/eds-ut-jrs-tax/service-areas/{service-area-cd}" }, produces = MediaType.APPLICATION_JSON_VALUE)
 	public synchronized <T> ResponseEntity<Object> retrieveAllServiceAreaByCode(
 			@PathVariable(name = "service-area-cd", required = false) String serviceAreaCd,
 			@RequestParam(defaultValue = "") @Parameter(description = "Add filter in format of a SQL WHERE clause.") String filters,
@@ -661,8 +633,8 @@ public class EdsDaoJrsTaxonomyController {
 	}
 
 	@GetMapping(path = { "/eds-ut-jrs-tax/practices/{practice-cd}/service-areas",
-			"/eds-ut-jrs-tax/practices/{practice-cd}/service-areas/{service-area-cd}" }, produces = {
-					"application/json", "application/xml" })
+			"/eds-ut-jrs-tax/practices/{practice-cd}/service-areas/{service-area-cd}" }, 
+			produces = MediaType.APPLICATION_JSON_VALUE)
 	public synchronized <T> ResponseEntity<Object> retrieveAllServiceAreaByPracticeCode(
 			@PathVariable(name = "service-area-cd", required = false) String serviceAreaCd,
 			@PathVariable(name = "practice-cd") String practiceCd,
@@ -688,8 +660,8 @@ public class EdsDaoJrsTaxonomyController {
 
 	@GetMapping(path = {
 			"/eds-ut-jrs-tax/brands/{brand-cd}/growth-platforms/{growth-platform-cd}/service-lines/{service-line-cd}/practices/{practice-cd}/service-areas",
-			"/eds-ut-jrs-tax/brands/{brand-cd}/growth-platforms/{growth-platform-cd}/service-lines/{service-line-cd}/practices/{practice-cd}/service-areas/{service-area-cd}" }, produces = {
-					"application/json", "application/xml" })
+			"/eds-ut-jrs-tax/brands/{brand-cd}/growth-platforms/{growth-platform-cd}/service-lines/{service-line-cd}/practices/{practice-cd}/service-areas/{service-area-cd}" }, 
+			produces = MediaType.APPLICATION_JSON_VALUE)
 	public <T> ResponseEntity<Object> retrieveAllServiceAreaByBrandGpSlPracticeCode(
 			@PathVariable(name = "service-area-cd", required = false) String serviceAreaCd,
 			@PathVariable(name = "brand-cd") String brandCd,
@@ -764,7 +736,7 @@ public class EdsDaoJrsTaxonomyController {
 	/*
 	 * job-role
 	 */
-	@GetMapping(path = "/eds-ut-jrs-tax/job-roles", produces = { "application/json", "application/xml" })
+	@GetMapping(path = "/eds-ut-jrs-tax/job-roles", produces = MediaType.APPLICATION_JSON_VALUE)
 	public <T> ResponseEntity<Object> retrieveAllJobRoles(
 			@RequestParam(defaultValue = "") @Parameter(description = "Add filter in format of a SQL WHERE clause.") String filters,
 			@RequestParam(required = false, defaultValue = "false") @Parameter(description = "Return results as CSV") boolean returnCsv,
@@ -773,18 +745,13 @@ public class EdsDaoJrsTaxonomyController {
 			HttpServletRequest request)
 			throws SQLException, ClassNotFoundException, IOException {
 
-		edsDaoService.setT(JobRoleDim.class);
-		
-
-		//String sql = "SELECT DISTINCT JOB_ROLE_CD, JOB_ROLE_NM FROM REFT.JRS_DIM_V ORDER BY JOB_ROLE_NM";
 		String sql = "SELECT DISTINCT JOB_ROLE_CD, JOB_ROLE_NM, CMPNSTN_GRD_LST, INCENTIVE_FLG FROM REFT.JRS_DIM_V ORDER BY JOB_ROLE_NM";
 
-		//return edsDaoService.getListForSql(JobRoleDim.class, edsDaoService.getConnection(), sql);
 		return edsDaoService.getListForSql(JobRoleDim.class, edsDaoService.getConnection(), sql, returnCsv, request);
 	}
 
-	@GetMapping(path = "/eds-ut-jrs-tax/practices/{practice-cd}/job-roles", produces = { "application/json",
-			"application/xml" })
+	@GetMapping(path = "/eds-ut-jrs-tax/practices/{practice-cd}/job-roles", 
+			produces = MediaType.APPLICATION_JSON_VALUE)
 	//public <T> List<T> retrieveJobRolesByPractice(@PathVariable(name = "practice-cd") String practiceCd,
 	public <T> ResponseEntity<Object> retrieveJobRolesByPractice(@PathVariable(name = "practice-cd") String practiceCd,
 			@RequestParam(defaultValue = "") @Parameter(description = "Add filter in format of a SQL WHERE clause.") String filters,
@@ -794,9 +761,6 @@ public class EdsDaoJrsTaxonomyController {
 			@RequestParam(defaultValue = "All") @Parameter(description = "Size of the results, use ‘ALL’ to get all data.") String resultSetMaxSize,
 			HttpServletRequest request)
 			throws SQLException, ClassNotFoundException, IOException {
-		edsDaoService.setT(JobRoleDim.class);
-		//edsDaoService.setTableNm("REFT.JRS_DIM_V");
-		//edsDaoService.setScdTableNm("REFT.JRS_SCD_V");
 
 		String sql = "SELECT DISTINCT JRS.JOB_ROLE_CD, JRS.JOB_ROLE_NM, CMPNSTN_GRD_LST, INCENTIVE_FLG FROM REFT.JRS_DIM_V JRS INNER JOIN REFT.SERVICE_AREA_DIM_V SA ON JRS.SERVICE_AREA_CD=SA.SERVICE_AREA_CD"
 				+ " WHERE SA.PRACTICE_CD";
@@ -808,13 +772,12 @@ public class EdsDaoJrsTaxonomyController {
 			sql += " AND ( " + filters + " )";
 		sql += " ORDER BY 2";
 		
-		//return edsDaoService.getListForSql(JobRoleDim.class, edsDaoService.getConnection(), sql);
 		return edsDaoService.getListForSql(JobRoleDim.class, edsDaoService.getConnection(), sql, returnCsv, request);
 
 	}
 
-	@GetMapping(path = "/eds-ut-jrs-tax/practices/{practice-cd}/job-roles/{job-role-cd}/specialties", produces = {
-			"application/json", "application/xml" })
+	@GetMapping(path = "/eds-ut-jrs-tax/practices/{practice-cd}/job-roles/{job-role-cd}/specialties", 
+			produces = MediaType.APPLICATION_JSON_VALUE)
 	public <T> ResponseEntity<Object> retrieveSpecialtiesByPracticeAndJobRoles(@PathVariable(name = "practice-cd") String practiceCd,
 			@PathVariable(name = "job-role-cd") String jobRoleCd,
 			@RequestParam(defaultValue = "") @Parameter(description = "Add filter in format of a SQL WHERE clause.") String filters,
@@ -824,7 +787,7 @@ public class EdsDaoJrsTaxonomyController {
 			@RequestParam(defaultValue = "All") @Parameter(description = "Size of the results, use ‘ALL’ to get all data.") String resultSetMaxSize,
 			HttpServletRequest request)
 			throws SQLException, ClassNotFoundException, IOException {
-		edsDaoService.setT(SpecialtyDim.class);
+		//edsDaoService.setT(SpecialtyDim.class);
 
 		String sql = "SELECT DISTINCT JRS.SPECIALTY_CD, JRS.SPECIALTY_NM, JRS.JOB_ROLE_CD, JRS.CMPNSTN_GRD_LST, JRS.INCENTIVE_FLG FROM REFT.JRS_DIM_V JRS INNER JOIN REFT.SERVICE_AREA_DIM_V SA ON JRS.SERVICE_AREA_CD=SA.SERVICE_AREA_CD"
 				+ " WHERE SA.PRACTICE_CD";
@@ -840,23 +803,19 @@ public class EdsDaoJrsTaxonomyController {
 	/*
 	 * job-role
 	 */
-	@GetMapping(path = "/eds-ut-jrs-tax/specialties", produces = { "application/json", "application/xml" })
+	@GetMapping(path = "/eds-ut-jrs-tax/specialties", produces = MediaType.APPLICATION_JSON_VALUE)
 	public <T> ResponseEntity<Object> retrieveAllSpecialtiess(
 			@RequestParam(defaultValue = "") @Parameter(description = "Add filter in format of a SQL WHERE clause.") String filters,
 			@RequestParam(required = false, defaultValue = "false") @Parameter(description = "Return results as CSV") boolean returnCsv,
-			//@RequestParam(required = false, defaultValue = "false") @Parameter(description = "Include Point in Time data?") boolean includePit,
-			//@RequestParam(required = false, defaultValue = "") @Parameter(description = "Specific Point in Time (format: yyyy-MM-dd-hh.mm.ss.sssssss, example = 2021-06-28-00.00.00.0)") String pit,
 			@RequestParam(defaultValue = "All") @Parameter(description = "Size of the results, use ‘ALL’ to get all data.") String resultSetMaxSize,
 			HttpServletRequest request)
 			throws SQLException, ClassNotFoundException, IOException {
-		edsDaoService.setT(SpecialtyDim.class);
 
 		String sql = "SELECT DISTINCT SPECIALTY_CD, SPECIALTY_NM, JOB_ROLE_CD FROM REFT.JRS_DIM_V ORDER BY SPECIALTY_NM";
 		return edsDaoService.getListForSql(SpecialtyDim.class, edsDaoService.getConnection(), sql, returnCsv, request);
 	}
 
-	@GetMapping(path = "/eds-ut-jrs-tax/job-roles/{job-role-cd}/specialties", produces = { "application/json",
-			"application/xml" })
+	@GetMapping(path = "/eds-ut-jrs-tax/job-roles/{job-role-cd}/specialties", produces = MediaType.APPLICATION_JSON_VALUE)
 	public <T> ResponseEntity<Object> retrieveSpecialtiesForJobRole(@PathVariable(name = "job-role-cd") String jobRoleCd,
 			@RequestParam(defaultValue = "") @Parameter(description = "Add filter in format of a SQL WHERE clause.") String filters,
 			@RequestParam(required = false, defaultValue = "false") @Parameter(description = "Return results as CSV") boolean returnCsv,
@@ -865,7 +824,7 @@ public class EdsDaoJrsTaxonomyController {
 			@RequestParam(defaultValue = "All") @Parameter(description = "Size of the results, use ‘ALL’ to get all data.") String resultSetMaxSize,
 			HttpServletRequest request)
 			throws SQLException, ClassNotFoundException, IOException {
-		edsDaoService.setT(SpecialtyDim.class);
+		//edsDaoService.setT(SpecialtyDim.class);
 
 
 		String sql = "SELECT  SPECIALTY_CD, SPECIALTY_NM, JOB_ROLE_CD FROM REFT.JRS_DIM_V WHERE JOB_ROLE_CD='"
@@ -901,9 +860,15 @@ public class EdsDaoJrsTaxonomyController {
 	 * @throws SQLException
 	 * @throws ClassNotFoundException
 	 * @throws IOException
+	 * -------------------------------------------------------------------------------
+	 * - Change 2026-07-29: Standardize REST Endpoints on JSON Media Types
+	 *   As part of the Spring Boot 4 and Jackson 3 upgrade, the REST endpoint media-type declarations were reviewed and standardized to JSON. 
+	 *   Many existing controller mappings declared both application/json and application/xml as supported response types
+	 *   However, WFM-DMF APIs are consumed exclusively as JSON, and the application does not require or intentionally 
+	 *   configure XML serialization. By including application/xml in produces, the endpoint was advertising XML as part of its supported API 
+	 *   contract even though a compatible XML HttpMessageConverter was not available after the Spring Boot 4/Jackson 3 migration.
 	 */
-	@GetMapping(path = { "/eds-ut-jrs-tax/jrss", "/eds-ut-jrs-tax/jrss/{jrs-cd}" }, produces = { "application/json",
-			"application/xml" })
+	@GetMapping(path = { "/eds-ut-jrs-tax/jrss", "/eds-ut-jrs-tax/jrss/{jrs-cd}" }, produces = MediaType.APPLICATION_JSON_VALUE )
 	public <T> ResponseEntity<Object> retrieveAllJrsByCode(
 			@PathVariable(name = "jrs-cd", required = false) String jrsCd,
 			@RequestParam(defaultValue = "") @Parameter(description = "Add filter in format of a SQL WHERE clause.") String filters,
@@ -927,8 +892,8 @@ public class EdsDaoJrsTaxonomyController {
 	}
 
 	@GetMapping(path = { "/eds-ut-jrs-tax/service-areas/{service-area-cd}/jrss",
-			"/eds-ut-jrs-tax/service-areas/{service-area-cd}/jrss/{jrs-cd}" }, produces = { "application/json",
-					"application/xml" })
+			"/eds-ut-jrs-tax/service-areas/{service-area-cd}/jrss/{jrs-cd}" },
+			produces = MediaType.APPLICATION_JSON_VALUE)
 	public <T> ResponseEntity<Object> retrieveAllJrsByServiceAreaCode(
 			@PathVariable(name = "jrs-cd", required = false) String jrsCd,
 			@PathVariable(name = "service-area-cd") String serviceAreaCd,
@@ -954,8 +919,8 @@ public class EdsDaoJrsTaxonomyController {
 
 	@GetMapping(path = {
 			"/eds-ut-jrs-tax/brands/{brand-cd}/growth-platforms/{growth-platform-cd}/service-lines/{service-line-cd}/practices/{practice-cd}/service-areas/{service-area-cd}/jrss",
-			"/eds-ut-jrs-tax/brands/{brand-cd}/growth-platforms/{growth-platform-cd}/service-lines/{service-line-cd}/practices/{practice-cd}/service-areas/{service-area-cd}/jrss/{jrs-cd}" }, produces = {
-					"application/json", "application/xml" })
+			"/eds-ut-jrs-tax/brands/{brand-cd}/growth-platforms/{growth-platform-cd}/service-lines/{service-line-cd}/practices/{practice-cd}/service-areas/{service-area-cd}/jrss/{jrs-cd}" }
+			, produces = MediaType.APPLICATION_JSON_VALUE)
 	public <T> ResponseEntity<Object> retrieveAllJrsByBrandGpSlPracticeSaCode(
 			@PathVariable(name = "jrs-cd", required = false) String jrsCd,
 			@PathVariable(name = "brand-cd") String brandCd,
@@ -985,6 +950,105 @@ public class EdsDaoJrsTaxonomyController {
 		return edsDaoService.find(JrsDim.class, pathVarMap, filters, orderByCols, true, null, returnCsv, includePit,
 				pit, edsOnly, resultSetMaxSize, request);
 	}
+	
+	/**
+	 * Retrieves all Job Role Skills (JRS) belonging to a specific Practice.
+	 *
+	 * <p>This endpoint returns every JRS whose Service Area belongs to the
+	 * specified Practice. The Practice Code is supplied as a path variable and
+	 * is passed to the database as a parameterized query argument to prevent
+	 * SQL injection attacks.</p>
+	 *
+	 * <p>Results may be returned as JSON, XML, or CSV depending on the
+	 * request parameters.</p>
+	 *
+	 * @param practiceCd
+	 *        The Practice Code whose JRS records are to be returned.
+	 *
+	 * @param returnCsv
+	 *        When {@code true}, returns the results as a downloadable CSV file;
+	 *        otherwise returns JSON or XML.
+	 *
+	 * @param pit
+	 *        Optional Point-in-Time timestamp used for temporal queries
+	 *        (currently ignored by this implementation).
+	 *
+	 * @param resultSetMaxSize
+	 *        Maximum number of rows to return, or {@code "All"} to return
+	 *        every matching record.
+	 *
+	 * @param request
+	 *        The originating HTTP request.
+	 *
+	 * @return A {@link ResponseEntity} containing either a collection of
+	 *         {@link JrsDim} objects or a CSV download.
+	 *
+	 * @throws SQLException
+	 *         If an error occurs executing the SQL statement.
+	 *
+	 * @throws IOException
+	 *         If an error occurs generating the CSV response.
+	 */
+	@GetMapping(
+	    path = "/eds-ut-jrs-tax/practices/{practice-cd}/jrss",
+	    produces = MediaType.APPLICATION_JSON_VALUE
+	)
+	public ResponseEntity<Object> retrieveJrssByPractice(
+	        @PathVariable(name = "practice-cd") String practiceCd,
+	        @RequestParam(required = false, defaultValue = "false") @Parameter(description = "Return results as CSV") boolean returnCsv,
+	        @RequestParam(required = false, defaultValue = "") @Parameter(
+	            description = "Specific Point in Time (format: yyyy-MM-dd-hh.mm.ss.sssssss, example: 2021-06-28-00.00.00.0)") String pit,
+	        @RequestParam(defaultValue = "All") @Parameter(description = "Size of the results; use ALL to get all data.") String resultSetMaxSize,
+	        HttpServletRequest request
+	) throws SQLException, IOException {
+
+	    if (practiceCd == null || practiceCd.isBlank()) {
+	        throw new IllegalArgumentException(
+	            "Practice code cannot be null or blank."
+	        );
+	    }
+
+	    String normalizedPracticeCd =
+	        practiceCd.trim().toUpperCase(Locale.ROOT);
+
+	    String sql = """
+	        SELECT jdv.JRS_ID,
+	               jdv.JRS_CD,
+	               jdv.JRS_NM,
+	               jdv.JRS_DESC,
+	               jdv.JOB_ROLE_CD,
+	               jdv.JOB_ROLE_NM,
+	               jdv.SPECIALTY_CD,
+	               jdv.SPECIALTY_NM,
+	               jdv.SERVICE_AREA_CD,
+	               jdv.CMPNSTN_GRD_LST,
+	               jdv.INCENTIVE_FLG,
+	               jdv.RECOVERY_ADDER_CIC_INDIA_NM,
+	               jdv.RECOVERY_ADDER_CIC_OTHER_NM,
+	               jdv.PRI_JRS_CNT,
+	               jdv.SEC_JRS_CNT,
+	               jdv.PRI_JOB_CAT_NM,
+	               jdv.CAMSS_NM,
+	               jdv.SVF_GRP_NM
+	          FROM REFT.JRS_DIM_V jdv
+	          INNER JOIN REFT.SERVICE_AREA_DIM_V sadv
+	             ON jdv.SERVICE_AREA_CD = sadv.SERVICE_AREA_CD
+	          INNER JOIN REFT.PRACTICE_DIM_V pdv
+	             ON sadv.PRACTICE_CD = pdv.PRACTICE_CD
+	         WHERE pdv.PRACTICE_CD = ?
+	         ORDER BY jdv.JRS_CD
+	        """;
+
+	    return edsDaoService.getListForSql(
+	        JrsDim.class,
+	        edsDaoService.getConnection(),
+	        sql,
+	        List.of(normalizedPracticeCd),
+	        returnCsv,
+	        request
+	    );
+	}
+	
 
 	@PostMapping(value = "/eds-ut-jrs-tax/jrss", consumes = "application/json", produces = "application/json")
 	public ResponseEntity<Integer> insertJrs(@RequestBody JrsDim fbsJrs)
@@ -1058,8 +1122,7 @@ public class EdsDaoJrsTaxonomyController {
 	 * @throws IOException
 	 */
 	@GetMapping(path = { "/eds-ut-jrs-tax/offering-portfolios",
-			"/eds-ut-jrs-tax/offering-portfolios/{offering-portfolio-cd}" }, produces = { "application/json",
-					"application/xml" })
+			"/eds-ut-jrs-tax/offering-portfolios/{offering-portfolio-cd}" }, produces = MediaType.APPLICATION_JSON_VALUE)
 	public <T> ResponseEntity<Object> retrieveAllOfferingPortfolioByCode(
 			@PathVariable(name = "offering-portfolio-cd", required = false) String offeringPortfolioCd,
 			@RequestParam(defaultValue = "") @Parameter(description = "Add filter in format of a SQL WHERE clause.") String filters,
@@ -1084,8 +1147,8 @@ public class EdsDaoJrsTaxonomyController {
 
 	@GetMapping(path = {
 			"/eds-ut-jrs-tax/brands/{brand-cd}/growth-platforms/{growth-platform-cd}/service-lines/{service-line-cd}/offering-portfolios",
-			"/eds-ut-jrs-tax/brands/{brand-cd}/growth-platforms/{growth-platform-cd}/service-lines/{service-line-cd}/offering-portfolios/{offering-portfolio-cd}" }, produces = {
-					"application/json", "application/xml" })
+			"/eds-ut-jrs-tax/brands/{brand-cd}/growth-platforms/{growth-platform-cd}/service-lines/{service-line-cd}/offering-portfolios/{offering-portfolio-cd}" }
+			, produces = MediaType.APPLICATION_JSON_VALUE)
 	public <T> ResponseEntity<Object> retrieveAllOfferingPortfoliosByBrandGpServiceLine(
 			@PathVariable(name = "offering-portfolio-cd", required = false) String offeringPortfolioCd,
 			@PathVariable(name = "brand-cd") String brandCd,
@@ -1185,8 +1248,8 @@ public class EdsDaoJrsTaxonomyController {
 	 * @throws ClassNotFoundException
 	 * @throws IOException
 	 */
-	@GetMapping(path = { "/eds-ut-jrs-tax/offerings", "/eds-ut-jrs-tax/offerings/{offering-cd}" }, produces = {
-			"application/json", "application/xml" })
+	@GetMapping(path = { "/eds-ut-jrs-tax/offerings", "/eds-ut-jrs-tax/offerings/{offering-cd}" }
+			,produces = MediaType.APPLICATION_JSON_VALUE)
 	public <T> ResponseEntity<Object> retrieveAllOfferingByCode(
 			@PathVariable(name = "offering-cd", required = false) String offeringCd,
 			@RequestParam(defaultValue = "") @Parameter(description = "Add filter in format of a SQL WHERE clause.") String filters,
@@ -1211,8 +1274,8 @@ public class EdsDaoJrsTaxonomyController {
 
 	@GetMapping(path = {
 			"/eds-ut-jrs-tax/brands/{brand-cd}/growth-platforms/{growth-platform-cd}/service-lines/{service-line-cd}/offering-portfolios/{offering-portfolio-cd}/offerings",
-			"/eds-ut-jrs-tax/brands/{brand-cd}/growth-platforms/{growth-platform-cd}/service-lines/{service-line-cd}/offering-portfolios/{offering-portfolio-cd}/offerings/{offering-cd}" }, produces = {
-					"application/json", "application/xml" })
+			"/eds-ut-jrs-tax/brands/{brand-cd}/growth-platforms/{growth-platform-cd}/service-lines/{service-line-cd}/offering-portfolios/{offering-portfolio-cd}/offerings/{offering-cd}" }, 
+			produces = MediaType.APPLICATION_JSON_VALUE)
 	public <T> ResponseEntity<Object> retrieveAllOfferingByBrandGpSlOfferingPorttfolioCode(
 			@PathVariable(name = "offering-cd", required = false) String offeringCd,
 			@PathVariable(name = "brand-cd") String brandCd,
@@ -1316,8 +1379,8 @@ public class EdsDaoJrsTaxonomyController {
 	 * @throws IOException
 	 */
 	@GetMapping(path = { "/eds-ut-jrs-tax/offering-components",
-			"/eds-ut-jrs-tax/offering-components/{offering-component-cd}" }, produces = { "application/json",
-					"application/xml" })
+			"/eds-ut-jrs-tax/offering-components/{offering-component-cd}" }, 
+			produces = MediaType.APPLICATION_JSON_VALUE)
 	public <T> ResponseEntity<Object> retrieveAllOfferingComponentByCode(
 			@PathVariable(name = "offering-component-cd", required = false) String offeringComponentCd,
 			@RequestParam(defaultValue = "") @Parameter(description = "Add filter in format of a SQL WHERE clause.") String filters,
@@ -1342,8 +1405,8 @@ public class EdsDaoJrsTaxonomyController {
 
 	@GetMapping(path = {
 			"/eds-ut-jrs-tax/brands/{brand-cd}/growth-platforms/{growth-platform-cd}/service-lines/{service-line-cd}/offering-portfolios/{offering-portfolio-cd}/offerings/{offering-cd}/offering-components",
-			"/eds-ut-jrs-tax/brands/{brand-cd}/growth-platforms/{growth-platform-cd}/service-lines/{service-line-cd}/offering-portfolios/{offering-portfolio-cd}/offerings/{offering-cd}/offering-components/{offering-component-cd}" }, produces = {
-					"application/json", "application/xml" })
+			"/eds-ut-jrs-tax/brands/{brand-cd}/growth-platforms/{growth-platform-cd}/service-lines/{service-line-cd}/offering-portfolios/{offering-portfolio-cd}/offerings/{offering-cd}/offering-components/{offering-component-cd}" }, 
+			produces = MediaType.APPLICATION_JSON_VALUE)
 	public <T> ResponseEntity<Object> retrieveAllOfferingByBrandGpSlOpOfferingCode(
 			@PathVariable(name = "offering-component-cd", required = false) String offeringComponentCd,
 			@PathVariable(name = "brand-cd") String brandCd,
@@ -1448,8 +1511,8 @@ public class EdsDaoJrsTaxonomyController {
 	 * @throws IOException
 	 */
 	@GetMapping(path = { "/eds-ut-jrs-tax/job-role-descriptions",
-			"/eds-ut-jrs-tax/job-role-descriptions/{job-role-cd}" }, produces = { "application/json",
-					"application/xml" })
+			"/eds-ut-jrs-tax/job-role-descriptions/{job-role-cd}" }, 
+			produces = MediaType.APPLICATION_JSON_VALUE)
 	public <T> ResponseEntity<Object> retrieveAllJobRoleDescriptionByCode(
 			@PathVariable(name = "job-role-cd", required = false) String jobRoleCd,
 			@RequestParam(defaultValue = "") @Parameter(description = "Add filter in format of a SQL WHERE clause.") String filters,
@@ -1543,8 +1606,8 @@ public class EdsDaoJrsTaxonomyController {
 	 * @throws ClassNotFoundException
 	 * @throws IOException
 	 */
-	@GetMapping(path = { "/eds-ut-jrs-tax/jrs-descriptions", "/eds-ut-jrs-tax/jrs-descriptions/{jrs-cd}" }, produces = {
-			"application/json", "application/xml" })
+	@GetMapping(path = { "/eds-ut-jrs-tax/jrs-descriptions", "/eds-ut-jrs-tax/jrs-descriptions/{jrs-cd}" }, 
+			produces = MediaType.APPLICATION_JSON_VALUE)
 	public <T> ResponseEntity<Object> retrieveAllJrsDescriptionByCode(
 			@PathVariable(name = "jrs-cd", required = false) String jrsCd,
 			@RequestParam(defaultValue = "") @Parameter(description = "Add filter in format of a SQL WHERE clause.") String filters,
@@ -1638,7 +1701,8 @@ public class EdsDaoJrsTaxonomyController {
 	 * @throws IOException
 	 */
 	@GetMapping(path = { "/eds-ut-jrs-tax/jrs-compensation-grades",
-			"/eds-ut-jrs-tax/jrs-compensation-grades/{jrs-cd}" }, produces = { "application/json", "application/xml" })
+			"/eds-ut-jrs-tax/jrs-compensation-grades/{jrs-cd}" }, 
+			produces = MediaType.APPLICATION_JSON_VALUE)
 	public <T> ResponseEntity<Object> retrieveAllJrsCompensationGradeByCode(
 			@PathVariable(name = "jrs-cd", required = false) String jrsCd,
 			@RequestParam(defaultValue = "") @Parameter(description = "Add filter in format of a SQL WHERE clause.") String filters,
@@ -1702,23 +1766,20 @@ public class EdsDaoJrsTaxonomyController {
 	}
 
 	@GetMapping(path = { "/eds-ut-jrs-tax/jrs-compensation-grades-list",
-			"/eds-ut-jrs-tax/jrs-compensation-grades-list/{jrs-cd}" }, produces = { "application/json",
-					"application/xml" })
+			"/eds-ut-jrs-tax/jrs-compensation-grades-list/{jrs-cd}" }, 
+			produces = MediaType.APPLICATION_JSON_VALUE)
 	public <T> ResponseEntity<Object> retrieveJrsCompensationGradeList(@PathVariable(name = "jrs-cd", required = false) String jrsCd,
 			@RequestParam(required = false, defaultValue = "false") @Parameter(description = "Return results as CSV") boolean returnCsv,
 			@RequestParam(defaultValue = "All") @Parameter(description = "Size of the results, use ‘ALL’ to get all data.") String resultSetMaxSize,
 			HttpServletRequest request)
 			throws SQLException, ClassNotFoundException, IOException {
-		edsDaoService.setT(JrsCompensationGradeDim.class);
-		edsDaoService.setTableNm("REFT.JRS_COMPENSATION_GRADE_DIM_V");
 
 		String sql = "SELECT JRS_CD, LISTAGG(CMPNSTN_GRD_CD, ', ' ) WITHIN GROUP (ORDER BY CMPNSTN_GRD_CD) CMPNSTN_GRD_CD FROM REFT.JRS_COMPENSATION_GRADE_DIM_V";
 		if (jrsCd != null) {
 			sql += (" WHERE JRS_CD = '" + jrsCd + "'");
 		}
 		sql += " GROUP BY JRS_CD";
-		//return edsDaoService.getListForSql(JrsCompensationGradeDim.class, edsDaoService.getConnection(), sql);
-		return edsDaoService.getListForSql(SpecialtyDim.class, edsDaoService.getConnection(), sql, returnCsv, request);
+		return edsDaoService.getListForSql(JrsCompensationGradeDim.class, edsDaoService.getConnection(), sql, returnCsv, request);
 	}
 
 	/**
@@ -1751,8 +1812,8 @@ public class EdsDaoJrsTaxonomyController {
 	 * @throws IOException
 	 */
 	@GetMapping(path = { "/eds-ut-jrs-tax/enhanced-expertise-taxonomies",
-			"/eds-ut-jrs-tax/enhanced-expertise-taxonomies/{jrs-cd}" }, produces = { "application/json",
-					"application/xml" })
+			"/eds-ut-jrs-tax/enhanced-expertise-taxonomies/{jrs-cd}" }, 
+			produces = MediaType.APPLICATION_JSON_VALUE)
 	public synchronized <T> ResponseEntity<Object> retrieveAllEnhancedExpertiseTaxonomyByCode(
 			@PathVariable(name = "jrs-cd", required = false) String jrsCd,
 			@RequestParam(defaultValue = "") @Parameter(description = "Add filter in format of a SQL WHERE clause.") String filters,
@@ -1774,7 +1835,7 @@ public class EdsDaoJrsTaxonomyController {
 				returnCsv, includePit, pit, offset, resultSetMaxSize, request);
 	}
 	
-	@GetMapping(path={"/eds-ut-jrs-tax/enhanced-expertise-taxonomies/count"},produces = { "application/json", "application/xml"})
+	@GetMapping(path={"/eds-ut-jrs-tax/enhanced-expertise-taxonomies/count"},produces = MediaType.APPLICATION_JSON_VALUE)
 	public synchronized ResponseEntity<Count> retrieveCountFbsTeamByCode(
               @RequestParam(defaultValue = "") @Parameter(description = "Add filter in format of a SQL WHERE clause.") String filters
 			, @RequestParam(defaultValue = "") @Parameter(description = "Override the SQL ORDER BY clause (default is by natural key).") String orderByCols
@@ -1794,8 +1855,8 @@ public class EdsDaoJrsTaxonomyController {
 	}
 
 	// @MatrixVariable
-	@GetMapping(path = { "/eds-ut-jrs-tax/enhanced-expertise-taxonomies/q/{q-values}" }, produces = {
-			"application/json", "application/xml" })
+	@GetMapping(path = { "/eds-ut-jrs-tax/enhanced-expertise-taxonomies/q/{q-values}" }, 
+			produces = MediaType.APPLICATION_JSON_VALUE)
 	//@RequestMapping(value = "/eds-ut-jrs-tax/enhanced-expertise-taxonomies/q/{q-values}", method = RequestMethod.GET)
 	public <T> ResponseEntity<Object> retrieveAllEnhancedExpertiseTaxonomyQuery(
 			@MatrixVariable(pathVar = "q-values", required = true) Map<String, Object> pathVarMap,
@@ -1814,8 +1875,8 @@ public class EdsDaoJrsTaxonomyController {
 
 	}
 
-	@GetMapping(path = { "/eds-ut-jrs-tax/enhanced-expertise-taxonomies/aaa/{employee}" }, produces = {
-			"application/json", "application/xml" })
+	@GetMapping(path = { "/eds-ut-jrs-tax/enhanced-expertise-taxonomies/aaa/{employee}" }, 
+			produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public ResponseEntity<Map<String, String>> getEmployeeData(
 			@MatrixVariable(pathVar = "employee") Map<String, String> matrixVars) {
@@ -1894,7 +1955,8 @@ public class EdsDaoJrsTaxonomyController {
 	 * @throws ClassNotFoundException
 	 * @throws IOException
 	 */
-	@GetMapping(path={"/eds-ut-jrs-tax/jrs-skill-assocs","/eds-ut-jrs-tax/jrs-skill-assocs/{jrs-cd}/{skill-id}"},produces = { "application/json", "application/xml"})
+	@GetMapping(path={"/eds-ut-jrs-tax/jrs-skill-assocs","/eds-ut-jrs-tax/jrs-skill-assocs/{jrs-cd}/{skill-id}"},
+			produces = MediaType.APPLICATION_JSON_VALUE)
 	public <T> ResponseEntity<Object> retrieveAllJrsSkillAssocByCode(
 			  @PathVariable(name="jrs-cd", required=false) String jrsCd
 			, @PathVariable(name="skill-id", required=false) String skillId
@@ -1935,7 +1997,7 @@ public class EdsDaoJrsTaxonomyController {
 		                                                     , request);
 	}
 	
-	@GetMapping(path={"/eds-ut-jrs-tax/jrs-skill-assocs/{jrs-cd}/skills"},produces = { "application/json", "application/xml"})
+	@GetMapping(path={"/eds-ut-jrs-tax/jrs-skill-assocs/{jrs-cd}/skills"},produces = MediaType.APPLICATION_JSON_VALUE)
 	public <T> ResponseEntity<Object> retrieveAllJrsSkillAssocByJrsCode(
 			  @PathVariable(name="jrs-cd") String jrsCd
 			, @RequestParam(defaultValue = "") @Parameter(description = "Add filter in format of a SQL WHERE clause.") String filters
@@ -2027,7 +2089,7 @@ public class EdsDaoJrsTaxonomyController {
 	 * @throws ClassNotFoundException
 	 * @throws IOException
 	 */
-	@GetMapping(path={"/eds-ut-jrs-tax/skills","/eds-ut-jrs-tax/skills/{skill-id}"},produces = { "application/json", "application/xml"})
+	@GetMapping(path={"/eds-ut-jrs-tax/skills","/eds-ut-jrs-tax/skills/{skill-id}"},produces = MediaType.APPLICATION_JSON_VALUE)
 	public <T> ResponseEntity<Object> retrieveAllSkillByCode(
 			  @PathVariable(name="skill-id", required=false) String skillId
 			, @RequestParam(defaultValue = "") @Parameter(description = "Add filter in format of a SQL WHERE clause.") String filters
@@ -2096,8 +2158,8 @@ public class EdsDaoJrsTaxonomyController {
 	}	
 	
 	
-	@GetMapping(path = "/eds-ut-jrs-tax/jrss/{jrs-cd}/skills", produces = {
-			"application/json", "application/xml" })
+	@GetMapping(path = "/eds-ut-jrs-tax/jrss/{jrs-cd}/skills", 
+			produces = MediaType.APPLICATION_JSON_VALUE)
 	public <T> ResponseEntity<Object> retrieveSkillsForJrs(@PathVariable(name = "jrs-cd") String jrsCd,
 			@RequestParam(required = false, defaultValue = "false") @Parameter(description = "Return results as CSV") boolean returnCsv,
 			//@RequestParam(required = false, defaultValue = "") @Parameter(description = "Specific Point in Time (format: yyyy-MM-dd-hh.mm.ss.sssssss, example = 2021-06-28-00.00.00.0)") String pit,
@@ -2105,7 +2167,7 @@ public class EdsDaoJrsTaxonomyController {
 			HttpServletRequest request)
 			throws SQLException, ClassNotFoundException, IOException {
 		
-		edsDaoService.setT(SkillDim.class);
+		//edsDaoService.setT(SkillDim.class);
 
 		String sql = "SELECT S.SKILL_SK_ID, S.SKILL_ID, S.SKILL_NM, S.SKILL_DESC FROM REFT.SKILL_DIM_V S INNER JOIN REFT.JRS_SKILL_ASSOC_DIM_V A ON S.SKILL_ID=A.SKILL_ID WHERE A.JRS_CD='"+jrsCd+"' ORDER BY S.SKILL_ID";
 
@@ -2115,7 +2177,7 @@ public class EdsDaoJrsTaxonomyController {
 	/*
 	 * SKILLS JRS
 	 */
-	@GetMapping(path={"/eds-ut-jrs-tax/jrs-skills","/eds-ut-jrs-tax/jrs-skills/{jrs-cd}"},produces = { "application/json", "application/xml"})
+	@GetMapping(path={"/eds-ut-jrs-tax/jrs-skills","/eds-ut-jrs-tax/jrs-skills/{jrs-cd}"},produces = MediaType.APPLICATION_JSON_VALUE)
 	public <T> ResponseEntity<Object> retrieveAllJrsSkill(
 			  @PathVariable(name="jrs-cd", required=false) String jrsCd
 			, @RequestParam(defaultValue = "") @Parameter(description = "Add filter in format of a SQL WHERE clause.") String filters

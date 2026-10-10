@@ -13,9 +13,6 @@ import com.ibm.wfm.configurations.IhubDatasourceProperties;
 
 @Component
 public class IhubDaoService extends AbstractDaoService {
-	private Class t = BrandDim.class;
-	private String tableNm = "REFT.BRAND_DIM_V";
-	private String scdTableNm = "REFT.BRAND_DIM_SCD_V";
 	
 	@Autowired
 	private IhubDatasourceProperties ihubProp;
@@ -24,9 +21,7 @@ public class IhubDaoService extends AbstractDaoService {
     private Environment environment;
 	
 	public IhubDaoService() {
-		super.setT(t);
-		super.setTableNm(tableNm);
-		super.setScdTableNm(scdTableNm);
+
 	}
 
 	@Override

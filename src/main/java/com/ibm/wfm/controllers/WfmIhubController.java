@@ -78,7 +78,7 @@ public class WfmIhubController {
 	 * @throws ClassNotFoundException
 	 * @throws IOException
 	 */
-	@GetMapping(path={"/wfm-ihub/opnset-ts","/wfm-ihub/opnset-ts/{open-seat-id}"},produces = { "application/json", "application/xml"})
+	@GetMapping(path={"/wfm-ihub/opnset-ts","/wfm-ihub/opnset-ts/{open-seat-id}"},produces = MediaType.APPLICATION_JSON_VALUE)
 	public <T> ResponseEntity<Object> retrieveAllOpnsetTByCode(
 			  @PathVariable(name="open-seat-id", required=false) String openSeatId
 			, @RequestParam(defaultValue = "") @Parameter(description = "Add filter in format of a SQL WHERE clause.") String filters
@@ -171,7 +171,7 @@ public class WfmIhubController {
 	 * @throws ClassNotFoundException
 	 * @throws IOException
 	 */
-	@GetMapping(path={"/wfm-ihub/opnset-dtl-ts","/wfm-ihub/opnset-dtl-ts/{opnset-id}"},produces = { "application/json", "application/xml"})
+	@GetMapping(path={"/wfm-ihub/opnset-dtl-ts","/wfm-ihub/opnset-dtl-ts/{opnset-id}"},produces = MediaType.APPLICATION_JSON_VALUE)
 	public <T> ResponseEntity<Object> retrieveAllOpnsetDtlTByCode(
 			  @PathVariable(name="opnset-id", required=false) String opnsetId
 			, @RequestParam(defaultValue = "") @Parameter(description = "Add filter in format of a SQL WHERE clause.") String filters
@@ -261,7 +261,7 @@ public class WfmIhubController {
 	 * @throws ClassNotFoundException
 	 * @throws IOException
 	 */
-	@GetMapping(path={"/wfm-ihub/opnset-pos-ts","/wfm-ihub/opnset-pos-ts/{opnset-pos-id}"},produces = { "application/json", "application/xml"})
+	@GetMapping(path={"/wfm-ihub/opnset-pos-ts","/wfm-ihub/opnset-pos-ts/{opnset-pos-id}"},produces = MediaType.APPLICATION_JSON_VALUE)
 	public <T> ResponseEntity<Object> retrieveAllOpnsetPosTByCode(
 			  @PathVariable(name="opnset-pos-id", required=false) String opnsetPosId
 			, @RequestParam(defaultValue = "") @Parameter(description = "Add filter in format of a SQL WHERE clause.") String filters
@@ -355,7 +355,7 @@ public class WfmIhubController {
 	 * @throws ClassNotFoundException
 	 * @throws IOException
 	 */
-	@GetMapping(path={"/wfm-ihub/opnset-lang-ts","/wfm-ihub/opnset-lang-ts/{opnset-id}"},produces = { "application/json", "application/xml"})
+	@GetMapping(path={"/wfm-ihub/opnset-lang-ts","/wfm-ihub/opnset-lang-ts/{opnset-id}"},produces = MediaType.APPLICATION_JSON_VALUE)
 	public <T> ResponseEntity<Object> retrieveAllOpnsetLangTByCode(
 			  @PathVariable(name="opnset-id", required=false) String opnsetId
 			, @RequestParam(defaultValue = "") @Parameter(description = "Add filter in format of a SQL WHERE clause.") String filters
@@ -445,7 +445,7 @@ public class WfmIhubController {
 	 * @throws ClassNotFoundException
 	 * @throws IOException
 	 */
-	@GetMapping(path={"/wfm-ihub/sub-resrc-req-ts","/wfm-ihub/sub-resrc-req-ts/{sub-resrc-req-id}"},produces = { "application/json", "application/xml"})
+	@GetMapping(path={"/wfm-ihub/sub-resrc-req-ts","/wfm-ihub/sub-resrc-req-ts/{sub-resrc-req-id}"},produces = MediaType.APPLICATION_JSON_VALUE)
 	public <T> ResponseEntity<Object> retrieveAllSubResrcReqTByCode(
 			  @PathVariable(name="sub-resrc-req-id", required=false) String subResrcReqId
 			, @RequestParam(defaultValue = "") @Parameter(description = "Add filter in format of a SQL WHERE clause.") String filters
@@ -537,7 +537,7 @@ public class WfmIhubController {
 	 * @throws ClassNotFoundException
 	 * @throws IOException
 	 */
-	@GetMapping(path={"/wfm-ihub/gr-opnset-dtl-ts","/wfm-ihub/gr-opnset-dtl-ts/{opnset-id}"},produces = { "application/json", "application/xml"})
+	@GetMapping(path={"/wfm-ihub/gr-opnset-dtl-ts","/wfm-ihub/gr-opnset-dtl-ts/{opnset-id}"},produces = MediaType.APPLICATION_JSON_VALUE)
 	public <T> ResponseEntity<Object> retrieveAllGrOpnsetDtlTByCode(
 			  @PathVariable(name="opnset-id", required=false) String opnsetId
 			, @RequestParam(defaultValue = "") @Parameter(description = "Add filter in format of a SQL WHERE clause.") String filters
@@ -628,7 +628,7 @@ public class WfmIhubController {
 	 * @throws ClassNotFoundException
 	 * @throws IOException
 	 */
-	@GetMapping(path={"/wfm-ihub/gr-opnset-pos-ts","/wfm-ihub/gr-opnset-pos-ts/{gr-opnset-pos-id}"},produces = { "application/json", "application/xml"})
+	@GetMapping(path={"/wfm-ihub/gr-opnset-pos-ts","/wfm-ihub/gr-opnset-pos-ts/{gr-opnset-pos-id}"},produces = MediaType.APPLICATION_JSON_VALUE)
 	public <T> ResponseEntity<Object> retrieveAllGrOpnsetPosTByCode(
 			  @PathVariable(name="gr-opnset-pos-id", required=false) String grOpnsetPosId
 			, @RequestParam(defaultValue = "") @Parameter(description = "Add filter in format of a SQL WHERE clause.") String filters
@@ -722,7 +722,7 @@ public class WfmIhubController {
 	 * @throws ClassNotFoundException
 	 * @throws IOException
 	 */
-	@GetMapping(path={"/wfm-ihub/opnset-pos-cand-ts","/wfm-ihub/opnset-pos-cand-ts/{opnset-pos-cand-id}"},produces = { "application/json", "application/xml"})
+	@GetMapping(path={"/wfm-ihub/opnset-pos-cand-ts","/wfm-ihub/opnset-pos-cand-ts/{opnset-pos-cand-id}"},produces = MediaType.APPLICATION_JSON_VALUE)
 	public <T> ResponseEntity<Object> retrieveAllOpnsetPosCandTByCode(
 			  @PathVariable(name="opnset-pos-cand-id", required=false) String opnsetPosCandId
 			, @RequestParam(defaultValue = "") @Parameter(description = "Add filter in format of a SQL WHERE clause.") String filters
@@ -812,7 +812,7 @@ public class WfmIhubController {
 	 * @throws ClassNotFoundException
 	 * @throws IOException
 	 */
-	@GetMapping(path={"/wfm-ihub/opnset-pos-cand-stat-ts","/wfm-ihub/opnset-pos-cand-stat-ts/{opnset-pos-cand-stat-id}"},produces = { "application/json", "application/xml"})
+	@GetMapping(path={"/wfm-ihub/opnset-pos-cand-stat-ts","/wfm-ihub/opnset-pos-cand-stat-ts/{opnset-pos-cand-stat-id}"},produces = MediaType.APPLICATION_JSON_VALUE)
 	public <T> ResponseEntity<Object> retrieveAllOpnsetPosCandStatTByCode(
 			  @PathVariable(name="opnset-pos-cand-stat-id", required=false) String opnsetPosCandStatId
 			, @RequestParam(defaultValue = "") @Parameter(description = "Add filter in format of a SQL WHERE clause.") String filters
@@ -902,7 +902,7 @@ public class WfmIhubController {
 	 * @throws ClassNotFoundException
 	 * @throws IOException  REFERENCE_TX_ID
 	 */
-	@GetMapping(path={"/wfm-ihub/kafka-mgs-ts/assignments","/wfm-ihub/kafka-mgs-ts/assignments/{reference-tx-id}"},produces = { "application/json", "application/xml"})
+	@GetMapping(path={"/wfm-ihub/kafka-mgs-ts/assignments","/wfm-ihub/kafka-mgs-ts/assignments/{reference-tx-id}"},produces = MediaType.APPLICATION_JSON_VALUE)
 	public <T> ResponseEntity<Object> retrieveAllKafkaMgsTAssignments(
 			  @PathVariable(name="reference-tx-id", required=false) String referenceTxId
 			, @RequestParam(defaultValue = "") @Parameter(description = "Add filter in format of a SQL WHERE clause.") String filters
@@ -938,7 +938,7 @@ public class WfmIhubController {
 		                                                     , request);
 	}
 	
-	@GetMapping(path={"/wfm-ihub/kafka-mgs-ts/resource-requests","/wfm-ihub/kafka-mgs-ts/resource-requests/{reference-tx-id}"},produces = { "application/json", "application/xml"})
+	@GetMapping(path={"/wfm-ihub/kafka-mgs-ts/resource-requests","/wfm-ihub/kafka-mgs-ts/resource-requests/{reference-tx-id}"},produces = MediaType.APPLICATION_JSON_VALUE)
 	public <T> ResponseEntity<Object> retrieveAllKafkaMgsTResourceRequest(
 			  @PathVariable(name="reference-tx-id", required=false) String referenceTxId
 			, @RequestParam(defaultValue = "") @Parameter(description = "Add filter in format of a SQL WHERE clause.") String filters
@@ -995,7 +995,7 @@ public class WfmIhubController {
 	 * @throws ClassNotFoundException
 	 * @throws IOException
 	 */
-	@GetMapping(path={"/wfm-ihub/kafka-avail-dt-ts","/wfm-ihub/kafka-avail-dt-ts/{talent-id}"},produces = { "application/json", "application/xml"})
+	@GetMapping(path={"/wfm-ihub/kafka-avail-dt-ts","/wfm-ihub/kafka-avail-dt-ts/{talent-id}"},produces = MediaType.APPLICATION_JSON_VALUE)
 	public <T> ResponseEntity<Object> retrieveAllKafkaAvailDtTByCode(
 			  @PathVariable(name="talent-id", required=false) String talentId
 			, @RequestParam(defaultValue = "") @Parameter(description = "Add filter in format of a SQL WHERE clause.") String filters
@@ -1059,7 +1059,7 @@ public class WfmIhubController {
 	 * @throws ClassNotFoundException
 	 * @throws IOException
 	 */
-	@GetMapping(path={"/wfm-ihub/gr-proj-ts","/wfm-ihub/gr-proj-ts/{gr-proj-id}"},produces = { "application/json", "application/xml"})
+	@GetMapping(path={"/wfm-ihub/gr-proj-ts","/wfm-ihub/gr-proj-ts/{gr-proj-id}"},produces = MediaType.APPLICATION_JSON_VALUE)
 	public <T> ResponseEntity<Object> retrieveAllGrProjTByCode(
 			  @PathVariable(name="gr-proj-id", required=false) String grProjId
 			, @RequestParam(defaultValue = "") @Parameter(description = "Add filter in format of a SQL WHERE clause.") String filters
@@ -1133,7 +1133,7 @@ public class WfmIhubController {
 	 * @throws ClassNotFoundException
 	 * @throws IOException
 	 */
-	@GetMapping(path={"/wfm-ihub/grds-clnt-ts","/wfm-ihub/grds-clnt-ts/{grds-clnt-cd}"},produces = { "application/json", "application/xml"})
+	@GetMapping(path={"/wfm-ihub/grds-clnt-ts","/wfm-ihub/grds-clnt-ts/{grds-clnt-cd}"},produces = MediaType.APPLICATION_JSON_VALUE)
 	public <T> ResponseEntity<Object> retrieveAllGrdsClntTByCode(
 			  @PathVariable(name="grds-clnt-cd", required=false) String grdsClntCd
 			, @RequestParam(defaultValue = "") @Parameter(description = "Add filter in format of a SQL WHERE clause.") String filters

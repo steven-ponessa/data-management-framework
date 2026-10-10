@@ -45,13 +45,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.dataformat.csv.CsvMapper;
-import com.fasterxml.jackson.dataformat.csv.CsvSchema;
 import com.ibm.wfm.beans.AttributeStatistic;
-import com.ibm.wfm.beans.BrandDim;
-import com.ibm.wfm.beans.ServiceLineDim;
 
 /**
  * @author ponessa
@@ -66,6 +60,8 @@ public class Helpers {
 	private static final String EMBEDDED_DOUBLE_QUOTES = "\"\"";
 	private static final String NEW_LINE_UNIX = "\n";
 	private static final String NEW_LINE_WINDOWS = "\r\n";
+	
+	private static final Pattern BAND_PATTERN = Pattern.compile("^b(\\d+)([+-])?$", Pattern.CASE_INSENSITIVE);
 
 	public static void main(String[] args) {
 		/*
@@ -171,7 +167,7 @@ public class Helpers {
 				+ "]";
 		
 		try {
-			JsonNode jsonTree = new ObjectMapper().readTree(json);
+			JsonNode jsonTree = JsonMapper.builder().build().readTree(json);
 			
 			com.fasterxml.jackson.dataformat.csv.CsvSchema.Builder csvSchemaBuilder = CsvSchema.builder();
 			JsonNode firstObject = jsonTree.elements().next();
@@ -222,16 +218,55 @@ public class Helpers {
 		for (int i=0; i<100; i++) {
 			System.out.println(i+"="+Helpers.getAlphabeticPosition(i));
 		}
-		*/
 		
 		String jdbcUrl = "jdbc:db2://{host}:{port}/{database}:user={userid};password={password};sslConnection=true;sslTrustStoreLocation={sslTrustStoreLocationIHub};port-again={port}";
 		
 		System.out.println(jdbcUrl);
 		jdbcUrl = Helpers.replaceVariables(jdbcUrl);
 		System.out.println(jdbcUrl);
-
+		*/
 		
+		String[] bandCatCds = {"all", "b8", "b8+", "b8-", "b9", "b9+", "b9-"};
+		
+		for (String bandCatCd : bandCatCds) {
+			System.out.println(bandCatCd + " -> " + toBandCategoryName(bandCatCd));
+		}
+
 	}
+	
+    public static String toBandCategoryName(String input) {
+        if (input == null || input.trim().isEmpty()) {
+            throw new IllegalArgumentException("Band category code must not be null or blank.");
+        }
+
+        String normalized = input.trim().toLowerCase();
+
+        if ("all".equals(normalized)) {
+            return "All bands";
+        }
+
+        Matcher matcher = BAND_PATTERN.matcher(normalized);
+        if (!matcher.matches()) {
+            throw new IllegalArgumentException(
+                "Invalid band category code: '" + input + "'. Expected values like all, b7-, b8+, or b8."
+            );
+        }
+
+        String bandNumber = matcher.group(1);
+        String modifier = matcher.group(2);
+
+        if (modifier == null) {
+            return "Band " + bandNumber;
+        }
+
+        return switch (modifier) {
+            case "+" -> "Band " + bandNumber + " and above";
+            case "-" -> "Band " + bandNumber + " and below";
+            default -> throw new IllegalArgumentException(
+                "Invalid band category modifier in: '" + input + "'."
+            );
+        };
+    }
 	
 	public static String sayHello(String text) {
 		return "Hello "+text;

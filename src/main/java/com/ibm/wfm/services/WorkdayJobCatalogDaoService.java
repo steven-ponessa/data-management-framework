@@ -12,17 +12,12 @@ import com.ibm.wfm.configurations.BridgeDatasourceProperties;
 
 @Component
 public class WorkdayJobCatalogDaoService extends AbstractDaoService {
-	private Class t = WorkdayJobCatalogDim.class;
-	private String tableNm = "REFT.WORKDAY_JOB_CATALOG_DIM_V";
-	private String scdTableNm = "REFT.WORKDAY_JOB_CATALOG_SCD_V";
 	
 	@Autowired
 	private BridgeDatasourceProperties bridgeProp;
 	
 	public WorkdayJobCatalogDaoService() {
-		super.setT(t);
-		super.setTableNm(tableNm);
-		super.setScdTableNm(scdTableNm);
+
 	}
 
 	@Override

@@ -12,17 +12,12 @@ import com.ibm.wfm.configurations.BridgeDatasourceProperties;
 
 @Component
 public class KyndrylDaoService extends AbstractDaoService {
-	private Class t = KyndrylOrganizationMarketDim.class;
-	private String tableNm = "REFT.KYNDRYL_ORGANIZATION_MARKET_DIM_V";
-	private String scdTableNm = "REFT.KYNDRYL_ORGANIZATION_MARKET_SCD_V";
 	
 	@Autowired
 	private BridgeDatasourceProperties bridgeProp;
 	
 	public KyndrylDaoService() {
-		super.setT(t);
-		super.setTableNm(tableNm);
-		super.setScdTableNm(scdTableNm);
+
 	}
 
 	@Override

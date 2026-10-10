@@ -27,7 +27,9 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.json.JsonMapper;
+
 import com.ibm.wfm.beans.BrandDim;
 import com.ibm.wfm.beans.EtlResponse;
 import com.ibm.wfm.beans.GbsShortListDim;
@@ -37,10 +39,10 @@ import com.ibm.wfm.beans.OfferingComponentDim;
 import com.ibm.wfm.beans.OfferingDim;
 import com.ibm.wfm.beans.OfferingPortfolioDim;
 import com.ibm.wfm.beans.PracticeDim;
-import com.ibm.wfm.beans.RahServiceAreaDim;
 import com.ibm.wfm.beans.ServiceAreaDim;
 import com.ibm.wfm.beans.ServiceLineDim;
 import com.ibm.wfm.beans.UtNode;
+import com.ibm.wfm.beans.rah.RahServiceAreaDim;
 import com.ibm.wfm.configurations.FileStorageProperties;
 import com.ibm.wfm.services.FileStorageService;
 import com.ibm.wfm.services.ShortListDaoService;
@@ -59,19 +61,13 @@ public class JrsTaxonomyEtlController extends AbstractDaoController {
 	@Autowired
 	private ShortListDaoService shortListDaoService;
 	
-	@PostMapping(path="/jrs-taxonomy/idl-sa-jrs",produces = { "application/json", "application/xml"}, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+	@PostMapping(path="/jrs-taxonomy/idl-sa-jrs",produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 	public List<EtlResponse> jrsTaxonomyIdlServiceAreasJrs(@RequestParam("shortListFileName") MultipartFile shortListFileName
 			, @RequestParam(value="tabName",defaultValue="Consulting Short List",required=false) String tabName) throws IOException, NoSuchMethodException, SecurityException {
 
 		String excelFileName = fileStorageService.storeFile(shortListFileName);
 
-		shortListDaoService.setT(GbsShortListDim.class);
-		shortListDaoService.setTableNm("REFT.GBS_SHORT_LIST_DIM_V");
-		shortListDaoService.setScdTableNm("REFT.GBS_SHORT_LIST_SCD_V");
-
-		//deprecated
-		//return shortListDaoService.getShortListFromExcel(fileStorageProperties.getUploadDir()+"/"+excelFileName, tabName);
-		List<GbsShortListDim> shortLists = shortListDaoService.getObjectListFromExcel(fileStorageProperties.getUploadDir()+"/"+excelFileName, tabName);
+		List<GbsShortListDim> shortLists = shortListDaoService.getObjectListFromExcel(GbsShortListDim.class, fileStorageProperties.getUploadDir()+"/"+excelFileName, tabName);
 		
 		List<EtlResponse> etlResponses = new ArrayList<>();
 		
@@ -96,26 +92,17 @@ public class JrsTaxonomyEtlController extends AbstractDaoController {
 			String practiceCd = null;
 			for (PracticeDim practice: practices) {
 				if (practice.getPracticeNm().trim().equalsIgnoreCase(shortList.getPracticeNm().trim())) {
-					if (shortList.getPracticeNm().trim().equals("N/A - Service Area not allocated")) {
-						/*
-						if (shortList.getServiceLineNm().equalsIgnoreCase("Hybrid Cloud Management")) practiceCd = "GBS210";
-						else if (shortList.getServiceLineNm().equalsIgnoreCase("Hybrid Cloud Transformation")) practiceCd = "GBS211";
-						else if (shortList.getServiceLineNm().equalsIgnoreCase("Data & Technology Transformation")) practiceCd = "GBS212";
-						else if (shortList.getServiceLineNm().equalsIgnoreCase("Finance & Supply Chain Transformation")) practiceCd = "GBS213";
-						else if (shortList.getServiceLineNm().equalsIgnoreCase("Cognitive Process Services")) practiceCd = "GBS214";
-						else if (shortList.getServiceLineNm().equalsIgnoreCase("Enterprise Strategy")) practiceCd = "GBS215";
-						else if (shortList.getServiceLineNm().equalsIgnoreCase("Industry")) practiceCd = "GBS216";
-						else if (shortList.getServiceLineNm().equalsIgnoreCase("Next Gen EA")) practiceCd = "GBS217";
-						else if (shortList.getServiceLineNm().equalsIgnoreCase("HR & Talent Transformationn")) practiceCd = "GBS218";
-						else if (shortList.getServiceLineNm().equalsIgnoreCase("Customer Transformation")) practiceCd = "GBS219";
-						else if (shortList.getServiceLineNm().equalsIgnoreCase("Cybersecurity")) practiceCd = "GBS220";
-						*/
-						if (shortList.getServiceLineNm().equalsIgnoreCase("Application Operations")) practiceCd = "GBS210";
-						else if (shortList.getServiceLineNm().equalsIgnoreCase("Strategy & Transformation")) practiceCd = "GBS211";
-						else if (shortList.getServiceLineNm().equalsIgnoreCase("Hybrid Cloud & Data")) practiceCd = "GBS212";
-						else if (shortList.getServiceLineNm().equalsIgnoreCase("Cybersecurity")) practiceCd = "GBS213";
-						else if (shortList.getServiceLineNm().equalsIgnoreCase("Business Applications")) practiceCd = "GBS214";
-						else if (shortList.getServiceLineNm().equalsIgnoreCase("Business Operations")) practiceCd = "GBS215";
+					//if (shortList.getPracticeNm().trim().equals("N/A - Service Area not allocated")) {
+					if (shortList.getPracticeNm().trim().equals("Not Applicable")) {
+						if (shortList.getServiceLineNm().equalsIgnoreCase("Application Operations")) practiceCd = "GBS210"; //17ADM
+						else if (shortList.getServiceLineNm().equalsIgnoreCase("Strategy & Transformation")) practiceCd = "GBS211"; //17CVT
+						else if (shortList.getServiceLineNm().equalsIgnoreCase("Hybrid Cloud & Data")) practiceCd = "GBS212"; //17JUH
+						else if (shortList.getServiceLineNm().equalsIgnoreCase("Cybersecurity")) practiceCd = "GBS213"; //17SDT
+						else if (shortList.getServiceLineNm().equalsIgnoreCase("Business Applications")) practiceCd = "GBS214"; //17TVL
+						else if (shortList.getServiceLineNm().equalsIgnoreCase("Business Operations")) practiceCd = "GBS215"; //17V0F
+						else if (shortList.getServiceLineNm().equalsIgnoreCase("N/A - Go-to-Market")) practiceCd = "GBS206"; //17OTH
+						else if (shortList.getServiceLineNm().equalsIgnoreCase("N/A - Go-to-Market")) practiceCd = "GBS204"; 
+						else if (shortList.getServiceLineNm().equalsIgnoreCase("N/A - Industry/Sector")) practiceCd = "GBS208"; 
 						else {
 							System.out.println(i + ". ******* Practice not found: "+shortList.getPracticeNm()+", Service Line: "+shortList.getServiceLineNm());
 							practiceCd = "GBS999";
@@ -136,7 +123,7 @@ public class JrsTaxonomyEtlController extends AbstractDaoController {
 		
 		/*
 		 * Temporarily commented out and RAH Service Area Dimension data read from a static file
-		 *
+		 */
 		List<RahServiceAreaDim> rahServiceAreas = new ArrayList<>();
 		String rahServiceAreaUri = ServletUriComponentsBuilder.fromCurrentContextPath()
 		        .path("/api/v1/")
@@ -146,20 +133,21 @@ public class JrsTaxonomyEtlController extends AbstractDaoController {
 		ResponseEntity<RahServiceAreaDim[]> rahServiceAreaResponseEntity = new RestTemplate().getForEntity(rahServiceAreaUri, RahServiceAreaDim[].class); //uriVariables); 
 		RahServiceAreaDim[] rahServiceAreaArray = rahServiceAreaResponseEntity.getBody();
 		rahServiceAreas = Arrays.asList(rahServiceAreaArray);
-		*/
+		/**/
+		
 		/* Temporary code to read RAH Service Area Dimension data read from a static file
 		 * 
-		 */
+		 *
 		String className = "com.ibm.wfm.beans.RahServiceAreaDim";
-		String rahExcelFileName = "/Users/steve/$WFM/ReferenceData/2025-startup/rah-service-area-dim-2025-08-31.xlsx";
-		String rahExcelTabName = "rah-service-area-dim-2025-08-31"; //"rah-service-area-dim-2025-08-31";
+		String rahExcelFileName = "/Users/steve/$WFM/ReferenceData/2026-startup/rah-metrics-work-location-dim-actv-flg-y-uat-2026-08-01.xlsx";
+		String rahExcelTabName = "rah-metrics-work-location-dim-a"; //"rah-service-area-dim-2025-08-31";
 		List<Object> rahServiceAreasObj = DataMarshaller.buildObjectListFromExcel(className, rahExcelFileName,  rahExcelTabName);
 		
-		// Casting List<Object> to List<AnotherObject>
-        List<RahServiceAreaDim> rahServiceAreas = Helpers.castList(rahServiceAreasObj, RahServiceAreaDim.class);
 		
-		//rahServiceAreas.forEach(item -> System.out.println(item.toEtlString()));
-        //* End Temporary code
+		// Casting List<Object> to List<AnotherObject>
+		List<RahServiceAreaDim> rahServiceAreas = Helpers.castList(rahServiceAreasObj, RahServiceAreaDim.class);
+		**/
+        // End Temporary code
         
 		
 		/*
@@ -173,23 +161,39 @@ public class JrsTaxonomyEtlController extends AbstractDaoController {
 			String serviceAreaCd = null;
 			for (RahServiceAreaDim rahServiceArea: rahServiceAreas) {
 				if (shortList.getServiceAreaNm().trim().equals(rahServiceArea.getSvcAreaNm())) {
-					serviceAreaCd = rahServiceArea.getSvcAreaCd();
+					if (shortList.getServiceAreaNm().trim().equals("Not Applicable")) {
+						if (shortList.getServiceLineNm().equalsIgnoreCase("Application Operations")) serviceAreaCd = "-3a";
+						else if (shortList.getServiceLineNm().equalsIgnoreCase("Strategy & Transformation")) serviceAreaCd = "-3b";
+						else if (shortList.getServiceLineNm().equalsIgnoreCase("Hybrid Cloud & Data")) serviceAreaCd = "-3c";
+						else if (shortList.getServiceLineNm().equalsIgnoreCase("Cybersecurity")) serviceAreaCd = "-3d";
+						else if (shortList.getServiceLineNm().equalsIgnoreCase("Business Applications")) serviceAreaCd = "-3e";
+						else if (shortList.getServiceLineNm().equalsIgnoreCase("Business Operations")) serviceAreaCd = "-3f";
+						else serviceAreaCd = rahServiceArea.getSvcAreaCd();
+					}
+					else if (shortList.getServiceAreaNm().trim().equals("N/A - Go-to-Market")) {
+						serviceAreaCd = "-t";
+					}
+					else if (shortList.getServiceAreaNm().trim().equals("Not Applicable")) {
+						serviceAreaCd = "-v";
+					}
+					else	
+						serviceAreaCd = rahServiceArea.getSvcAreaCd();
 					break;
 				}
 			}
 			i++;
-			if (serviceAreaCd==null) {
+			if (serviceAreaCd==null  || serviceAreaCd.trim().length()==0) {
 				System.out.println(i+". ******* Service Area not found: "+shortList.getServiceAreaNm());
-				if (shortList.getServiceAreaNm().equalsIgnoreCase("Global Facilitation Center")) {
+				//if (shortList.getServiceAreaNm().equalsIgnoreCase("Global Facilitation Center")) {
 					serviceAreaCd = "ZZ";
 					shortList.setServiceAreaCd(serviceAreaCd);
-				}
+				//}
 			}
 			else {
 				shortList.setServiceAreaCd(serviceAreaCd);
 			}
 			//shortList.setServiceAreaCd
-			ServiceAreaDim serviceArea = new ServiceAreaDim(shortList.getServiceAreaCd()==null?"ZZ":shortList.getServiceAreaCd().trim()
+			ServiceAreaDim serviceArea = new ServiceAreaDim(shortList.getServiceAreaCd()==null|| serviceAreaCd.trim().length()==0?"ZZ":shortList.getServiceAreaCd().trim()
                                                           , shortList.getServiceAreaNm().trim()
                                                           , shortList.getServiceAreaNm().trim()
                                                           , shortList.getPracticeCd()
@@ -197,7 +201,7 @@ public class JrsTaxonomyEtlController extends AbstractDaoController {
 			if (!(serviceAreas.contains(serviceArea))) serviceAreas.add(serviceArea);
 
 			JrsDim jrs = new JrsDim(-1
-					, shortList.getJobRoleCd().trim()+"-"+shortList.getSpecialtyCd().trim()
+					, shortList.getJobRoleCd().trim()+"-"+shortList.getSpecialtyCd().trim() //Change to shortList.getJrsCd().trim()
 					, shortList.getJrsNm()
 					, shortList.getJrsNm()
 					, shortList.getJobRoleCd()
@@ -242,7 +246,6 @@ public class JrsTaxonomyEtlController extends AbstractDaoController {
 		// Add the returned EtlResponse object to the list of responses
 		etlResponses.add(this.processIdl("eds-ut-jrs-tax", rootFileName));
 
-		
 		/*
 		 * Write the lists for JRSs into files for ETL ladder processing.
 		 */
@@ -265,12 +268,10 @@ public class JrsTaxonomyEtlController extends AbstractDaoController {
 		// Add the returned EtlResponse object to the list of responses
 		etlResponses.add(this.processIdl("eds-ut-jrs-tax", rootFileName));
 
-				
-		
 		return etlResponses;
 	}
 	
-	@PostMapping(path="/jrs-taxonomy/idl-brand-2-offering-component",produces = { "application/json", "application/xml"})
+	@PostMapping(path="/jrs-taxonomy/idl-brand-2-offering-component",produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<EtlResponse> jrsTaxonomyIdl() throws IOException, NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchFieldException {
 		
 		List<EtlResponse> etlResponses = new ArrayList<>();
@@ -328,7 +329,7 @@ public class JrsTaxonomyEtlController extends AbstractDaoController {
 		
 		//copy into new List<POJO> via map
 		File jsonFile = new File(fileStorageProperties.getMapDir()+"/ut-node-occ.json");
-		HashMap<String, String> map = new ObjectMapper().readValue(jsonFile, HashMap.class);
+		HashMap<String, String> map = JsonMapper.builder().build().readValue(jsonFile, HashMap.class);
 		//Populate the map.
 		List<OfferingComponentDim> offeringComponents = DataMarshaller.mapList(Arrays.asList(utNodes), UtNode.class, OfferingComponentDim.class, map);
 		
@@ -472,7 +473,7 @@ public class JrsTaxonomyEtlController extends AbstractDaoController {
 		
 	}
 	
-	@PostMapping(path="/jrs-taxonomy/etl-brand-2-offering-component",produces = { "application/json", "application/xml"})
+	@PostMapping(path="/jrs-taxonomy/etl-brand-2-offering-component",produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<EtlResponse> jrsTaxonomyEtl() throws IOException, NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchFieldException {
 		
 		List<EtlResponse> etlResponses = new ArrayList<>();
@@ -529,7 +530,7 @@ public class JrsTaxonomyEtlController extends AbstractDaoController {
 		}
 		
 		//copy into new List<POJO> via map
-		HashMap<String, String> map = new ObjectMapper().readValue(new File(fileStorageProperties.getMapDir()+"/ut-node-occ.json"), HashMap.class);
+		HashMap<String, String> map = JsonMapper.builder().build().readValue(new File(fileStorageProperties.getMapDir()+"/ut-node-occ.json"), HashMap.class);
 		//Populate the map.
 		List<OfferingComponentDim> offeringComponents = DataMarshaller.mapList(Arrays.asList(utNodes), UtNode.class, OfferingComponentDim.class, map);
 		

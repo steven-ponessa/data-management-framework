@@ -68,7 +68,7 @@ public class EdsDaoBusinessUnitTaxonomyController extends AbstractDaoController 
 	 * @throws ClassNotFoundException
 	 * @throws IOException
 	 */
-	@GetMapping(path={"/eds-business-unit-tax/business-unit-tops","/eds-business-unit-tax/business-unit-tops/{bus-unit-top-cd}"},produces = { "application/json", "application/xml"})
+	@GetMapping(path={"/eds-business-unit-tax/business-unit-tops","/eds-business-unit-tax/business-unit-tops/{bus-unit-top-cd}"},produces = MediaType.APPLICATION_JSON_VALUE)
 	public <T> ResponseEntity<Object> retrieveAllBusinessUnitTopByCode(
 			  @PathVariable(name="bus-unit-top-cd", required=false) String busUnitTopCd
 			, @RequestParam(defaultValue = "") @Parameter(description = "Add filter in format of a SQL WHERE clause.") String filters
@@ -145,7 +145,7 @@ public class EdsDaoBusinessUnitTaxonomyController extends AbstractDaoController 
 	 * @throws ClassNotFoundException
 	 * @throws IOException
 	 */
-	@GetMapping(path={"/eds-business-unit-tax/business-units","/eds-business-unit-tax/business-units/{bus-unit-cd}"},produces = { "application/json", "application/xml"})
+	@GetMapping(path={"/eds-business-unit-tax/business-units","/eds-business-unit-tax/business-units/{bus-unit-cd}"},produces = MediaType.APPLICATION_JSON_VALUE)
 	public <T> ResponseEntity<Object> retrieveAllBusinessUnitByCode(
 			  @PathVariable(name="bus-unit-cd", required=false) String busUnitCd
 			, @RequestParam(defaultValue = "") @Parameter(description = "Add filter in format of a SQL WHERE clause.") String filters
@@ -167,7 +167,7 @@ public class EdsDaoBusinessUnitTaxonomyController extends AbstractDaoController 
 		return edsDaoService.find(BusinessUnitDim.class, pathVarMap, filters, orderByCols, includeParentage, "Total", returnCsv, includePit, pit, resultSetMaxSize, request);
 	}
 	
-	@GetMapping(path={"/eds-business-unit-tax/business-unit-tops/{bus-unit-top-cd}/business-units","/eds-business-unit-tax/business-unit-tops/{bus-unit-top-cd}/business-units/{bus-unit-cd}"},produces = { "application/json", "application/xml"})
+	@GetMapping(path={"/eds-business-unit-tax/business-unit-tops/{bus-unit-top-cd}/business-units","/eds-business-unit-tax/business-unit-tops/{bus-unit-top-cd}/business-units/{bus-unit-cd}"},produces = MediaType.APPLICATION_JSON_VALUE)
 	public <T> ResponseEntity<Object> retrieveAllBusinessUnitByCode(
 			  @PathVariable(name="bus-unit-top-cd", required=true) String busUnitTopCd
 			, @PathVariable(name="bus-unit-cd", required=false) String busUnitCd
@@ -246,7 +246,7 @@ public class EdsDaoBusinessUnitTaxonomyController extends AbstractDaoController 
 	 * @throws ClassNotFoundException
 	 * @throws IOException
 	 */
-	@GetMapping(path={"/eds-business-unit-tax/sub-business-units","/eds-business-unit-tax/sub-business-units/{sub-bus-unit-cd}"},produces = { "application/json", "application/xml"})
+	@GetMapping(path={"/eds-business-unit-tax/sub-business-units","/eds-business-unit-tax/sub-business-units/{sub-bus-unit-cd}"},produces = MediaType.APPLICATION_JSON_VALUE)
 	public <T> ResponseEntity<Object> retrieveAllSubBusinessUnitByCode(
 			  @PathVariable(name="sub-bus-unit-cd", required=false) String subBusUnitCd
 			, @RequestParam(defaultValue = "") @Parameter(description = "Add filter in format of a SQL WHERE clause.") String filters
@@ -268,7 +268,7 @@ public class EdsDaoBusinessUnitTaxonomyController extends AbstractDaoController 
 		return edsDaoService.find(SubBusinessUnitDim.class, pathVarMap, filters, orderByCols, includeParentage, "Total", returnCsv, includePit, pit, resultSetMaxSize, request);
 	}
 
-	@GetMapping(path={"/eds-business-unit-tax/business-unit-tops/{bus-unit-top-cd}/business-units/{bus-unit-cd}/sub-business-units","/eds-business-unit-tax/business-unit-tops/{bus-unit-top-cd}/business-units/{bus-unit-cd}/sub-business-units/{sub-bus-unit-cd}"},produces = { "application/json", "application/xml"})
+	@GetMapping(path={"/eds-business-unit-tax/business-unit-tops/{bus-unit-top-cd}/business-units/{bus-unit-cd}/sub-business-units","/eds-business-unit-tax/business-unit-tops/{bus-unit-top-cd}/business-units/{bus-unit-cd}/sub-business-units/{sub-bus-unit-cd}"},produces = MediaType.APPLICATION_JSON_VALUE)
 	public <T> ResponseEntity<Object> retrieveAllBusinessUnitByCode(
 			  @PathVariable(name="bus-unit-top-cd", required=true) String busUnitTopCd
 			, @PathVariable(name="bus-unit-cd", required=true) String busUnitCd

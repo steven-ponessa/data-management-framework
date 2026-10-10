@@ -21,7 +21,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.json.JsonMapper;
+
 import com.ibm.wfm.models.W3UserDetail;
 import com.ibm.wfm.utils.Helpers;
 import com.ibm.wfm.utils.JwtDecoderUtil;
@@ -122,7 +124,7 @@ public class AuthenticationFilter implements Filter {
 				
 				System.out.println("     AuthenticationFilter.doFilter (else) payload="+payload);
 				
-				ObjectMapper mapper = new ObjectMapper();
+				ObjectMapper mapper = JsonMapper.builder().build();
 				W3UserDetail w3UserInfo = mapper.readValue(payload, W3UserDetail.class);
 				
 				String[] urlParts = url.split("/");

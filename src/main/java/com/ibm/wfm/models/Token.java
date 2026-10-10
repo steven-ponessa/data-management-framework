@@ -3,8 +3,9 @@ package com.ibm.wfm.models;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.core.JacksonException;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.json.JsonMapper;
 public class Token {
 	private static final Logger logger = LoggerFactory.getLogger(Token.class);
 
@@ -57,10 +58,10 @@ public class Token {
 	
 	@Override
 	public String toString() {
-		ObjectMapper objectMapper = new ObjectMapper();
+		ObjectMapper objectMapper = JsonMapper.builder().build();
 		try {
 			return objectMapper.writeValueAsString(this);
-		} catch (JsonProcessingException e) {
+		} catch (JacksonException e) {
 			logger.error(e.getMessage());
 		}
 		return null;

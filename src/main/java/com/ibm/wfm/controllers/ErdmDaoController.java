@@ -5,9 +5,8 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
-import jakarta.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,6 +18,7 @@ import com.ibm.wfm.beans.ReftJrsDim;
 import com.ibm.wfm.services.ErdmDaoService;
 
 import io.swagger.v3.oas.annotations.Parameter;
+import jakarta.servlet.http.HttpServletRequest;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -48,7 +48,7 @@ public class ErdmDaoController extends AbstractDaoController {
 	 * @throws ClassNotFoundException
 	 * @throws IOException
 	 */
-	@GetMapping(path={"/erdm/reft-jrss","/erdm/reft-jrss/{jrs-cd}"},produces = { "application/json", "application/xml"})
+	@GetMapping(path={"/erdm/reft-jrss","/erdm/reft-jrss/{jrs-cd}"},produces = MediaType.APPLICATION_JSON_VALUE)
 	public <T> ResponseEntity<Object> retrieveAllReftJrsByCode(
 			  @PathVariable(name="jrs-cd", required=false) String jrsCd
 			, @RequestParam(defaultValue = "") @Parameter(description = "Add filter in format of a SQL WHERE clause.") String filters
@@ -67,9 +67,6 @@ public class ErdmDaoController extends AbstractDaoController {
 				
 		filters+="INACTIVE_DATE IS NULL";
 		
-		erdmDaoService.setForceTableNm("ERDMPROD.REFT_JRS_DIM");
-		
-	  //return erdmDaoService.find(ReftJrsDim.class, pathVarMap, filters, orderByCols, includeParentage, null, returnCsv, includePit, pit, resultSetMaxSize, request);
 		return erdmDaoService.find(ReftJrsDim.class, pathVarMap, filters, orderByCols, false, null, returnCsv, false, "", false, resultSetMaxSize, request);
 	}	
 

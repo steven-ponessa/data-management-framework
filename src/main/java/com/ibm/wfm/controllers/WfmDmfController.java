@@ -8,6 +8,8 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.SpringBootVersion;
+import org.springframework.core.SpringVersion;
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -24,8 +26,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.fasterxml.jackson.core.JsonGenerationException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.ibm.wfm.beans.ApplicationInfo;
 import com.ibm.wfm.beans.BmsOfferingCategoryDim;
 import com.ibm.wfm.beans.BmsOfferingComponentDim;
@@ -41,6 +41,7 @@ import com.opencsv.exceptions.CsvValidationException;
 
 import io.swagger.v3.oas.annotations.Parameter;
 import jakarta.servlet.http.HttpServletRequest;
+import tools.jackson.core.JacksonException;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -60,42 +61,45 @@ public class WfmDmfController {
     @Autowired
     private ConfigurableEnvironment env;
 	
-	@GetMapping(path={"/wfm-dmf/application-info","/wfm-dmf/about"}
-    , produces = { "application/json", "application/xml"})
-    public ResponseEntity<Map<String, String>> getAppInfo() {
+	@GetMapping(path={"/wfm-dmf/application-info","/wfm-dmf/about"}, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Map<String, String>> getAppInfo() {
 		
-        String activeProfile = null;
-        for (String profile : env.getActiveProfiles()) {
-        	if (activeProfile==null) activeProfile="["+profile;
-        	else activeProfile+=","+profile;
-        }
-        if (activeProfile==null) activeProfile="[]";
-        else activeProfile+="]";
-
-        //System.out.println("\n=== ALL PROPERTIES LOADED ===");
-        //for (PropertySource<?> propertySource : env.getPropertySources()) {
-        //    Object source = propertySource.getSource();
-        //    if (source instanceof Map) {
-        //        ((Map<?, ?>) source).forEach((key, value) -> {
-        //            System.out.println(key + "=" + value);
-        //        });
-        //    }
-        //}		
+	    String activeProfile = null;
+	    for (String profile : env.getActiveProfiles()) {
+	    	if (activeProfile==null) activeProfile="["+profile;
+	    	else activeProfile+=","+profile;
+	    }
+	    if (activeProfile==null) activeProfile="[]";
+	    else activeProfile+="]";
+	
+	    //System.out.println("\n=== ALL PROPERTIES LOADED ===");
+	    //for (PropertySource<?> propertySource : env.getPropertySources()) {
+	    //    Object source = propertySource.getSource();
+	    //    if (source instanceof Map) {
+	    //        ((Map<?, ?>) source).forEach((key, value) -> {
+	    //            System.out.println(key + "=" + value);
+	    //        });
+	    //    }
+	    //}		
 		
 		return ResponseEntity.ok().body(Map.of(
 				"name", applicationInfo.getName(),
 				"description", applicationInfo.getDescription(),
-                "version", applicationInfo.getVersion(),
-                "springBootVersion", applicationInfo.getSpringBootVersion(),
-                "openApiVersion", applicationInfo.getOpenApiVersion(),
-                "releaseNotes", applicationInfo.getReleaseNotes(),
-                "license", applicationInfo.getLicense(),
-                "activeProfiles", activeProfile
+	            "version", applicationInfo.getVersion(),
+	            
+	            "spring-boot-version", SpringBootVersion.getVersion(),
+	            "spring-framework-version", SpringVersion.getVersion(),
+	            "java-runtime", System.getProperty("java.version"),
+	            
+	            "openApiVersion", applicationInfo.getOpenApiVersion(),
+	            "releaseNotes", applicationInfo.getReleaseNotes(),
+	            "license", applicationInfo.getLicense(),
+	            "activeProfiles", activeProfile
 				));
-    }
+	}
 	
 	@GetMapping(path={"/wfm-dmf/dynamic/sql/async/{data-source-name}/{query-name}"}
-    , produces = { "application/json", "application/xml"})
+    , produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> someOtherEndpoint(@PathVariable(name="data-source-name") String dataSourceNm
 			, @PathVariable(name="query-name") String dynamicSqlNm
 			, @RequestParam(name="idl",defaultValue="false")  @Parameter(description = "Initial data load?") boolean idl
@@ -103,7 +107,7 @@ public class WfmDmfController {
 			, @RequestParam(name="offset", defaultValue="-1")  @Parameter(description = "Number of rows ot the result table to skip before any rows are retrieved.") Integer offset
 			, @RequestParam(name="result-set-max-size", defaultValue="-1")  @Parameter(description = "Size of the results, use -1 to get all data.") Integer resultSetMaxSizeObj
 			, HttpServletRequest request
-			) throws SQLException, JsonGenerationException, JsonMappingException, IOException, InterruptedException, ExecutionException {
+			) throws SQLException, JacksonException, IOException, InterruptedException, ExecutionException {
 
 		try {
 		    CompletableFuture<ResponseEntity<?>> future =
@@ -212,7 +216,7 @@ public class WfmDmfController {
 	 * @throws IOException
 	 */
 	@GetMapping(path={"/wfm-dmf/bms-offering-categories","/wfm-dmf/bms-offering-categories/{offering-cat-cd}"}
-	                , produces = { "application/json", "application/xml"})
+	                , produces = MediaType.APPLICATION_JSON_VALUE)
 	public synchronized <T> ResponseEntity<Object> retrieveAllBmsOfferingCategoryByCode(
 			  @PathVariable(name="offering-cat-cd", required=false) String offeringCatCd
 			, @RequestParam(defaultValue = "") @Parameter(description = "Add filter in format of a SQL WHERE clause.") String filters
@@ -235,7 +239,7 @@ public class WfmDmfController {
 		return wfmDmfDaoService.find(BmsOfferingCategoryDim.class, pathVarMap, filters, orderByCols, includeParentage, null, returnCsv, includePit, pit, offset, resultSetMaxSize, request);
 	}
 	
-	@GetMapping(path={"/wfm-dmf/bms-offering-categories/count"},produces = { "application/json", "application/xml"})
+	@GetMapping(path={"/wfm-dmf/bms-offering-categories/count"},produces = MediaType.APPLICATION_JSON_VALUE)
 	public synchronized ResponseEntity<Count> retrieveCountFbsTeamByCode(
               @RequestParam(defaultValue = "") @Parameter(description = "Add filter in format of a SQL WHERE clause.") String filters
 			, @RequestParam(defaultValue = "") @Parameter(description = "Override the SQL ORDER BY clause (default is by natural key).") String orderByCols
@@ -309,7 +313,7 @@ public class WfmDmfController {
 	 */
 	@GetMapping(path={"/wfm-dmf/bms-offerings","/wfm-dmf/bms-offerings/{offering-cd}"
 	        , "/wfm-dmf/bms-offering-categories/{offering-cat-cd}/bms-offerings", "/wfm-dmf/bms-offering-categories/{offering-cat-cd}/bms-offerings/{offering-cd}"}
-			, produces = { "application/json", "application/xml"})
+			, produces = MediaType.APPLICATION_JSON_VALUE)
 	public synchronized <T> ResponseEntity<Object> retrieveAllBmsOfferingByCode(
 			  @PathVariable(name="offering-cd", required=false) String offeringCd
 			, @PathVariable(name="offering-cat-cd", required=false) String offeringCatCd
@@ -337,7 +341,7 @@ public class WfmDmfController {
 		return wfmDmfDaoService.find(BmsOfferingDim.class, pathVarMap, filters, orderByCols, includeParentage, null, returnCsv, includePit, pit, offset, resultSetMaxSize, request);
 	}
 	
-	@GetMapping(path={"/wfm-dmf/bms-offerings/count"},produces = { "application/json", "application/xml"})
+	@GetMapping(path={"/wfm-dmf/bms-offerings/count"},produces = MediaType.APPLICATION_JSON_VALUE)
 	public synchronized ResponseEntity<Count> retrieveCountOfferng(
               @RequestParam(defaultValue = "") @Parameter(description = "Add filter in format of a SQL WHERE clause.") String filters
 			, @RequestParam(defaultValue = "") @Parameter(description = "Override the SQL ORDER BY clause (default is by natural key).") String orderByCols
@@ -413,7 +417,7 @@ public class WfmDmfController {
 	@GetMapping(path={"/wfm-dmf/bms-offering-components","/wfm-dmf/bms-offering-components/{offering-comp-cd}"
 	        , "/wfm-dmf/bms-offering-categories/{offering-cat-cd}/bms-offerings/{offering-cd}/bms-offering-components"
             , "/wfm-dmf/bms-offering-categories/{offering-cat-cd}/bms-offerings/{offering-cd}/bms-offering-components/{offering-comp-cd}"}
-	, produces = { "application/json", "application/xml"})
+	, produces = MediaType.APPLICATION_JSON_VALUE)
 	public synchronized <T> ResponseEntity<Object> retrieveAllBmsOfferingComponentByCode(
 			  @PathVariable(name="offering-cat-cd", required=false) String offeringCatCd
 			, @PathVariable(name="offering-cd", required=false) String offeringCd
@@ -446,7 +450,7 @@ public class WfmDmfController {
 		return wfmDmfDaoService.find(BmsOfferingComponentDim.class, pathVarMap, filters, orderByCols, includeParentage, null, returnCsv, includePit, pit, offset, resultSetMaxSize, request);
 	}
 	
-	@GetMapping(path={"/wfm-dmf/bms-offering-components/count"},produces = { "application/json", "application/xml"})
+	@GetMapping(path={"/wfm-dmf/bms-offering-components/count"},produces = MediaType.APPLICATION_JSON_VALUE)
 	public synchronized ResponseEntity<Count> retrieveCountOfferngComponents(
               @RequestParam(defaultValue = "") @Parameter(description = "Add filter in format of a SQL WHERE clause.") String filters
 			, @RequestParam(defaultValue = "") @Parameter(description = "Override the SQL ORDER BY clause (default is by natural key).") String orderByCols

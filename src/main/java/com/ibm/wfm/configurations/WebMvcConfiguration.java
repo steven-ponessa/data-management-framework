@@ -15,7 +15,6 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
         configurer.defaultContentType( MediaType.APPLICATION_JSON );
     }
     
-    /*SP-temp; put in to try to support mapping to get @MatrixVariable to work*/
     @Override
     public void configurePathMatch(PathMatchConfigurer configurer) {
         var urlPathHelper = new UrlPathHelper();
@@ -26,14 +25,14 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
 	@Override
 	public void addCorsMappings(CorsRegistry registry) {
 	    registry.addMapping("/api/**")
-	        .allowedOrigins("http://localhost:3000"
-	        		, "https://wfm-table-editor.dal2a.ciocloud.nonprod.intranet.ibm.com"
+	        //.allowedOrigins("http://localhost:3000"
+	        .allowedOriginPatterns("http://localhost:3000"
+	        		, "https://wfm-table-editor-test-dev.prom-greenstar-integration.dal.dev.cirrus.ibm.com"
+	        		, "https://*.dal.dev.cirrus.ibm.com"
+	        		, "https://*.dal.cirrus.ibm.com"
 	        		, "https://dl.watson-orchestrate.ibm.com/"
 	        		, "https://localhost:3000"
 	        		, "https://localhost:5000"
-	        		, "https://react-sso.wdc1a.ciocloud.nonprod.intranet.ibm.com"
-	        		, "https://*.dal2a.ciocloud.nonprod.intranet.ibm.com"
-	        		, "https://*.wdc1a.ciocloud.nonprod.intranet.ibm.com"
 	        		, "https://*.intranet.ibm.com"
 	        		, "https://pages.github.ibm.com"
 	        		, "http://127.0.0.1:4000")

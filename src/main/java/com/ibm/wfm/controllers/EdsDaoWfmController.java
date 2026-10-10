@@ -70,7 +70,10 @@ public class EdsDaoWfmController {
 	 * Labor Model
 	 */
 	/* Labor Model */
-	@GetMapping(path={"/eds-wfm/labor-models","/eds-wfm/labor-models/{labor-model-cd}"},produces = { "application/json", "application/xml"})
+	@GetMapping(path={"/eds-wfm/labor-models","/eds-wfm/labor-models/{labor-model-cd}"}
+	,produces = {
+	        MediaType.APPLICATION_JSON_VALUE
+	    })
 	public <T> ResponseEntity<Object> retrieveAllLaborModels(
 			  @PathVariable(name="labor-model-cd", required=false) String laborModelCode
 			, @RequestParam(defaultValue = "") @Parameter(description = "Add filter in format of a SQL WHERE clause.") String filters
@@ -88,10 +91,6 @@ public class EdsDaoWfmController {
 			pathVarMap = new HashMap<>();
 			pathVarMap.put("labor-model-code", laborModelCode);
 		}
-		
-		edsWfmDaoService.setT(LaborModelDim.class);
-		edsWfmDaoService.setTableNm("REFT.LABOR_MODEL_DIM_V");
-		edsWfmDaoService.setScdTableNm("REFT.LABOR_MODEL_SCD_V");
 		
 		boolean useScd = false;
 		if (includePit==true || (pit!=null && pit.trim().length()>0)) useScd = true;
@@ -143,17 +142,11 @@ public class EdsDaoWfmController {
 	
 	@DeleteMapping("/eds-wfm/labor-models")
 	public int deleteAllLaborModels() {
-		edsWfmDaoService.setT(LaborModelDim.class);
-		edsWfmDaoService.setTableNm("REFT.LABOR_MODEL_DIM_V");
-		edsWfmDaoService.setScdTableNm("REFT.LABOR_MODEL_SCD_V");
-		return edsWfmDaoService.deleteAll();
+		return edsWfmDaoService.deleteAll(LaborModelDim.class);
 	}
 	
 	@DeleteMapping("/eds-wfm/labor-models/{labor-model-cd}")
 	public int deleteLaborModel(@PathVariable(name="labor-model-cd") String laborModelCd) {
-		edsWfmDaoService.setT(LaborModelDim.class);
-		edsWfmDaoService.setTableNm("REFT.LABOR_MODEL_DIM_V");
-		edsWfmDaoService.setScdTableNm("REFT.LABOR_MODEL_SCD_V");
 		
 		LaborModelDim laborModelDim = new LaborModelDim(laborModelCd);
 		
@@ -166,11 +159,9 @@ public class EdsDaoWfmController {
 			                , @RequestParam(name="Output File Name",defaultValue="labor-model.csv") String outputFileNm) throws CsvValidationException, IOException, EtlException, IllegalArgumentException, IllegalAccessException, SQLException {
 		String oldFileName = fileStorageService.storeFile(oldFile);
 		String newFileName = fileStorageService.storeFile(newFile);
-		edsWfmDaoService.setT(LaborModelDim.class);
-		edsWfmDaoService.setTableNm("REFT.LABOR_MODEL_DIM_V");
-		edsWfmDaoService.setScdTableNm("REFT.LABOR_MODEL_SCD_V");
 		
-		EtlResponse etlResponse = edsWfmDaoService.etl(fileStorageProperties.getUploadDir()+"/"+oldFileName
+		EtlResponse etlResponse = edsWfmDaoService.etl(LaborModelDim.class
+				                                          , fileStorageProperties.getUploadDir()+"/"+oldFileName
 				                                          , fileStorageProperties.getUploadDir()+"/"+newFileName
 				                                          , 1
 				                                          , fileStorageProperties.getUploadDir()+"/"+outputFileNm);
@@ -182,14 +173,12 @@ public class EdsDaoWfmController {
 	public EtlResponse etl2EdsLaborModel(@RequestParam("oldFileName") String oldFileName
 			                , @RequestParam("newFileName") String newFileName
 			                , @RequestParam(name="outputFileName",defaultValue="labor-model.csv") String outputFileNm) throws CsvValidationException, IOException, EtlException, IllegalArgumentException, IllegalAccessException, SQLException {
-		edsWfmDaoService.setT(LaborModelDim.class);
-		edsWfmDaoService.setTableNm("REFT.LABOR_MODEL_DIM_V");
-		edsWfmDaoService.setScdTableNm("REFT.LABOR_MODEL_SCD_V");
 		
 		String oldFn = fileStorageProperties.getUploadDir()+"/"+oldFileName;
 		if (!FileHelpers.existsBoolean(fileStorageProperties.getUploadDir()+"/"+oldFileName)) oldFn=null;
 		
-		EtlResponse etlResponse = edsWfmDaoService.etl(oldFn
+		EtlResponse etlResponse = edsWfmDaoService.etl(LaborModelDim.class
+				                                          , oldFn
 				                                          , fileStorageProperties.getUploadDir()+"/"+newFileName
 				                                          , 1
 				                                          , fileStorageProperties.getUploadDir()+"/"+outputFileNm);
@@ -218,7 +207,11 @@ public class EdsDaoWfmController {
 	 * @throws ClassNotFoundException
 	 * @throws IOException
 	 */
-	@GetMapping(path={"/eds-wfm/ebu-xrefs","/eds-wfm/ebu-xrefs/{ebu-cd}"},produces = { "application/json", "application/xml"})
+	@GetMapping(path={"/eds-wfm/ebu-xrefs","/eds-wfm/ebu-xrefs/{ebu-cd}"},
+			produces = {
+	        MediaType.APPLICATION_JSON_VALUE,
+	        "text/csv"
+	    })
 	public <T> ResponseEntity<Object> retrieveAllEbuXrefByCode(
 			  @PathVariable(name="ebu-cd", required=false) String ebuCd
 			, @RequestParam(defaultValue = "") @Parameter(description = "Add filter in format of a SQL WHERE clause.") String filters
@@ -276,9 +269,6 @@ public class EdsDaoWfmController {
 	public ResponseEntity<Integer> idlExcelEbuXrefs(@RequestParam("excel-file-name") MultipartFile excelFileNm
 							, @RequestParam(name="tab-name",defaultValue="Sheet1") String tabNm
 			                ) throws CsvValidationException, IOException, EtlException, IllegalArgumentException, IllegalAccessException, SQLException {
-		edsWfmDaoService.setT(EbuXrefDim.class);
-		edsWfmDaoService.setTableNm("REFT.EBU_XREF_DIM_V");
-		edsWfmDaoService.setScdTableNm("REFT.EBU_XREF_SCD_V");
 		
 		return edsWfmDaoService.idlExcel(EbuXrefDim.class, excelFileNm, tabNm);
 	}
@@ -306,7 +296,11 @@ public class EdsDaoWfmController {
 	 * @throws ClassNotFoundException
 	 * @throws IOException
 	 */
-	@GetMapping(path={"/eds-wfm/labor-types","/eds-wfm/labor-types/{labor-type-cd}"},produces = { "application/json", "application/xml"})
+	@GetMapping(path={"/eds-wfm/labor-types","/eds-wfm/labor-types/{labor-type-cd}"},
+			produces = {
+	        MediaType.APPLICATION_JSON_VALUE,
+	        "text/csv"
+	    })
 	public <T> ResponseEntity<Object> retrieveAllLaborTypeByCode(
 			  @PathVariable(name="labor-type-cd", required=false) String laborTypeCd
 			, @RequestParam(defaultValue = "") @Parameter(description = "Add filter in format of a SQL WHERE clause.") String filters
@@ -381,7 +375,11 @@ public class EdsDaoWfmController {
 	 * @throws ClassNotFoundException
 	 * @throws IOException
 	 */
-	@GetMapping(path={"/eds-wfm/account-types","/eds-wfm/account-types/{account-typ-code}"},produces = { "application/json", "application/xml"})
+	@GetMapping(path={"/eds-wfm/account-types","/eds-wfm/account-types/{account-typ-code}"},
+			produces = {
+			        MediaType.APPLICATION_JSON_VALUE,
+			        "text/csv"
+			    })
 	public <T> ResponseEntity<Object> retrieveAllAccountTypeByCode(
 			  @PathVariable(name="account-typ-code", required=false) String accountTypCode
 			, @RequestParam(defaultValue = "") @Parameter(description = "Add filter in format of a SQL WHERE clause.") String filters
@@ -458,7 +456,11 @@ public class EdsDaoWfmController {
 	 * @throws ClassNotFoundException
 	 * @throws IOException
 	 */
-	@GetMapping(path={"/eds-wfm/employee-types","/eds-wfm/employee-types/{employee-typ-code}"},produces = { "application/json", "application/xml"})
+	@GetMapping(path={"/eds-wfm/employee-types","/eds-wfm/employee-types/{employee-typ-code}"},
+			produces = {
+			        MediaType.APPLICATION_JSON_VALUE,
+			        "text/csv"
+			    })
 	public <T> ResponseEntity<Object> retrieveAllEmployeeTypeByCode(
 			  @PathVariable(name="employee-typ-code", required=false) String employeeTypCode
 			, @RequestParam(defaultValue = "") @Parameter(description = "Add filter in format of a SQL WHERE clause.") String filters
@@ -532,7 +534,11 @@ public class EdsDaoWfmController {
 	 * @throws ClassNotFoundException
 	 * @throws IOException
 	 */
-	@GetMapping(path={"/eds-wfm/geography-types","/eds-wfm/geography-types/{geography-type-code}"},produces = { "application/json", "application/xml"})
+	@GetMapping(path={"/eds-wfm/geography-types","/eds-wfm/geography-types/{geography-type-code}"},
+			produces = {
+			        MediaType.APPLICATION_JSON_VALUE,
+			        "text/csv"
+			    })
 	public <T> ResponseEntity<Object> retrieveAllGeographyTypeByCode(
 			  @PathVariable(name="geography-type-code", required=false) String geographyTypeCode
 			, @RequestParam(defaultValue = "") @Parameter(description = "Add filter in format of a SQL WHERE clause.") String filters
@@ -609,7 +615,11 @@ public class EdsDaoWfmController {
 	 * @throws ClassNotFoundException
 	 * @throws IOException
 	 */
-	@GetMapping(path={"/eds-wfm/labor-pools","/eds-wfm/labor-pools/{labor-pool-code}"},produces = { "application/json", "application/xml"})
+	@GetMapping(path={"/eds-wfm/labor-pools","/eds-wfm/labor-pools/{labor-pool-code}"},
+			produces = {
+			        MediaType.APPLICATION_JSON_VALUE,
+			        "text/csv"
+			    })
 	public <T> ResponseEntity<Object> retrieveAllLaborPoolByCode(
 			  @PathVariable(name="labor-pool-code", required=false) String laborPoolCode
 			, @RequestParam(defaultValue = "") @Parameter(description = "Add filter in format of a SQL WHERE clause.") String filters
@@ -627,11 +637,7 @@ public class EdsDaoWfmController {
 			pathVarMap = new HashMap<>();
 			pathVarMap.put("labor-pool-code", laborPoolCode);
 		}
-		
-		edsWfmDaoService.setT(LaborPoolDim.class);
-		edsWfmDaoService.setTableNm("REFT.LABOR_POOL_DIM_V");
-		edsWfmDaoService.setScdTableNm("REFT.LABOR_POOL_SCD_V");
-		
+				
 		boolean useScd = false;
 		if (includePit==true || (pit!=null && pit.trim().length()>0)) useScd = true;
 		int size = -1;
@@ -709,7 +715,11 @@ public class EdsDaoWfmController {
 	 * @throws ClassNotFoundException
 	 * @throws IOException
 	 */
-	@GetMapping(path={"/eds-wfm/onsite-models","/eds-wfm/onsite-models/{onsite-model-code}"},produces = { "application/json", "application/xml"})
+	@GetMapping(path={"/eds-wfm/onsite-models","/eds-wfm/onsite-models/{onsite-model-code}"},
+			produces = {
+			        MediaType.APPLICATION_JSON_VALUE,
+			        "text/csv"
+			    })
 	public <T> ResponseEntity<Object> retrieveAllOnsiteModelByCode(
 			  @PathVariable(name="onsite-model-code", required=false) String onsiteModelCode
 			, @RequestParam(defaultValue = "") @Parameter(description = "Add filter in format of a SQL WHERE clause.") String filters
@@ -786,7 +796,11 @@ public class EdsDaoWfmController {
 	 * @throws ClassNotFoundException
 	 * @throws IOException
 	 */
-	@GetMapping(path={"/eds-wfm/utilization-categories","/eds-wfm/utilization-categories/{util-cat-code}"},produces = { "application/json", "application/xml"})
+	@GetMapping(path={"/eds-wfm/utilization-categories","/eds-wfm/utilization-categories/{util-cat-code}"},
+			produces = {
+			        MediaType.APPLICATION_JSON_VALUE,
+			        "text/csv"
+			    })
 	public <T> ResponseEntity<Object> retrieveAllUtilizationCategoryByCode(
 			  @PathVariable(name="util-cat-code", required=false) String utilCatCode
 			, @RequestParam(defaultValue = "") @Parameter(description = "Add filter in format of a SQL WHERE clause.") String filters
@@ -862,7 +876,11 @@ public class EdsDaoWfmController {
 	 * @throws ClassNotFoundException
 	 * @throws IOException
 	 */
-	@GetMapping(path={"/eds-wfm/utilization-lobs","/eds-wfm/utilization-lobs/{util-lob-code}"},produces = { "application/json", "application/xml"})
+	@GetMapping(path={"/eds-wfm/utilization-lobs","/eds-wfm/utilization-lobs/{util-lob-code}"},
+			produces = {
+			        MediaType.APPLICATION_JSON_VALUE,
+			        "text/csv"
+			    })
 	public <T> ResponseEntity<Object> retrieveAllUtilizationLobByCode(
 			  @PathVariable(name="util-lob-code", required=false) String utilLobCode
 			, @RequestParam(defaultValue = "") @Parameter(description = "Add filter in format of a SQL WHERE clause.") String filters
@@ -938,7 +956,11 @@ public class EdsDaoWfmController {
 	 * @throws ClassNotFoundException
 	 * @throws IOException
 	 */
-	@GetMapping(path={"/eds-wfm/utilization-locations","/eds-wfm/utilization-locations/{util-location-code}"},produces = { "application/json", "application/xml"})
+	@GetMapping(path={"/eds-wfm/utilization-locations","/eds-wfm/utilization-locations/{util-location-code}"},
+			produces = {
+	        MediaType.APPLICATION_JSON_VALUE,
+	        "text/csv"
+	    })
 	public <T> ResponseEntity<Object> retrieveAllUtilizationLocationByCode(
 			  @PathVariable(name="util-location-code", required=false) String utilLocationCode
 			, @RequestParam(defaultValue = "") @Parameter(description = "Add filter in format of a SQL WHERE clause.") String filters
@@ -1015,7 +1037,11 @@ public class EdsDaoWfmController {
 	 * @throws ClassNotFoundException
 	 * @throws IOException
 	 */
-	@GetMapping(path={"/eds-wfm/cic-centers","/eds-wfm/cic-centers/{cic-center-cd}"},produces = { "application/json", "application/xml"})
+	@GetMapping(path={"/eds-wfm/cic-centers","/eds-wfm/cic-centers/{cic-center-cd}"},
+			produces = {
+	        MediaType.APPLICATION_JSON_VALUE,
+	        "text/csv"
+	    })
 	public <T> ResponseEntity<Object> retrieveAllCicCenterByCode(
 			  @PathVariable(name="cic-center-cd", required=false) String cicCenterCd
 			, @RequestParam(defaultValue = "") @Parameter(description = "Add filter in format of a SQL WHERE clause.") String filters
@@ -1034,10 +1060,6 @@ public class EdsDaoWfmController {
 			pathVarMap = new HashMap<>();
 			pathVarMap.put("cic-center-cd", cicCenterCd);
 		}
-		
-		edsWfmDaoService.setT(CicCenterDim.class);
-		edsWfmDaoService.setTableNm("REFT.CIC_CENTER_DIM_V");
-		edsWfmDaoService.setScdTableNm("REFT.CIC_CENTER_SCD_V");
 		
 		boolean useScd = false;
 		if (includePit==true || (pit!=null && pit.trim().length()>0)) useScd = true;
@@ -1061,7 +1083,11 @@ public class EdsDaoWfmController {
 				, request);
 	}
 	
-	@GetMapping(path={"/eds-wfm/cic-centers/count"},produces = { "application/json", "application/xml"})
+	@GetMapping(path={"/eds-wfm/cic-centers/count"},
+			produces = {
+	        MediaType.APPLICATION_JSON_VALUE,
+	        "text/csv"
+	    })
 	public synchronized ResponseEntity<Count> retrieveCountCicCenterByCode(
               @RequestParam(defaultValue = "") @Parameter(description = "Add filter in format of a SQL WHERE clause.") String filters
 			, @RequestParam(defaultValue = "") @Parameter(description = "Override the SQL ORDER BY clause (default is by natural key).") String orderByCols
@@ -1134,7 +1160,11 @@ public class EdsDaoWfmController {
 	 * @throws ClassNotFoundException
 	 * @throws IOException
 	 */
-	@GetMapping(path={"/eds-wfm/cic-center-groups","/eds-wfm/cic-center-groups/{cic-center-group-code}"},produces = { "application/json", "application/xml"})
+	@GetMapping(path={"/eds-wfm/cic-center-groups","/eds-wfm/cic-center-groups/{cic-center-group-code}"},
+			produces = {
+	        MediaType.APPLICATION_JSON_VALUE,
+	        "text/csv"
+	    })
 	public <T> ResponseEntity<Object> retrieveAllCicCenterGroupByCode(
 			  @PathVariable(name="cic-center-group-code", required=false) String cicCenterGroupCode
 			, @RequestParam(defaultValue = "") @Parameter(description = "Add filter in format of a SQL WHERE clause.") String filters
@@ -1152,11 +1182,7 @@ public class EdsDaoWfmController {
 			pathVarMap = new HashMap<>();
 			pathVarMap.put("cic-center-group-code", cicCenterGroupCode);
 		}
-		
-		edsWfmDaoService.setT(CicCenterGroupDim.class);
-		edsWfmDaoService.setTableNm("REFT.CIC_CENTER_GROUP_DIM_V");
-		edsWfmDaoService.setScdTableNm("REFT.CIC_CENTER_GROUP_SCD_V");
-		
+	
 		boolean useScd = false;
 		if (includePit==true || (pit!=null && pit.trim().length()>0)) useScd = true;
 		int size = -1;
@@ -1234,7 +1260,11 @@ public class EdsDaoWfmController {
 	 * @throws ClassNotFoundException
 	 * @throws IOException
 	 */
-	@GetMapping(path={"/eds-wfm/sector-industries","/eds-wfm/sector-industries/{sector-industry-code}"},produces = { "application/json", "application/xml"})
+	@GetMapping(path={"/eds-wfm/sector-industries","/eds-wfm/sector-industries/{sector-industry-code}"},
+			produces = {
+	        MediaType.APPLICATION_JSON_VALUE,
+	        "text/csv"
+	    })
 	public <T> ResponseEntity<Object> retrieveAllSectorIndustryByCode(
 			  @PathVariable(name="sector-industry-code", required=false) String sectorIndustryCode
 			, @RequestParam(defaultValue = "") @Parameter(description = "Add filter in format of a SQL WHERE clause.") String filters
@@ -1252,10 +1282,6 @@ public class EdsDaoWfmController {
 			pathVarMap = new HashMap<>();
 			pathVarMap.put("sector-industry-code", sectorIndustryCode);
 		}
-		
-		edsWfmDaoService.setT(SectorIndustryDim.class);
-		edsWfmDaoService.setTableNm("REFT.SECTOR_INDUSTRY_DIM_V");
-		edsWfmDaoService.setScdTableNm("REFT.SECTOR_INDUSTRY_SCD_V");
 		
 		boolean useScd = false;
 		if (includePit==true || (pit!=null && pit.trim().length()>0)) useScd = true;
@@ -1334,7 +1360,11 @@ public class EdsDaoWfmController {
 	 * @throws ClassNotFoundException
 	 * @throws IOException
 	 */
-	@GetMapping(path={"/eds-wfm/employee-band-maps","/eds-wfm/employee-band-maps/{emp-band-map-code}"},produces = { "application/json", "application/xml"})
+	@GetMapping(path={"/eds-wfm/employee-band-maps","/eds-wfm/employee-band-maps/{emp-band-map-code}"},
+			produces = {
+	        MediaType.APPLICATION_JSON_VALUE,
+	        "text/csv"
+	    })
 	public <T> ResponseEntity<Object> retrieveAllEmployeeBandMapByCode(
 			  @PathVariable(name="emp-band-map-code", required=false) String empBandMapCode
 			, @RequestParam(defaultValue = "") @Parameter(description = "Add filter in format of a SQL WHERE clause.") String filters
@@ -1352,11 +1382,6 @@ public class EdsDaoWfmController {
 			pathVarMap = new HashMap<>();
 			pathVarMap.put("emp-band-map-code", empBandMapCode);
 		}
-		
-		//return edsWfmDaoService.find(EmployeeBandMapDim.class, pathVarMap, filters, orderByCols, includeParentage, null, returnCsv, includePit, pit, resultSetMaxSize, request);
-		//edsWfmDaoService.setT(EmployeeBandMapDim.class);
-		//edsWfmDaoService.setTableNm("REFT.SECTOR_INDUSTRY_DIM_V");
-		//edsWfmDaoService.setScdTableNm("REFT.SECTOR_INDUSTRY_SCD_V");
 		
 		boolean useScd = false;
 		if (includePit==true || (pit!=null && pit.trim().length()>0)) useScd = true;
@@ -1434,7 +1459,11 @@ public class EdsDaoWfmController {
 	 * @throws ClassNotFoundException
 	 * @throws IOException
 	 */
-	@GetMapping(path={"/eds-wfm/services-cic-xrefs","/eds-wfm/services-cic-xrefs/{code}"},produces = { "application/json", "application/xml"})
+	@GetMapping(path={"/eds-wfm/services-cic-xrefs","/eds-wfm/services-cic-xrefs/{code}"},
+			produces = {
+	        MediaType.APPLICATION_JSON_VALUE,
+	        "text/csv"
+	    })
 	public <T> ResponseEntity<Object> retrieveAllServicesCicXrefByCode(
 			  @PathVariable(name="code", required=false) String code
 			, @RequestParam(defaultValue = "") @Parameter(description = "Add filter in format of a SQL WHERE clause.") String filters
@@ -1511,7 +1540,11 @@ public class EdsDaoWfmController {
 	 * @throws ClassNotFoundException
 	 * @throws IOException
 	 */
-	@GetMapping(path={"/eds-wfm/cic-managements","/eds-wfm/cic-managements/{cic-management-code}"},produces = { "application/json", "application/xml"})
+	@GetMapping(path={"/eds-wfm/cic-managements","/eds-wfm/cic-managements/{cic-management-code}"},
+			produces = {
+	        MediaType.APPLICATION_JSON_VALUE,
+	        "text/csv"
+	    })
 	public <T> ResponseEntity<Object> retrieveAllCicManagementByCode(
 			  @PathVariable(name="cic-management-code", required=false) String cicManagementCode
 			, @RequestParam(defaultValue = "") @Parameter(description = "Add filter in format of a SQL WHERE clause.") String filters
@@ -1588,7 +1621,11 @@ public class EdsDaoWfmController {
 	 * @throws ClassNotFoundException
 	 * @throws IOException
 	 */
-	@GetMapping(path={"/eds-wfm/cic-types","/eds-wfm/cic-types/{cic-type-code}"},produces = { "application/json", "application/xml"})
+	@GetMapping(path={"/eds-wfm/cic-types","/eds-wfm/cic-types/{cic-type-code}"},
+			produces = {
+	        MediaType.APPLICATION_JSON_VALUE,
+	        "text/csv"
+	    })
 	public <T> ResponseEntity<Object> retrieveAllCicTypeByCode(
 			  @PathVariable(name="cic-type-code", required=false) String cicTypeCode
 			, @RequestParam(defaultValue = "") @Parameter(description = "Add filter in format of a SQL WHERE clause.") String filters

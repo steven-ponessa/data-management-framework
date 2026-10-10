@@ -34,12 +34,8 @@ public class ShortListAccessController {
 			, @RequestParam("tabName") String tabName
 			, @RequestParam(required=false) String ofn) throws NoSuchMethodException, SecurityException, IOException {
 		String excelFileName = fileStorageService.storeFile(shortListFileName);
-		shortListDaoService.setTableNm("REFT.GBS_SHORT_LIST_DIM_V");
-		shortListDaoService.setScdTableNm("REFT.GBS_SHORT_LIST_SCD_V");
 
-		//deprecated
-		//return shortListDaoService.getShortListFromExcel(fileStorageProperties.getUploadDir()+"/"+excelFileName, tabName);
-		return shortListDaoService.getObjectListFromExcel(fileStorageProperties.getUploadDir()+"/"+excelFileName, tabName);
+		return shortListDaoService.getObjectListFromExcel(GbsShortListDim.class, fileStorageProperties.getUploadDir()+"/"+excelFileName, tabName);
 	}
 
 	@PostMapping(value="/gbs-short-list/etl", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
@@ -47,12 +43,8 @@ public class ShortListAccessController {
 			, @RequestParam("tabName") String tabName
 			, @RequestParam(required=false) String ofn) throws NoSuchMethodException, SecurityException, IOException {
 		String excelFileName = fileStorageService.storeFile(shortListFileName);
-		shortListDaoService.setTableNm("REFT.GBS_SHORT_LIST_DIM_V");
-		shortListDaoService.setScdTableNm("REFT.GBS_SHORT_LIST_SCD_V");
 
-		//deprecated
-		//return shortListDaoService.getShortListFromExcel(fileStorageProperties.getUploadDir()+"/"+excelFileName, tabName);
-		return shortListDaoService.getObjectListFromExcel(fileStorageProperties.getUploadDir()+"/"+excelFileName, tabName);
+		return shortListDaoService.getObjectListFromExcel(GbsShortListDim.class, fileStorageProperties.getUploadDir()+"/"+excelFileName, tabName);
 	}
 
 

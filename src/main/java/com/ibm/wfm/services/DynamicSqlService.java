@@ -12,9 +12,7 @@ import com.ibm.wfm.configurations.BridgeDatasourceProperties;
 
 @Component
 public class DynamicSqlService extends AbstractDaoService {
-	private Class t = DataSourceDim.class;
-	private String tableNm = "DMF.DATA_SOURCE_DIM_V";
-	private String scdTableNm = "";
+
 	
 	@Autowired
 	private BridgeDatasourceProperties bridgeProp;
